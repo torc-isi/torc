@@ -1,0 +1,75 @@
+(edif (rename and "AND")
+  (edifVersion 2 0 0)
+  (edifLevel 0)
+  (keywordMap (keywordLevel  0))
+    (library VIRTEX
+      (ediflevel 0) (technology (numberDefinition))
+        (cell LUT2
+          (cellType GENERIC)
+            (view PRIM
+              (viewType NETLIST)
+              (interface 
+                (port I0
+                  (direction INPUT)
+                )
+                (port I1
+                  (direction INPUT)
+                )
+                (port O
+                  (direction OUTPUT)
+                )
+              )
+            )
+        )
+    )
+    (library work
+      (ediflevel 0) (technology (numberDefinition))
+        (cell 
+          (rename and "AND")
+          (cellType GENERIC)
+            (view verilog
+              (viewType NETLIST)
+              (interface 
+                (port i0
+                  (direction INPUT)
+                )
+                (port i1
+                  (direction INPUT)
+                )
+                (port o
+                  (direction OUTPUT)
+                )
+              )
+              (contents 
+                (instance 
+                  (rename oZ0 "o")
+                  (viewRef PRIM (cellRef LUT2 (libraryRef VIRTEX)))
+                    (property INIT (string "8"))
+                )
+                (net i0
+                  (joined 
+                    (portRef i0)
+                    (portRef I0 (instanceRef oZ0))
+                  )
+                )
+                (net i1
+                  (joined 
+                    (portRef i1)
+                    (portRef I1 (instanceRef oZ0))
+                  )
+                )
+                (net o
+                  (joined 
+                    (portRef o)
+                    (portRef O (instanceRef oZ0))
+                  )
+                )
+              )
+            )
+        )
+    )
+    (design (rename and "AND") (cellRef and (libraryRef work))
+        (property PART (string "xc5vlx30ff324-1")
+          (owner "Xilinx"))
+    )
+)

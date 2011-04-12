@@ -25,6 +25,7 @@ CCFLAGS = \
 				-Werror \
 				-I$(SRC_DIR) \
 				-I$(BOOST_INCLUDE_DIR) \
+				-isystem $(SRC_DIR)/$(THIS_DIR) \
 				$
 
 # object files

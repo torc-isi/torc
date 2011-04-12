@@ -26,6 +26,7 @@ CCFLAGS = \
 				-Werror \
 				-I$(SRC_DIR) \
 				-I$(BOOST_INCLUDE_DIR) \
+				-isystem $(SRC_DIR)/torc/externals/zlib \
 				$
 
 # object files

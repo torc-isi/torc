@@ -88,8 +88,8 @@ TestObjectFileList: $(OBJS)
 
 # remove everything that was built
 clean:
-	rm -f XdlParser.cpp XdlParser.hpp parser.cc parser.h
-	rm -f XdlScanner.cpp scanner.cc
+	rm -f parser.cc parser.h
+	rm -f scanner.cc
 	rm -f $(OBJS) $(DEPS)
 	rm -f ObjectFileList RealObjectFileList TestObjectFileList
 

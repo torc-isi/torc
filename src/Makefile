@@ -115,11 +115,13 @@ ROUTER_REFERENCES = \
 
 # make everything
 
-all: databases test architecture_example bitstream_example edif_obfuscator generic_example \
-	physical_example xdldiff browser
+all: test architecture_example bitstream_example edif_obfuscator generic_example physical_example \
+	xdldiff browser
+
+distrib: databases
 
 # make the test executable
-test: torc references databases
+test: torc references
 	g++ \
 				$(LDFLAGS) \
 				$(REAL_OBJECTS) \
@@ -183,7 +185,7 @@ xdldiff: torc
 				$
 
 # make the architecture browser executable
-browser: torc databases
+browser: torc
 	g++ \
 				$(LDFLAGS) \
 				$(REAL_OBJECTS) \
@@ -192,7 +194,7 @@ browser: torc databases
 				$
 
 # make the XDL extractor executable
-markextract: torc databases
+markextract: torc
 	g++ \
 				$(LDFLAGS) \
 				$(REAL_OBJECTS) \
@@ -208,7 +210,6 @@ torc:
 # copy all of the regression test references into place
 references: \
 				regression \
-				${DEBUG_BITSTREAMS:torc/bitstream/%=%} \
 				${BITSTREAM_REFERENCES:%=regression/%} \
 				${EXAMPLE_REFERENCES:%=regression/%} \
 				${PHYSICAL_REFERENCES:%=regression/%} \

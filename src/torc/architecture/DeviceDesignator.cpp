@@ -107,7 +107,7 @@ namespace architecture {
 	);
 
 	boost::regex DeviceDesignator::sVirtex5RegEx(
-		"(x?c?5v[fls]x[0-9]+)" /* device */
+		"(x?c?5v[fls]x[0-9]+t?)" /* device */
 		"((?:ff)[0-9]+)?" /* package */
 		"(-[0-9]+)?", /* speed */
 		boost::regex_constants::icase
@@ -128,6 +128,7 @@ namespace architecture {
 	);
 
 	DeviceDesignator::DeviceDesignator(const string& inDeviceDesignator) {
+		mDeviceDesignator = inDeviceDesignator;
 		if(parse(inDeviceDesignator, sSpartan2RegEx)) { mFamily = eFamilySpartan2; } else 
 		if(parse(inDeviceDesignator, sSpartan2ERegEx)) { mFamily = eFamilySpartan2E; } else 
 		if(parse(inDeviceDesignator, sSpartan3RegEx)) { mFamily = eFamilySpartan3; } else 

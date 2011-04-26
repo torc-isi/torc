@@ -126,7 +126,7 @@ namespace physical {
 		static torc::physical::Pip newPip(const string& inTileName, const string& inSourceWireName, 
 			const string& inSinkWireName, EPipDirection inPipDirection, 
 			RoutethroughSharedPtr inRoutethroughPtr = RoutethroughSharedPtr()) {
-			return Pip::Pip(inTileName, inSourceWireName, inSinkWireName, inPipDirection, 
+			return Pip(inTileName, inSourceWireName, inSinkWireName, inPipDirection, 
 				inRoutethroughPtr);
 		}
 		/// \brief Construct and return a new Routethrough shared pointer.

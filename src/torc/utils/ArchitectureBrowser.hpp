@@ -403,7 +403,7 @@ public:
 			mDB.expandTilewireSources(segmentWires[i], sourceWires);
 			for (uint32_t j = 0; j < sourceWires.size(); j++) {
 				architecture::ExtendedWireInfo ewi2(mDB, sourceWires[j]);
-				cout << "|<--\t" << ewi2 << endl;
+				cout << "|<--\t\t" << ewi2 << endl;
 			}
 		}
 	}
@@ -428,7 +428,7 @@ public:
 			mDB.expandTilewireSinks(segmentWires[i], sinkWires);
 			for (uint32_t j = 0; j < sinkWires.size(); j++) {
 				architecture::ExtendedWireInfo ewi2(mDB, sinkWires[j]);
-				cout << "|-->\t" << ewi2 << endl;
+				cout << "|-->\t\t" << ewi2 << endl;
 			}
 		}
 	}

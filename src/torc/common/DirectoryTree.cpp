@@ -32,6 +32,10 @@ namespace common {
 	/// \todo This should be obtained from a configuration file.
 	const std::string cDevicesNameConst("devices");
 
+	/// \brief Name of the torc directory.
+	/// \todo This should be obtained from a configuration file.
+	const std::string cTorcNameConst("torc");
+
 	DirectoryTree::DirectoryTree(const char* argv0) {
 		// resolve symbolic links for the executable if necessary
 		boost::filesystem::path argvPath(argv0);
@@ -55,6 +59,8 @@ namespace common {
 		sLogPath = sExecutablePath;
 		// build the database path
 		sDevicesPath = sExecutablePath / cDevicesNameConst;
+		if(!exists(sDevicesPath)) 
+			sDevicesPath = sExecutablePath / cTorcNameConst / cDevicesNameConst;
 
 		// normalize each of the paths
 		sRelativePath.normalize();

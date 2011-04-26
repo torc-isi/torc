@@ -24,7 +24,6 @@
 #include <boost/cstdint.hpp>
 #include "torc/externals/zlib/contrib/iostream3/zfstream.h"
 
-
 namespace torc {
 namespace architecture {
 

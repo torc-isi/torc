@@ -23,7 +23,7 @@ namespace torc {
 namespace architecture {
 
 	void XdlImporter::initializeDatabase(void) {
-		DeviceDesignator deviceDesignator(mDesignDevice);
+		DeviceDesignator deviceDesignator(mDesignDevice + mDesignPackage + mDesignSpeedGrade);
 		mDDBPtr = new DDB(deviceDesignator);
 	}
 
@@ -39,11 +39,6 @@ namespace architecture {
 		torc::physical::TileName tileName = inPip.getTileName();
 		torc::physical::WireName sourceWireName = inPip.getSourceWireName();
 		torc::physical::WireName sinkWireName = inPip.getSinkWireName();
-		// despite the documentation embedded in XDL files, pips seem to always be marked =>, 
-		// implying a bidirectional connection, buffered in just one direction
-//		Arc arc = mDDBPtr->tilePipToArc(tileName, sourceWireName, sinkWireName);
-//		mDDBPtr->useArc(arc);
-//	#ifdef IF_XILINX_GETS_THEIR_ACT_TOGETHER
 		// the pip directions defined in the XDL seem not to follow XDLRC conventions
 		switch(inPip.getDirection()) {
 		case torc::physical::ePipBidirectionalUnbuffered: 
@@ -60,7 +55,6 @@ namespace architecture {
 		default: 
 			break;
 		}
-//	#endif
 	}
 
 } // namespace architecture

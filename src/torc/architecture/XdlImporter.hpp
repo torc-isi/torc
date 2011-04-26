@@ -25,6 +25,7 @@
 #include <iostream>
 #include "torc/architecture/OutputStreamHelpers.hpp"
 #include "torc/architecture/DDBStreamHelper.hpp"
+
 namespace torc {
 namespace architecture {
 

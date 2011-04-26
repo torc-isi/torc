@@ -286,7 +286,7 @@ namespace physical {
 				
 				InstanceSharedPtr newInst = Factory::newInstancePtr(newName, typeName, "", 
 																	"", instance.getBonding(), newInstanceReferencePtr);
-				if(typeName == "DFF")
+				if(typeName == "DFF") {
 					if(setting == "AFF")
 						affInstances.push_back(newInst);
 					else if(setting == "BFF")
@@ -299,7 +299,7 @@ namespace physical {
 										xffInstances.push_back(newInst);
 									else if(setting == "FFY")
 											yffInstances.push_back(newInst);
-				if(typeName == "LUT")
+				} else if(typeName == "LUT") {
 					if(setting == "A6LUT")
 						alutInstances.push_back(newInst);
 					else if(setting == "B6LUT")
@@ -312,9 +312,9 @@ namespace physical {
 										xlutInstances.push_back(newInst);
 									else if(setting == "G")
 										ylutInstances.push_back(newInst);
-								
-				if((typeName != "INV") && (typeName != "MUX") && (typeName != "AND") && (typeName != "XOR")  && (typeName != "WSGEN"))
+				} else if((typeName != "INV") && (typeName != "MUX") && (typeName != "AND") && (typeName != "XOR")  && (typeName != "WSGEN")) {
 					newInst->setConfig(p->first, config);				
+				}
 				newCircuit->addInstance(newInst);
 				p++;
 			}

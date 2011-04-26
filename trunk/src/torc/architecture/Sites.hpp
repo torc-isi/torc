@@ -258,6 +258,8 @@ namespace architecture {
 		SiteCount getSiteCount(void) const { return SiteCount(mSites.getSize()); }
 		/// \brief Returns the site type count for this family.
 		SiteTypeCount getSiteTypeCount(void) const { return SiteTypeCount(mSiteTypes.getSize()); }
+		/// \brief Returns the site types for this family.
+		const Array<const PrimitiveDef>& getSiteTypes(void) const { return mSiteTypes; }
 		/// \brief Returns the sites for this family.
 		const Array<const Site>& getSites(void) const { return mSites; }
 		/// \brief Returns the site for the specified index.

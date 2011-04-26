@@ -82,20 +82,20 @@ TestObjectFileList: $(OBJS)
 
 # compile c++ sources 
 zfstream.o: contrib/iostream3/zfstream.cc
-	gcc $(CCFLAGS) -c -Icontrib/iostream3 -o $@ $<
+	$(CC) $(CCFLAGS) -c -Icontrib/iostream3 -o $@ $<
 
 # compile c sources
 %.o: %.c
-	gcc $(CFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 # build dependency files
 zfstream.d: contrib/iostream3/zfstream.cc
 	@set -e; rm -f $@; \
-	gcc -MM $(CCFLAGS) -Icontrib/iostream3 $< |  \
+	$(CC) -MM $(CCFLAGS) -Icontrib/iostream3 $< |  \
 	sed -e '/boost/d' -e 's,\($*\)\.o[ :]*,\1.o $@ : ,g' > $@;
 %.d: %.c
 	@set -e; rm -f $@; \
-	gcc -MM $(CCFLAGS) $< |  \
+	$(CC) -MM $(CCFLAGS) $< |  \
 	sed -e '/boost/d' -e 's,\($*\)\.o[ :]*,\1.o $@ : ,g' > $@;
 
 # clean everything

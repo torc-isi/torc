@@ -67,12 +67,12 @@ TestObjectFileList: $(OBJS)
 
 # compile c++ sources 
 %.o: %.cpp
-	gcc $(CCFLAGS) -c -o $@ $<
+	$(CC) $(CCFLAGS) -c -o $@ $<
 
 # build dependency files
 %.d: %.cpp
 	@set -e; rm -f $@; \
-	gcc -MM $(CCFLAGS) $< |  \
+	$(CC) -MM $(CCFLAGS) $< |  \
 	sed -e '/boost/d' -e 's,\($*\)\.o[ :]*,\1.o $@ : ,g' > $@;
 
 # clean everything

@@ -112,17 +112,17 @@ TestObjectFileList: $(OBJS)
 
 # compile c++ sources 
 %.o: %.cpp
-	gcc $(CCFLAGS) -c -o $@ $<
+	$(CC) $(CCFLAGS) -c -o $@ $<
 
 # build dependency files
 # special case for XdlImporter.cpp to silence gcc -MM if xdl/XdlParser.hpp doesn't exist
 XdlImporter.d: XdlImporter.cpp
 	@$(if $(wildcard xdl/XdlParser.hpp), , touch xdl/XdlParser.hpp) # preempt gcc -MM error
 	@set -e; rm -f $@; \
-	gcc -MM $(CCFLAGS) $< |  \
+	$(CC) -MM $(CCFLAGS) $< |  \
 	sed -e '/boost/d' -e 's,\($*\)\.o[ :]*,\1.o $@ : ,g' > $@;
 # regular case
 %.d: %.cpp
 	@set -e; rm -f $@; \
-	gcc -MM $(CCFLAGS) $< |  \
+	$(CC) -MM $(CCFLAGS) $< |  \
 	sed -e '/boost/d' -e 's,\($*\)\.o[ :]*,\1.o $@ : ,g' > $@;

@@ -48,6 +48,8 @@ int main(int argc, char* argv[]) {
 
 	// change the INIT property (LUT mask) to XOR
 	PropertySharedPtr initPropertyPtr = instancePtr->getProperty("INIT");
+	string originalMask = initPropertyPtr->getValue().get<Value::String>();
+	std::cout << "The original LUT mask was \"" << originalMask << "\"." << std::endl;
 	Value xorMask(Value::eValueTypeString, string("6"));
 	initPropertyPtr->setValue(xorMask);
 

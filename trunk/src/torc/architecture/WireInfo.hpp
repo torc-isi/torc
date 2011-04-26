@@ -21,6 +21,8 @@
 
 #include "torc/architecture/XilinxDatabaseTypes.hpp"
 #include "torc/architecture/Array.hpp"
+#include <cstring>
+#include <cstdlib>
 
 namespace torc {
 namespace architecture {

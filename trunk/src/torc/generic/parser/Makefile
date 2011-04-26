@@ -84,22 +84,22 @@ TestObjectFileList: $(OBJS)
 
 # compile the parser and scanner
 Parser.o: Parser.cc
-	gcc $(CCFLAGS) -c -o $@ $<
+	$(CC) $(CCFLAGS) -c -o $@ $<
 Scanner.o: Scanner.cc
-	gcc $(CCFLAGS) -c -o $@ $<
+	$(CC) $(CCFLAGS) -c -o $@ $<
 
 # compile c++ sources 
 %.o: %.cpp
-	gcc $(CCFLAGS) -c -o $@ $<
+	$(CC) $(CCFLAGS) -c -o $@ $<
 
 # build dependency files
 # Parser and Scanner have .cc extensions
 %.d: %.cc
 	@set -e; rm -f $@; \
-	gcc -MM $(CCFLAGS) $< |  \
+	$(CC) -MM $(CCFLAGS) $< |  \
 	sed -e '/boost/d' -e 's,\($*\)\.o[ :]*,\1.o $@ : ,g' > $@;
 # regular case
 %.d: %.cpp
 	@set -e; rm -f $@; \
-	gcc -MM $(CCFLAGS) $< |  \
+	$(CC) -MM $(CCFLAGS) $< |  \
 	sed -e '/boost/d' -e 's,\($*\)\.o[ :]*,\1.o $@ : ,g' > $@;

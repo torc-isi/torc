@@ -44,7 +44,7 @@
 #line 45 "XdlParser.cpp"
 
 #ifndef YY_
-# if YYENABLE_NLS
+# if defined YYENABLE_NLS && YYENABLE_NLS
 #  if ENABLE_NLS
 #   include <libintl.h> /* FIXME: INFRINGES ON USER NAME SPACE */
 #   define YY_(msgid) dgettext ("bison-runtime", msgid)
@@ -272,7 +272,7 @@ namespace torc
 
 
     /* User initialization code.  */
-    #line 92 "/home/chris/torc-isi/trunk/src/torc/physical/xdl/parser.yy"
+    #line 92 "/Volumes/project/dev/torc/branches/nsteiner/src/torc/physical/xdl/parser.yy"
 {
     // initialize the initial location object
     yylloc.begin.filename = yylloc.end.filename = &xdl.mStreamName;

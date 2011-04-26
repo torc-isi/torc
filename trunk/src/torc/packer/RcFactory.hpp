@@ -76,7 +76,7 @@ namespace physical {
 			  	/// \param inPinName The pin name.
 			  	static ConnectionPin newConnectionPin(string inElementName, 
 			  		const string& inPinName) {
-				  	return ConnectionPin::ConnectionPin(inElementName, inPinName);
+				  	return ConnectionPin(inElementName, inPinName);
 			  	}
 			  
 			  	/// \brief Create and return a new Element object.

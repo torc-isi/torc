@@ -23,8 +23,7 @@
 #include <boost/smart_ptr.hpp>
 #include <vector>
 #include <istream>
-
-#include <iostream>
+#include <cstdio>
 
 namespace torc {
 namespace bitstream {

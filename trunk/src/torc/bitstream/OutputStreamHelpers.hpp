@@ -19,6 +19,7 @@
 #ifndef TORC_BITSTREAM_OUTPUT_STREAM_HELPERS_HPP
 #define TORC_BITSTREAM_OUTPUT_STREAM_HELPERS_HPP
 
+#include <boost/cstdint.hpp>
 #include <iosfwd>
 
 namespace torc {
@@ -56,16 +57,16 @@ namespace bitstream {
 	std::ostream& operator <<(std::ostream& os, const Virtex6& rhs);
 
 	class Hex16 {
-		uint16_t mWord;
+		boost::uint16_t mWord;
 	public:
-		Hex16(uint16_t rhs) : mWord(rhs) {};
+		Hex16(boost::uint16_t rhs) : mWord(rhs) {};
 		friend std::ostream& operator <<(std::ostream& os, const Hex16& rhs);
 	};
 
 	class Hex32 {
-		uint32_t mWord;
+		boost::uint32_t mWord;
 	public:
-		Hex32(uint32_t rhs) : mWord(rhs) {};
+		Hex32(boost::uint32_t rhs) : mWord(rhs) {};
 		friend std::ostream& operator <<(std::ostream& os, const Hex32& rhs);
 	};
 

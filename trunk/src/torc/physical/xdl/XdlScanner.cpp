@@ -1,3 +1,4 @@
+#include <cstdio>
 #line 2 "XdlScanner.cpp"
 
 #line 4 "XdlScanner.cpp"

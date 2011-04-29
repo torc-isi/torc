@@ -1,4 +1,4 @@
-
+#include <cstdio>
 #line 3 "lex.Edif.cc"
 
 #define  YY_INT_ALIGNED short int

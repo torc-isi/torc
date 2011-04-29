@@ -18,6 +18,7 @@
 
 #include "torc/common/DirectoryTree.hpp"
 #include <boost/filesystem/convenience.hpp>
+#include <cstdio>
 
 namespace torc {
 namespace common {

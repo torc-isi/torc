@@ -22,6 +22,7 @@
 #include <boost/cstdint.hpp>
 #include <boost/type_traits.hpp>
 #include <stdexcept>
+#include <cstdio>
 
 namespace torc {
 namespace architecture {

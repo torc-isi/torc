@@ -130,10 +130,12 @@ BOOST_AUTO_TEST_CASE(bitstream_spartan6) {
 	boost::filesystem::path regressionPath 
 		= torc::common::DirectoryTree::getExecutablePath() / "regression";
 	boost::filesystem::path generatedPath = regressionPath / "Spartan6UnitTest.generated.bit";
+	//boost::filesystem::path generatedPath = regressionPath / "xc6slx4.partial.even.bit";
 	boost::filesystem::path referencePath = regressionPath / "Spartan6UnitTest.reference.bit";
 
 	// read the bitstream
 	std::fstream fileStream(referencePath.string().c_str(), std::ios::binary | std::ios::in);
+	//std::fstream fileStream(generatedPath.string().c_str(), std::ios::binary | std::ios::in);
 	BOOST_REQUIRE(fileStream.good());
 	Spartan6 bitstream;
 	bitstream.read(fileStream, false);

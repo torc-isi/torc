@@ -120,9 +120,10 @@ namespace router {
 
 		/// \brief Route a net.
 		void routeNet(RouteNet& net) {
+//std::cout << "### ROUTING " << net.getName() << " ###" << std::endl;
 			if (!net.hasOneSource()) {
 				std::cout << "NetRouter does not support multiple sources" << std::endl;
-				exit(1);
+				throw;
 			}
 			Tilewire source = *net.sourcesBegin();
 			TilewireVector sinks;
@@ -140,7 +141,7 @@ namespace router {
 			if (mWireUsage.isUsed(source)) {
 				/// \todo Throw appropriate exception.
 				std::cout << "!Source already in use! " << source << std::endl;
-				exit(1);
+				throw;
 			}
 			e = sinks.end();
 			for (p = sinks.begin(); p != e; p++) {
@@ -151,7 +152,7 @@ namespace router {
 				if (mWireUsage.isUsed(*p)) {
 					/// \todo Throw appropriate exception.
 					std::cout << "!Sink already in use! " << *p << std::endl;
-					exit(1);
+					throw;
 				}
 			}
 			
@@ -169,7 +170,7 @@ namespace router {
 			} else {
 				if (!expandNetTerminals(source, sinks, mPreRoute)) {
 					std::cout << "DISCARDED in expand function: " << net.getName() << std::endl;
-					exit(1);
+					throw;
 				}
 			
 				graphSearch(source, sinks, net.routeNodes());
@@ -211,7 +212,7 @@ namespace router {
 			}
 			mHeuristic->reorderSinks(inSource, inSinks);
 			/// \todo Count new RouteNodes?
-			RouteNode* s = new RouteNode(inSource, inSource, 0, 0);
+			RouteNode* s = new RouteNode(inSource, inSource, 0, 0, 0, 0);
 
 			mOpen.insert(std::pair<Tilewire, RouteNode*>(inSource, s));
 			mOrder.push(s);
@@ -257,13 +258,13 @@ namespace router {
 					std::cout << "ROUTING FAILED!" << std::endl;
 					clearContainers();
 					/// \todo Throw route failed exception.
-					exit(1);
+					throw;
 				}
 				
 				if (++processed > mSearchLimit) {
 					std::cout << "ROUTE LIMIT!" << std::endl;
 					/// \todo Throw route limited exception.
-					exit(1);
+					throw;
 				}
 				RouteNode* n = mOrder.top();
 				Tilewire key = n->getSinkTilewire();
@@ -271,7 +272,8 @@ namespace router {
 				mClosed.insert(std::pair<Tilewire, RouteNode*>(key, n));
 				mOpen.erase(pk);
 				mOrder.pop();
-				
+
+//std::cout << key << "    " << mOrder.size() << std::endl;
 				/// \todo adjust the node cost to be just the path cost?
 				
 				mSegmentBuf.clear();
@@ -290,6 +292,7 @@ namespace router {
 				mArcsBuf.clear();
 
 				mHeuristic->expandSegmentSinks(key, mArcsBuf);
+//std::cout << "\t" << mArcsBuf.size() << std::endl;
 				ArcVector::iterator q;
 				ArcVector::iterator f = mArcsBuf.end();
 				for (q = mArcsBuf.begin(); q != f; q++) {
@@ -314,7 +317,7 @@ namespace router {
 				return;
 			}
 
-			RouteNode* node = new RouteNode(inArc, 0, inParent);
+			RouteNode* node = new RouteNode(inArc, 0, 0, inParent->getDepth() + 1, inParent);
 			/// \todo Heuristic check if node is filtered
 			/// \todo Heuristic cost of node
 			mHeuristic->nodeCost(*node);
@@ -383,7 +386,7 @@ namespace router {
 			Tilewire tempsink = inSink;
 			mDB.expandSegmentSources(inSink, arcs);
 			while (arcs.size() == 1) {
-				RouteNode* node = new RouteNode(arcs[0], 0, 0);
+				RouteNode* node = new RouteNode(arcs[0], 0, 0, 0, 0);
 				tempRoute.push_back(node);
 				mDB.useArc(arcs[0]);
 				tempsink = arcs[0].getSourceTilewire();
@@ -408,7 +411,7 @@ namespace router {
 			mDB.expandSegmentSinks(inSource, arcs);
 			while (arcs.size() == 1) {
 				movingsource = true;
-				RouteNode* node = new RouteNode(arcs[0], 0, 0);
+				RouteNode* node = new RouteNode(arcs[0], 0, 0, 0, 0);
 				outRoute.push_back(node);
 				mDB.useArc(arcs[0]);
 				tempsource = arcs[0].getSinkTilewire();
@@ -426,7 +429,7 @@ namespace router {
 			mDB.expandSegmentSources(inSink, arcs);
 			while (arcs.size() == 1) {
 				movingsink = true;
-				RouteNode* node = new RouteNode(arcs[0], 0, 0);
+				RouteNode* node = new RouteNode(arcs[0], 0, 0, 0, 0);
 				outRoute.push_back(node);
 				mDB.useArc(arcs[0]);
 				tempsink = arcs[0].getSourceTilewire();

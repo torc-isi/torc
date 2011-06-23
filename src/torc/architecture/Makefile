@@ -56,6 +56,7 @@ OBJS = \
 				SegmentsUnitTest.o \
 				Sites.o \
 				SitesUnitTest.o \
+				SiteTypesUnitTest.o \
 				Tiles.o \
 				TilesUnitTest.o \
 				TileInfo.o \

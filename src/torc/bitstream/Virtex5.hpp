@@ -91,6 +91,11 @@ namespace bitstream { void testVirtex5Device(const std::string& inDeviceName,
 		///		from any Xilinx documentation.
 		enum EColumnType { eColumnTypeEmpty = 0, eColumnTypeBram, eColumnTypeClb, eColumnTypeClock,
 			eColumnTypeDsp, eColumnTypeGtx, eColumnTypeIob, eColumnTypeCount };
+		/// \brief Frame length.
+		/// \details Constant frame length of 41 32-bit words for the entire Virtex5 family.
+		/// \see Virtex-5 Frame Count, Frame Length, Overhead, and Bitstream Size: UG191, v.3.7, 
+		///		June 24, 2009, Table 6-1.
+		enum { eFrameLength = 41 };
 	protected:
 	// enumerations
 	// static variables
@@ -157,12 +162,14 @@ namespace bitstream { void testVirtex5Device(const std::string& inDeviceName,
 		/// \brief Return the masked value for a subfield of the specified register.
 		static uint32_t makeSubfield(ERegister inRegister, const std::string& inSubfield, 
 			const std::string& inSetting);
-	// functions
 		/// \brief Initialize the device information.
 		virtual void initializeDeviceInfo(const std::string& inDeviceName);
 		/// \brief Initialize the maps between frame indexes and frame addresses.
 		/// \detail This is generally only useful for internal purposes.
 		virtual void initializeFrameMaps(void);
+	// accessors
+		/// \brief Return the frame length for the current device.
+		virtual uint32_t getFrameLength(void) const { return eFrameLength; }
 	// inserters
 		/// \brief Insert the bitstream header into an output stream.
 		friend std::ostream& operator<< (std::ostream& os, const Virtex5& rhs);
@@ -219,11 +226,18 @@ namespace bitstream { void testVirtex5Device(const std::string& inDeviceName,
 		typedef std::map<uint32_t, Virtex5::FrameAddress> FrameIndexToAddress;
 		/// \brief Map from frame address to frame index.
 		typedef std::map<Virtex5::FrameAddress, uint32_t> FrameAddressToIndex;
+		/// \brief Array of vectors to store frame indexes of each block type
+		typedef std::vector<uint32_t> ColumnIndexVector;
+
 	// members
 		/// \brief Map of frame indexes to frame addresses.
 		FrameIndexToAddress mFrameIndexToAddress;
 		/// \brief Map of frame addressee to frame indexes.
 		FrameAddressToIndex mFrameAddressToIndex;
+		/// \brief Vector to store frame indexes of XDL columns.
+		ColumnIndexVector mBitColumnIndexes [Virtex5::eFarBlockTypeCount];
+		/// \brief Vector to store frame indexes of Bitstream columns.
+		ColumnIndexVector mXdlColumnIndexes [Virtex5::eFarBlockTypeCount];
 	};
 
 } // namespace bitstream

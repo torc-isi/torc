@@ -24,10 +24,10 @@
 namespace torc {
 namespace common {
 
-BOOST_AUTO_TEST_SUITE(portability)
+BOOST_AUTO_TEST_SUITE(common)
 
 /// \brief Unit test for standard integer sizes.
-BOOST_AUTO_TEST_CASE(standard_integer_sizes) {
+BOOST_AUTO_TEST_CASE(EncapsulatedIntegerSizeUnitTest) {
 	// types tested: 
 	//		int8_t, uint8_t, int16_t, uint16_t, int32_t, uint32_t, int64_t, uint64_t
 	// verify the sizes of 8-, 16-, 32-, and 64-bit integers
@@ -86,7 +86,7 @@ BOOST_AUTO_TEST_CASE(standard_integer_sizes) {
 }
 
 /// \brief Unit test for encapsulated integers.
-BOOST_AUTO_TEST_CASE(encapsulated_integers) {
+BOOST_AUTO_TEST_CASE(EncapsulatedIntegerLimitsUnitTest) {
 	// 8-bit unsigned
 	STANDARD_ENCAPSULATED_INTEGER_BLOCK(boost::uint8_t);
 	// 8-bit signed

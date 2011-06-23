@@ -15,7 +15,7 @@
 
 #include "torc/packer/ParsePrimitive.hpp"
 #include "torc/packer/RcFactory.hpp"
-#include <cstdarg>
+#include <stdarg.h>
 
 namespace torc {
 namespace physical {

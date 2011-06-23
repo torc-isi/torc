@@ -23,14 +23,14 @@
 namespace torc {
 namespace physical {
 
-BOOST_AUTO_TEST_SUITE(physical_database)
+BOOST_AUTO_TEST_SUITE(physical)
 
 /// \cond OMIT_FROM_DOXYGEN
 class A : public Progenitor<class A> {};
 /// \endcond
 
 /// \brief Unit test for the Progenitor class.
-BOOST_AUTO_TEST_CASE(physical_progenitor) {
+BOOST_AUTO_TEST_CASE(ProgenitorUnitTest) {
 	// functions tested:
 	//		[null constructor]
 	//		void setSelfWeakPtr(WeakPtrType inSelfPtr);

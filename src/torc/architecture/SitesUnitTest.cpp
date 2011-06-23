@@ -26,10 +26,11 @@ namespace architecture {
 BOOST_AUTO_TEST_SUITE(architecture)
 
 /// \brief Unit test for the Sites class.
-BOOST_AUTO_TEST_CASE(Sites) {
-	// this is a temporary and incomplete test to check package pins
-	BOOST_CHECK(false);
-	DDB ddb("xcv50", "tq144");
+BOOST_AUTO_TEST_CASE(SitesUnitTest) {
+
+	/// \todo Write a unit test for torc::architecture::Sites.
+	BOOST_REQUIRE(false);
+
 }
 
 BOOST_AUTO_TEST_SUITE_END()

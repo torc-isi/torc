@@ -22,10 +22,10 @@
 namespace torc {
 namespace common {
 
-BOOST_AUTO_TEST_SUITE(portability)
+BOOST_AUTO_TEST_SUITE(common)
 
 /// \brief Unit test for the NullOutputStream class.
-BOOST_AUTO_TEST_CASE(null_output_stream) {
+BOOST_AUTO_TEST_CASE(NullOutputStreamUnitTest) {
 	// enable all exceptions on the global null output stream, and try writing a bunch of stuff
 	bool passed = true;
 	try {

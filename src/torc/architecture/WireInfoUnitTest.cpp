@@ -25,7 +25,11 @@ namespace architecture {
 BOOST_AUTO_TEST_SUITE(architecture)
 
 /// \brief Unit test for the WireInfo class.
-BOOST_AUTO_TEST_CASE(architecture_wire_info) {
+BOOST_AUTO_TEST_CASE(WireInfoUnitTest) {
+
+	/// \todo Write a unit test for torc::architecture::WireInfo.
+	BOOST_REQUIRE(false);
+
 }
 
 BOOST_AUTO_TEST_SUITE_END()

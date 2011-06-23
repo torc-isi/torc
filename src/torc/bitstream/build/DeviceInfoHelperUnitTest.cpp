@@ -24,9 +24,8 @@ namespace bitstream {
 
 BOOST_AUTO_TEST_SUITE(bitstream)
 
-
 /// \brief Unit test for the DeviceInfoHelper class.
-BOOST_AUTO_TEST_CASE(bitstream_device_info_helper) {
+BOOST_AUTO_TEST_CASE(DeviceInfoHelperUnitTest) {
 
 	BOOST_REQUIRE(true);
 

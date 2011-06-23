@@ -33,35 +33,47 @@ OBJS = \
 				Bitstream.o \
 				BitstreamUnitTest.o \
 				DeviceInfo.o \
+				Frame.o \
+				FrameUnitTest.o \
+				FrameSet.o \
+				FrameSetUnitTest.o \
 				DeviceInfoUnitTest.o \
 				OutputStreamHelpers.o \
 				Spartan3E.o \
+				Spartan3EDeviceInfo.o \
 				Spartan3EUnitTest.o \
 				Spartan6.o \
 				Spartan6UnitTest.o \
 				SpartanBitstream.o \
 				SpartanBitstreamUnitTest.o \
-				Spartan16Bitstream.o \
-				Spartan16BitstreamUnitTest.o \
+				Spartan6Bitstream.o \
+				Spartan6BitstreamUnitTest.o \
 				SpartanPacket.o \
 				SpartanPacketUnitTest.o \
-				Spartan16Packet.o \
-				Spartan16PacketUnitTest.o \
+				Spartan6Packet.o \
+				Spartan6PacketUnitTest.o \
 				Virtex.o \
+				VirtexDeviceInfo.o \
 				VirtexUnitTest.o \
 				VirtexE.o \
+				VirtexEDeviceInfo.o \
 				VirtexEUnitTest.o \
 				Virtex2.o \
+				Virtex2DeviceInfo.o \
 				Virtex2UnitTest.o \
 				Virtex2P.o \
+				Virtex2PDeviceInfo.o \
 				Virtex2PUnitTest.o \
 				Virtex4.o \
+				Virtex4DeviceInfo.o \
 				Virtex4UnitTest.o \
 				Virtex5.o \
 				Virtex5DeviceInfo.o \
 				Virtex5UnitTest.o \
 				Virtex6.o \
+				Virtex6DeviceInfo.o \
 				Virtex6UnitTest.o \
+				Virtex7.o \
 				VirtexBitstream.o \
 				VirtexBitstreamUnitTest.o \
 				VirtexPacket.o \

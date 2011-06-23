@@ -16,6 +16,15 @@
 #include "torc/bitstream/Virtex6.hpp"
 #include <iostream>
 
+
+
+/// \todo Warning: this will need to be moved elsewhere.
+#include "torc/architecture/DDB.hpp"
+#include "torc/architecture/XilinxDatabaseTypes.hpp"
+#include "torc/common/DirectoryTree.hpp"
+#include <fstream>
+
+
 namespace torc {
 namespace bitstream {
 
@@ -378,6 +387,270 @@ namespace bitstream {
 		}
 		return 0;
 	}
+
+//#define GENERATE_STATIC_DEVICE_INFO
+#ifndef GENERATE_STATIC_DEVICE_INFO
+
+	extern DeviceInfo xc6vcx75t;
+	extern DeviceInfo xc6vcx130t;
+	extern DeviceInfo xc6vcx195t;
+	extern DeviceInfo xc6vcx240t;
+	extern DeviceInfo xc6vhx250t;
+	extern DeviceInfo xc6vhx255t;
+	extern DeviceInfo xc6vhx380t;
+	extern DeviceInfo xc6vhx565t;
+	extern DeviceInfo xc6vlx75t;
+	extern DeviceInfo xc6vlx130t;
+	extern DeviceInfo xc6vlx195t;
+	extern DeviceInfo xc6vlx240t;
+	extern DeviceInfo xc6vlx365t;
+	extern DeviceInfo xc6vlx550t;
+	extern DeviceInfo xc6vlx760;
+	extern DeviceInfo xc6vsx315t;
+	extern DeviceInfo xc6vsx475t;
+	extern DeviceInfo xc6vlx75tl;
+	extern DeviceInfo xc6vlx130tl;
+	extern DeviceInfo xc6vlx195tl;
+	extern DeviceInfo xc6vlx240tl;
+	extern DeviceInfo xc6vlx365tl;
+	extern DeviceInfo xc6vlx550tl;
+	extern DeviceInfo xc6vlx760l;
+	extern DeviceInfo xc6vsx315tl;
+	extern DeviceInfo xc6vsx475tl;
+
+	void Virtex6::initializeDeviceInfo(const std::string& inDeviceName) {
+		using namespace torc::common;
+		switch(mDevice) {
+			case eXC6VCX75T: setDeviceInfo(xc6vcx75t); break;
+			case eXC6VCX130T: setDeviceInfo(xc6vcx130t); break;
+			case eXC6VCX195T: setDeviceInfo(xc6vcx195t); break;
+			case eXC6VCX240T: setDeviceInfo(xc6vcx240t); break;
+			case eXC6VHX250T: setDeviceInfo(xc6vhx250t); break;
+			case eXC6VHX255T: setDeviceInfo(xc6vhx255t); break;
+			case eXC6VHX380T: setDeviceInfo(xc6vhx380t); break;
+			case eXC6VHX565T: setDeviceInfo(xc6vhx565t); break;
+			case eXC6VLX75T: setDeviceInfo(xc6vlx75t); break;
+			case eXC6VLX130T: setDeviceInfo(xc6vlx130t); break;
+			case eXC6VLX195T: setDeviceInfo(xc6vlx195t); break;
+			case eXC6VLX240T: setDeviceInfo(xc6vlx240t); break;
+			case eXC6VLX365T: setDeviceInfo(xc6vlx365t); break;
+			case eXC6VLX550T: setDeviceInfo(xc6vlx550t); break;
+			case eXC6VLX760: setDeviceInfo(xc6vlx760); break;
+			case eXC6VSX315T: setDeviceInfo(xc6vsx315t); break;
+			case eXC6VSX475T: setDeviceInfo(xc6vsx475t); break;
+			case eXC6VLX75TL: setDeviceInfo(xc6vlx75tl); break;
+			case eXC6VLX130TL: setDeviceInfo(xc6vlx130tl); break;
+			case eXC6VLX195TL: setDeviceInfo(xc6vlx195tl); break;
+			case eXC6VLX240TL: setDeviceInfo(xc6vlx240tl); break;
+			case eXC6VLX365TL: setDeviceInfo(xc6vlx365tl); break;
+			case eXC6VLX550TL: setDeviceInfo(xc6vlx550tl); break;
+			case eXC6VLX760L: setDeviceInfo(xc6vlx760l); break;
+			case eXC6VSX315TL: setDeviceInfo(xc6vsx315tl); break;
+			case eXC6VSX475TL: setDeviceInfo(xc6vsx475tl); break;
+			default: break;
+		}
+
+		// update the top and bottom bitstream row counts as appropriate for the device
+		setRowCounts();
+	}
+
+#else
+
+	void Virtex6::initializeDeviceInfo(const std::string& inDeviceName) {
+
+		typedef torc::architecture::xilinx::TileCount TileCount;
+		typedef torc::architecture::xilinx::TileRow TileRow;
+		typedef torc::architecture::xilinx::TileCol TileCol;
+		typedef torc::architecture::xilinx::TileTypeIndex TileTypeIndex;
+		typedef torc::architecture::xilinx::TileTypeCount TileTypeCount;
+
+		// look up the device tile map
+		mPrivateDeviceName = inDeviceName;
+		torc::architecture::DDB ddb(inDeviceName);
+		const torc::architecture::Tiles& tiles = ddb.getTiles();
+		uint32_t tileCount = tiles.getTileCount();
+		uint16_t rowCount = tiles.getRowCount();
+		uint16_t colCount = tiles.getColCount();
+		ColumnTypeVector columnTypes;
+
+		// set up the tile index and name mappings, and the index to column def mapping
+		typedef std::map<TileTypeIndex, std::string> TileTypeIndexToName;
+		typedef std::map<std::string, TileTypeIndex> TileTypeNameToIndex;
+		TileTypeIndexToName tileTypeIndexToName;
+		TileTypeNameToIndex tileTypeNameToIndex;
+		TileTypeCount tileTypeCount = tiles.getTileTypeCount();
+		for(TileTypeIndex tileTypeIndex(0); tileTypeIndex < tileTypeCount; tileTypeIndex++) {
+			const std::string tileTypeName = tiles.getTileTypeName(tileTypeIndex);
+			tileTypeIndexToName[tileTypeIndex] = tileTypeName;
+			tileTypeNameToIndex[tileTypeName] = tileTypeIndex;
+			TileTypeNameToColumnType::iterator ttwp = mTileTypeNameToColumnType.find(tileTypeName);
+			TileTypeNameToColumnType::iterator ttwe = mTileTypeNameToColumnType.end();
+			if(ttwp != ttwe) mTileTypeIndexToColumnType[tileTypeIndex] = EColumnType(ttwp->second);
+if(ttwp != ttwe) {
+	std::cout << "Mapping: " << tileTypeName << "(" << tileTypeIndex << ") = ColumnType " << ttwp->second << std::endl;
+}
+		}
+
+		// identify every column that contains known frames
+		columnTypes.resize(colCount);
+		uint32_t frameCount = 0;
+		for(uint32_t blockType = 0; blockType < Virtex6::eFarBlockTypeCount; blockType++) {
+			for(TileCol col; col < colCount; col++) {
+std::cout << col << ": ";
+				bool found = false;
+				columnTypes[col] = eColumnTypeEmpty;
+				TileTypeIndexToColumnType::iterator ttwe = mTileTypeIndexToColumnType.end();
+				TileTypeIndexToColumnType::iterator ttwp = ttwe;
+				for(TileRow row; row < rowCount; row++) {
+					// look up the tile info
+					const torc::architecture::TileInfo& tileInfo 
+						= tiles.getTileInfo(tiles.getTileIndex(row, col));
+					TileTypeIndex tileTypeIndex = tileInfo.getTypeIndex();
+					// determine whether the tile type widths are defined
+					TileTypeIndexToColumnType::iterator ttwp 
+						= mTileTypeIndexToColumnType.find(tileTypeIndex);
+					if(ttwp != ttwe) {
+						uint32_t width = mColumnDefs[ttwp->second][blockType];
+						frameCount += width;
+						std::cout << "    " << tiles.getTileTypeName(tileInfo.getTypeIndex()) 
+						 << ": " << width << " (" << frameCount << ")" 
+							<< ">>>>>>>> " << tileInfo.getName() << " (" << tileInfo.getTypeIndex() << ") @" << row << "," << col << "" << std::endl;
+						columnTypes[col] = static_cast<EColumnType>(ttwp->second);
+						found = true;
+						break;
+					}
+				}
+if(!found) std::cout << std::endl;
+			}
+			//std::cout << std::endl;
+			if(blockType == 2) break;
+		}
+
+		boost::filesystem::path workingPath = torc::common::DirectoryTree::getWorkingPath();
+		boost::filesystem::path generatedMap = workingPath / (inDeviceName + ".map.csv");
+		std::fstream tilemapStream(generatedMap.string().c_str(), std::ios::out);
+		for(TileRow row; row < rowCount; row++) {
+			for(TileCol col; col < colCount; col++) {
+				const torc::architecture::TileInfo& tileInfo 
+					= tiles.getTileInfo(tiles.getTileIndex(row, col));
+				TileTypeIndex tileTypeIndex = tileInfo.getTypeIndex();
+				tilemapStream << tiles.getTileTypeName(tileTypeIndex);
+				if(col + 1 < colCount) tilemapStream << ",";
+			}
+			tilemapStream << std::endl;
+		}
+		tilemapStream.close();
+
+		// update bitstream device information
+		setDeviceInfo(DeviceInfo(tileCount, rowCount, colCount, columnTypes));
+		setRowCounts(inDeviceName);
+	}
+
+#endif
+
+	void Virtex6::setRowCounts(void) {
+		// The division between top and bottom rows can be determined by the locations of the 
+		// CMT_BUFG_TOP and CMT_BUFG_BOTTOM tiles in the clock column.  The number of clock regions 
+		// above and including the CMT_BUFG_TOP tile determine the number of top rows in the 
+		// bitstream.  The number of clock regions below and including the CMT_BUFG_BOTTOM tile 
+		// determine the number of bottom rows in the bitstream.
+		using namespace torc::common;
+		switch(mDevice) {
+			case eXC6VCX75T: mTopRowCount = 2; mBottomRowCount = 1; break;
+			case eXC6VCX130T: mTopRowCount = 2; mBottomRowCount = 3; break;
+			case eXC6VCX195T: mTopRowCount = 2; mBottomRowCount = 3; break;
+			case eXC6VCX240T: mTopRowCount = 3; mBottomRowCount = 3; break;
+			case eXC6VHX250T: mTopRowCount = 1; mBottomRowCount = 5; break;
+			case eXC6VHX255T: mTopRowCount = 4; mBottomRowCount = 2; break;
+			case eXC6VHX380T: mTopRowCount = 4; mBottomRowCount = 5; break;
+			case eXC6VHX565T: mTopRowCount = 4; mBottomRowCount = 5; break;
+			case eXC6VLX75T: mTopRowCount = 2; mBottomRowCount = 1; break;
+			case eXC6VLX130T: mTopRowCount = 2; mBottomRowCount = 3; break;
+			case eXC6VLX195T: mTopRowCount = 2; mBottomRowCount = 3; break;
+			case eXC6VLX240T: mTopRowCount = 3; mBottomRowCount = 3; break;
+			case eXC6VLX365T: mTopRowCount = 3; mBottomRowCount = 3; break;
+			case eXC6VLX550T: mTopRowCount = 4; mBottomRowCount = 5; break;
+			case eXC6VLX760: mTopRowCount = 4; mBottomRowCount = 5; break;
+			case eXC6VSX315T: mTopRowCount = 3; mBottomRowCount = 3; break;
+			case eXC6VSX475T: mTopRowCount = 4; mBottomRowCount = 5; break;
+			case eXC6VLX75TL: mTopRowCount = 2; mBottomRowCount = 1; break;
+			case eXC6VLX130TL: mTopRowCount = 2; mBottomRowCount = 3; break;
+			case eXC6VLX195TL: mTopRowCount = 2; mBottomRowCount = 3; break;
+			case eXC6VLX240TL: mTopRowCount = 3; mBottomRowCount = 3; break;
+			case eXC6VLX365TL: mTopRowCount = 3; mBottomRowCount = 3; break;
+			case eXC6VLX550TL: mTopRowCount = 4; mBottomRowCount = 5; break;
+			case eXC6VLX760L: mTopRowCount = 4; mBottomRowCount = 5; break;
+			case eXC6VSX315TL: mTopRowCount = 3; mBottomRowCount = 3; break;
+			case eXC6VSX475TL: mTopRowCount = 4; mBottomRowCount = 5; break;
+			default: break;
+		}
+	}
+
+	void Virtex6::initializeFrameMaps(void) {
+
+		uint32_t frameCount = 0;
+		uint32_t farRowCount = ((mDeviceInfo.getRowCount() - 1) / 42) >> 1;
+		(void) farRowCount;
+		// the xc6vcx75t has 3 total FAR rows, 2 in the top half, and 1 in the bottom half
+		// the xc6vcx130t has 5 total FAR rows, 2 in the top half, and 3 in the bottom half
+		// the xc6vhx250t has 6 total FAR rows, 1 in the top half, and 5 in the bottom half
+		// similar exceptions exist in other devices, ...
+		uint32_t bottomRowCount = mBottomRowCount;
+		uint32_t topRowCount = mTopRowCount;
+		uint32_t frameIndex = 0;
+		for(uint32_t i = 0; i < Virtex6::eFarBlockTypeCount; i++) {
+			Virtex6::EFarBlockType blockType = Virtex6::EFarBlockType(i);
+			//Set first frame index to 0
+			uint32_t bitIndex = 0;
+			uint32_t xdlIndex = 0;
+			mBitColumnIndexes[i].push_back(bitIndex);
+			mXdlColumnIndexes[i].push_back(xdlIndex);
+			for(uint32_t half = 0; half < 2; half++) {
+				uint32_t rowCount = (half == eFarBottom ? bottomRowCount : topRowCount);
+				for(uint32_t farRow = 0; farRow < rowCount; farRow++) {
+					// build the columns
+					uint32_t farMajor = 0;
+					typedef torc::common::EncapsulatedInteger<uint16_t> ColumnIndex;
+					for(ColumnIndex col; col < mDeviceInfo.getColCount(); col++) {
+						uint32_t width = mColumnDefs[mDeviceInfo.getColumnTypes()[col]][i];
+						for(uint32_t farMinor = 0; farMinor < width; farMinor++) {
+							Virtex6::FrameAddress far(Virtex6::EFarTopBottom(half), blockType, 
+								farRow, farMajor, farMinor);
+							mFrameIndexToAddress[frameIndex] = far;
+							mFrameAddressToIndex[far] = frameIndex;
+							frameIndex++;
+						}
+						if(width > 0) farMajor++;
+						frameCount += width;
+
+						//Extract frame indexes for 1 row
+						if(farRow == 0 && half == 0) {
+						  //Indexes for Bitstream Columns, only stores non-empty tile types
+						  if(mDeviceInfo.getColumnTypes()[col] != Virtex6::eColumnTypeEmpty) {
+							bitIndex += width;
+							mBitColumnIndexes[i].push_back(bitIndex);
+						  }
+						  //Indexes for XDL Columns, stores interconnect and tile indexes for
+						  //non-empty tiles
+						  xdlIndex += width;
+						  mXdlColumnIndexes[i].push_back(xdlIndex);
+						}
+					}
+				}
+			}
+		}
+		//Test to check proper indexing
+		bool debug = false;
+		if (debug) {
+  		  for(uint32_t i = 0; i < Virtex6::eFarBlockTypeCount; i++) {
+  			for(uint32_t j = 0; j < mBitColumnIndexes[i].size(); j++) 
+			  std::cout << "Bit Value at index: (" << i << ", " << j << ") : " << mBitColumnIndexes[i][j] << std::endl;
+			for(uint32_t k = 0; k < mXdlColumnIndexes[i].size(); k++)
+			  std::cout << "Xdl Value at index: (" << i << ", " << k << ") : " << mXdlColumnIndexes[i][k] << std::endl;
+		  }
+		}
+	}
+
 
 } // namespace bitstream
 } // namespace torc

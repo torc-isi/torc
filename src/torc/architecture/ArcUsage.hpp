@@ -78,7 +78,7 @@ namespace architecture {
 			}
 			// if we didn't find the sink in the regular or irregular arcs, the call failed
 			/// \todo Throw a meaningful exception.
-			throw -1;
+			throw InvalidArcException(Arc(inTilewire1, inTilewire2));
 		}
 	public:
 	// constructors
@@ -116,7 +116,7 @@ namespace architecture {
 			TileIndex tileIndex2 = inTilewire2.getTileIndex();
 			// ensure that these tilewires belong to the same tile
 			/// \todo Throw a meaningful exception.
-			if(tileIndex1 != tileIndex2) throw -1;
+			if(tileIndex1 != tileIndex2) throw InvalidArcException(Arc(inTilewire1, inTilewire2));
 
 			// make sure we have a bitset for this tile
 			dynamic_bitset* bitset = mBitsets[tileIndex1];

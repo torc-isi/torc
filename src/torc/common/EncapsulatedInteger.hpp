@@ -51,6 +51,9 @@ namespace common {
 		operator const T&(void) const { return m; }
 		/// \brief Non-constant cast operator.
 		operator T&(void) { return m; }
+	// functions
+		static inline pod undefined(void) { return static_cast<pod>(-1); }
+		inline bool isUndefined(void) const { return m == static_cast<pod>(-1); }
 		/// \brief Cast operator.
 		//operator const T(void) const { return m; }
 		//operator T(void) { return m; }

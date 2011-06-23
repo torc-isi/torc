@@ -22,10 +22,10 @@
 namespace torc {
 namespace physical {
 
-BOOST_AUTO_TEST_SUITE(physical_database)
+BOOST_AUTO_TEST_SUITE(physical)
 
 /// \brief Unit test for the Named class.
-BOOST_AUTO_TEST_CASE(physical_named) {
+BOOST_AUTO_TEST_CASE(NamedUnitTest) {
 	// functions tested:
 	//		Named(const string& inName);
 	//		const string& getName(void) const;

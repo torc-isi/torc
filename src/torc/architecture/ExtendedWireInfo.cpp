@@ -26,12 +26,12 @@ namespace architecture {
 
 	void ExtendedWireInfo::set(const Tilewire& inTilewire) {
 		// be sure to handle invalid tilewires appropriately
-		if(inTilewire.isInvalid()) {
-			mWireIndex = WireIndex(-1);
-			mTileIndex = TileIndex(-1);
-			mTileTypeIndex = TileTypeIndex(-1);
-			mTileRow = TileRow(-1);
-			mTileCol = TileCol(-1);
+		if(inTilewire.isUndefined()) {
+			mWireIndex = WireIndex(WireIndex::undefined());
+			mTileIndex = TileIndex(TileIndex::undefined());
+			mTileTypeIndex = TileTypeIndex(TileTypeIndex::undefined());
+			mTileRow = TileRow(TileRow::undefined());
+			mTileCol = TileCol(TileCol::undefined());
 			mTileName = "";
 			mTileTypeName = "";
 			mWireName = "";

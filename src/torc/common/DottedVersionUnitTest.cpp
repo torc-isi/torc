@@ -25,7 +25,7 @@ namespace common {
 BOOST_AUTO_TEST_SUITE(common)
 
 /// \brief Unit test for the DottedVersion class.
-BOOST_AUTO_TEST_CASE(dotted_version) {
+BOOST_AUTO_TEST_CASE(DottedVersionUnitTest) {
 	// functions tested:
 	//		DottedVersion(uint8_t inMajor = 0, uint8_t inMinor = 0, uint8_t inRevision = 0, 
 	//			uint8_t inReserved = 0);
@@ -39,6 +39,22 @@ BOOST_AUTO_TEST_CASE(dotted_version) {
 	BOOST_CHECK_EQUAL(version.mMinor, 2);
 	BOOST_CHECK_EQUAL(version.mRevision, 3);
 	BOOST_CHECK_EQUAL(version.mReserved, 4);
+	BOOST_CHECK(version == DottedVersion(1, 2, 3));
+	BOOST_CHECK(version < DottedVersion(1, 2, 4));
+	BOOST_CHECK(version < DottedVersion(1, 3, 3));
+	BOOST_CHECK(version < DottedVersion(2, 2, 3));
+	BOOST_CHECK(version <= DottedVersion(1, 2, 3));
+	BOOST_CHECK(version <= DottedVersion(1, 2, 4));
+	BOOST_CHECK(version <= DottedVersion(1, 3, 3));
+	BOOST_CHECK(version <= DottedVersion(2, 2, 3));
+	BOOST_CHECK(version > DottedVersion(0, 2, 3));
+	BOOST_CHECK(version > DottedVersion(1, 1, 3));
+	BOOST_CHECK(version > DottedVersion(1, 2, 2));
+	BOOST_CHECK(version >= DottedVersion(1, 2, 3));
+	BOOST_CHECK(version >= DottedVersion(0, 2, 3));
+	BOOST_CHECK(version >= DottedVersion(1, 1, 3));
+	BOOST_CHECK(version >= DottedVersion(1, 2, 2));
+	/// \todo Update the list of members tested, and add Doxygen comments to the header file.
 }
 
 BOOST_AUTO_TEST_SUITE_END()

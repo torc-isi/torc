@@ -23,10 +23,10 @@
 namespace torc {
 namespace physical {
 
-BOOST_AUTO_TEST_SUITE(physical_database)
+BOOST_AUTO_TEST_SUITE(physical)
 
 /// \brief Unit test for the Instance class.
-BOOST_AUTO_TEST_CASE(physical_instance) {
+BOOST_AUTO_TEST_CASE(InstanceUnitTest) {
 	// create accessory instances and module
 	std::string name = "name";
 	std::string type = "type";

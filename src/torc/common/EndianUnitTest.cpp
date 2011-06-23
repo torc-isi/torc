@@ -25,10 +25,10 @@ namespace common {
 using torc::common::htonll;
 using torc::common::ntohll;
 
-BOOST_AUTO_TEST_SUITE(portability)
+BOOST_AUTO_TEST_SUITE(common)
 
 /// \brief Unit test for endian conversion.
-BOOST_AUTO_TEST_CASE(endian_conversion) {
+BOOST_AUTO_TEST_CASE(EndianUnitTest) {
 	// functions tested:
 	//		htons(uint16_t);
 	//		ntohs(uint16_t);

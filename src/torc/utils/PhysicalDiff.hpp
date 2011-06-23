@@ -26,14 +26,14 @@
 
 namespace torc {
 
-namespace physical_diff {
+namespace utils {
 	// forward declarations of unit test classes within their namespace.
-	class diff_design;
-	class diff_module;
-	class diff_circuit;
-	class diff_config_map;
-	class diff_instance;
-	class diff_net;
+	class PhysicalDiffDesignUnitTest;
+	class PhysicalDiffModuleUnitTest;
+	class PhysicalDiffCircuitUnitTest;
+	class PhysicalDiffConfigMapUnitTest;
+	class PhysicalDiffInstanceUnitTest;
+	class PhysicalDiffNetUnitTest;
 }
 
 
@@ -41,17 +41,17 @@ namespace physical_diff {
 /// \details This class takes two design pointers and compares them.
 class PhysicalDiff {
 	/// \brief Unit test access to internal functions.
-	friend class physical_diff::diff_design;
+	friend class utils::PhysicalDiffDesignUnitTest;
 	/// \brief Unit test access to internal functions.
-	friend class physical_diff::diff_module;
+	friend class utils::PhysicalDiffModuleUnitTest;
 	/// \brief Unit test access to internal functions.
-	friend class physical_diff::diff_circuit;
+	friend class utils::PhysicalDiffCircuitUnitTest;
 	/// \brief Unit test access to internal functions.
-	friend class physical_diff::diff_config_map;
+	friend class utils::PhysicalDiffConfigMapUnitTest;
 	/// \brief Unit test access to internal functions.
-	friend class physical_diff::diff_instance;
+	friend class utils::PhysicalDiffInstanceUnitTest;
 	/// \brief Unit test access to internal functions.
-	friend class physical_diff::diff_net;
+	friend class utils::PhysicalDiffNetUnitTest;
 protected:
 	/// \brief Imported type name.
 	typedef std::string string;

@@ -18,13 +18,16 @@
 
 #include <boost/test/unit_test.hpp>
 #include "torc/bitstream/Spartan3E.hpp"
+#include "torc/common/DirectoryTree.hpp"
+#include "torc/common/Devices.hpp"
 #include "torc/architecture/DDB.hpp"
 #include "torc/architecture/DeviceDesignator.hpp"
 #include "torc/bitstream/OutputStreamHelpers.hpp"
+#include "torc/bitstream/build/DeviceInfoHelper.hpp"
 #include "torc/common/TestHelpers.hpp"
-#include "torc/common/DirectoryTree.hpp"
 #include <fstream>
 #include <iostream>
+#include <boost/filesystem.hpp>
 
 namespace torc {
 namespace bitstream {
@@ -132,6 +135,175 @@ BOOST_AUTO_TEST_CASE(bitstream_spartan3e) {
 	// compare the reference and generated XDL
 	BOOST_CHECK(torc::common::fileContentsAreEqual(generatedPath, referencePath));
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void testSpartan3EDevice(const std::string& inDeviceName, const boost::filesystem::path& inWorkingPath);
+
+/// \brief Unit test for the Spartan3E class Frame Address Register mapping.
+BOOST_AUTO_TEST_CASE(bitstream_spartan3e_far) {
+
+	// look up the command line arguments
+	int& argc = boost::unit_test::framework::master_test_suite().argc;
+	char**& argv = boost::unit_test::framework::master_test_suite().argv;
+	// make sure that we at least have the name under which we were invoked
+	BOOST_REQUIRE(argc >= 1);
+	// resolve symbolic links if applicable
+	torc::common::DirectoryTree directoryTree(argv[0]);
+
+	// iterate over the devices
+	const torc::common::DeviceVector& devices = torc::common::Devices::getSpartan3EDevices();
+	torc::common::DeviceVector::const_iterator dp = devices.begin();
+	torc::common::DeviceVector::const_iterator de = devices.end();
+	while(dp < de) {
+		const std::string& device = *dp++;
+		if(device.empty()) break;
+//std::cout << "device " << ": " << device << std::endl;
+		testSpartan3EDevice(device, torc::common::DirectoryTree::getWorkingPath());
+	}
+}
+
+/*
+	class TileTypeWidths {
+	public:
+		uint32_t mWidth[8];
+		TileTypeWidths(uint32_t in0 = 0, uint32_t in1 = 0, uint32_t in2 = 0, uint32_t in3 = 0, 
+			uint32_t in4 = 0, uint32_t in5 = 0, uint32_t in6 = 0, uint32_t in7 = 0) {
+			int i = 0;
+			mWidth[i++] = in0; mWidth[i++] = in1; mWidth[i++] = in2; mWidth[i++] = in3;
+			mWidth[i++] = in4; mWidth[i++] = in5; mWidth[i++] = in6; mWidth[i++] = in7;
+		}
+		void clear(void) { for(int i = 0; i < 8; i++) mWidth[i] = 0; }
+		uint32_t operator[] (int inIndex) const { return mWidth[inIndex]; }
+	};
+*/
+
+	std::ostream& operator<< (std::ostream& os, const Spartan3E::FrameAddress& rhs);
+	std::ostream& operator<< (std::ostream& os, const Spartan3E::FrameAddress& rhs) {
+		return os << rhs.mColumn << "(" << rhs.mMajor << "." << rhs.mMinor << ")";
+	}
+
+void testSpartan3EDevice(const std::string& inDeviceName, const boost::filesystem::path& inWorkingPath) {
+
+	// build the file paths
+	boost::filesystem::path debugBitstreamPath = inWorkingPath / "torc" / "bitstream" / "regression";
+	//boost::filesystem::path generatedPath = debugBitstreamPath / (inDeviceName + ".debug.bit");
+	boost::filesystem::path referencePath = debugBitstreamPath / (inDeviceName + ".debug.bit");
+std::cerr << "TRYING TO FIND " << referencePath << std::endl;
+
+	// read the bitstream
+	std::fstream fileStream(referencePath.string().c_str(), std::ios::binary | std::ios::in);
+	std::cerr << "Trying to read: " << referencePath << std::endl;
+	BOOST_REQUIRE(fileStream.good());
+	Spartan3E bitstream;
+	bitstream.read(fileStream, false);
+	// write the bitstream digest to the console
+	//std::cout << bitstream << std::endl;
+
+//	// initialize the bitstream frame maps
+//	boost::filesystem::path deviceColumnsPath = inWorkingPath / "regression" 
+//		/ (inDeviceName + ".cpp");
+//	std::fstream deviceColumnsStream(deviceColumnsPath.string().c_str(), std::ios::out);
+	bitstream.initializeDeviceInfo(inDeviceName);
+	bitstream.initializeFrameMaps();
+
+	// iterate through the packets, and extract all of the FARs
+	Spartan3E::FrameAddressToIndex farRemaining = bitstream.mFrameAddressToIndex;
+	Spartan3E::FrameAddressToIndex farVisited;
+	{
+		bool first = true;
+		Spartan3E::const_iterator p = bitstream.begin();
+		Spartan3E::const_iterator e = bitstream.end();
+		uint32_t header = SpartanPacket::makeHeader(SpartanPacket::ePacketType1, 
+			SpartanPacket::eOpcodeWrite, Spartan3E::eRegisterLOUT, 1);
+		while(p < e) {
+			const SpartanPacket& packet = *p++;
+			if(packet.getHeader() != header) continue;
+			if(first) { first = false; continue; }
+			Spartan3E::FrameAddress far = packet[1];
+			//std::cout << std::endl << "Debug Far Address: " << Hex32(packet[1]) << std::endl;
+			farVisited[far] = 0;
+			Spartan3E::FrameAddressToIndex::iterator found = farRemaining.find(far);
+			if(found != farRemaining.end()) {
+				farRemaining.erase(found);
+			} else {
+				std::cerr << "missing " << far << " ";
+			}
+		}
+	}
+	{
+		std::cerr << std::endl;
+		Spartan3E::FrameAddressToIndex::const_iterator p = farRemaining.begin();
+		Spartan3E::FrameAddressToIndex::const_iterator e = farRemaining.end();
+		while(p != e) {
+			std::cerr << "remaining " << p->first << " ";
+			p++;
+		}
+		std::cerr << std::endl;
+	}
+	// verify that we have visited all of the expected FARs and no others
+	std::cout << "Device: " << inDeviceName << std::endl;
+	std::cout << "Size of farRemaining: " << farRemaining.size() << std::endl;
+	std::cout << "Size of farVisited: " << farVisited.size() << std::endl;
+	BOOST_REQUIRE_EQUAL(bitstream.mFrameAddressToIndex.size(), farVisited.size());
+	BOOST_REQUIRE_EQUAL(farRemaining.size(), 0u);
+
+return;
+}
+
+
+
+
+
+
+
+/// \brief Unit test for the Spartan3E static device info generation.
+BOOST_AUTO_TEST_CASE(bitstream_spartan3e_generate) {
+
+	Spartan3E bitstream;
+	DeviceInfoHelper::buildFamilyDeviceInfo("Spartan3E", "Spartan3EDeviceInfo.template", 
+		"Spartan3EDeviceInfo.cpp", torc::common::Devices::getSpartan3EDevices(), bitstream);
+
+}
+
+
+
 BOOST_AUTO_TEST_SUITE_END()
 
 } // namespace bitstream

@@ -83,11 +83,11 @@ namespace architecture {
 		return inStream.getBytesRead() - bytesReadOffset;
 	}
 
-	size_t Segments::readSegments(DigestStream& inStream) {
+	size_t Segments::readSegments(DigestStream& inStream, bool inExtendedAnchorTileCount) {
 		// prepare to read from the stream
 		size_t bytesReadOffset = inStream.getBytesRead();
 		uint16_t wireCount = 0;			// number of wires in the segment
-		uint16_t offsetCount = 0;		// number of offset tiles which use the segment
+		uint32_t offsetCount = 0;		// number of offset tiles which use the segment
 		WireIndex wireIndex;			// current wire index
 		TileOffset tileOffset;			// current tile offset
 		TileIndex rootTileIndex;		// compact segment root tile index
@@ -116,9 +116,17 @@ namespace architecture {
 				mCompactSegments[i][j] = CompactSegmentTilewire(wireIndex, tileOffset);
 			}
 			// initialize each offset location
-			inStream.read(offsetCount);
+			if(inExtendedAnchorTileCount) {
+				// read a 32-bit anchor tile count
+				inStream.read(offsetCount);
+			} else {
+				// read the standard 16-bit anchor tile count
+				uint16_t shortOffsetCount;
+				inStream.read(shortOffsetCount);
+				offsetCount = shortOffsetCount;
+			}
 			// loop through each offset for this segment
-			for(uint16_t j = 0; j < offsetCount; j++) {
+			for(uint32_t j = 0; j < offsetCount; j++) {
 				mTotalSegmentCount++;
 				// read the root tile
 				inStream.read(rootTileIndex);
@@ -137,7 +145,7 @@ if(existing.getCompactSegmentIndex() != 0 || existing.getAnchorTileIndex() != 0)
 				}
 			}
 		}
-		//std::cout << "\t" << mTotalSegmentCount << " total segments" << std::endl;
+		std::cout << "\t" << mTotalSegmentCount << " total segments" << std::endl;
 
 		// return the number of bytes read
 		return inStream.getBytesRead() - bytesReadOffset;

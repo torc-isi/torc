@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_SUITE(architecture)
 using namespace torc::architecture::xilinx;
 
 /// \brief Unit test for the Array class.
-BOOST_AUTO_TEST_CASE(architecture_array) {
+BOOST_AUTO_TEST_CASE(ArrayUnitTest) {
 	// functions not tested:
 	//		~Array<T>(void);
 

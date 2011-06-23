@@ -410,33 +410,36 @@ namespace bitstream {
 	extern DeviceInfo xc5vtx240t;
 
 	void Virtex5::initializeDeviceInfo(const std::string& inDeviceName) {
-		if(false) ;
-		else if(inDeviceName == "xc5vfx30t") setDeviceInfo(xc5vfx30t);
-		else if(inDeviceName == "xc5vfx70t") setDeviceInfo(xc5vfx70t);
-		else if(inDeviceName == "xc5vfx100t") setDeviceInfo(xc5vfx100t);
-		else if(inDeviceName == "xc5vfx130t") setDeviceInfo(xc5vfx130t);
-		else if(inDeviceName == "xc5vfx200t") setDeviceInfo(xc5vfx200t);
-		else if(inDeviceName == "xc5vlx30") setDeviceInfo(xc5vlx30);
-		else if(inDeviceName == "xc5vlx50") setDeviceInfo(xc5vlx50);
-		else if(inDeviceName == "xc5vlx85") setDeviceInfo(xc5vlx85);
-		else if(inDeviceName == "xc5vlx110") setDeviceInfo(xc5vlx110);
-		else if(inDeviceName == "xc5vlx155") setDeviceInfo(xc5vlx155);
-		else if(inDeviceName == "xc5vlx220") setDeviceInfo(xc5vlx220);
-		else if(inDeviceName == "xc5vlx330") setDeviceInfo(xc5vlx330);
-		else if(inDeviceName == "xc5vlx20t") setDeviceInfo(xc5vlx20t);
-		else if(inDeviceName == "xc5vlx30t") setDeviceInfo(xc5vlx30t);
-		else if(inDeviceName == "xc5vlx50t") setDeviceInfo(xc5vlx50t);
-		else if(inDeviceName == "xc5vlx85t") setDeviceInfo(xc5vlx85t);
-		else if(inDeviceName == "xc5vlx110t") setDeviceInfo(xc5vlx110t);
-		else if(inDeviceName == "xc5vlx155t") setDeviceInfo(xc5vlx155t);
-		else if(inDeviceName == "xc5vlx220t") setDeviceInfo(xc5vlx220t);
-		else if(inDeviceName == "xc5vlx330t") setDeviceInfo(xc5vlx330t);
-		else if(inDeviceName == "xc5vsx35t") setDeviceInfo(xc5vsx35t);
-		else if(inDeviceName == "xc5vsx50t") setDeviceInfo(xc5vsx50t);
-		else if(inDeviceName == "xc5vsx95t") setDeviceInfo(xc5vsx95t);
-		else if(inDeviceName == "xc5vsx240t") setDeviceInfo(xc5vsx240t);
-		else if(inDeviceName == "xc5vtx150t") setDeviceInfo(xc5vtx150t);
-		else if(inDeviceName == "xc5vtx240t") setDeviceInfo(xc5vtx240t);
+		using namespace torc::common;
+		switch(mDevice) {
+			case eXC5VFX30T: setDeviceInfo(xc5vfx30t); break;
+			case eXC5VFX70T: setDeviceInfo(xc5vfx70t); break;
+			case eXC5VFX100T: setDeviceInfo(xc5vfx100t); break;
+			case eXC5VFX130T: setDeviceInfo(xc5vfx130t); break;
+			case eXC5VFX200T: setDeviceInfo(xc5vfx200t); break;
+			case eXC5VLX30: setDeviceInfo(xc5vlx30); break;
+			case eXC5VLX50: setDeviceInfo(xc5vlx50); break;
+			case eXC5VLX85: setDeviceInfo(xc5vlx85); break;
+			case eXC5VLX110: setDeviceInfo(xc5vlx110); break;
+			case eXC5VLX155: setDeviceInfo(xc5vlx155); break;
+			case eXC5VLX220: setDeviceInfo(xc5vlx220); break;
+			case eXC5VLX330: setDeviceInfo(xc5vlx330); break;
+			case eXC5VLX20T: setDeviceInfo(xc5vlx20t); break;
+			case eXC5VLX30T: setDeviceInfo(xc5vlx30t); break;
+			case eXC5VLX50T: setDeviceInfo(xc5vlx50t); break;
+			case eXC5VLX85T: setDeviceInfo(xc5vlx85t); break;
+			case eXC5VLX110T: setDeviceInfo(xc5vlx110t); break;
+			case eXC5VLX155T: setDeviceInfo(xc5vlx155t); break;
+			case eXC5VLX220T: setDeviceInfo(xc5vlx220t); break;
+			case eXC5VLX330T: setDeviceInfo(xc5vlx330t); break;
+			case eXC5VSX35T: setDeviceInfo(xc5vsx35t); break;
+			case eXC5VSX50T: setDeviceInfo(xc5vsx50t); break;
+			case eXC5VSX95T: setDeviceInfo(xc5vsx95t); break;
+			case eXC5VSX240T: setDeviceInfo(xc5vsx240t); break;
+			case eXC5VTX150T: setDeviceInfo(xc5vtx150t); break;
+			case eXC5VTX240T: setDeviceInfo(xc5vtx240t); break;
+			default: break;
+		}
 	}
 
 #else
@@ -531,6 +534,11 @@ namespace bitstream {
 		uint32_t frameIndex = 0;
 		for(uint32_t i = 0; i < Virtex5::eFarBlockTypeCount; i++) {
 			Virtex5::EFarBlockType blockType = Virtex5::EFarBlockType(i);
+			//Set first frame index to 0
+			uint32_t bitIndex = 0;
+			uint32_t xdlIndex = 0;
+			mBitColumnIndexes[i].push_back(bitIndex);
+			mXdlColumnIndexes[i].push_back(xdlIndex);
 			for(uint32_t half = 0; half < 2; half++) {
 				for(uint32_t farRow = 0; farRow < farRowCount; farRow++) {
 					// fix short bottom half on xc5vlx20t
@@ -541,6 +549,7 @@ namespace bitstream {
 					for(ColumnIndex col; col < mDeviceInfo.getColCount(); 
 						col++) {
 						uint32_t width = mColumnDefs[mDeviceInfo.getColumnTypes()[col]][i];
+						//Allocate the frame maps
 						for(uint32_t farMinor = 0; farMinor < width; farMinor++) {
 							Virtex5::FrameAddress far(Virtex5::EFarTopBottom(half), blockType, 
 								farRow, farMajor, farMinor);
@@ -550,16 +559,34 @@ namespace bitstream {
 						}
 						if(width > 0) farMajor++;
 						frameCount += width;
-						//std::cout << "    " << mColumnDefs[mColumnTypes[col]].getName() 
-						//	<< ": " << width << " (" << frameCount << ")" << std::endl;
+
+						//Extract frame indexes for 1 row
+						if(farRow == 0 && half == 0) {
+						  //Indexes for Bitstream Columns, only stores non-empty tile types
+						  if(mDeviceInfo.getColumnTypes()[col] != Virtex5::eColumnTypeEmpty) {
+							bitIndex += width;
+							mBitColumnIndexes[i].push_back(bitIndex);
+						  }
+						  //Indexes for XDL Columns, stores interconnect and tile indexes for
+						  //non-empty tiles
+						  xdlIndex += width;
+						  mXdlColumnIndexes[i].push_back(xdlIndex);
+						}
 					}
 				}
 			}
-			//if(i == 2) break;
 		}
-
+		//Test to check proper indexing
+		bool debug = false;
+		if (debug) {
+  		  for(uint32_t i = 0; i < Virtex5::eFarBlockTypeCount; i++) {
+  			for(uint32_t j = 0; j < mBitColumnIndexes[i].size(); j++) 
+			  std::cout << "Bit Value at index: (" << i << ", " << j << ") : " << mBitColumnIndexes[i][j] << std::endl;
+			for(uint32_t k = 0; k < mXdlColumnIndexes[i].size(); k++)
+			  std::cout << "Xdl Value at index: (" << i << ", " << k << ") : " << mXdlColumnIndexes[i][k] << std::endl;
+		  }
+		}
 	}
-
 
 } // namespace bitstream
 } // namespace torc

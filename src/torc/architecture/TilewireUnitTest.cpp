@@ -27,7 +27,7 @@ namespace xilinx {
 BOOST_AUTO_TEST_SUITE(architecture)
 
 /// \brief Unit test for the Tilewire class.
-BOOST_AUTO_TEST_CASE(architecture_tilewire) {
+BOOST_AUTO_TEST_CASE(TilewireUnitTest) {
 	// create accessory wires and tiles
 	WireIndex wire1(15);
 	WireIndex wire2(300);
@@ -59,8 +59,8 @@ BOOST_AUTO_TEST_CASE(architecture_tilewire) {
 	//		void setWireIndex(const WireIndex& inWireIndex);
 	BOOST_CHECK_EQUAL(tilewire3.getTileIndex(), tile1);
 	BOOST_CHECK_EQUAL(tilewire3.getWireIndex(), wire1);
-	BOOST_CHECK_EQUAL(tilewire5.getTileIndex(), TileIndex(-1));
-	BOOST_CHECK_EQUAL(tilewire5.getWireIndex(), WireIndex(-1));
+	BOOST_CHECK_EQUAL(tilewire5.getTileIndex(), TileIndex::undefined());
+	BOOST_CHECK_EQUAL(tilewire5.getWireIndex(), WireIndex::undefined());
 	tilewire3.setTileIndex(tile2);
 	tilewire3.setWireIndex(wire2);
 	BOOST_CHECK_EQUAL(tilewire3.getTileIndex(), tile2);

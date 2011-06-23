@@ -26,7 +26,7 @@ namespace torc {
 namespace physical {
 
 // forward declaration of our unit test class within its namespace
-namespace physical_database { class physical_config; }
+namespace physical { class ConfigUnitTest; }
 
 	/// \brief Configuration.  A {name:value} pair.
 	/// \details Config elements typically live in a ConfigMap, and by inheritance, in Design, 
@@ -41,7 +41,7 @@ namespace physical_database { class physical_config; }
 		/// \brief The ConfigMap class has direct access to our internals.
 		friend class ConfigMap;
 		/// \brief Our unit test has direct access to our internals.
-		friend class torc::physical::physical_database::physical_config;
+		friend class torc::physical::physical::ConfigUnitTest;
 	protected:
 	// types
 		/// \brief Imported type name.

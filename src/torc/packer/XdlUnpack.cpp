@@ -290,28 +290,28 @@ namespace physical {
 					if(setting == "AFF")
 						affInstances.push_back(newInst);
 					else if(setting == "BFF")
-							bffInstances.push_back(newInst);
-						else if(setting == "CFF")
-								cffInstances.push_back(newInst);
-							else if(setting == "DFF")
-									dffInstances.push_back(newInst);
-								else if(setting == "FFX")
-										xffInstances.push_back(newInst);
-									else if(setting == "FFY")
-											yffInstances.push_back(newInst);
+						bffInstances.push_back(newInst);
+					else if(setting == "CFF")
+						cffInstances.push_back(newInst);
+					else if(setting == "DFF")
+						dffInstances.push_back(newInst);
+					else if(setting == "FFX")
+						xffInstances.push_back(newInst);
+					else if(setting == "FFY")
+						yffInstances.push_back(newInst);
 				} else if(typeName == "LUT") {
 					if(setting == "A6LUT")
 						alutInstances.push_back(newInst);
 					else if(setting == "B6LUT")
-							blutInstances.push_back(newInst);
-						else if(setting == "C6LUT")
-								clutInstances.push_back(newInst);
-							else if(setting == "D6LUT")
-									dlutInstances.push_back(newInst);
-								else if(setting == "F")
-										xlutInstances.push_back(newInst);
-									else if(setting == "G")
-										ylutInstances.push_back(newInst);
+						blutInstances.push_back(newInst);
+					else if(setting == "C6LUT")
+						clutInstances.push_back(newInst);
+					else if(setting == "D6LUT")
+						dlutInstances.push_back(newInst);
+					else if(setting == "F")
+						xlutInstances.push_back(newInst);
+					else if(setting == "G")
+						ylutInstances.push_back(newInst);
 				} else if((typeName != "INV") && (typeName != "MUX") && (typeName != "AND") && (typeName != "XOR")  && (typeName != "WSGEN")) {
 					newInst->setConfig(p->first, config);				
 				}

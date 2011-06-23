@@ -37,7 +37,8 @@ namespace architecture {
 				eFamilySpartan6, eFamilySpartan6L, 
 			// Virtex families
 			eFamilyVirtex, eFamilyVirtexE, eFamilyVirtex2, eFamilyVirtex2P, eFamilyVirtex4, 
-				eFamilyVirtex5, eFamilyVirtex6, eFamilyVirtex6L, eFamilyVirtex7
+				eFamilyVirtex5, eFamilyVirtex6, eFamilyVirtex6L, eFamilyVirtex7, eFamilyVirtex7L, 
+				eFamilyKintex7, eFamilyKintex7L
 		};
 	protected:
 	// typedefs
@@ -71,7 +72,11 @@ namespace architecture {
 		static boost::regex sVirtex4RegEx; ///< \brief Regular expression for Virtex4 devices.
 		static boost::regex sVirtex5RegEx; ///< \brief Regular expression for Virtex5 devices.
 		static boost::regex sVirtex6RegEx; ///< \brief Regular expression for Virtex6 devices.
-		static boost::regex sVirtex6LRegEx; ///< \brief Regular expression for Virtex6 devices.
+		static boost::regex sVirtex6LRegEx; ///< \brief Regular expression for Virtex6L devices.
+		static boost::regex sVirtex7RegEx; ///< \brief Regular expression for Virtex7 devices.
+		static boost::regex sVirtex7LRegEx; ///< \brief Regular expression for Virtex7L devices.
+		static boost::regex sKintex7RegEx; ///< \brief Regular expression for Kintex7 devices.
+		static boost::regex sKintex7LRegEx; ///< \brief Regular expression for Kintex7L devices.
 	public:
 	// constructors
 		/// \brief Basic constructor.

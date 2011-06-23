@@ -99,6 +99,10 @@ namespace bitstream { class bitstream_static_device_info; }
 				mColumnTypes.push_back(type);
 			}
 		}
+		/// \brief Constructor.
+		DeviceInfo(uint32_t inTileCount, uint16_t inRowCount, uint16_t inColCount, 
+			const ColumnTypeVector& inColumnTypes) : mTileCount(inTileCount), mRowCount(inRowCount), 
+			mColCount(inColCount), mColumnTypes(inColumnTypes) {}
 		/// \brief Null constructor.
 		DeviceInfo(void) {}
 	// accessors

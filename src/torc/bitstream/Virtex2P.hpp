@@ -22,17 +22,48 @@
 #include <boost/integer.hpp>
 #include "torc/bitstream/Virtex2.hpp"
 
+namespace torc { namespace architecture { class DDB; } }
+
 namespace torc {
 namespace bitstream {
 
 namespace bitstream { class bitstream_virtex2p; }
+namespace bitstream { class bitstream_virtex2p_far; }
+namespace bitstream { void testVirtex2PDevice(const std::string& inDeviceName, 
+	const boost::filesystem::path& inWorkingPath); }
 
 	/// \brief Virtex2P bitstream inherited from Virtex2 bitstream.
 	class Virtex2P : public Virtex2 {
 		friend class torc::bitstream::bitstream::bitstream_virtex2p;
+		friend class torc::bitstream::bitstream::bitstream_virtex2p_far;
+		friend void torc::bitstream::bitstream::testVirtex2PDevice(const std::string& inDeviceName, 
+			const boost::filesystem::path& inWorkingPath);
+	  public:
+	// functions
+		/// \brief Initialize the device information.
+		virtual void initializeDeviceInfo(const std::string& inDeviceName);
+	// accessors
+		virtual uint32_t getFrameLength(void) const {
+			using namespace torc::common;
+			// Frame Length Register Value: UG002, v2.2, November 5, 2007, Table 4-15.
+			switch(mDevice) {
+				case eXC2VP2: return 46;
+				case eXC2VP4: return 106;
+				case eXC2VP7: return 106;
+				case eXC2VP20: return 146;
+				case eXC2VPX20: return 146;
+				case eXC2VP30: return 206;
+				case eXC2VP40: return 226;
+				case eXC2VP50: return 226;
+				case eXC2VP70: return 266;
+				case eXC2VPX70: return 266;
+				case eXC2VP100: return 306;
+				default: return 0;
+			}
+		}
 	};
 
 } // namespace bitstream
-} // namespace torc
+} // namespace torc // namespace torc
 
 #endif // TORC_BITSTREAM_VIRTEX2P_HPP

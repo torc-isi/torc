@@ -26,7 +26,7 @@ namespace architecture {
 BOOST_AUTO_TEST_SUITE(architecture)
 
 /// \brief Unit test for the output stream helpers.
-BOOST_AUTO_TEST_CASE(architecture_output_stream_helpers) {
+BOOST_AUTO_TEST_CASE(OutputStreamHelpersUnitTest) {
 }
 
 BOOST_AUTO_TEST_SUITE_END()

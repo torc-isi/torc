@@ -23,10 +23,10 @@
 namespace torc {
 namespace physical {
 
-BOOST_AUTO_TEST_SUITE(physical_database)
+BOOST_AUTO_TEST_SUITE(physical)
 
 /// \brief Unit test for the InstanceReference class.
-BOOST_AUTO_TEST_CASE(physical_instance_reference) {
+BOOST_AUTO_TEST_CASE(InstanceReferenceUnitTest) {
 	// create the accessory instance and module
 	ModuleSharedPtr modulePtr = Factory::newModulePtr("name", "anchor");
 	InstanceSharedPtr instancePtr = Factory::newInstancePtr("name", "type", "tile", "site");

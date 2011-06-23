@@ -36,8 +36,8 @@ BOOST_AUTO_TEST_SUITE(bitstream)
 
 
 /// \brief Unit test for the VirtexBitstream class.
-BOOST_AUTO_TEST_CASE(crc) {
-	std::fstream fileStream("VirtexTest.bit", std::ios::binary | std::ios::in);
+BOOST_AUTO_TEST_CASE(crc_virtex) {
+	std::fstream fileStream("VirtexUnitTest.reference.bit", std::ios::binary | std::ios::in);
 	Virtex bitstream;
 	bitstream.read(fileStream, false);
 	std::cout << bitstream << std::endl;
@@ -226,19 +226,19 @@ BOOST_AUTO_TEST_CASE(bitstream_virtex_bitstream) {
 	bitstream.insert(bitstream.end(), 61, nop);
 
 	// write the bitstream back out
-	std::fstream outputStream(generatedPath.string().c_str(), std::ios::binary | std::ios::out);
-	BOOST_REQUIRE(outputStream.good());
-	bitstream.write(outputStream);
-	outputStream.flush();
+	//std::fstream outputStream(generatedPath.string().c_str(), std::ios::binary | std::ios::out);
+	//BOOST_REQUIRE(outputStream.good());
+	//bitstream.write(outputStream);
+	//outputStream.flush();
 
-	// read the bitstream
+	/* read the bitstream
 	std::fstream fileStream2(generatedPath.string().c_str(), std::ios::binary | std::ios::in);
 	BOOST_REQUIRE(fileStream2.good());
 	Virtex5 bitstream2;
 	bitstream2.read(fileStream2, false);
 	// write the bitstream digest to the console
 	std::cout << bitstream2 << std::endl;
-
+	*/
 	// compare the reference and generated XDL
 	BOOST_CHECK(torc::common::fileContentsAreEqual(generatedPath, referencePath));
 

@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_SUITE(architecture)
 
 /// \brief Unit test for the device-aware XdlImporter class.
 
-BOOST_AUTO_TEST_CASE(architecture_xdl_importer) {
+BOOST_AUTO_TEST_CASE(XdlImporterUnitTest) {
 	// create the appropriate file paths
 	boost::filesystem::path regressionPath 
 		= torc::common::DirectoryTree::getExecutablePath() / "regression";
@@ -41,7 +41,9 @@ BOOST_AUTO_TEST_CASE(architecture_xdl_importer) {
 	std::fstream fileStream(referencePath.string().c_str());
 	BOOST_REQUIRE(fileStream.good());
 	XdlImporter importer;
+std::cerr << "importer invocation" << std::endl;
 	importer(fileStream, referencePath.string());
+std::cerr << "importer finished" << std::endl;
 
 	// look up the design (and do something with it ...)
 	torc::physical::DesignSharedPtr designPtr = importer.getDesignPtr();

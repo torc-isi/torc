@@ -87,7 +87,7 @@ BOOST_AUTO_TEST_SUITE(generic)
 	};
 
 /// \brief Unit test for the generic object model.
-BOOST_AUTO_TEST_CASE(generic_om_1) {
+BOOST_AUTO_TEST_CASE(Om1UnitTest) {
 
 	// create string streams for both the generated and parsed EDIF
 	std::stringstream generated;

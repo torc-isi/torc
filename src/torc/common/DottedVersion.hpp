@@ -31,9 +31,46 @@ namespace common {
 		uint8_t mMinor;
 		uint8_t mRevision;
 		uint8_t mReserved;
+	// constructors
 		DottedVersion(uint8_t inMajor = 0, uint8_t inMinor = 0, uint8_t inRevision = 0, 
 			uint8_t inReserved = 0) : mMajor(inMajor), mMinor(inMinor), mRevision(inRevision), 
 			mReserved(inReserved) {}
+	// operators
+		bool operator ==(const DottedVersion& rhs) const {
+			return mMajor == rhs.mMajor && mMinor == rhs.mMinor && mRevision == rhs.mRevision;
+		}
+		bool operator >(const DottedVersion& rhs) const {
+			if(mMajor > rhs.mMajor) return true;
+			if(mMajor < rhs.mMajor) return false;
+			if(mMinor > rhs.mMinor) return true;
+			if(mMinor < rhs.mMinor) return false;
+			if(mRevision > rhs.mRevision) return true;
+			return false;
+		}
+		bool operator >=(const DottedVersion& rhs) const {
+			if(mMajor < rhs.mMajor) return false;
+			if(mMajor > rhs.mMajor) return true;
+			if(mMinor < rhs.mMinor) return false;
+			if(mMinor > rhs.mMinor) return true;
+			if(mRevision < rhs.mRevision) return false;
+			return true;
+		}
+		bool operator <(const DottedVersion& rhs) const {
+			if(mMajor < rhs.mMajor) return true;
+			if(mMajor > rhs.mMajor) return false;
+			if(mMinor < rhs.mMinor) return true;
+			if(mMinor > rhs.mMinor) return false;
+			if(mRevision < rhs.mRevision) return true;
+			return false;
+		}
+		bool operator <=(const DottedVersion& rhs) const {
+			if(mMajor > rhs.mMajor) return false;
+			if(mMajor < rhs.mMajor) return true;
+			if(mMinor > rhs.mMinor) return false;
+			if(mMinor > rhs.mMinor) return true;
+			if(mRevision > rhs.mRevision) return false;
+			return true;
+		}
 	};
 
 } // namespace common

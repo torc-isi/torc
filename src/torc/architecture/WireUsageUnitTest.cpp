@@ -27,7 +27,11 @@ BOOST_AUTO_TEST_SUITE(architecture)
 using namespace torc::architecture::xilinx;
 
 /// \brief Unit test for the WireUsage class.
-BOOST_AUTO_TEST_CASE(architecture_wire_usage) {
+BOOST_AUTO_TEST_CASE(WireUsageUnitTest) {
+
+	/// \todo Write a unit test for torc::architecture::WireUsage.
+	BOOST_REQUIRE(false);
+
 }
 
 BOOST_AUTO_TEST_SUITE_END()

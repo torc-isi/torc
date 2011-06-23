@@ -35,9 +35,9 @@ using namespace torc::architecture::xilinx;
 void testDevice(const std::string& inDeviceName);
 
 /// \brief Unit test for the DDB class.
-BOOST_AUTO_TEST_CASE(architecture_ddb) {
+BOOST_AUTO_TEST_CASE(DDBUnitTest) {
 	// iterate over the devices
-	const torc::common::DeviceVector& devices = torc::common::Devices::getAllDevices();
+	const torc::common::DeviceVector& devices = torc::common::Devices::getSupportedDevices();
 	torc::common::DeviceVector::const_iterator dp = devices.begin();
 	torc::common::DeviceVector::const_iterator de = devices.end();
 	while(dp < de) {

@@ -363,7 +363,7 @@ namespace torc { namespace generic {
      OVERSIZE = 464,
      OWNER = 465,
      PAGE = 466,
-     PAGESIZE = 467,
+     PAGESIZE_TORC = 467,
      PARAMETER = 468,
      PARAMETERASSIGN = 469,
      PARAMETERDISPLAY = 470,

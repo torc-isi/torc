@@ -23,10 +23,23 @@
 namespace torc {
 namespace physical {
 
-BOOST_AUTO_TEST_SUITE(physical_database)
+BOOST_AUTO_TEST_SUITE(physical)
+
+typedef boost::shared_ptr<class RenamableInstance> RenamableInstanceSharedPtr;
+class RenamableInstance : public Instance {
+public:
+	void setName(const string& inName) { mName = inName; }
+	static RenamableInstanceSharedPtr& recast(InstanceSharedPtr& inInstancePtr) {
+		return reinterpret_cast<RenamableInstanceSharedPtr&>(inInstancePtr);
+	}
+};
+//RenamableInstanceSharedPtr& please_cast_me(InstanceSharedPtr& inInstancePtr);
+//RenamableInstanceSharedPtr& please_cast_me(InstanceSharedPtr& inInstancePtr) {
+//	return reinterpret_cast<RenamableInstanceSharedPtr&>(inInstancePtr);
+//}
 
 /// \brief Unit test for the Circuit class.
-BOOST_AUTO_TEST_CASE(physical_circuit) {
+BOOST_AUTO_TEST_CASE(CircuitUnitTest) {
 	// functions tested:
 	//		Circuit(const string& inName);
 	//		size_t getInstanceCount(void) const;
@@ -55,7 +68,10 @@ BOOST_AUTO_TEST_CASE(physical_circuit) {
 	NetSharedPtr net2aPtr = Factory::newNetPtr("net2");
 	NetSharedPtr net2bPtr = Factory::newNetPtr("net2");	// deliberate reuse of net name
 	NetSharedPtr net3Ptr = Factory::newNetPtr("net3");
-
+//RenamableInstanceSharedPtr& ri = RenamableInstance::recast(instance1aPtr);
+//ri->setName("hello");
+//(void) ri;
+RenamableInstance::recast(instance1aPtr)->setName("goodbye");
 	// functions tested:
 	//		bool addInstance(InstanceSharedPtr& inInstancePtr);
 	//		bool addNet(NetSharedPtr& inNetPtr);

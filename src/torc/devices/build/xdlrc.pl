@@ -16,6 +16,15 @@
 # Parts of this code were inspired by and/or copied from ADB build code:
 #   http://scholar.lib.vt.edu/theses/available/etd-09112002-143335
 
+	# declare database format
+	@::format_number = (1, 0, 1, 0);
+	# format number 1.0.0.0: initial release
+	# format number 1.0.1.0: 6/1/2011: extends segment tile anchor count from 16 to 32 bits
+	$::build_number = 3;
+	# build number 3: 6/1/2011 added Virtex7 and Kintex7, with requisite format 1.0.1
+	# build number 2: 5/16/2011 removed routethroughs from regular arc list
+	# build number 1: initial release
+
 	# keep ourselves honest
 	use warnings FATAL => 'all';
 	use strict;
@@ -33,10 +42,6 @@
 	do "utils.pl";
 	# import console feedback
 	do "feedback.pl";
-
-	# declare database format
-	@::format_number = (1, 0, 0, 0);
-	$::build_number = 1;
 
 	# declare globals
 	@::tile_types = ();
@@ -178,7 +183,7 @@
 			# open the xdlrc file
 			my $device_file_name = "$device.conns.xdlrc.gz";
 			open(XDLRC, "zcat $device_file_name|") or die "Unable to read $device_file_name: $!\n";
-			$| = 1; print "Processing $architecture primitives ...  "; $| = 0;
+			$| = 1; print "Preprocessing $architecture primitives ...  "; $| = 0;
 
 			# reset the variables
 			my $defs = false;
@@ -301,12 +306,15 @@
 		}
 
 		# iterate through the devices
+		my $device_num = 1;
+		my $device_count = scalar @devices;
 		foreach my $device (@devices) {
 
 			# open the xdlrc file
 			my $device_file_name = "$device.conns.xdlrc.gz";
 			open(XDLRC, "zcat $device_file_name|") or die "Unable to read $device_file_name: $!\n";
-			print "Processing $device ...  ";
+			print "Preprocessing $device ($device_num of $device_count) ...  ";
+			$device_num++;
 
 			# reset the variables
 			my ($row_count, $col_count, $tile_count) = (undef, undef, undef);
@@ -491,6 +499,9 @@ if(!$::reported_unbuffered_bidirectional && $direction eq "==") {
 		# write out the architecture digest
 		my $architecture_digest_file_name = "$architecture.digest";
 		open(ARCH, ">$architecture_digest_file_name") or die "Unable to write $architecture_digest_file_name: $!\n";
+		# write the version information
+		print ARCH "$::version_number,$::version_string\n";
+		print ARCH "\n";
 		# write the primitive pin information
 		foreach my $primitive_def (sort keys %primitive_pins) {
 			# look up the primitive's pins
@@ -593,6 +604,10 @@ if(!$::reported_unbuffered_bidirectional && $direction eq "==") {
 		open(ARCH, $architecture_digest_file_name) or die "Unable to read $architecture_digest_file_name: $!\n";
 		my @lines = <ARCH>;
 		chomp @lines;
+		# read the version information
+		($::version_number, $::version_string) = split ",", (shift @lines);
+		@::version_number = split /\./, $::version_number;
+		shift @lines;
 		# extract the tile type info
 		my $pin_mode = true;
 		my $primitive_type_index = 0;
@@ -709,11 +724,13 @@ if(!$::reported_unbuffered_bidirectional && $direction eq "==") {
 	}
 
 	# extract device segments
-	sub extract_segments($$) {
+	sub extract_segments($$$$) {
 
 		# extract the parameters
 		my $architecture = shift;
 		my $device = shift;
+		my $device_num = shift;
+		my $device_count = shift;
 
 		# open the xdlrc file
 		my $device_file_name = "$device.conns.xdlrc.gz";
@@ -722,7 +739,7 @@ if(!$::reported_unbuffered_bidirectional && $direction eq "==") {
 		open(LOG, ">$log_file_name") or die "Unable to write $log_file_name: $!\n";
 		open(DIGEST, ">$digest_file_name") or die "Unable to write $digest_file_name: $!\n";
 		open(XDLRC, "zcat $device_file_name|") or die "Unable to read $device_file_name: $!\n";
-		print "Processing $device ...  ";
+		print "Processing $device ($device_num of $device_count) ...  ";
 
 		# initialize variables
 		my $line = undef;
@@ -1071,6 +1088,8 @@ print LOG "into $anchor_tile_index:$compact_segment\n" if $found;
 			. (scalar keys %segment) . " real)\n";
 		print LOG "# " . (scalar keys %compact_segment) . " compacted segments\n";
 		print "    # " . (scalar keys %compact_segment) . " compacted segments\n";
+		print LOG "# " . (scalar @primitive_sites) . " sites\n";
+		print "    # " . (scalar @primitive_sites) . " sites\n";
 		print LOG "\n";
 
 		# write the database header
@@ -1166,7 +1185,7 @@ print LOG "into $anchor_tile_index:$compact_segment\n" if $found;
 			print DIGEST (pack "n", (scalar @wires_and_tiles) / 2);
 			while(scalar @wires_and_tiles) { print DIGEST (pack "nN", shift @wires_and_tiles, shift @wires_and_tiles); }
 			# write the tile anchors where this compact segment is instantiated
-			print DIGEST (pack "nN*", ((scalar @tile_anchors, @tile_anchors)));
+			print DIGEST (pack "NN*", ((scalar @tile_anchors, @tile_anchors)));
 			$index++;
 		}
 
@@ -1189,7 +1208,6 @@ print LOG "into $anchor_tile_index:$compact_segment\n" if $found;
 
 		# write out the primitive sites
 		print DIGEST ">>>>  Sites >>>>";
-print "Primitive Sites: " . (scalar @primitive_sites) . "\n";
 		print DIGEST (pack "N", scalar @primitive_sites);
 		# iterate through the primitive sites
 		foreach my $site (@primitive_sites) {
@@ -1303,6 +1321,7 @@ print STDERR $message;
 			foreach my $regular_arc (keys %$regular_arcs) {
 				my ($source_wire_index, $sink_wire_index) = split ">", $regular_arc;
 				next if exists $irregular_arc{$source_wire_index}{$sink_wire_index};
+				next if exists $routethrough_arc{$source_wire_index}{$sink_wire_index};
 				$regular_arc{$source_wire_index}{$sink_wire_index} = undef;
 			}
 			# write the wire count
@@ -1516,13 +1535,15 @@ print STDERR $message;
 #		extract_tile_types($architecture);
 
 		# iterate through the devices
+		my $device_num = 1;
+		my $device_count = scalar @devices;
 		foreach my $device (@devices) {
 
 			# read the device digest
 			read_device_digest($device);
 
 			# now iterate through the device and extract the wires and segments
-			extract_segments($architecture, $device);
+			extract_segments($architecture, $device, $device_num++, $device_count);
 
 		}
 
@@ -1684,9 +1705,10 @@ print STDERR $message;
 
 	# extract the command line arguments
 	my ($xdlrc, $packages, $preprocess, $process, $development, $tagm12, $isirrex, $virtex, 
-		$virtexe, $virtex2, $virtex2p, $virtex4, $virtex5, $virtex6, $virtex6l, $spartan3e, 
-		$spartan6, $spartan6l) = (false, false, false, false, false, false, false, false, false, 
-		false, false, false, false, false, false, false, false, false);
+		$virtexe, $virtex2, $virtex2p, $virtex4, $virtex5, $virtex6, $virtex6l, $virtex7, 
+		$virtex7l, $kintex7, $kintex7l, $spartan3e, $spartan6, $spartan6l) = (false, false, false, 
+		false, false, false, false, false, false, false, false, false, false, false, false, false, 
+		false, false);
 	foreach my $arg (@ARGV) {
 		$xdlrc = true if $arg =~ /\bxdlrc\b/i;
 		$packages = true if $arg =~ /\bpackages\b/i;
@@ -1703,6 +1725,10 @@ print STDERR $message;
 		$virtex5 = true if $arg =~ /\bvirtex5\b/i;
 		$virtex6 = true if $arg =~ /\bvirtex6\b/i;
 		$virtex6l = true if $arg =~ /\bvirtex6l\b/i;
+		$virtex7 = true if $arg =~ /\bvirtex7\b/i;
+		$virtex7l = true if $arg =~ /\bvirtex7l\b/i;
+		$kintex7 = true if $arg =~ /\bkintex7\b/i;
+		$kintex7l = true if $arg =~ /\bkintex7l\b/i;
 		$spartan3e = true if $arg =~ /\bspartan3e\b/i;
 		$spartan6 = true if $arg =~ /\bspartan6\b/i;
 		$spartan6l = true if $arg =~ /\bspartan6l\b/i;
@@ -1718,6 +1744,10 @@ print STDERR $message;
 	generate_xdlrc("Virtex5", @devices::virtex5) if $xdlrc && $virtex5;
 	generate_xdlrc("Virtex6", @devices::virtex6) if $xdlrc && $virtex6;
 	generate_xdlrc("Virtex6L", @devices::virtex6l) if $xdlrc && $virtex6l;
+	generate_xdlrc("Virtex7", @devices::virtex7) if $xdlrc && $virtex7;
+	generate_xdlrc("Virtex7L", @devices::virtex7l) if $xdlrc && $virtex7l;
+	generate_xdlrc("Kintex7", @devices::kintex7) if $xdlrc && $kintex7;
+	generate_xdlrc("Kintex7L", @devices::kintex7l) if $xdlrc && $kintex7l;
 	generate_xdlrc("Spartan3E", @devices::spartan3e) if $xdlrc && $spartan3e;
 	generate_xdlrc("Spartan6", @devices::spartan6) if $xdlrc && $spartan6;
 	generate_xdlrc("Spartan6L", @devices::spartan6l) if $xdlrc && $spartan6l;
@@ -1731,6 +1761,10 @@ print STDERR $message;
 	preprocess_packages("Virtex5", @devices::virtex5) if $packages && $virtex5;
 	preprocess_packages("Virtex6", @devices::virtex6) if $packages && $virtex6;
 	preprocess_packages("Virtex6L", @devices::virtex6l) if $packages && $virtex6l;
+	preprocess_packages("Virtex7", @devices::virtex7) if $packages && $virtex7;
+	preprocess_packages("Virtex7L", @devices::virtex7l) if $packages && $virtex7l;
+	preprocess_packages("Kintex7", @devices::kintex7) if $packages && $kintex7;
+	preprocess_packages("Kintex7L", @devices::kintex7l) if $packages && $kintex7l;
 	preprocess_packages("Spartan3E", @devices::spartan3e) if $packages && $spartan3e;
 	preprocess_packages("Spartan6", @devices::spartan6) if $packages && $spartan6;
 	preprocess_packages("Spartan6L", @devices::spartan6l) if $packages && $spartan6l;
@@ -1744,6 +1778,10 @@ print STDERR $message;
 	preprocess_architecture("Virtex5", @devices::virtex5) if $preprocess && $virtex5;
 	preprocess_architecture("Virtex6", @devices::virtex6) if $preprocess && $virtex6;
 	preprocess_architecture("Virtex6L", @devices::virtex6l) if $preprocess && $virtex6l;
+	preprocess_architecture("Virtex7", @devices::virtex7) if $preprocess && $virtex7;
+	preprocess_architecture("Virtex7L", @devices::virtex7l) if $preprocess && $virtex7l;
+	preprocess_architecture("Kintex7", @devices::kintex7) if $preprocess && $kintex7;
+	preprocess_architecture("Kintex7L", @devices::kintex7l) if $preprocess && $kintex7l;
 	preprocess_architecture("Spartan3E", @devices::spartan3e) if $preprocess && $spartan3e;
 	preprocess_architecture("Spartan6", @devices::spartan6) if $preprocess && $spartan6;
 	preprocess_architecture("Spartan6L", @devices::spartan6l) if $preprocess && $spartan6l;
@@ -1757,6 +1795,10 @@ print STDERR $message;
 	process_wiring("Virtex5", @devices::virtex5) if $process && $virtex5;
 	process_wiring("Virtex6", @devices::virtex6) if $process && $virtex6;
 	process_wiring("Virtex6L", @devices::virtex6l) if $process && $virtex6l;
+	process_wiring("Virtex7", @devices::virtex7) if $process && $virtex7;
+	process_wiring("Virtex7L", @devices::virtex7l) if $process && $virtex7l;
+	process_wiring("Kintex7", @devices::kintex7) if $process && $kintex7;
+	process_wiring("Kintex7L", @devices::kintex7l) if $process && $kintex7l;
 	process_wiring("Spartan3E", @devices::spartan3e) if $process && $spartan3e;
 	process_wiring("Spartan6", @devices::spartan6) if $process && $spartan6;
 	process_wiring("Spartan6L", @devices::spartan6l) if $process && $spartan6l;

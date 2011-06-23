@@ -31,10 +31,10 @@
 
 namespace torc {
 
-BOOST_AUTO_TEST_SUITE(architecture_browser)
+BOOST_AUTO_TEST_SUITE(utils)
 
 /// \brief Unit test for the design diff function.
-BOOST_AUTO_TEST_CASE(architecture_browser_test) {
+BOOST_AUTO_TEST_CASE(ArchitectureBrowserUnitTest) {
 	/*
 	// setup a database for testing
 	//architecture::DDB db("torc/devices/xc5vlx30");
@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE(architecture_browser_test) {
 	ArchitectureBrowser ab(db);
 	
 	ab.browse();
-	exit(1);
+	throw;
 	
 	boost::regex tileLine("\\s*\\(tile\\s\\d+\\s\\d+\\s(\\S+)\\s(\\S+)\\s\\d+\\s*");
 	boost::regex wireLine("\\s*\\(wire\\s(\\S+)\\s(\\d+)\\s*");
@@ -84,7 +84,7 @@ BOOST_AUTO_TEST_CASE(architecture_browser_test) {
 			tw = ab.stringToTilewire(tilewirestring);
 			if (tw == architecture::Tilewire::sInvalid) {
 				std::cout << "Recovered bad tilewire from " << tilewirestring << std::endl;
-				exit(1);
+				throw;
 			}
 			
 			std::cout << "\tWIRE: " << tilewirestring << " (" 
@@ -92,7 +92,7 @@ BOOST_AUTO_TEST_CASE(architecture_browser_test) {
 			
 			if (allwires.find(tw) != allwires.end()) {
 				std::cout << "WIRE ALREADY EXISTS! " << tw << " " << tilewirestring << std::endl;
-				exit(1);
+				throw;
 			} else {
 				allwires.insert(tw);
 			}
@@ -108,14 +108,14 @@ BOOST_AUTO_TEST_CASE(architecture_browser_test) {
 //std::cout << "   " << tw2 << std::endl;
 					if (tw2 == architecture::Tilewire::sInvalid) {
 						std::cout << "Bad tilewire as part fo segment " << tilewirestring << std::endl;
-						exit(1);
+						throw;
 					}
 					std::cout << "\t\tCONN: " << tilewirestring << " " << tw2 << std::endl;
 					
 				} else {
 					std::cout << "ERROR, did not match a connection when expected "
 						<< segsize << " " << i << " " << inString << std::endl;
-					exit(1);
+					throw;
 				}
 			}
 			

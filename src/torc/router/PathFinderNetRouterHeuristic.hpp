@@ -114,7 +114,7 @@ namespace router {
 				return;
 			}
 			mArcsBuf.clear();
-			mDB.expandSegmentSinks(sinkTilewire, mArcsBuf);
+			expandSegmentSinks(sinkTilewire, mArcsBuf);
 			if (mArcsBuf.size() == 0) {
 				inNode.setCost(bestDistance);
 				return;
@@ -159,7 +159,7 @@ namespace router {
 				return;
 			}
 			mArcsBuf.clear();
-			mDB.expandSegmentSinks(sinkTilewire, mArcsBuf);
+			expandSegmentSinks(sinkTilewire, mArcsBuf);
 			if (mArcsBuf.size() == 0) {
 				inNode.setCost(bestDistance);
 				return;
@@ -190,13 +190,14 @@ namespace router {
 		void expandSegmentSinks(const Tilewire& inTilewire, ArcVector& outArcs) {
 			ArcVector tempArcs;
 			
-			const architecture::TileInfo& tileInfo = mTiles.getTileInfo(inTilewire.getTileIndex());
-			const architecture::WireInfo& wireInfo = mTiles.getWireInfo(
-				tileInfo.getTypeIndex(), inTilewire.getWireIndex());
-			if (wireInfo.isInput()) return;
+			//const architecture::TileInfo& tileInfo = mTiles.getTileInfo(inTilewire.getTileIndex());
+			//const architecture::WireInfo& wireInfo = mTiles.getWireInfo(
+			//	tileInfo.getTypeIndex(), inTilewire.getWireIndex());
+			//if (wireInfo.isInput()) return;
 			
 			mDB.expandSegmentSinks(inTilewire, tempArcs, DDB::eExpandDirectionNone,
 				true, true, true, false);
+			
 			unsigned int s = tempArcs.size();
 			if (s == 0) return;
 			unsigned int t = inTilewire.getTileIndex() % s;

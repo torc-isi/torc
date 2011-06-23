@@ -207,12 +207,12 @@ namespace router {
 					Tilewire sourceTilewire = *q;
 					if (mTracedWiresBuf.count(sourceTilewire) == 1) {
 						std::cout << "TRACER ERROR: REVISITING SOURCE, POSSIBLE LOOP" << std::endl;
-						exit(1);
+						throw;
 					}
 					if (mArcUsage.isUsed(sourceTilewire, segmentTilewire)) {
 						if (foundParent) {
 							std::cout << "TRACER ERROR: MULTIPLE PARENTS" << std::endl;
-							exit(1);
+							throw;
 						}
 						parentArc = Arc(sourceTilewire, segmentTilewire);
 						foundParent = true;
@@ -228,12 +228,12 @@ namespace router {
 		/// \brief Find all sinks downstream from given Tilewire.
 		void findBranchSinks(Tilewire inTilewire, TilewireVector& outSinks) {
 			std::cout << "findBranchSinks not yet implemented." << std::endl;
-			exit(1);
+			throw;
 		}
 		/// \brief Find all sinks attached to the net that includes input Tilewire.
 		void findSinks(Tilewire inTilewire, TilewireVector& outSinks) {
 			std::cout << "findSinks not yet implemented." << std::endl;
-			exit(1);
+			throw;
 		}*/
 
 	protected:
@@ -299,7 +299,7 @@ namespace router {
 					if (mArcUsage.isUsed(sourceTilewire, segmentTilewire)) {
 						if (foundParent) {
 							std::cout << "TRACER ERROR: MULTIPLE PARENTS" << std::endl;
-							exit(1);
+							throw;
 						}
 						parentArc = Arc(sourceTilewire, segmentTilewire);
 						foundParent = true;

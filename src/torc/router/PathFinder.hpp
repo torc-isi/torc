@@ -130,7 +130,7 @@ namespace router {
 				}
 				catch (...) {
 						std::cout << "Failed routing net " << i << ": " << std::endl;
-						exit(1);
+						throw;
 				}
 				mConflictWireUsage.clear();
 			}
@@ -158,7 +158,8 @@ namespace router {
 				for (unsigned int n = 0; n < numNets; n++) { //for each net
 					RouteNet& net = nets[n];
 					routetimer.restart();
-					if (testReroute(nets[n].routeNodes())) {
+					//if (testReroute(nets[n].routeNodes())) {
+					if (true) {
 					
 						unrouteNet(net.routeNodes(), net.getName());
 						
@@ -171,7 +172,7 @@ namespace router {
 						catch (...)	{
 							std::cout << "Failed routing net " << net.getName() << " index: "
 								<< n << " of " << nets.size() << std::endl;
-							exit(1);
+							throw;
 						}
 
 						routetime = routetimer.elapsed();
@@ -230,6 +231,7 @@ namespace router {
 						RouteNet& net = nets[i];
 						if (testReroute(net.routeNodes())) {
 							std::cout << "FOUND SELF CONFLICT NET: " << net.getName() << std::endl;
+							std::cout << mDB;
 							for (unsigned int j = 0; j < net.routeNodes().size(); j++) {
 								std::cout << "\t" << net.routeNodes()[j]->getArc() << std::endl;
 							}
@@ -271,7 +273,7 @@ namespace router {
 						if (mConflicts[tw].mPresentSharing < 0)
 						{
 							std::cout << "ERROR PRESENT: " << tw << " net " << netname << std::endl;
-							exit(1);
+							throw;
 						}
 					}
 					else 

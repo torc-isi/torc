@@ -21,6 +21,7 @@
 
 #include "torc/common/Endian.hpp"
 #include "torc/bitstream/DeviceInfo.hpp"
+#include "torc/common/Devices.hpp"
 #include "torc/common/EncapsulatedInteger.hpp"
 #include <istream>
 #include <ostream>
@@ -45,6 +46,7 @@ namespace bitstream { class bitstream_bitstream; }
 		typedef boost::uint8_t uint8_t; ///< Imported type name.
 		typedef boost::uint16_t uint16_t; ///< Imported type name.
 		typedef boost::uint32_t uint32_t; ///< Imported type name.
+		typedef torc::common::EDevice EDevice; ///< Imported type name.
 
 		/// \brief Write a uint8_t to the stream.
 		void write(std::ostream& inStream, uint8_t inVal) {
@@ -201,7 +203,13 @@ namespace bitstream { class bitstream_bitstream; }
 	// accessors
 		/// \brief Assign static device information for the current bitstream.
 		void setDeviceInfo(const DeviceInfo& rhs) { mDeviceInfo = rhs; }
+		/// \brief Assign the device enumeration constant for the given device name.
+		void setDevice(const std::string& inDeviceName) {
+			mDevice = torc::common::Devices::getDeviceEnum(inDeviceName);
+		}
 	// members
+		/// \brief Bitstream device enumeration.
+		EDevice mDevice;
 		/// \brief Header design name.
 		string mDesignName;
 		/// \brief Header device name.
@@ -232,7 +240,7 @@ namespace bitstream { class bitstream_bitstream; }
 	public:
 	// constructors
 		/// \brief Basic constructor.
-		Bitstream(void) : mBitstreamByteLength(0) {}
+		Bitstream(void) : mDevice(torc::common::eDeviceInvalid), mBitstreamByteLength(0) {}
 		/// \brief Virtual destructor.
 		virtual ~Bitstream(void) {}
 	// functions
@@ -248,6 +256,7 @@ namespace bitstream { class bitstream_bitstream; }
 		virtual void readHeader(std::istream& inStream) {
 			readHeader(inStream, mDesignName, mDeviceName, mDesignDate, mDesignTime, 
 				mBitstreamByteLength, mHeaderByteLength);
+			setDevice(mDeviceName);
 		}
 		/// \brief Write the bitstream header and packets to a stream.
 		virtual void write(std::ostream& inStream) {
@@ -313,6 +322,8 @@ namespace bitstream { class bitstream_bitstream; }
 		uint32_t getBitstreamByteLength(void) const { return mBitstreamByteLength; }
 		/// \brief Return the bitstream header length in bytes.
 		uint32_t getHeaderByteLength(void) const { return mHeaderByteLength; }
+		/// \brief Return the frame length for the current device.
+		virtual uint32_t getFrameLength(void) const { return 0; }
 	};
 
 } // namespace bitstream

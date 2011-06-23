@@ -24,11 +24,11 @@
 namespace torc {
 namespace physical {
 
-BOOST_AUTO_TEST_SUITE(physical_database)
+BOOST_AUTO_TEST_SUITE(physical)
 
 /// \brief Unit test for the output stream helpers.
 /// \details It's not pretty, and it's incomplete, but it'll have to do for now.
-BOOST_AUTO_TEST_CASE(physical_output_stream_helpers) {
+BOOST_AUTO_TEST_CASE(OutputStreamHelpersUnitTest) {
 	std::stringstream s;
 
 	// functions tested:

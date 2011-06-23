@@ -22,10 +22,10 @@
 
 namespace torc {
 
-BOOST_AUTO_TEST_SUITE(physical_diff)
+BOOST_AUTO_TEST_SUITE(utils)
 
 /// \brief Unit test for the design diff function.
-BOOST_AUTO_TEST_CASE(diff_design) {
+BOOST_AUTO_TEST_CASE(PhysicalDiffDesignUnitTest) {
 	std::ostringstream nullstream(std::ostringstream::out);
 	PhysicalDiff pd(nullstream);
 	// functions tested:
@@ -92,7 +92,7 @@ BOOST_AUTO_TEST_CASE(diff_design) {
 }
 
 /// \brief Unit test for the module diff function.
-BOOST_AUTO_TEST_CASE(diff_module) {
+BOOST_AUTO_TEST_CASE(PhysicalDiffModuleUnitTest) {
 	std::ostringstream nullstream(std::ostringstream::out);
 	PhysicalDiff pd(nullstream);
 	// functions tested:
@@ -146,7 +146,7 @@ BOOST_AUTO_TEST_CASE(diff_module) {
 }
 
 /// \brief Unit test for the circuit diff function.
-BOOST_AUTO_TEST_CASE(diff_circuit) {
+BOOST_AUTO_TEST_CASE(PhysicalDiffCircuitUnitTest) {
 	std::ostringstream nullstream(std::ostringstream::out);
 	PhysicalDiff pd(nullstream);
 	// functions tested:
@@ -206,7 +206,7 @@ BOOST_AUTO_TEST_CASE(diff_circuit) {
 }
 
 /// \brief Unit test for the config_map diff function.
-BOOST_AUTO_TEST_CASE(diff_config_map) {
+BOOST_AUTO_TEST_CASE(PhysicalDiffConfigMapUnitTest) {
 	std::ostringstream nullstream(std::ostringstream::out);
 	PhysicalDiff pd(nullstream);
 	// functions tested:
@@ -245,7 +245,7 @@ BOOST_AUTO_TEST_CASE(diff_config_map) {
 }
 
 /// \brief Unit test for the instance diff function.
-BOOST_AUTO_TEST_CASE(diff_instance) {
+BOOST_AUTO_TEST_CASE(PhysicalDiffInstanceUnitTest) {
 	std::ostringstream nullstream(std::ostringstream::out);
 	PhysicalDiff pd(nullstream);
 	// functions tested:
@@ -291,7 +291,7 @@ BOOST_AUTO_TEST_CASE(diff_instance) {
 }
 
 /// \brief Unit test for the net diff function.
-BOOST_AUTO_TEST_CASE(diff_net) {
+BOOST_AUTO_TEST_CASE(PhysicalDiffNetUnitTest) {
 	std::ostringstream nullstream(std::ostringstream::out);
 	PhysicalDiff pd(nullstream);
 	// functions tested:

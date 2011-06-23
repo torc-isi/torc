@@ -23,10 +23,10 @@
 namespace torc {
 namespace physical {
 
-BOOST_AUTO_TEST_SUITE(physical_database)
+BOOST_AUTO_TEST_SUITE(physical)
 
 /// \brief Unit test for the Module class.
-BOOST_AUTO_TEST_CASE(physical_module) {
+BOOST_AUTO_TEST_CASE(ModuleUnitTest) {
 	std::string port = "name1";
 	// create accessory instance and ports
 	InstanceSharedPtr instancePtr = Factory::newInstancePtr("name", "type", "tile", "site");

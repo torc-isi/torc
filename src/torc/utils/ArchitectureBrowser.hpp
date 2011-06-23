@@ -94,7 +94,7 @@ protected:
 	enum EFunctionMap {
 		eNotDefined, eQuit, eBit, eClear, eDetail, eFind, eGoto, eSinks,
 		eInstances, eRoute, eSources, eWires, eTypes, eEquations, eeXtent, eMap, 
-		eSites, eSitePins, eSegment, eSiteTypes, eDeviceSummary, eTiles, eSiteDetail
+		eSites, eSitePins, eSegment, eSiteTypes, eDeviceSummary, eTiles, eSiteDetail, eSitesOfType
 	};
 
 	/// \brief Mapping from function to index.
@@ -118,12 +118,15 @@ public:
 		using std::cin;
 		using std::endl;
 		
+		BrowserFunction getFilteredTileListRef = &ArchitectureBrowser::getFilteredTileList;
 		BrowserFunction getTilewireDetailRef = &ArchitectureBrowser::getTilewireDetail;
 		BrowserFunction displayFullSegmentRef = &ArchitectureBrowser::displayFullSegment;
 		BrowserFunction getWireListForTileTypeRef = &ArchitectureBrowser::getWireListForTileType;
 		BrowserFunction displaySegmentSourcesRef = &ArchitectureBrowser::displaySegmentSources;
 		BrowserFunction displaySegmentSinksRef = &ArchitectureBrowser::displaySegmentSinks;
+		BrowserFunction getFilteredSiteListRef = &ArchitectureBrowser::getFilteredSiteList;
 		BrowserFunction getSiteDetailRef = &ArchitectureBrowser::getSiteDetail;
+		BrowserFunction displaySitesOfTypeRef = &ArchitectureBrowser::displaySitesOfType;
 		
 		string function;
 		string userinput;
@@ -141,8 +144,9 @@ public:
 					deviceSummary();
 					break;
 				case eTiles:
-					cout << "Tile List." << endl;
-					getTileList();
+					//cout << "Tile List." << endl;
+					functionPrompt("Enter regexp filter (\".*\" to match all sites), q to quit",
+						getFilteredTileListRef);
 					break;
 				case eWires:
 					functionPrompt("Enter tile type index, tile type name or tile name, q to quit", 
@@ -161,12 +165,21 @@ public:
 					functionPrompt("Enter wire@tile, q to quit", displaySegmentSinksRef);
 					break;
 				case eSites:
-					cout << "Site List." << endl;
-					getSiteList();
+					//cout << "Site List." << endl;
+					functionPrompt("Enter regexp filter (\".*\" to match all sites), q to quit",
+						getFilteredSiteListRef);
 					break;
 				case eSiteDetail:
 					functionPrompt("Enter site name or index, q to quit", getSiteDetailRef);
 					break;
+				case eSiteTypes:
+					cout << "List site types: " << endl;
+					enumerateSiteTypes();
+					break;
+				case eSitesOfType:
+					functionPrompt("Enter site type name, q to quit", displaySitesOfTypeRef);
+					break;
+					
 					
 					
 				case eBit:
@@ -211,10 +224,6 @@ public:
 					cout << "Displaying tilemap:" << endl;
 					//displayTilemap();
 					break;
-				case eSiteTypes:
-					cout << "List site types: " << endl;
-					//enumerateSiteTypes();
-					break;
 				case eSitePins:
 					cout << "Enter site: ";
 					cin >> userinput;
@@ -232,7 +241,7 @@ public:
 		using std::cin;
 		string userinput;
 		while (true) {
-			cout << inPrompt << "> ";
+			cout << endl << inPrompt << "> ";
 			cin >> userinput;
 			switch (mFunctionMap[userinput]) {
 				case eQuit:
@@ -276,6 +285,42 @@ public:
 		}
 		cout.flags(saveflags);
 	}
+	/// \brief Filtered list of all tiles.
+	void getFilteredTileList(const string& inString) {
+		using std::cout;
+		using std::endl;
+		std::ios_base::fmtflags saveflags = cout.flags();
+		
+		// Replace all asterisks in the input string with regex wildcards (".*")
+		std::string userPattern = regex_replace(inString, boost::regex("(?<!\\.)\\*"), ".*");
+		
+		// Build regex
+		boost::regex sTileNameRegEx(userPattern, boost::regex::perl | boost::regex::icase
+													| boost::regex::no_except);
+		// Check regex syntax
+		if (sTileNameRegEx.empty()) {
+			cout << "Bad regular expression. Try again." << endl;
+			return;
+		}
+		
+		// Print matching sites
+		boost::smatch smatches;
+		int matchCount = 0;
+		for (TileIndex i(0); i < mTiles.getTileCount(); i++) {
+			const architecture::TileInfo& ti = mTiles.getTileInfo(i);
+			if (regex_match(std::string(ti.getName()), smatches, sTileNameRegEx)) {
+				matchCount++;
+				cout << std::setw(6) << i << " type " << std::setw(3) << ti.getTypeIndex() << " " 
+					<< "(" << std::setw(3) << ti.getRow() << "," << std::setw(3) << ti.getCol() 
+					<< ")  " << ti.getName() << endl;
+			}
+		}
+		
+		// Output # matches
+		cout << endl << matchCount << " match" << (matchCount == 1 ? "." : "es.") << endl;
+		
+		cout.flags(saveflags);
+	}
 	/// \brief List of all sites.
 	void getSiteList() {
 		using std::cout;
@@ -286,6 +331,40 @@ public:
 			const architecture::Sites::Site& site = mSites.getSite(i);
 			cout << std::setw(7) << i << " " << site.getName() << endl;
 		}
+		cout.flags(saveflags);
+	}
+	/// \brief Filtered list of all sites.
+	void getFilteredSiteList(const string& inString) {
+		using std::cout;
+		using std::endl;
+		std::ios_base::fmtflags saveflags = cout.flags();
+		
+		// Replace all asterisks in the input string with regex wildcards (".*")
+		std::string userPattern = regex_replace(inString, boost::regex("(?<!\\.)\\*"), ".*");
+		
+		// Build regex
+		boost::regex sSiteNameRegEx(userPattern, boost::regex::perl | boost::regex::icase
+													| boost::regex::no_except);
+		// Check regex syntax
+		if (sSiteNameRegEx.empty()) {
+			cout << "Bad regular expression. Try again." << endl;
+			return;
+		}
+		
+		// Print matching sites
+		boost::smatch smatches;
+		int matchCount = 0;
+		for (SiteIndex i(0); i < mSites.getSiteCount(); i++) {
+			const architecture::Sites::Site& site = mSites.getSite(i);
+			if (regex_match(site.getName(), smatches, sSiteNameRegEx)) {
+				matchCount++;
+				cout << std::setw(7) << i << " " << site.getName() << endl;
+			}
+		}
+		
+		// Output # matches
+		cout << endl << matchCount << " match" << (matchCount == 1 ? "." : "es.") << endl;
+		
 		cout.flags(saveflags);
 	}
 	/// brief Site detail function.
@@ -327,6 +406,21 @@ public:
 		cout << "\tPrimitive Definition: " << primDef.getName() << endl;
 		cout.flags(saveflags);
 		
+	}
+	/// brief Sites of a particular type function.
+	void displaySitesOfType(const string& inString) {
+		using std::cout;
+		using std::endl;
+		std::ios_base::fmtflags saveflags = cout.flags();
+		
+		for (SiteIndex i(0); i < mSites.getSiteCount(); i++) {
+			const architecture::Sites::Site& site = mSites.getSite(i);
+			const Sites::PrimitiveDef* siteTypePtr = site.getPrimitiveDefPtr();
+			if (siteTypePtr->getName() == inString)
+				cout << std::setw(7) << i << " " << site.getName() << endl;
+		}
+		
+		cout.flags(saveflags);
 	}
 	/// \brief Tilewire detail function.
 	void getTilewireDetail(const string& inString) {
@@ -479,7 +573,7 @@ public:
 			}
 		}
 		cout << "Displaying segment containing: " << inString << endl;
-		for (uint32_t i = 0; i < segmentstrings.size(); i++) {
+		/*for (uint32_t i = 0; i < segmentstrings.size(); i++) {
 			//cout << "\t\t" << segmentstrings[i] << endl;
 			for (uint32_t j = 0; j < sourcemap[segmentstrings[i]].size(); j++) {
 				cout << "|<--\t" << sourcemap[segmentstrings[i]][j] << endl;
@@ -487,6 +581,16 @@ public:
 			cout << "|\t\t" << segmentstrings[i] << endl;
 			for (uint32_t j = 0; j < sinkmap[segmentstrings[i]].size(); j++) {
 				cout << "|-->\t\t\t" << sinkmap[segmentstrings[i]][j] << endl;
+			}
+		}*/
+		for (uint32_t i = 0; i < segmentstrings.size(); i++) {
+			cout << "|" << endl << "| " << segmentstrings[i] << endl;
+			
+			for (uint32_t j = 0; j < sourcemap[segmentstrings[i]].size(); j++) {
+				cout << "|	<--- " << sourcemap[segmentstrings[i]][j] << endl;
+			}
+			for (uint32_t j = 0; j < sinkmap[segmentstrings[i]].size(); j++) {
+				cout << "|	---> " << sinkmap[segmentstrings[i]][j] << endl;
 			}
 		}
 		
@@ -658,6 +762,16 @@ public:
 			cout << (wireInfo.isRemoteNodeCapable() ? "  (REMOTE_NODE_CAPABLE) " : "");
 			cout << (wireInfo.isRemoteArcCapable() ? "  (REMOTE_ARC_CAPABLE) " : "");
 			cout << endl;
+		}
+	}
+	void enumerateSiteTypes() {
+		using std::cout;
+		using std::endl;
+		cout << "Device Site Types:" << endl;
+		
+		const architecture::Array<const Sites::PrimitiveDef>& siteTypes = mSites.getSiteTypes();
+		for (uint32_t i = 0; i < siteTypes.getSize(); i++) {
+			cout << siteTypes[i].getName() << endl;
 		}
 	}
 public:

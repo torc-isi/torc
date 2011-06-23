@@ -19,6 +19,13 @@
 #include "torc/bitstream/Virtex2.hpp"
 #include <iostream>
 
+/// \todo Warning: this will need to be moved elsewhere.
+#include "torc/architecture/DDB.hpp"
+#include "torc/architecture/XilinxDatabaseTypes.hpp"
+#include "torc/common/DirectoryTree.hpp"
+#include <fstream>
+
+
 namespace torc {
 namespace bitstream {
 
@@ -219,6 +226,193 @@ namespace bitstream {
 			}
 		}
 		return 0;
+	}
+
+
+//#define GENERATE_STATIC_DEVICE_INFO
+#ifndef GENERATE_STATIC_DEVICE_INFO
+
+	extern DeviceInfo xc2v40;
+	extern DeviceInfo xc2v80;
+	extern DeviceInfo xc2v250;
+	extern DeviceInfo xc2v500;
+	extern DeviceInfo xc2v1000;
+	extern DeviceInfo xc2v1500;
+	extern DeviceInfo xc2v2000;
+	extern DeviceInfo xc2v3000;
+	extern DeviceInfo xc2v4000;
+	extern DeviceInfo xc2v6000;
+	extern DeviceInfo xc2v8000;
+
+	void Virtex2::initializeDeviceInfo(const std::string& inDeviceName) {
+		using namespace torc::common;
+		switch(mDevice) {
+			case eXC2V40: setDeviceInfo(xc2v40); break;
+			case eXC2V80: setDeviceInfo(xc2v80); break;
+			case eXC2V250: setDeviceInfo(xc2v250); break;
+			case eXC2V500: setDeviceInfo(xc2v500); break;
+			case eXC2V1000: setDeviceInfo(xc2v1000); break;
+			case eXC2V1500: setDeviceInfo(xc2v1500); break;
+			case eXC2V2000: setDeviceInfo(xc2v2000); break;
+			case eXC2V3000: setDeviceInfo(xc2v3000); break;
+			case eXC2V4000: setDeviceInfo(xc2v4000); break;
+			case eXC2V6000: setDeviceInfo(xc2v6000); break;
+			case eXC2V8000: setDeviceInfo(xc2v8000); break;
+			default: break;
+		}
+		// update the bitstream row counts as appropriate for the device
+		//setRowCounts(inDeviceName);
+	}
+
+#else
+
+	void Virtex2::initializeDeviceInfo(const std::string& inDeviceName) {
+
+		typedef torc::architecture::xilinx::TileCount TileCount;
+		typedef torc::architecture::xilinx::TileRow TileRow;
+		typedef torc::architecture::xilinx::TileCol TileCol;
+		typedef torc::architecture::xilinx::TileTypeIndex TileTypeIndex;
+		typedef torc::architecture::xilinx::TileTypeCount TileTypeCount;
+
+		// look up the device tile map
+		torc::architecture::DDB ddb(inDeviceName);
+		const torc::architecture::Tiles& tiles = ddb.getTiles();
+		uint32_t tileCount = tiles.getTileCount();
+		uint16_t rowCount = tiles.getRowCount();
+		uint16_t colCount = tiles.getColCount();
+		ColumnTypeVector columnTypes;
+
+		// set up the tile index and name mappings, and the index to column def mapping
+		typedef std::map<TileTypeIndex, std::string> TileTypeIndexToName;
+		typedef std::map<std::string, TileTypeIndex> TileTypeNameToIndex;
+		TileTypeIndexToName tileTypeIndexToName;
+		TileTypeNameToIndex tileTypeNameToIndex;
+		TileTypeCount tileTypeCount = tiles.getTileTypeCount();
+		for(TileTypeIndex tileTypeIndex(0); tileTypeIndex < tileTypeCount; tileTypeIndex++) {
+			const std::string tileTypeName = tiles.getTileTypeName(tileTypeIndex);
+			tileTypeIndexToName[tileTypeIndex] = tileTypeName;
+			tileTypeNameToIndex[tileTypeName] = tileTypeIndex;
+			TileTypeNameToColumnType::iterator ttwp = mTileTypeNameToColumnType.find(tileTypeName);
+			TileTypeNameToColumnType::iterator ttwe = mTileTypeNameToColumnType.end();
+			if(ttwp != ttwe) mTileTypeIndexToColumnType[tileTypeIndex] = EColumnType(ttwp->second);
+		}
+
+		// identify every column that contains known frames
+		columnTypes.resize(colCount);
+		uint32_t frameCount = 0;
+		for(uint32_t blockType = 0; blockType < Virtex2::eFarBlockTypeCount; blockType++) {
+			for(TileCol col; col < colCount; col++) {
+				bool found = false;
+				columnTypes[col] = eColumnTypeEmpty;
+				TileTypeIndexToColumnType::iterator ttwe = mTileTypeIndexToColumnType.end();
+				TileTypeIndexToColumnType::iterator ttwp = ttwe;
+				for(TileRow row; row < rowCount; row++) {
+					// look up the tile info
+					const torc::architecture::TileInfo& tileInfo 
+						= tiles.getTileInfo(tiles.getTileIndex(row, col));
+					TileTypeIndex tileTypeIndex = tileInfo.getTypeIndex();
+					// determine whether the tile type widths are defined
+					TileTypeIndexToColumnType::iterator ttwp 
+						= mTileTypeIndexToColumnType.find(tileTypeIndex);
+					if(ttwp != ttwe) {
+						uint32_t width = mColumnDefs[ttwp->second][blockType];
+						frameCount += width;
+						//std::cout << "    " << tiles.getTileTypeName(tileInfo.getTypeIndex()) 
+						// << ": " << width << " (" << frameCount << ")" << std::endl;
+						columnTypes[col] = static_cast<EColumnType>(ttwp->second);
+						found = true;
+						break;
+					}
+				}
+			}
+			//std::cout << std::endl;
+			if(blockType == 2) break;
+		}
+
+		boost::filesystem::path workingPath = torc::common::DirectoryTree::getWorkingPath();
+		boost::filesystem::path generatedMap = workingPath / (inDeviceName + ".map.csv");
+		std::fstream tilemapStream(generatedMap.string().c_str(), std::ios::out);
+		for(TileRow row; row < rowCount; row++) {
+			for(TileCol col; col < colCount; col++) {
+				const torc::architecture::TileInfo& tileInfo 
+					= tiles.getTileInfo(tiles.getTileIndex(row, col));
+				TileTypeIndex tileTypeIndex = tileInfo.getTypeIndex();
+				tilemapStream << tiles.getTileTypeName(tileTypeIndex);
+				if(col + 1 < colCount) tilemapStream << ",";
+			}
+			tilemapStream << std::endl;
+		}
+		tilemapStream.close();
+
+		// update bitstream device information
+		setDeviceInfo(DeviceInfo(tileCount, rowCount, colCount, columnTypes));
+		//setRowCounts(inDeviceName);
+	}
+#endif
+
+	void Virtex2::initializeFrameMaps(void) {
+
+		uint32_t frameCount = 0;
+		uint32_t frameIndex = 0;
+		bool clockColumn = true;
+		uint32_t width;
+		for(uint32_t i = 0; i < Virtex2::eFarBlockTypeCount; i++) {
+			Virtex2::EFarBlockType blockType = Virtex2::EFarBlockType(i);
+			//Set first frame index to 0
+			uint32_t bitIndex = 0;
+			uint32_t xdlIndex = 0;
+			mBitColumnIndexes[i].push_back(bitIndex);
+			mXdlColumnIndexes[i].push_back(xdlIndex);
+			// build the columns
+			uint32_t farMajor = 0;
+			typedef torc::common::EncapsulatedInteger<uint16_t> ColumnIndex;
+			if(clockColumn) {
+			  width = mColumnDefs[eColumnTypeClock][i];
+			  clockColumn = false;
+			  for(uint32_t farMinor = 0; farMinor < width; farMinor++) {
+				  Virtex2::FrameAddress far(blockType, farMajor, farMinor);
+				  mFrameIndexToAddress[frameIndex] = far;
+				  mFrameAddressToIndex[far] = frameIndex;
+				  frameIndex++;
+			  }
+			  if(width > 0) farMajor++;
+			  frameCount += width;
+			}
+			for(ColumnIndex col; col < mDeviceInfo.getColCount(); col++) {
+				if(mDeviceInfo.getColumnTypes()[col] == eColumnTypeClock)
+				  continue;
+				else
+				  width = mColumnDefs[mDeviceInfo.getColumnTypes()[col]][i];
+				for(uint32_t farMinor = 0; farMinor < width; farMinor++) {
+					Virtex2::FrameAddress far(blockType, farMajor, farMinor);
+					mFrameIndexToAddress[frameIndex] = far;
+					mFrameAddressToIndex[far] = frameIndex;
+					frameIndex++;
+				}
+				if(width > 0) farMajor++;
+				frameCount += width;
+
+				//Indexes for Bitstream Columns, only stores non-empty tile types
+				if(mDeviceInfo.getColumnTypes()[col] != Virtex2::eColumnTypeEmpty) {
+				  bitIndex += width;
+				  mBitColumnIndexes[i].push_back(bitIndex);
+				}
+				//Indexes for XDL Columns, stores interconnect and tile indexes for
+				//non-empty tiles
+				xdlIndex += width;
+				mXdlColumnIndexes[i].push_back(xdlIndex);
+			}
+		}
+		//Test to check proper indexing
+		bool debug = false;
+		if (debug) {
+  		  for(uint32_t i = 0; i < Virtex2::eFarBlockTypeCount; i++) {
+  			for(uint32_t j = 0; j < mBitColumnIndexes[i].size(); j++) 
+			  std::cout << "Bit Value at index: (" << i << ", " << j << ") : " << mBitColumnIndexes[i][j] << std::endl;
+			for(uint32_t k = 0; k < mXdlColumnIndexes[i].size(); k++)
+			  std::cout << "Xdl Value at index: (" << i << ", " << k << ") : " << mXdlColumnIndexes[i][k] << std::endl;
+		  }
+		}
 	}
 
 

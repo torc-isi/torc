@@ -39,8 +39,6 @@ namespace router {
 		typedef std::vector<RouteTreeNode*>::iterator RouteTreeNodeIterator;
 	protected:
 	// members
-		/// \brief Depth from parent with no parent.
-		boost::int32_t mDepth;
 		/// \brief Pointer to a child node that is the only one.
 		RouteTreeNode* mOnlyChild;
 		/// \brief Pointer to a vector of child nodes that is dynamically allocated.
@@ -48,11 +46,13 @@ namespace router {
 	public:
 	// constructors
 		/// \brief Null Constructor.
-		RouteTreeNode() : RouteNode(), mDepth(0), mOnlyChild(0), mChildren(0) {}
+		//RouteTreeNode() : RouteNode(), mDepth(0), mOnlyChild(0), mChildren(0) {}
+		RouteTreeNode() : RouteNode(), mOnlyChild(0), mChildren(0) {}
 		/// \brief Public Constructor.
 		RouteTreeNode(Tilewire inSource, Tilewire inSink, boost::int32_t inCost, 
 			RouteTreeNode* inParent)
-			: RouteNode(inSource, inSink, inCost, inParent), mOnlyChild(0), mChildren(0) {
+			: RouteNode(inSource, inSink, inCost, inCost, 0, inParent), mOnlyChild(0), 
+			mChildren(0) {
 			if (inParent != 0) {
 				mDepth = inParent->getDepth() + 1;
 			} else {
@@ -61,7 +61,7 @@ namespace router {
 		}
 		/// \brief Public Constructor.
 		RouteTreeNode(Arc inArc, boost::int32_t inCost, RouteTreeNode* inParent)
-			: RouteNode(inArc, inCost, inParent), mOnlyChild(0), mChildren(0) {
+			: RouteNode(inArc, inCost, inCost, 0, inParent), mOnlyChild(0), mChildren(0) {
 			if (inParent != 0) {
 				mDepth = inParent->getDepth() + 1;
 			} else {
@@ -81,8 +81,6 @@ namespace router {
 	// accessors
 		
 	// functions
-		/// \brief Get the depth of this node from the node with no parent.
-		inline boost::int32_t getDepth() const { return mDepth; }
 		/// \brief Add children to the node.
 		void addChildren(const std::vector<RouteTreeNode*>& newChildren) {
 			boost::uint32_t size = newChildren.size();

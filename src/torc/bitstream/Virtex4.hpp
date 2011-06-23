@@ -20,16 +20,25 @@
 #define TORC_BITSTREAM_VIRTEX4_HPP
 
 #include <boost/integer.hpp>
+#include <boost/filesystem.hpp>
 #include "torc/bitstream/VirtexBitstream.hpp"
+
+namespace torc { namespace architecture { class DDB; } }
 
 namespace torc {
 namespace bitstream {
 
 namespace bitstream { class bitstream_virtex4; }
+namespace bitstream { class bitstream_virtex4_far; }
+namespace bitstream { void testVirtex4Device(const std::string& inDeviceName, 
+	const boost::filesystem::path& inWorkingPath); }
 
 	/// \brief Virtex4 bitstream.
 	class Virtex4 : public VirtexBitstream {
 		friend class torc::bitstream::bitstream::bitstream_virtex4;
+		friend class torc::bitstream::bitstream::bitstream_virtex4_far;
+		friend void torc::bitstream::bitstream::testVirtex4Device(const std::string& inDeviceName, 
+			const boost::filesystem::path& inWorkingPath);
 	protected:
 	// typedefs
 		/// \brief Imported type name.
@@ -64,6 +73,16 @@ namespace bitstream { class bitstream_virtex4; }
 		/// \brief Frame Address Register block type constants.
 		enum EFarBlockType { eFarBlockType0 = 0, eFarBlockType1, eFarBlockType2, eFarBlockType3, 
 			eFarBlockType4, eFarBlockType5, eFarBlockType6, eFarBlockType7, eFarBlockTypeCount };
+		/// \brief Major column types.
+		/// \details These are defined and used for internal purposes only, and are not derived 
+		///		from any Xilinx documentation.
+		enum EColumnType { eColumnTypeEmpty = 0, eColumnTypeBram, eColumnTypeClb, eColumnTypeClock,
+			eColumnTypeDsp, eColumnTypeGtx, eColumnTypeIob, eColumnTypeCount };
+		/// \brief Frame length.
+		/// \details Constant frame length of 41 32-bit words for the entire Virtex5 family.
+		/// \see Virtex-4 Frame Count, Frame Length, Overhead and Bitstream Size: UG071, v.1.10, 
+		///		April 8, 2008, Table 7-1.
+		enum { eFrameLength = 41 };
 	protected:
 	// members
 //		/// \brief Configuration controller registers.
@@ -85,13 +104,45 @@ namespace bitstream { class bitstream_virtex4; }
 		/// \brief Control Mask Register (MASK) subfields.
 		static const Subfield sMASK[];
 	public:
+	// constructors
+		/// \brief Basic constructor.
+		Virtex4(void) : VirtexBitstream() {
+//			for(int i = 0; i < eRegisterCount; i++) mRegister[i] = 0;
+			// initialize the column type widths for this family
+			mColumnDefs.resize(eColumnTypeCount);
+			mColumnDefs[eColumnTypeEmpty] 	= ColumnDef("Empty",    0,  0,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeBram]	= ColumnDef("Bram",     0, 20, 64,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeClb]		= ColumnDef("Clb",     22,  0,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeClock] 	= ColumnDef("Clock",    3,  0,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeDsp]		= ColumnDef("Dsp",     21,  0,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeGtx]		= ColumnDef("Gtx",     20,  0,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeIob]		= ColumnDef("Iob",     30,  0,  0,  0,  0,  0,  0,  0);
+			// map type type names to column types
+			mTileTypeNameToColumnType["BRAM"]		= eColumnTypeBram;
+			mTileTypeNameToColumnType["CLB"]		= eColumnTypeClb;
+			mTileTypeNameToColumnType["CLKV_DCM_T"]	= eColumnTypeClock;
+			mTileTypeNameToColumnType["DSP"]		= eColumnTypeDsp;
+			mTileTypeNameToColumnType["MGT_AL"]		= eColumnTypeGtx;
+			mTileTypeNameToColumnType["MGT_BL"]		= eColumnTypeGtx;
+			mTileTypeNameToColumnType["MGT_AR"]		= eColumnTypeGtx;
+			mTileTypeNameToColumnType["MGT_BR"]		= eColumnTypeGtx;
+			mTileTypeNameToColumnType["IOIS_LC"]	= eColumnTypeIob;
+			mTileTypeNameToColumnType["IOIS_LC_L"]	= eColumnTypeIob;
+			mTileTypeNameToColumnType["IOIS_NC"]	= eColumnTypeIob;
+			mTileTypeNameToColumnType["IOIS_NC_L"]	= eColumnTypeIob;
+		}
+	// functions
+		/// \brief Return the masked value for a subfield of the specified register.
 		static uint32_t makeSubfield(ERegister inRegister, const std::string& inSubfield, 
 			const std::string& inSetting);
-//	// constructors
-//		/// \brief Basic constructor.
-//		Virtex4(void) : VirtexBitstream() {
-//			for(int i = 0; i < eRegisterCount; i++) mRegister[i] = 0;
-//		}
+		/// \brief Initialize the device information.
+		virtual void initializeDeviceInfo(const std::string& inDeviceName);
+		/// \brief Initialize the maps between frame indexes and frame addresses.
+		/// \detail This is generally only useful for internal purposes.
+		void initializeFrameMaps(void);
+	// accessors
+		/// \brief Return the frame length for the current device.
+		virtual uint32_t getFrameLength(void) const { return eFrameLength; }
 	// inserters
 		/// \brief Insert the bitstream header into an output stream.
 		friend std::ostream& operator<< (std::ostream& os, const Virtex4& rhs);
@@ -142,6 +193,23 @@ namespace bitstream { class bitstream_virtex4; }
 			//		((mMinor << eFarShiftMinor) & eFarMaskMinor);
 			//}
 		};
+	protected:
+	// typedefs
+		/// \brief Map from frame index to frame address.
+		typedef std::map<uint32_t, Virtex4::FrameAddress> FrameIndexToAddress;
+		/// \brief Map from frame address to frame index.
+		typedef std::map<Virtex4::FrameAddress, uint32_t> FrameAddressToIndex;
+		/// \brief Array of vectors to store frame indexes of each block type
+		typedef std::vector<uint32_t> ColumnIndexVector;
+	// members
+		/// \brief Map of frame indexes to frame addresses.
+		FrameIndexToAddress mFrameIndexToAddress;
+		/// \brief Map of frame addressee to frame indexes.
+		FrameAddressToIndex mFrameAddressToIndex;
+		/// \brief Vector to store frame indexes of XDL columns.
+		ColumnIndexVector mBitColumnIndexes [Virtex4::eFarBlockTypeCount];
+		/// \brief Vector to store frame indexes of Bitstream columns.
+		ColumnIndexVector mXdlColumnIndexes [Virtex4::eFarBlockTypeCount];
 	};
 
 } // namespace bitstream

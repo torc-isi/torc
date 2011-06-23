@@ -20,16 +20,26 @@
 #define TORC_BITSTREAM_SPARTAN3E_HPP
 
 #include <boost/integer.hpp>
+#include <boost/filesystem.hpp>
 #include "torc/bitstream/SpartanBitstream.hpp"
+#include <map>
+
+namespace torc { namespace architecture { class DDB; } }
 
 namespace torc {
 namespace bitstream {
 
 namespace bitstream { class bitstream_spartan3e; }
+namespace bitstream { class bitstream_spartan3e_far; }
+namespace bitstream { void testSpartan3EDevice(const std::string& inDeviceName, 
+	const boost::filesystem::path& inWorkingPath); }
 
 	/// \brief Spartan3E bitstream.
 	class Spartan3E : public SpartanBitstream {
 		friend class torc::bitstream::bitstream::bitstream_spartan3e;
+		friend class torc::bitstream::bitstream::bitstream_spartan3e_far;
+		friend void torc::bitstream::bitstream::testSpartan3EDevice(const std::string& inDeviceName, 
+			const boost::filesystem::path& inWorkingPath);
 	protected:
 	// typedefs
 		/// \brief Imported type name.
@@ -62,6 +72,11 @@ namespace bitstream { class bitstream_spartan3e; }
 		/// \brief Frame Address Register block type constants.
 		enum EFarBlockType { eFarBlockType0 = 0, eFarBlockType1, eFarBlockType2, eFarBlockType3, 
 			eFarBlockType4, eFarBlockType5, eFarBlockType6, eFarBlockType7, eFarBlockTypeCount };
+		/// \brief Major column types.
+		/// \details These are defined and used for internal purposes only, and are not derived 
+		///		from any Xilinx documentation.
+		enum EColumnType { eColumnTypeEmpty = 0, eColumnTypeBram, eColumnTypeBramInt, eColumnTypeClb,
+		 	 eColumnTypeClock, eColumnTypeClockLL, eColumnTypeTerm, eColumnTypeIob, eColumnTypeCount };
 	protected:
 	// members
 //		/// \brief Configuration controller registers.
@@ -83,8 +98,41 @@ namespace bitstream { class bitstream_spartan3e; }
 		/// \brief Control Mask Register (MASK) subfields.
 		static const Subfield sMASK[];
 	public:
+	// constructors
+		/// \brief Basic constructor.
+		Spartan3E(void) : SpartanBitstream() {
+//			for(int i = 0; i < eRegisterCount; i++) mRegister[i] = 0;
+			// initialize the column type widths for this family
+			mColumnDefs.resize(eColumnTypeCount);
+			mColumnDefs[eColumnTypeEmpty] 	= ColumnDef("Empty",    0,  0,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeBram]	= ColumnDef("Bram",     0, 76,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeBramInt]	= ColumnDef("BramInt",  0,  0, 19,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeClb]		= ColumnDef("Clb",     19,  0,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeClock] 	= ColumnDef("Clock",    3,  0,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeClockLL] = ColumnDef("ClockLL",  4,  0,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeIob]		= ColumnDef("Iob",     19,  0,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeTerm]	= ColumnDef("Term",     2,  0,  0,  0,  0,  0,  0,  0);
+			// map type type names to column types
+			mTileTypeNameToColumnType["BRAMSITE2"]		= eColumnTypeBram;
+			mTileTypeNameToColumnType["BRAM3_SMALL"]	= eColumnTypeBramInt;
+			mTileTypeNameToColumnType["CENTER_SMALL"]	= eColumnTypeClb;
+			mTileTypeNameToColumnType["CLKV"]			= eColumnTypeClock;
+			mTileTypeNameToColumnType["CLKV_LL"]		= eColumnTypeClockLL;
+			mTileTypeNameToColumnType["LIOIS"]			= eColumnTypeIob;
+			mTileTypeNameToColumnType["RIOIS"]			= eColumnTypeIob;
+			mTileTypeNameToColumnType["LTERM"]			= eColumnTypeTerm;
+			mTileTypeNameToColumnType["RTERM"]			= eColumnTypeTerm;
+		}
+	// functions
+		/// \brief Return the masked value for a subfield of the specified register.
 		static uint32_t makeSubfield(ERegister inRegister, const std::string& inSubfield, 
 			const std::string& inSetting);
+	// functions
+		/// \brief Initialize the device information.
+		virtual void initializeDeviceInfo(const std::string& inDeviceName);
+		/// \brief Initialize the maps between frame indexes and frame addresses.
+		/// \detail This is generally only useful for internal purposes.
+		virtual void initializeFrameMaps(void);
 	// inserters
 		/// \brief Insert the bitstream header into an output stream.
 		friend std::ostream& operator<< (std::ostream& os, const Spartan3E& rhs);
@@ -98,14 +146,14 @@ namespace bitstream { class bitstream_spartan3e; }
 			}
 		public:
 			FrameAddress(void) : mColumn(0), mMajor(0), mMinor(0) {}
-			FrameAddress(uint32_t inColumn, uint32_t inMajor, uint32_t inMinor) : mColumn(inColumn),
-		 	mMajor(inMajor), mMinor(inMinor) {}
+			FrameAddress(uint32_t inColumn,	uint32_t inMajor, uint32_t inMinor) : 
+				mColumn(inColumn), mMajor(inMajor), mMinor(inMinor) {}
 			FrameAddress(uint32_t inAddress) { assign(inAddress); }
 			uint32_t mColumn;
 			uint32_t mMajor;
 			uint32_t mMinor;
 			bool operator== (const FrameAddress& rhs) const {
-				return mColumn == rhs.mColumn && mMajor == rhs.mMajor && mMinor == rhs.mMinor;
+				return  mColumn == rhs.mColumn && mMajor == rhs.mMajor && mMinor == rhs.mMinor;
 			}
 			bool operator< (const FrameAddress& rhs) const {
 				int diffColumn = mColumn - rhs.mColumn;
@@ -114,14 +162,38 @@ namespace bitstream { class bitstream_spartan3e; }
 				if(diffMajor) return diffMajor < 0;
 				return mMinor < rhs.mMinor;
 			}
-		private:
-			//operator uint32_t (void) const {
-			//	return 
-			//		((mColumn << eFarShiftColumn) & eFarMaskColumn) | 
-			//		((mMajor << eFarShiftMajor) & eFarMaskMajor) | 
-			//		((mMinor << eFarShiftMinor) & eFarMaskMinor);
-			//}
 		};
+	// accessors
+		virtual uint32_t getFrameLength(void) const {
+			using namespace torc::common;
+			// lengths obtained directly from bitstream Frame Length Register
+			switch(mDevice) {
+				case eXC3S100E: return 49;
+				case eXC3S250E: return 73;
+				case eXC3S500E: return 97;
+				case eXC3S1200E: return 125;
+				case eXC3S1600E: return 157;
+				default: return 0;
+			}
+		}
+	protected:
+	// typedefs
+		/// \brief Map from frame index to frame address.
+		typedef std::map<uint32_t, Spartan3E::FrameAddress> FrameIndexToAddress;
+		/// \brief Map from frame address to frame index.
+		typedef std::map<Spartan3E::FrameAddress, uint32_t> FrameAddressToIndex;
+		/// \brief Array of vectors to store frame indexes of each block type
+		typedef std::vector<uint32_t> ColumnIndexVector;
+
+	// members
+		/// \brief Map of frame indexes to frame addresses.
+		FrameIndexToAddress mFrameIndexToAddress;
+		/// \brief Map of frame addressee to frame indexes.
+		FrameAddressToIndex mFrameAddressToIndex;
+		/// \brief Vector to store frame indexes of XDL columns.
+		ColumnIndexVector mBitColumnIndexes [Spartan3E::eFarBlockTypeCount];
+		/// \brief Vector to store frame indexes of Bitstream columns.
+		ColumnIndexVector mXdlColumnIndexes [Spartan3E::eFarBlockTypeCount];
 	};
 
 } // namespace bitstream

@@ -45,6 +45,9 @@
 		121037AA11F4AEB30084499C /* TilewireUnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 121037A811F4AEB30084499C /* TilewireUnitTest.cpp */; };
 		121037B411F4AEC80084499C /* Tilewire.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 121037B211F4AEC80084499C /* Tilewire.cpp */; };
 		121037EF11F4CF8D0084499C /* TilewireUnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 121037A811F4AEB30084499C /* TilewireUnitTest.cpp */; };
+		1218CD1913902A1E00E3747C /* Virtex7.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1218CD1613902A1E00E3747C /* Virtex7.cpp */; };
+		1218CD1A13902A1E00E3747C /* Virtex7UnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1218CD1813902A1E00E3747C /* Virtex7UnitTest.cpp */; };
+		1218CEDE13903FA800E3747C /* Virtex7DeviceInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1218CEDD13903FA800E3747C /* Virtex7DeviceInfo.cpp */; };
 		122115721284B1F600637489 /* Nameable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 122115701284B1F600637489 /* Nameable.cpp */; };
 		122115731284B1F600637489 /* Nameable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 122115701284B1F600637489 /* Nameable.cpp */; };
 		122D617312FE4526004181A1 /* Virtex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 122D616012FE4526004181A1 /* Virtex.cpp */; };
@@ -431,6 +434,35 @@
 		127B5300129D621500AEC74D /* TraceRegressionTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 127B52FC129D621500AEC74D /* TraceRegressionTest.cpp */; };
 		127B5301129D621500AEC74D /* TraceUnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 127B52FD129D621500AEC74D /* TraceUnitTest.cpp */; };
 		127B55A0129DCA7900AEC74D /* Placer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 127B559E129DCA7900AEC74D /* Placer.cpp */; };
+		127C475713954C8D00733844 /* Spartan3EDeviceInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 127C474D13954C8D00733844 /* Spartan3EDeviceInfo.cpp */; };
+		127C476513954D5500733844 /* Placement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 127C476113954D5500733844 /* Placement.cpp */; };
+		127C48F213996DB400733844 /* FrameUnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 127C48F113996DB400733844 /* FrameUnitTest.cpp */; };
+		127C4F0D139D88A900733844 /* FrameSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 127C4F0A139D88A900733844 /* FrameSet.cpp */; };
+		127C4F0E139D88A900733844 /* FrameSetUnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 127C4F0C139D88A900733844 /* FrameSetUnitTest.cpp */; };
+		127C4F15139D8AF100733844 /* Spartan6Bitstream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 127C4F0F139D8AF100733844 /* Spartan6Bitstream.cpp */; settings = {COMPILER_FLAGS = "-Wno-conversion"; }; };
+		127C4F16139D8AF100733844 /* Spartan6BitstreamUnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 127C4F11139D8AF100733844 /* Spartan6BitstreamUnitTest.cpp */; };
+		127C4F17139D8AF100733844 /* Spartan6Packet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 127C4F12139D8AF100733844 /* Spartan6Packet.cpp */; };
+		127C4F18139D8AF100733844 /* Spartan6PacketUnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 127C4F14139D8AF100733844 /* Spartan6PacketUnitTest.cpp */; };
+		127C4FDE139EB34800733844 /* SiteTypesUnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 127C4FDD139EB34800733844 /* SiteTypesUnitTest.cpp */; };
+		127C50CA139FC02800733844 /* BitstreamExample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 126A4DB01315662600C2C1A9 /* BitstreamExample.cpp */; };
+		127C531013A26E1900733844 /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FD634E13184EB700352331 /* Component.cpp */; };
+		127C531213A26E4200733844 /* CombinationalPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FD634C13184EB700352331 /* CombinationalPath.cpp */; };
+		127C531313A26E4200733844 /* Connection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FD635013184EB700352331 /* Connection.cpp */; };
+		127C531413A26E4200733844 /* ConnectionPin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FD635213184EB700352331 /* ConnectionPin.cpp */; };
+		127C531513A26E4200733844 /* Element.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FD635413184EB700352331 /* Element.cpp */; };
+		127C531613A26E4200733844 /* ParsePrimitive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FD635713184EB700352331 /* ParsePrimitive.cpp */; };
+		127C531713A26E4200733844 /* Primitive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FD635913184EB700352331 /* Primitive.cpp */; };
+		127C531813A26E4200733844 /* PrimitivePin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FD635B13184EB700352331 /* PrimitivePin.cpp */; };
+		127C531913A26E4200733844 /* PrimitiveSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FD635D13184EB700352331 /* PrimitiveSet.cpp */; };
+		127C531A13A26E4200733844 /* RcFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FD635F13184EB700352331 /* RcFactory.cpp */; };
+		127C531B13A26E4200733844 /* RoutingNet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FD636113184EB700352331 /* RoutingNet.cpp */; };
+		127C531D13A26E4200733844 /* WritePrimitive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FD636413184EB700352331 /* WritePrimitive.cpp */; };
+		127C531E13A26E4200733844 /* XdlUnpack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FD636613184EB700352331 /* XdlUnpack.cpp */; };
+		127C531F13A26E4200733844 /* XdlUnpackUnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FD636813184EB700352331 /* XdlUnpackUnitTest.cpp */; };
+		127C56D113A7A88900733844 /* Annotated.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 127C56CB13A7A88900733844 /* Annotated.cpp */; };
+		127C56D213A7A88900733844 /* AnnotatedUnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 127C56CD13A7A88900733844 /* AnnotatedUnitTest.cpp */; };
+		127C56D313A7A88900733844 /* Renamable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 127C56CE13A7A88900733844 /* Renamable.cpp */; };
+		127C56D413A7A88900733844 /* RenamableUnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 127C56D013A7A88900733844 /* RenamableUnitTest.cpp */; };
 		127DEB2711E7D83E007E1A8F /* DirectoryTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123676C911E52C560034B204 /* DirectoryTree.cpp */; };
 		127DEB2B11E7D83E007E1A8F /* TestHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123676D011E52C560034B204 /* TestHelpers.cpp */; };
 		127DEB2C11E7D83E007E1A8F /* Circuit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123676D511E52C560034B204 /* Circuit.cpp */; };
@@ -464,6 +496,8 @@
 		127DF15711EFF074007E1A8F /* InstancePinUnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 123676E811E52C560034B204 /* InstancePinUnitTest.cpp */; };
 		127DF18A11EFF1A1007E1A8F /* InstanceReferenceUnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 127DF18911EFF1A1007E1A8F /* InstanceReferenceUnitTest.cpp */; };
 		127DF1C311EFF6BF007E1A8F /* ModuleUnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 127DF1C211EFF6BF007E1A8F /* ModuleUnitTest.cpp */; };
+		1285E40013840C3200A709A5 /* Spartan6BuildHelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1285E3FD13840C3200A709A5 /* Spartan6BuildHelper.cpp */; };
+		1285E40113840C3200A709A5 /* Spartan6BuildHelperUnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1285E3FF13840C3200A709A5 /* Spartan6BuildHelperUnitTest.cpp */; };
 		129A8C2A12119122002235AB /* XdlImporter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 129A8C2712119122002235AB /* XdlImporter.cpp */; };
 		129A8C2B12119122002235AB /* XdlImporterUnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 129A8C2912119122002235AB /* XdlImporterUnitTest.cpp */; };
 		129A8C2C12119122002235AB /* XdlImporter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 129A8C2712119122002235AB /* XdlImporter.cpp */; };
@@ -499,12 +533,19 @@
 		129AA25A12288020002235AB /* uncompr.c in Sources */ = {isa = PBXBuildFile; fileRef = 12F003E011F8EDA100EECA0E /* uncompr.c */; settings = {COMPILER_FLAGS = "-Wno-conversion"; }; };
 		129AA25B12288020002235AB /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = 12F003FA11F8EDA100EECA0E /* zutil.c */; settings = {COMPILER_FLAGS = "-Wno-conversion"; }; };
 		129AABBE122C935D002235AB /* Om1UnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 129AABBD122C935D002235AB /* Om1UnitTest.cpp */; settings = {COMPILER_FLAGS = "-Wno-error"; }; };
+		12BEDBDB133A91E900F3507C /* Virtex6DeviceInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12BEDBD9133A91E900F3507C /* Virtex6DeviceInfo.cpp */; };
+		12BEE0B313609A2900F3507C /* Frame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12BEE0B113609A2900F3507C /* Frame.cpp */; };
+		12BEE10F1360A45200F3507C /* Virtex2DeviceInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12BEE10A1360A45200F3507C /* Virtex2DeviceInfo.cpp */; };
+		12BEE1101360A45200F3507C /* Virtex2PDeviceInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12BEE10B1360A45200F3507C /* Virtex2PDeviceInfo.cpp */; };
+		12BEE1111360A45200F3507C /* Virtex4DeviceInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12BEE10C1360A45200F3507C /* Virtex4DeviceInfo.cpp */; };
+		12BEE1121360A45200F3507C /* VirtexDeviceInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12BEE10D1360A45200F3507C /* VirtexDeviceInfo.cpp */; };
+		12BEE1131360A45200F3507C /* VirtexEDeviceInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12BEE10E1360A45200F3507C /* VirtexEDeviceInfo.cpp */; };
 		12C699B2125A695F00ED164E /* Virtex5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12C7D0FB1256615400D191B9 /* Virtex5.cpp */; };
 		12C699CE125A7D1F00ED164E /* Virtex5UnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12C699CD125A7D1F00ED164E /* Virtex5UnitTest.cpp */; };
 		12C69AE2125BA7A400ED164E /* VirtexPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12C69ADF125BA7A400ED164E /* VirtexPacket.cpp */; };
 		12C69AE3125BA7A400ED164E /* VirtexPacketUnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12C69AE1125BA7A400ED164E /* VirtexPacketUnitTest.cpp */; };
 		12C69BF0125D044300ED164E /* OutputStreamHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12C69BEE125D044300ED164E /* OutputStreamHelpers.cpp */; };
-		12C6A006125E7C2700ED164E /* VirtexBitstream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12C6A003125E7C2700ED164E /* VirtexBitstream.cpp */; };
+		12C6A006125E7C2700ED164E /* VirtexBitstream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12C6A003125E7C2700ED164E /* VirtexBitstream.cpp */; settings = {COMPILER_FLAGS = "-Wno-conversion"; }; };
 		12C6A007125E7C2700ED164E /* VirtexBitstreamUnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12C6A005125E7C2700ED164E /* VirtexBitstreamUnitTest.cpp */; };
 		12C6A12C125FA43300ED164E /* Virtex4UnitTest.reference.bit in Copy Regression Test Files */ = {isa = PBXBuildFile; fileRef = 12C6A12B125FA13000ED164E /* Virtex4UnitTest.reference.bit */; };
 		12C6A12D125FA43300ED164E /* Virtex5UnitTest.reference.bit in Copy Regression Test Files */ = {isa = PBXBuildFile; fileRef = 12C6A12A125FA12B00ED164E /* Virtex5UnitTest.reference.bit */; };
@@ -605,11 +646,7 @@
 		12F5B10B13045B740095DABA /* Spartan3EUnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12F5B0F813045B740095DABA /* Spartan3EUnitTest.cpp */; };
 		12F5B10C13045B740095DABA /* Spartan6.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12F5B0FA13045B740095DABA /* Spartan6.cpp */; };
 		12F5B10D13045B740095DABA /* Spartan6UnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12F5B0FC13045B740095DABA /* Spartan6UnitTest.cpp */; };
-		12F5B10E13045B740095DABA /* Spartan16Bitstream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12F5B0FE13045B740095DABA /* Spartan16Bitstream.cpp */; };
-		12F5B10F13045B740095DABA /* Spartan16BitstreamUnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12F5B10013045B740095DABA /* Spartan16BitstreamUnitTest.cpp */; };
-		12F5B11013045B740095DABA /* Spartan16Packet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12F5B10113045B740095DABA /* Spartan16Packet.cpp */; };
-		12F5B11113045B740095DABA /* Spartan16PacketUnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12F5B10313045B740095DABA /* Spartan16PacketUnitTest.cpp */; };
-		12F5B11213045B740095DABA /* SpartanBitstream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12F5B10413045B740095DABA /* SpartanBitstream.cpp */; };
+		12F5B11213045B740095DABA /* SpartanBitstream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12F5B10413045B740095DABA /* SpartanBitstream.cpp */; settings = {COMPILER_FLAGS = "-Wno-conversion"; }; };
 		12F5B11313045B740095DABA /* SpartanBitstreamUnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12F5B10613045B740095DABA /* SpartanBitstreamUnitTest.cpp */; };
 		12F5B11413045B740095DABA /* SpartanPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12F5B10713045B740095DABA /* SpartanPacket.cpp */; };
 		12F5B11513045B740095DABA /* SpartanPacketUnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12F5B10913045B740095DABA /* SpartanPacketUnitTest.cpp */; };
@@ -698,27 +735,6 @@
 		12F5B5F41304DBF40095DABA /* xc5vsx95t.debug.bit in Copy Debug Bitstream Test Files */ = {isa = PBXBuildFile; fileRef = 12F5B5631304DBC50095DABA /* xc5vsx95t.debug.bit */; };
 		12F5B5F51304DBF40095DABA /* xc5vtx150t.debug.bit in Copy Debug Bitstream Test Files */ = {isa = PBXBuildFile; fileRef = 12F5B5641304DBC50095DABA /* xc5vtx150t.debug.bit */; };
 		12F5B5F61304DBF40095DABA /* xc5vtx240t.debug.bit in Copy Debug Bitstream Test Files */ = {isa = PBXBuildFile; fileRef = 12F5B5651304DBC50095DABA /* xc5vtx240t.debug.bit */; };
-		12F5B5F71304DBF40095DABA /* xc6slx100.debug.bit in Copy Debug Bitstream Test Files */ = {isa = PBXBuildFile; fileRef = 12F5B5661304DBC50095DABA /* xc6slx100.debug.bit */; };
-		12F5B5F81304DBF40095DABA /* xc6slx100l.debug.bit in Copy Debug Bitstream Test Files */ = {isa = PBXBuildFile; fileRef = 12F5B5671304DBC50095DABA /* xc6slx100l.debug.bit */; };
-		12F5B5F91304DBF40095DABA /* xc6slx100t.debug.bit in Copy Debug Bitstream Test Files */ = {isa = PBXBuildFile; fileRef = 12F5B5681304DBC50095DABA /* xc6slx100t.debug.bit */; };
-		12F5B5FA1304DBF40095DABA /* xc6slx150.debug.bit in Copy Debug Bitstream Test Files */ = {isa = PBXBuildFile; fileRef = 12F5B5691304DBC50095DABA /* xc6slx150.debug.bit */; };
-		12F5B5FB1304DBF40095DABA /* xc6slx150l.debug.bit in Copy Debug Bitstream Test Files */ = {isa = PBXBuildFile; fileRef = 12F5B56A1304DBC50095DABA /* xc6slx150l.debug.bit */; };
-		12F5B5FC1304DBF40095DABA /* xc6slx150t.debug.bit in Copy Debug Bitstream Test Files */ = {isa = PBXBuildFile; fileRef = 12F5B56B1304DBC50095DABA /* xc6slx150t.debug.bit */; };
-		12F5B5FD1304DBF40095DABA /* xc6slx16.debug.bit in Copy Debug Bitstream Test Files */ = {isa = PBXBuildFile; fileRef = 12F5B56C1304DBC50095DABA /* xc6slx16.debug.bit */; };
-		12F5B5FE1304DBF40095DABA /* xc6slx16l.debug.bit in Copy Debug Bitstream Test Files */ = {isa = PBXBuildFile; fileRef = 12F5B56D1304DBC50095DABA /* xc6slx16l.debug.bit */; };
-		12F5B5FF1304DBF40095DABA /* xc6slx25.debug.bit in Copy Debug Bitstream Test Files */ = {isa = PBXBuildFile; fileRef = 12F5B56E1304DBC50095DABA /* xc6slx25.debug.bit */; };
-		12F5B6001304DBF40095DABA /* xc6slx25l.debug.bit in Copy Debug Bitstream Test Files */ = {isa = PBXBuildFile; fileRef = 12F5B56F1304DBC50095DABA /* xc6slx25l.debug.bit */; };
-		12F5B6011304DBF40095DABA /* xc6slx25t.debug.bit in Copy Debug Bitstream Test Files */ = {isa = PBXBuildFile; fileRef = 12F5B5701304DBC50095DABA /* xc6slx25t.debug.bit */; };
-		12F5B6021304DBF40095DABA /* xc6slx4.debug.bit in Copy Debug Bitstream Test Files */ = {isa = PBXBuildFile; fileRef = 12F5B5711304DBC50095DABA /* xc6slx4.debug.bit */; };
-		12F5B6031304DBF40095DABA /* xc6slx45.debug.bit in Copy Debug Bitstream Test Files */ = {isa = PBXBuildFile; fileRef = 12F5B5721304DBC50095DABA /* xc6slx45.debug.bit */; };
-		12F5B6041304DBF40095DABA /* xc6slx45l.debug.bit in Copy Debug Bitstream Test Files */ = {isa = PBXBuildFile; fileRef = 12F5B5731304DBC50095DABA /* xc6slx45l.debug.bit */; };
-		12F5B6051304DBF40095DABA /* xc6slx45t.debug.bit in Copy Debug Bitstream Test Files */ = {isa = PBXBuildFile; fileRef = 12F5B5741304DBC50095DABA /* xc6slx45t.debug.bit */; };
-		12F5B6061304DBF40095DABA /* xc6slx4l.debug.bit in Copy Debug Bitstream Test Files */ = {isa = PBXBuildFile; fileRef = 12F5B5751304DBC50095DABA /* xc6slx4l.debug.bit */; };
-		12F5B6071304DBF40095DABA /* xc6slx75.debug.bit in Copy Debug Bitstream Test Files */ = {isa = PBXBuildFile; fileRef = 12F5B5761304DBC50095DABA /* xc6slx75.debug.bit */; };
-		12F5B6081304DBF40095DABA /* xc6slx75l.debug.bit in Copy Debug Bitstream Test Files */ = {isa = PBXBuildFile; fileRef = 12F5B5771304DBC50095DABA /* xc6slx75l.debug.bit */; };
-		12F5B6091304DBF40095DABA /* xc6slx75t.debug.bit in Copy Debug Bitstream Test Files */ = {isa = PBXBuildFile; fileRef = 12F5B5781304DBC50095DABA /* xc6slx75t.debug.bit */; };
-		12F5B60A1304DBF40095DABA /* xc6slx9.debug.bit in Copy Debug Bitstream Test Files */ = {isa = PBXBuildFile; fileRef = 12F5B5791304DBC50095DABA /* xc6slx9.debug.bit */; };
-		12F5B60B1304DBF40095DABA /* xc6slx9l.debug.bit in Copy Debug Bitstream Test Files */ = {isa = PBXBuildFile; fileRef = 12F5B57A1304DBC50095DABA /* xc6slx9l.debug.bit */; };
 		12F5B60C1304DBF40095DABA /* xc6vcx130t.debug.bit in Copy Debug Bitstream Test Files */ = {isa = PBXBuildFile; fileRef = 12F5B57B1304DBC50095DABA /* xc6vcx130t.debug.bit */; };
 		12F5B60D1304DBF40095DABA /* xc6vcx195t.debug.bit in Copy Debug Bitstream Test Files */ = {isa = PBXBuildFile; fileRef = 12F5B57C1304DBC50095DABA /* xc6vcx195t.debug.bit */; };
 		12F5B60E1304DBF40095DABA /* xc6vcx240t.debug.bit in Copy Debug Bitstream Test Files */ = {isa = PBXBuildFile; fileRef = 12F5B57D1304DBC50095DABA /* xc6vcx240t.debug.bit */; };
@@ -782,20 +798,6 @@
 		12FD60D7131582E200352331 /* TraceUnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 127B52FD129D621500AEC74D /* TraceUnitTest.cpp */; };
 		12FD60D8131582E300352331 /* Unrouter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12E1B2F9128899B700CE7C97 /* Unrouter.cpp */; };
 		12FD60D9131582E400352331 /* UnrouterUnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12E1B2FB128899B700CE7C97 /* UnrouterUnitTest.cpp */; };
-		12FD636A13184EB700352331 /* CombinationalPath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FD634C13184EB700352331 /* CombinationalPath.cpp */; };
-		12FD636B13184EB700352331 /* Component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FD634E13184EB700352331 /* Component.cpp */; };
-		12FD636C13184EB700352331 /* Connection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FD635013184EB700352331 /* Connection.cpp */; };
-		12FD636D13184EB700352331 /* ConnectionPin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FD635213184EB700352331 /* ConnectionPin.cpp */; };
-		12FD636E13184EB700352331 /* Element.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FD635413184EB700352331 /* Element.cpp */; };
-		12FD637013184EB700352331 /* ParsePrimitive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FD635713184EB700352331 /* ParsePrimitive.cpp */; };
-		12FD637113184EB700352331 /* Primitive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FD635913184EB700352331 /* Primitive.cpp */; };
-		12FD637213184EB700352331 /* PrimitivePin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FD635B13184EB700352331 /* PrimitivePin.cpp */; };
-		12FD637313184EB700352331 /* PrimitiveSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FD635D13184EB700352331 /* PrimitiveSet.cpp */; };
-		12FD637413184EB700352331 /* RcFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FD635F13184EB700352331 /* RcFactory.cpp */; };
-		12FD637513184EB700352331 /* RoutingNet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FD636113184EB700352331 /* RoutingNet.cpp */; };
-		12FD637713184EB700352331 /* WritePrimitive.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FD636413184EB700352331 /* WritePrimitive.cpp */; };
-		12FD637813184EB700352331 /* XdlUnpack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FD636613184EB700352331 /* XdlUnpack.cpp */; };
-		12FD637913184EB700352331 /* XdlUnpackUnitTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12FD636813184EB700352331 /* XdlUnpackUnitTest.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -890,7 +892,7 @@
 		};
 		12F0FF5911F8C2D200EECA0E /* Copy Device Database Files */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			dstPath = devices;
 			dstSubfolderSpec = 1;
 			files = (
@@ -1046,11 +1048,11 @@
 				122D627E12FE4D01004181A1 /* xc6vsx475tl.db in Copy Device Database Files */,
 			);
 			name = "Copy Device Database Files";
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 		12F5B3F31304D9990095DABA /* Copy Debug Bitstream Test Files */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			dstPath = regression;
 			dstSubfolderSpec = 1;
 			files = (
@@ -1130,27 +1132,6 @@
 				12F5B5F41304DBF40095DABA /* xc5vsx95t.debug.bit in Copy Debug Bitstream Test Files */,
 				12F5B5F51304DBF40095DABA /* xc5vtx150t.debug.bit in Copy Debug Bitstream Test Files */,
 				12F5B5F61304DBF40095DABA /* xc5vtx240t.debug.bit in Copy Debug Bitstream Test Files */,
-				12F5B5F71304DBF40095DABA /* xc6slx100.debug.bit in Copy Debug Bitstream Test Files */,
-				12F5B5F81304DBF40095DABA /* xc6slx100l.debug.bit in Copy Debug Bitstream Test Files */,
-				12F5B5F91304DBF40095DABA /* xc6slx100t.debug.bit in Copy Debug Bitstream Test Files */,
-				12F5B5FA1304DBF40095DABA /* xc6slx150.debug.bit in Copy Debug Bitstream Test Files */,
-				12F5B5FB1304DBF40095DABA /* xc6slx150l.debug.bit in Copy Debug Bitstream Test Files */,
-				12F5B5FC1304DBF40095DABA /* xc6slx150t.debug.bit in Copy Debug Bitstream Test Files */,
-				12F5B5FD1304DBF40095DABA /* xc6slx16.debug.bit in Copy Debug Bitstream Test Files */,
-				12F5B5FE1304DBF40095DABA /* xc6slx16l.debug.bit in Copy Debug Bitstream Test Files */,
-				12F5B5FF1304DBF40095DABA /* xc6slx25.debug.bit in Copy Debug Bitstream Test Files */,
-				12F5B6001304DBF40095DABA /* xc6slx25l.debug.bit in Copy Debug Bitstream Test Files */,
-				12F5B6011304DBF40095DABA /* xc6slx25t.debug.bit in Copy Debug Bitstream Test Files */,
-				12F5B6021304DBF40095DABA /* xc6slx4.debug.bit in Copy Debug Bitstream Test Files */,
-				12F5B6031304DBF40095DABA /* xc6slx45.debug.bit in Copy Debug Bitstream Test Files */,
-				12F5B6041304DBF40095DABA /* xc6slx45l.debug.bit in Copy Debug Bitstream Test Files */,
-				12F5B6051304DBF40095DABA /* xc6slx45t.debug.bit in Copy Debug Bitstream Test Files */,
-				12F5B6061304DBF40095DABA /* xc6slx4l.debug.bit in Copy Debug Bitstream Test Files */,
-				12F5B6071304DBF40095DABA /* xc6slx75.debug.bit in Copy Debug Bitstream Test Files */,
-				12F5B6081304DBF40095DABA /* xc6slx75l.debug.bit in Copy Debug Bitstream Test Files */,
-				12F5B6091304DBF40095DABA /* xc6slx75t.debug.bit in Copy Debug Bitstream Test Files */,
-				12F5B60A1304DBF40095DABA /* xc6slx9.debug.bit in Copy Debug Bitstream Test Files */,
-				12F5B60B1304DBF40095DABA /* xc6slx9l.debug.bit in Copy Debug Bitstream Test Files */,
 				12F5B60C1304DBF40095DABA /* xc6vcx130t.debug.bit in Copy Debug Bitstream Test Files */,
 				12F5B60D1304DBF40095DABA /* xc6vcx195t.debug.bit in Copy Debug Bitstream Test Files */,
 				12F5B60E1304DBF40095DABA /* xc6vcx240t.debug.bit in Copy Debug Bitstream Test Files */,
@@ -1201,7 +1182,7 @@
 				12F5B63B1304DBF40095DABA /* xcv812e.debug.bit in Copy Debug Bitstream Test Files */,
 			);
 			name = "Copy Debug Bitstream Test Files";
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -1226,6 +1207,11 @@
 		121037A811F4AEB30084499C /* TilewireUnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TilewireUnitTest.cpp; sourceTree = "<group>"; };
 		121037AF11F4AEC10084499C /* Tilewire.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Tilewire.hpp; sourceTree = "<group>"; };
 		121037B211F4AEC80084499C /* Tilewire.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tilewire.cpp; sourceTree = "<group>"; };
+		1218CD1613902A1E00E3747C /* Virtex7.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Virtex7.cpp; sourceTree = "<group>"; };
+		1218CD1713902A1E00E3747C /* Virtex7.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Virtex7.hpp; sourceTree = "<group>"; };
+		1218CD1813902A1E00E3747C /* Virtex7UnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Virtex7UnitTest.cpp; sourceTree = "<group>"; };
+		1218CE841390396200E3747C /* Virtex7DeviceInfo.template */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Virtex7DeviceInfo.template; sourceTree = "<group>"; };
+		1218CEDD13903FA800E3747C /* Virtex7DeviceInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Virtex7DeviceInfo.cpp; sourceTree = "<group>"; };
 		122115701284B1F600637489 /* Nameable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Nameable.cpp; sourceTree = "<group>"; };
 		122115711284B1F600637489 /* Nameable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Nameable.hpp; sourceTree = "<group>"; };
 		122D616012FE4526004181A1 /* Virtex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Virtex.cpp; sourceTree = "<group>"; };
@@ -1527,7 +1513,7 @@
 		12438092131460D20065F9D2 /* TraceRegressionTest.Virtex5.xdl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TraceRegressionTest.Virtex5.xdl; sourceTree = "<group>"; };
 		12438093131460D20065F9D2 /* TraceRegressionTest.VirtexTbuf.xdl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TraceRegressionTest.VirtexTbuf.xdl; sourceTree = "<group>"; };
 		124519DF1256D6F700394E7D /* Virtex4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Virtex4.cpp; sourceTree = "<group>"; };
-		125810E31291A0990053C355 /* xEdifExample */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = xEdifExample; sourceTree = BUILT_PRODUCTS_DIR; };
+		125810E31291A0990053C355 /* xDDBExample */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = xDDBExample; path = "/Volumes/project/dev/torc-isi/trunk/xcode/build/Debug/xDDBExample"; sourceTree = "<absolute>"; };
 		126A4D5713155A8300C2C1A9 /* EdifObfuscator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EdifObfuscator.cpp; sourceTree = "<group>"; };
 		126A4D6313155E7C00C2C1A9 /* Makefile.md5 */ = {isa = PBXFileReference; explicitFileType = sourcecode.make; fileEncoding = 4; name = Makefile.md5; path = externals/Makefile.md5; sourceTree = "<group>"; };
 		126A4D6513155E7C00C2C1A9 /* md5.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = md5.c; sourceTree = "<group>"; };
@@ -1536,7 +1522,7 @@
 		126A4DB1131566B200C2C1A9 /* ArchitectureExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ArchitectureExample.cpp; sourceTree = "<group>"; };
 		126A4DB2131566B200C2C1A9 /* GenericExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GenericExample.cpp; sourceTree = "<group>"; };
 		126A4DB3131566B200C2C1A9 /* PhysicalExample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PhysicalExample.cpp; sourceTree = "<group>"; };
-		126A4DCA13156FB400C2C1A9 /* Virtex5DeviceInfo.template */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Virtex5DeviceInfo.template; sourceTree = "<group>"; };
+		126A4DCA13156FB400C2C1A9 /* Virtex5DeviceInfo.template */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp; fileEncoding = 4; path = Virtex5DeviceInfo.template; sourceTree = "<group>"; };
 		126A4DDB131578B600C2C1A9 /* Common.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Common.hpp; sourceTree = "<group>"; };
 		126A4DDC131578B600C2C1A9 /* Placer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Placer.hpp; sourceTree = "<group>"; };
 		126A4DDD131578B600C2C1A9 /* Router.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Router.hpp; sourceTree = "<group>"; };
@@ -1649,16 +1635,65 @@
 		127B52FD129D621500AEC74D /* TraceUnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TraceUnitTest.cpp; sourceTree = "<group>"; };
 		127B559E129DCA7900AEC74D /* Placer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Placer.cpp; sourceTree = "<group>"; };
 		127B559F129DCA7900AEC74D /* Placer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Placer.hpp; sourceTree = "<group>"; };
+		127C473913953D4B00733844 /* Spartan3EDeviceInfo.template */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Spartan3EDeviceInfo.template; sourceTree = "<group>"; };
+		127C473A13953D4B00733844 /* Virtex2DeviceInfo.template */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Virtex2DeviceInfo.template; sourceTree = "<group>"; };
+		127C473B13953D4B00733844 /* Virtex2PDeviceInfo.template */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Virtex2PDeviceInfo.template; sourceTree = "<group>"; };
+		127C473C13953D4B00733844 /* Virtex4DeviceInfo.template */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Virtex4DeviceInfo.template; sourceTree = "<group>"; };
+		127C473D13953D4B00733844 /* VirtexDeviceInfo.template */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VirtexDeviceInfo.template; sourceTree = "<group>"; };
+		127C473E13953D4B00733844 /* VirtexEDeviceInfo.template */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VirtexEDeviceInfo.template; sourceTree = "<group>"; };
+		127C474D13954C8D00733844 /* Spartan3EDeviceInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Spartan3EDeviceInfo.cpp; sourceTree = "<group>"; };
+		127C474E13954C8D00733844 /* Spartan3EUnitTest.reference.ncd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Spartan3EUnitTest.reference.ncd; sourceTree = "<group>"; };
+		127C475813954CF300733844 /* compare.pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = compare.pl; sourceTree = "<group>"; };
+		127C475913954D3B00733844 /* DeviceSite.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DeviceSite.hpp; sourceTree = "<group>"; };
+		127C475A13954D3B00733844 /* DeviceSitePin.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DeviceSitePin.hpp; sourceTree = "<group>"; };
+		127C475B13954D3B00733844 /* DeviceSiteType.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DeviceSiteType.hpp; sourceTree = "<group>"; };
+		127C475C13954D3B00733844 /* DeviceSiteTypePin.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DeviceSiteTypePin.hpp; sourceTree = "<group>"; };
+		127C475D13954D3B00733844 /* DeviceWrapper.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DeviceWrapper.hpp; sourceTree = "<group>"; };
+		127C475E13954D5500733844 /* NetlistInstance.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NetlistInstance.hpp; sourceTree = "<group>"; };
+		127C475F13954D5500733844 /* NetlistNet.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NetlistNet.hpp; sourceTree = "<group>"; };
+		127C476013954D5500733844 /* NetlistPin.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NetlistPin.hpp; sourceTree = "<group>"; };
+		127C476113954D5500733844 /* Placement.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Placement.cpp; sourceTree = "<group>"; };
+		127C476213954D5500733844 /* Placement.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Placement.hpp; sourceTree = "<group>"; };
+		127C476313954D5500733844 /* PlacementSiteTypeMapping.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlacementSiteTypeMapping.hpp; sourceTree = "<group>"; };
+		127C476413954D5500733844 /* PlacementSiteTypeMappingVirtex5.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlacementSiteTypeMappingVirtex5.hpp; sourceTree = "<group>"; };
+		127C476613954D6600733844 /* PlacerAnnotations.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlacerAnnotations.hpp; sourceTree = "<group>"; };
+		127C476713954D6600733844 /* PlacerHeuristicBase.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlacerHeuristicBase.hpp; sourceTree = "<group>"; };
+		127C476813954D6600733844 /* PlacerNetlist.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlacerNetlist.hpp; sourceTree = "<group>"; };
+		127C48F113996DB400733844 /* FrameUnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FrameUnitTest.cpp; sourceTree = "<group>"; };
+		127C4F0A139D88A900733844 /* FrameSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FrameSet.cpp; sourceTree = "<group>"; };
+		127C4F0B139D88A900733844 /* FrameSet.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FrameSet.hpp; sourceTree = "<group>"; };
+		127C4F0C139D88A900733844 /* FrameSetUnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FrameSetUnitTest.cpp; sourceTree = "<group>"; };
+		127C4F0F139D8AF100733844 /* Spartan6Bitstream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Spartan6Bitstream.cpp; sourceTree = "<group>"; };
+		127C4F10139D8AF100733844 /* Spartan6Bitstream.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Spartan6Bitstream.hpp; sourceTree = "<group>"; };
+		127C4F11139D8AF100733844 /* Spartan6BitstreamUnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Spartan6BitstreamUnitTest.cpp; sourceTree = "<group>"; };
+		127C4F12139D8AF100733844 /* Spartan6Packet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Spartan6Packet.cpp; sourceTree = "<group>"; };
+		127C4F13139D8AF100733844 /* Spartan6Packet.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Spartan6Packet.hpp; sourceTree = "<group>"; };
+		127C4F14139D8AF100733844 /* Spartan6PacketUnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Spartan6PacketUnitTest.cpp; sourceTree = "<group>"; };
+		127C4FDD139EB34800733844 /* SiteTypesUnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SiteTypesUnitTest.cpp; sourceTree = "<group>"; };
+		127C50C5139FC00900733844 /* bitstream_example */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = bitstream_example; sourceTree = BUILT_PRODUCTS_DIR; };
+		127C56CB13A7A88900733844 /* Annotated.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Annotated.cpp; sourceTree = "<group>"; };
+		127C56CC13A7A88900733844 /* Annotated.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Annotated.hpp; sourceTree = "<group>"; };
+		127C56CD13A7A88900733844 /* AnnotatedUnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnnotatedUnitTest.cpp; sourceTree = "<group>"; };
+		127C56CE13A7A88900733844 /* Renamable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Renamable.cpp; sourceTree = "<group>"; };
+		127C56CF13A7A88900733844 /* Renamable.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Renamable.hpp; sourceTree = "<group>"; };
+		127C56D013A7A88900733844 /* RenamableUnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenamableUnitTest.cpp; sourceTree = "<group>"; };
 		127DEAED11E7D67C007E1A8F /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		127DEAF211E7D67C007E1A8F /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		127DEAF411E7D67C007E1A8F /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		127DEB4C11E7D83E007E1A8F /* xXdlExample */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = xXdlExample; sourceTree = BUILT_PRODUCTS_DIR; };
+		127DEB4C11E7D83E007E1A8F /* torc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = torc; sourceTree = BUILT_PRODUCTS_DIR; };
 		127DEDD211EE0F05007E1A8F /* CircuitUnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CircuitUnitTest.cpp; sourceTree = "<group>"; };
 		127DEDF411EE1B41007E1A8F /* ConfigUnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConfigUnitTest.cpp; sourceTree = "<group>"; };
 		127DEEBA11EE5AC4007E1A8F /* ConfigMapUnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConfigMapUnitTest.cpp; sourceTree = "<group>"; };
 		127DF06F11EFBB95007E1A8F /* FactoryUnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FactoryUnitTest.cpp; sourceTree = "<group>"; };
 		127DF18911EFF1A1007E1A8F /* InstanceReferenceUnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InstanceReferenceUnitTest.cpp; sourceTree = "<group>"; };
 		127DF1C211EFF6BF007E1A8F /* ModuleUnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ModuleUnitTest.cpp; sourceTree = "<group>"; };
+		1285E080137E261D00A709A5 /* Credits */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Credits; path = ../Credits; sourceTree = SOURCE_ROOT; };
+		1285E082137E2A8B00A709A5 /* Build */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Build; path = ../Build; sourceTree = SOURCE_ROOT; };
+		1285E083137E2A8B00A709A5 /* Changes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Changes; path = ../Changes; sourceTree = SOURCE_ROOT; };
+		1285E084137E2A8B00A709A5 /* License */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = License; path = ../License; sourceTree = SOURCE_ROOT; };
+		1285E3FD13840C3200A709A5 /* Spartan6BuildHelper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Spartan6BuildHelper.cpp; sourceTree = "<group>"; };
+		1285E3FE13840C3200A709A5 /* Spartan6BuildHelper.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Spartan6BuildHelper.hpp; sourceTree = "<group>"; };
+		1285E3FF13840C3200A709A5 /* Spartan6BuildHelperUnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Spartan6BuildHelperUnitTest.cpp; sourceTree = "<group>"; };
 		129A8C2712119122002235AB /* XdlImporter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XdlImporter.cpp; sourceTree = "<group>"; };
 		129A8C2812119122002235AB /* XdlImporter.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = XdlImporter.hpp; sourceTree = "<group>"; };
 		129A8C2912119122002235AB /* XdlImporterUnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XdlImporterUnitTest.cpp; sourceTree = "<group>"; };
@@ -1676,9 +1711,18 @@
 		129A97351219A714002235AB /* RouteTreeNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RouteTreeNode.cpp; sourceTree = "<group>"; };
 		129A97361219A714002235AB /* RouteTreeNode.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RouteTreeNode.hpp; sourceTree = "<group>"; };
 		129AA0F71227703B002235AB /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
-		129AA2AB12288020002235AB /* xEdifExample */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = xEdifExample; sourceTree = BUILT_PRODUCTS_DIR; };
+		129AA2AB12288020002235AB /* torc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = torc; sourceTree = BUILT_PRODUCTS_DIR; };
 		129AA5631229B0F8002235AB /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		129AABBD122C935D002235AB /* Om1UnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Om1UnitTest.cpp; sourceTree = "<group>"; };
+		12BEDBD9133A91E900F3507C /* Virtex6DeviceInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Virtex6DeviceInfo.cpp; sourceTree = "<group>"; };
+		12BEDBDD133A921A00F3507C /* Virtex6DeviceInfo.template */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Virtex6DeviceInfo.template; sourceTree = "<group>"; };
+		12BEE0B113609A2900F3507C /* Frame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Frame.cpp; sourceTree = "<group>"; };
+		12BEE0B213609A2900F3507C /* Frame.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Frame.hpp; sourceTree = "<group>"; };
+		12BEE10A1360A45200F3507C /* Virtex2DeviceInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Virtex2DeviceInfo.cpp; sourceTree = "<group>"; };
+		12BEE10B1360A45200F3507C /* Virtex2PDeviceInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Virtex2PDeviceInfo.cpp; sourceTree = "<group>"; };
+		12BEE10C1360A45200F3507C /* Virtex4DeviceInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Virtex4DeviceInfo.cpp; sourceTree = "<group>"; };
+		12BEE10D1360A45200F3507C /* VirtexDeviceInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VirtexDeviceInfo.cpp; sourceTree = "<group>"; };
+		12BEE10E1360A45200F3507C /* VirtexEDeviceInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VirtexEDeviceInfo.cpp; sourceTree = "<group>"; };
 		12C699CD125A7D1F00ED164E /* Virtex5UnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Virtex5UnitTest.cpp; sourceTree = "<group>"; };
 		12C69ADF125BA7A400ED164E /* VirtexPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = VirtexPacket.cpp; sourceTree = "<group>"; };
 		12C69AE0125BA7A400ED164E /* VirtexPacket.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = VirtexPacket.hpp; sourceTree = "<group>"; };
@@ -1692,7 +1736,6 @@
 		12C6A12B125FA13000ED164E /* Virtex4UnitTest.reference.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = Virtex4UnitTest.reference.bit; sourceTree = "<group>"; };
 		12C6A2A0125FE13D00ED164E /* RouteNodeUnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RouteNodeUnitTest.cpp; sourceTree = "<group>"; };
 		12C6A2A2125FE14A00ED164E /* RouteTreeNodeUnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RouteTreeNodeUnitTest.cpp; sourceTree = "<group>"; };
-		12C7CD5612537DA500D191B9 /* untitled */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = untitled; sourceTree = "<group>"; };
 		12C7D0FA1256615400D191B9 /* Virtex4.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Virtex4.hpp; sourceTree = "<group>"; };
 		12C7D0FB1256615400D191B9 /* Virtex5.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Virtex5.cpp; sourceTree = "<group>"; };
 		12C7D0FC1256615400D191B9 /* Virtex5.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Virtex5.hpp; sourceTree = "<group>"; };
@@ -1723,12 +1766,8 @@
 		12F002E511F8EDA100EECA0E /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		12F002E611F8EDA100EECA0E /* Makefile.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.in; sourceTree = "<group>"; };
 		12F002E711F8EDA100EECA0E /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
-		12F002E811F8EDA100EECA0E /* RealObjectFileList */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = RealObjectFileList; sourceTree = "<group>"; };
-		12F002E911F8EDA100EECA0E /* TestObjectFileList */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TestObjectFileList; sourceTree = "<group>"; };
 		12F002EA11F8EDA100EECA0E /* adler32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = adler32.c; sourceTree = "<group>"; };
-		12F002EB11F8EDA100EECA0E /* adler32.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = adler32.o; sourceTree = "<group>"; };
 		12F002EF11F8EDA100EECA0E /* compress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = compress.c; sourceTree = "<group>"; };
-		12F002F011F8EDA100EECA0E /* compress.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = compress.o; sourceTree = "<group>"; };
 		12F002F111F8EDA100EECA0E /* configure */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = configure; sourceTree = "<group>"; };
 		12F0033811F8EDA100EECA0E /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		12F0033911F8EDA100EECA0E /* TODO */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
@@ -1737,44 +1776,31 @@
 		12F0033C11F8EDA100EECA0E /* zfstream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zfstream.h; sourceTree = "<group>"; };
 		12F0038E11F8EDA100EECA0E /* crc32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = crc32.c; sourceTree = "<group>"; };
 		12F0038F11F8EDA100EECA0E /* crc32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crc32.h; sourceTree = "<group>"; };
-		12F0039011F8EDA100EECA0E /* crc32.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = crc32.o; sourceTree = "<group>"; };
 		12F0039111F8EDA100EECA0E /* deflate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = deflate.c; sourceTree = "<group>"; };
 		12F0039211F8EDA100EECA0E /* deflate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = deflate.h; sourceTree = "<group>"; };
-		12F0039311F8EDA100EECA0E /* deflate.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = deflate.o; sourceTree = "<group>"; };
 		12F0039A11F8EDA100EECA0E /* example.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = example.c; sourceTree = "<group>"; };
 		12F003A711F8EDA100EECA0E /* gzclose.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gzclose.c; sourceTree = "<group>"; };
-		12F003A811F8EDA100EECA0E /* gzclose.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = gzclose.o; sourceTree = "<group>"; };
 		12F003A911F8EDA100EECA0E /* gzguts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gzguts.h; sourceTree = "<group>"; };
 		12F003AA11F8EDA100EECA0E /* gzlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gzlib.c; sourceTree = "<group>"; };
-		12F003AB11F8EDA100EECA0E /* gzlib.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = gzlib.o; sourceTree = "<group>"; };
 		12F003AC11F8EDA100EECA0E /* gzread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gzread.c; sourceTree = "<group>"; };
-		12F003AD11F8EDA100EECA0E /* gzread.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = gzread.o; sourceTree = "<group>"; };
 		12F003AE11F8EDA100EECA0E /* gzwrite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gzwrite.c; sourceTree = "<group>"; };
-		12F003AF11F8EDA100EECA0E /* gzwrite.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = gzwrite.o; sourceTree = "<group>"; };
 		12F003B011F8EDA100EECA0E /* infback.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = infback.c; sourceTree = "<group>"; };
-		12F003B111F8EDA100EECA0E /* infback.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = infback.o; sourceTree = "<group>"; };
 		12F003B211F8EDA100EECA0E /* inffast.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = inffast.c; sourceTree = "<group>"; };
 		12F003B311F8EDA100EECA0E /* inffast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inffast.h; sourceTree = "<group>"; };
-		12F003B411F8EDA100EECA0E /* inffast.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = inffast.o; sourceTree = "<group>"; };
 		12F003B511F8EDA100EECA0E /* inffixed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inffixed.h; sourceTree = "<group>"; };
 		12F003B611F8EDA100EECA0E /* inflate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = inflate.c; sourceTree = "<group>"; };
 		12F003B711F8EDA100EECA0E /* inflate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inflate.h; sourceTree = "<group>"; };
-		12F003B811F8EDA100EECA0E /* inflate.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = inflate.o; sourceTree = "<group>"; };
 		12F003B911F8EDA100EECA0E /* inftrees.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = inftrees.c; sourceTree = "<group>"; };
 		12F003BA11F8EDA100EECA0E /* inftrees.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inftrees.h; sourceTree = "<group>"; };
-		12F003BB11F8EDA100EECA0E /* inftrees.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = inftrees.o; sourceTree = "<group>"; };
 		12F003BC11F8EDA100EECA0E /* make_vms.com */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = make_vms.com; sourceTree = "<group>"; };
 		12F003BD11F8EDA100EECA0E /* minigzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = minigzip.c; sourceTree = "<group>"; };
 		12F003DC11F8EDA100EECA0E /* treebuild.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = treebuild.xml; sourceTree = "<group>"; };
 		12F003DD11F8EDA100EECA0E /* trees.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = trees.c; sourceTree = "<group>"; };
 		12F003DE11F8EDA100EECA0E /* trees.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = trees.h; sourceTree = "<group>"; };
-		12F003DF11F8EDA100EECA0E /* trees.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = trees.o; sourceTree = "<group>"; };
 		12F003E011F8EDA100EECA0E /* uncompr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = uncompr.c; sourceTree = "<group>"; };
-		12F003E111F8EDA100EECA0E /* uncompr.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = uncompr.o; sourceTree = "<group>"; };
 		12F003EF11F8EDA100EECA0E /* zconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zconf.h; sourceTree = "<group>"; };
 		12F003F011F8EDA100EECA0E /* zconf.h.cmakein */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = zconf.h.cmakein; sourceTree = "<group>"; };
 		12F003F111F8EDA100EECA0E /* zconf.h.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = zconf.h.in; sourceTree = "<group>"; };
-		12F003F211F8EDA100EECA0E /* zfstream.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = zfstream.o; sourceTree = "<group>"; };
 		12F003F311F8EDA100EECA0E /* zlib.3 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = zlib.3; sourceTree = "<group>"; };
 		12F003F411F8EDA100EECA0E /* zlib.3.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = zlib.3.pdf; sourceTree = "<group>"; };
 		12F003F511F8EDA100EECA0E /* zlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zlib.h; sourceTree = "<group>"; };
@@ -1784,7 +1810,6 @@
 		12F003F911F8EDA100EECA0E /* zlib2ansi */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.perl; path = zlib2ansi; sourceTree = "<group>"; };
 		12F003FA11F8EDA100EECA0E /* zutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zutil.c; sourceTree = "<group>"; };
 		12F003FB11F8EDA100EECA0E /* zutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zutil.h; sourceTree = "<group>"; };
-		12F003FC11F8EDA100EECA0E /* zutil.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = zutil.o; sourceTree = "<group>"; };
 		12F0054311F916B800EECA0E /* Tiles.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tiles.cpp; sourceTree = "<group>"; };
 		12F0054411F916B800EECA0E /* Tiles.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Tiles.hpp; sourceTree = "<group>"; };
 		12F0054511F916B800EECA0E /* TilesUnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TilesUnitTest.cpp; sourceTree = "<group>"; };
@@ -1816,32 +1841,6 @@
 		12F00DBD1203ADC100EECA0E /* OutputStreamHelpers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OutputStreamHelpers.cpp; sourceTree = "<group>"; };
 		12F00DBE1203ADC100EECA0E /* OutputStreamHelpers.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = OutputStreamHelpers.hpp; sourceTree = "<group>"; };
 		12F00DBF1203ADC100EECA0E /* OutputStreamHelpersUnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OutputStreamHelpersUnitTest.cpp; sourceTree = "<group>"; };
-		12F00FCE12086D9A00EECA0E /* browser.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = browser.cc; path = "../src/gremlin-arch/browser.cc"; sourceTree = SOURCE_ROOT; };
-		12F00FCF12086D9A00EECA0E /* CArcUsage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CArcUsage.h; path = "../src/gremlin-arch/CArcUsage.h"; sourceTree = SOURCE_ROOT; };
-		12F00FD012086D9A00EECA0E /* CDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDB.h; path = "../src/gremlin-arch/CDB.h"; sourceTree = SOURCE_ROOT; };
-		12F00FD112086D9A00EECA0E /* CDigestStream.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CDigestStream.cc; path = "../src/gremlin-arch/CDigestStream.cc"; sourceTree = SOURCE_ROOT; };
-		12F00FD212086D9A00EECA0E /* CDigestStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDigestStream.h; path = "../src/gremlin-arch/CDigestStream.h"; sourceTree = SOURCE_ROOT; };
-		12F00FD312086D9A00EECA0E /* CNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CNode.h; path = "../src/gremlin-arch/CNode.h"; sourceTree = SOURCE_ROOT; };
-		12F00FD412086D9A00EECA0E /* CRouteException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CRouteException.h; path = "../src/gremlin-arch/CRouteException.h"; sourceTree = SOURCE_ROOT; };
-		12F00FD512086D9A00EECA0E /* CRouteNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CRouteNode.h; path = "../src/gremlin-arch/CRouteNode.h"; sourceTree = SOURCE_ROOT; };
-		12F00FD612086D9A00EECA0E /* CRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CRouter.h; path = "../src/gremlin-arch/CRouter.h"; sourceTree = SOURCE_ROOT; };
-		12F00FD712086D9A00EECA0E /* CSegments.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CSegments.cc; path = "../src/gremlin-arch/CSegments.cc"; sourceTree = SOURCE_ROOT; };
-		12F00FD812086D9A00EECA0E /* CSegments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSegments.h; path = "../src/gremlin-arch/CSegments.h"; sourceTree = SOURCE_ROOT; };
-		12F00FD912086D9A00EECA0E /* CSites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CSites.h; path = "../src/gremlin-arch/CSites.h"; sourceTree = SOURCE_ROOT; };
-		12F00FDA12086D9A00EECA0E /* CTileInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CTileInfo.h; path = "../src/gremlin-arch/CTileInfo.h"; sourceTree = SOURCE_ROOT; };
-		12F00FDB12086D9A00EECA0E /* CTiles.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = CTiles.cc; path = "../src/gremlin-arch/CTiles.cc"; sourceTree = SOURCE_ROOT; };
-		12F00FDC12086D9A00EECA0E /* CTiles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CTiles.h; path = "../src/gremlin-arch/CTiles.h"; sourceTree = SOURCE_ROOT; };
-		12F00FDD12086D9A00EECA0E /* CTilewire.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CTilewire.h; path = "../src/gremlin-arch/CTilewire.h"; sourceTree = SOURCE_ROOT; };
-		12F00FDE12086D9A00EECA0E /* CTraceNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CTraceNode.h; path = "../src/gremlin-arch/CTraceNode.h"; sourceTree = SOURCE_ROOT; };
-		12F00FDF12086D9A00EECA0E /* CTracer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CTracer.h; path = "../src/gremlin-arch/CTracer.h"; sourceTree = SOURCE_ROOT; };
-		12F00FE012086D9A00EECA0E /* CUnrouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CUnrouter.h; path = "../src/gremlin-arch/CUnrouter.h"; sourceTree = SOURCE_ROOT; };
-		12F00FE112086D9A00EECA0E /* CWireInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWireInfo.h; path = "../src/gremlin-arch/CWireInfo.h"; sourceTree = SOURCE_ROOT; };
-		12F00FE212086D9A00EECA0E /* CWireUsage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CWireUsage.h; path = "../src/gremlin-arch/CWireUsage.h"; sourceTree = SOURCE_ROOT; };
-		12F00FE312086D9A00EECA0E /* HADB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HADB.h; path = "../src/gremlin-arch/HADB.h"; sourceTree = SOURCE_ROOT; };
-		12F00FE412086D9A00EECA0E /* main.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cc; path = "../src/gremlin-arch/main.cc"; sourceTree = SOURCE_ROOT; };
-		12F00FE512086D9A00EECA0E /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = Makefile; path = "../src/gremlin-arch/Makefile"; sourceTree = SOURCE_ROOT; };
-		12F00FE612086D9A00EECA0E /* RouteFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RouteFilter.h; path = "../src/gremlin-arch/RouteFilter.h"; sourceTree = SOURCE_ROOT; };
-		12F00FE712086D9A00EECA0E /* TArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TArray.h; path = "../src/gremlin-arch/TArray.h"; sourceTree = SOURCE_ROOT; };
 		12F010F11208BD0700EECA0E /* ExtendedWireInfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ExtendedWireInfo.cpp; sourceTree = "<group>"; };
 		12F010F21208BD0700EECA0E /* ExtendedWireInfo.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ExtendedWireInfo.hpp; sourceTree = "<group>"; };
 		12F010F31208BD0700EECA0E /* ExtendedWireInfoUnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ExtendedWireInfoUnitTest.cpp; sourceTree = "<group>"; };
@@ -1931,12 +1930,6 @@
 		12F5B0FB13045B740095DABA /* Spartan6.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Spartan6.hpp; sourceTree = "<group>"; };
 		12F5B0FC13045B740095DABA /* Spartan6UnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Spartan6UnitTest.cpp; sourceTree = "<group>"; };
 		12F5B0FD13045B740095DABA /* Spartan6UnitTest.reference.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = Spartan6UnitTest.reference.bit; sourceTree = "<group>"; };
-		12F5B0FE13045B740095DABA /* Spartan16Bitstream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Spartan16Bitstream.cpp; sourceTree = "<group>"; };
-		12F5B0FF13045B740095DABA /* Spartan16Bitstream.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Spartan16Bitstream.hpp; sourceTree = "<group>"; };
-		12F5B10013045B740095DABA /* Spartan16BitstreamUnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Spartan16BitstreamUnitTest.cpp; sourceTree = "<group>"; };
-		12F5B10113045B740095DABA /* Spartan16Packet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Spartan16Packet.cpp; sourceTree = "<group>"; };
-		12F5B10213045B740095DABA /* Spartan16Packet.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Spartan16Packet.hpp; sourceTree = "<group>"; };
-		12F5B10313045B740095DABA /* Spartan16PacketUnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Spartan16PacketUnitTest.cpp; sourceTree = "<group>"; };
 		12F5B10413045B740095DABA /* SpartanBitstream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpartanBitstream.cpp; sourceTree = "<group>"; };
 		12F5B10513045B740095DABA /* SpartanBitstream.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SpartanBitstream.hpp; sourceTree = "<group>"; };
 		12F5B10613045B740095DABA /* SpartanBitstreamUnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpartanBitstreamUnitTest.cpp; sourceTree = "<group>"; };
@@ -2022,27 +2015,6 @@
 		12F5B5631304DBC50095DABA /* xc5vsx95t.debug.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = xc5vsx95t.debug.bit; sourceTree = "<group>"; };
 		12F5B5641304DBC50095DABA /* xc5vtx150t.debug.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = xc5vtx150t.debug.bit; sourceTree = "<group>"; };
 		12F5B5651304DBC50095DABA /* xc5vtx240t.debug.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = xc5vtx240t.debug.bit; sourceTree = "<group>"; };
-		12F5B5661304DBC50095DABA /* xc6slx100.debug.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = xc6slx100.debug.bit; sourceTree = "<group>"; };
-		12F5B5671304DBC50095DABA /* xc6slx100l.debug.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = xc6slx100l.debug.bit; sourceTree = "<group>"; };
-		12F5B5681304DBC50095DABA /* xc6slx100t.debug.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = xc6slx100t.debug.bit; sourceTree = "<group>"; };
-		12F5B5691304DBC50095DABA /* xc6slx150.debug.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = xc6slx150.debug.bit; sourceTree = "<group>"; };
-		12F5B56A1304DBC50095DABA /* xc6slx150l.debug.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = xc6slx150l.debug.bit; sourceTree = "<group>"; };
-		12F5B56B1304DBC50095DABA /* xc6slx150t.debug.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = xc6slx150t.debug.bit; sourceTree = "<group>"; };
-		12F5B56C1304DBC50095DABA /* xc6slx16.debug.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = xc6slx16.debug.bit; sourceTree = "<group>"; };
-		12F5B56D1304DBC50095DABA /* xc6slx16l.debug.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = xc6slx16l.debug.bit; sourceTree = "<group>"; };
-		12F5B56E1304DBC50095DABA /* xc6slx25.debug.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = xc6slx25.debug.bit; sourceTree = "<group>"; };
-		12F5B56F1304DBC50095DABA /* xc6slx25l.debug.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = xc6slx25l.debug.bit; sourceTree = "<group>"; };
-		12F5B5701304DBC50095DABA /* xc6slx25t.debug.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = xc6slx25t.debug.bit; sourceTree = "<group>"; };
-		12F5B5711304DBC50095DABA /* xc6slx4.debug.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = xc6slx4.debug.bit; sourceTree = "<group>"; };
-		12F5B5721304DBC50095DABA /* xc6slx45.debug.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = xc6slx45.debug.bit; sourceTree = "<group>"; };
-		12F5B5731304DBC50095DABA /* xc6slx45l.debug.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = xc6slx45l.debug.bit; sourceTree = "<group>"; };
-		12F5B5741304DBC50095DABA /* xc6slx45t.debug.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = xc6slx45t.debug.bit; sourceTree = "<group>"; };
-		12F5B5751304DBC50095DABA /* xc6slx4l.debug.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = xc6slx4l.debug.bit; sourceTree = "<group>"; };
-		12F5B5761304DBC50095DABA /* xc6slx75.debug.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = xc6slx75.debug.bit; sourceTree = "<group>"; };
-		12F5B5771304DBC50095DABA /* xc6slx75l.debug.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = xc6slx75l.debug.bit; sourceTree = "<group>"; };
-		12F5B5781304DBC50095DABA /* xc6slx75t.debug.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = xc6slx75t.debug.bit; sourceTree = "<group>"; };
-		12F5B5791304DBC50095DABA /* xc6slx9.debug.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = xc6slx9.debug.bit; sourceTree = "<group>"; };
-		12F5B57A1304DBC50095DABA /* xc6slx9l.debug.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = xc6slx9l.debug.bit; sourceTree = "<group>"; };
 		12F5B57B1304DBC50095DABA /* xc6vcx130t.debug.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = xc6vcx130t.debug.bit; sourceTree = "<group>"; };
 		12F5B57C1304DBC50095DABA /* xc6vcx195t.debug.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = xc6vcx195t.debug.bit; sourceTree = "<group>"; };
 		12F5B57D1304DBC50095DABA /* xc6vcx240t.debug.bit */ = {isa = PBXFileReference; lastKnownFileType = file; path = xc6vcx240t.debug.bit; sourceTree = "<group>"; };
@@ -2126,7 +2098,7 @@
 		12FD636713184EB700352331 /* XdlUnpack.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = XdlUnpack.hpp; sourceTree = "<group>"; };
 		12FD636813184EB700352331 /* XdlUnpackUnitTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XdlUnpackUnitTest.cpp; sourceTree = "<group>"; };
 		12FD636913184EB700352331 /* testParse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = testParse.cpp; sourceTree = "<group>"; };
-		8DD76F6C0486A84900D96B5E /* torc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = torc; sourceTree = BUILT_PRODUCTS_DIR; };
+		8DD76F6C0486A84900D96B5E /* test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2138,6 +2110,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		125810DE1291A0990053C355 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		127C50C3139FC00900733844 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2171,6 +2150,10 @@
 		08FB7794FE84155DC02AAC07 /* torc */ = {
 			isa = PBXGroup;
 			children = (
+				1285E082137E2A8B00A709A5 /* Build */,
+				1285E083137E2A8B00A709A5 /* Changes */,
+				1285E080137E261D00A709A5 /* Credits */,
+				1285E084137E2A8B00A709A5 /* License */,
 				08FB7795FE84155DC02AAC07 /* Source */,
 				C6859E8C029090F304C91782 /* Documentation */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
@@ -2191,6 +2174,7 @@
 		120CEE0612948BD500A6E417 /* build */ = {
 			isa = PBXGroup;
 			children = (
+				127C475813954CF300733844 /* compare.pl */,
 				12F5B7061305CFFA0095DABA /* devices.pl */,
 				12F5B38A1304CDC10095DABA /* build.sh */,
 				120CEE0712948BD500A6E417 /* feedback.pl */,
@@ -2406,7 +2390,7 @@
 				127DEAEC11E7D67C007E1A8F /* examples */,
 				12F0FE4911F8A61300EECA0E /* externals */,
 				123676D211E52C560034B204 /* generic */,
-				123676D311E52C560034B204 /* include */,
+				12FD634B13184EB700352331 /* packer */,
 				123676D411E52C560034B204 /* physical */,
 				127DEAF111E7D67C007E1A8F /* placer */,
 				127DEAF311E7D67C007E1A8F /* router */,
@@ -2457,6 +2441,7 @@
 				12F0083E11FA275300EECA0E /* Sites.cpp */,
 				12F0083F11FA275300EECA0E /* Sites.hpp */,
 				12F0084011FA275300EECA0E /* SitesUnitTest.cpp */,
+				127C4FDD139EB34800733844 /* SiteTypesUnitTest.cpp */,
 				12F0054311F916B800EECA0E /* Tiles.cpp */,
 				12F0054411F916B800EECA0E /* Tiles.hpp */,
 				12F0054511F916B800EECA0E /* TilesUnitTest.cpp */,
@@ -2497,23 +2482,31 @@
 				12793EEE130318DF000DC069 /* DeviceInfo.cpp */,
 				12793EEF130318DF000DC069 /* DeviceInfo.hpp */,
 				12793EF0130318DF000DC069 /* DeviceInfoUnitTest.cpp */,
+				12BEE0B113609A2900F3507C /* Frame.cpp */,
+				12BEE0B213609A2900F3507C /* Frame.hpp */,
+				127C48F113996DB400733844 /* FrameUnitTest.cpp */,
+				127C4F0A139D88A900733844 /* FrameSet.cpp */,
+				127C4F0B139D88A900733844 /* FrameSet.hpp */,
+				127C4F0C139D88A900733844 /* FrameSetUnitTest.cpp */,
 				1231A00B126927C600C39BC0 /* Makefile */,
 				12C69BEE125D044300ED164E /* OutputStreamHelpers.cpp */,
 				12C69BEF125D044300ED164E /* OutputStreamHelpers.hpp */,
 				12F5B0F613045B740095DABA /* Spartan3E.cpp */,
 				12F5B0F713045B740095DABA /* Spartan3E.hpp */,
+				127C474D13954C8D00733844 /* Spartan3EDeviceInfo.cpp */,
 				12F5B0F813045B740095DABA /* Spartan3EUnitTest.cpp */,
 				12F5B0F913045B740095DABA /* Spartan3EUnitTest.reference.bit */,
+				127C474E13954C8D00733844 /* Spartan3EUnitTest.reference.ncd */,
 				12F5B0FA13045B740095DABA /* Spartan6.cpp */,
 				12F5B0FB13045B740095DABA /* Spartan6.hpp */,
 				12F5B0FC13045B740095DABA /* Spartan6UnitTest.cpp */,
 				12F5B0FD13045B740095DABA /* Spartan6UnitTest.reference.bit */,
-				12F5B0FE13045B740095DABA /* Spartan16Bitstream.cpp */,
-				12F5B0FF13045B740095DABA /* Spartan16Bitstream.hpp */,
-				12F5B10013045B740095DABA /* Spartan16BitstreamUnitTest.cpp */,
-				12F5B10113045B740095DABA /* Spartan16Packet.cpp */,
-				12F5B10213045B740095DABA /* Spartan16Packet.hpp */,
-				12F5B10313045B740095DABA /* Spartan16PacketUnitTest.cpp */,
+				127C4F0F139D8AF100733844 /* Spartan6Bitstream.cpp */,
+				127C4F10139D8AF100733844 /* Spartan6Bitstream.hpp */,
+				127C4F11139D8AF100733844 /* Spartan6BitstreamUnitTest.cpp */,
+				127C4F12139D8AF100733844 /* Spartan6Packet.cpp */,
+				127C4F13139D8AF100733844 /* Spartan6Packet.hpp */,
+				127C4F14139D8AF100733844 /* Spartan6PacketUnitTest.cpp */,
 				12F5B10413045B740095DABA /* SpartanBitstream.cpp */,
 				12F5B10513045B740095DABA /* SpartanBitstream.hpp */,
 				12F5B10613045B740095DABA /* SpartanBitstreamUnitTest.cpp */,
@@ -2522,22 +2515,27 @@
 				12F5B10913045B740095DABA /* SpartanPacketUnitTest.cpp */,
 				122D616012FE4526004181A1 /* Virtex.cpp */,
 				122D616112FE4526004181A1 /* Virtex.hpp */,
+				12BEE10D1360A45200F3507C /* VirtexDeviceInfo.cpp */,
 				122D617112FE4526004181A1 /* VirtexUnitTest.cpp */,
 				122D617212FE4526004181A1 /* VirtexUnitTest.reference.bit */,
 				122D616D12FE4526004181A1 /* VirtexE.cpp */,
 				122D616E12FE4526004181A1 /* VirtexE.hpp */,
+				12BEE10E1360A45200F3507C /* VirtexEDeviceInfo.cpp */,
 				122D616F12FE4526004181A1 /* VirtexEUnitTest.cpp */,
 				122D617012FE4526004181A1 /* VirtexEUnitTest.reference.bit */,
 				122D616212FE4526004181A1 /* Virtex2.cpp */,
 				120C711B12B7A04500615ACE /* Virtex2.hpp */,
+				12BEE10A1360A45200F3507C /* Virtex2DeviceInfo.cpp */,
 				122D616712FE4526004181A1 /* Virtex2UnitTest.cpp */,
 				122D616812FE4526004181A1 /* Virtex2UnitTest.reference.bit */,
 				122D616312FE4526004181A1 /* Virtex2P.cpp */,
 				122D616412FE4526004181A1 /* Virtex2P.hpp */,
+				12BEE10B1360A45200F3507C /* Virtex2PDeviceInfo.cpp */,
 				122D616512FE4526004181A1 /* Virtex2PUnitTest.cpp */,
 				122D616612FE4526004181A1 /* Virtex2PUnitTest.reference.bit */,
 				124519DF1256D6F700394E7D /* Virtex4.cpp */,
 				12C7D0FA1256615400D191B9 /* Virtex4.hpp */,
+				12BEE10C1360A45200F3507C /* Virtex4DeviceInfo.cpp */,
 				12C7D144125695FF00D191B9 /* Virtex4UnitTest.cpp */,
 				12C6A12B125FA13000ED164E /* Virtex4UnitTest.reference.bit */,
 				12C7D0FB1256615400D191B9 /* Virtex5.cpp */,
@@ -2547,8 +2545,13 @@
 				12C6A12A125FA12B00ED164E /* Virtex5UnitTest.reference.bit */,
 				122D616912FE4526004181A1 /* Virtex6.cpp */,
 				122D616A12FE4526004181A1 /* Virtex6.hpp */,
+				12BEDBD9133A91E900F3507C /* Virtex6DeviceInfo.cpp */,
 				122D616B12FE4526004181A1 /* Virtex6UnitTest.cpp */,
 				122D616C12FE4526004181A1 /* Virtex6UnitTest.reference.bit */,
+				1218CD1613902A1E00E3747C /* Virtex7.cpp */,
+				1218CD1713902A1E00E3747C /* Virtex7.hpp */,
+				1218CEDD13903FA800E3747C /* Virtex7DeviceInfo.cpp */,
+				1218CD1813902A1E00E3747C /* Virtex7UnitTest.cpp */,
 				12C6A003125E7C2700ED164E /* VirtexBitstream.cpp */,
 				12C6A004125E7C2700ED164E /* VirtexBitstream.hpp */,
 				12C6A005125E7C2700ED164E /* VirtexBitstreamUnitTest.cpp */,
@@ -2603,19 +2606,13 @@
 			path = ../src/torc/generic;
 			sourceTree = SOURCE_ROOT;
 		};
-		123676D311E52C560034B204 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				12FD634B13184EB700352331 /* packer */,
-			);
-			name = include;
-			path = ../src/torc/include;
-			sourceTree = SOURCE_ROOT;
-		};
 		123676D411E52C560034B204 /* physical */ = {
 			isa = PBXGroup;
 			children = (
 				1236770811E52C560034B204 /* xdl */,
+				127C56CB13A7A88900733844 /* Annotated.cpp */,
+				127C56CC13A7A88900733844 /* Annotated.hpp */,
+				127C56CD13A7A88900733844 /* AnnotatedUnitTest.cpp */,
 				123676D511E52C560034B204 /* Circuit.cpp */,
 				123676D611E52C560034B204 /* Circuit.hpp */,
 				127DEDD211EE0F05007E1A8F /* CircuitUnitTest.cpp */,
@@ -2668,6 +2665,9 @@
 				123676FC11E52C560034B204 /* Progeny.cpp */,
 				123676FD11E52C560034B204 /* Progeny.hpp */,
 				121035E311F13C3E0084499C /* ProgenyUnitTest.cpp */,
+				127C56CE13A7A88900733844 /* Renamable.cpp */,
+				127C56CF13A7A88900733844 /* Renamable.hpp */,
+				127C56D013A7A88900733844 /* RenamableUnitTest.cpp */,
 				123676FE11E52C560034B204 /* Routethrough.cpp */,
 				123676FF11E52C560034B204 /* Routethrough.hpp */,
 				121035DD11F13C170084499C /* RoutethroughUnitTest.cpp */,
@@ -2741,7 +2741,18 @@
 				12793F6413037C7B000DC069 /* DeviceInfoHelper.hpp */,
 				12F5B16413047CF80095DABA /* DeviceInfoHelperUnitTest.cpp */,
 				12F5B13313047A950095DABA /* Makefile */,
+				127C473913953D4B00733844 /* Spartan3EDeviceInfo.template */,
+				1285E3FD13840C3200A709A5 /* Spartan6BuildHelper.cpp */,
+				1285E3FE13840C3200A709A5 /* Spartan6BuildHelper.hpp */,
+				1285E3FF13840C3200A709A5 /* Spartan6BuildHelperUnitTest.cpp */,
+				127C473D13953D4B00733844 /* VirtexDeviceInfo.template */,
+				127C473E13953D4B00733844 /* VirtexEDeviceInfo.template */,
+				127C473A13953D4B00733844 /* Virtex2DeviceInfo.template */,
+				127C473B13953D4B00733844 /* Virtex2PDeviceInfo.template */,
+				127C473C13953D4B00733844 /* Virtex4DeviceInfo.template */,
 				126A4DCA13156FB400C2C1A9 /* Virtex5DeviceInfo.template */,
+				12BEDBDD133A921A00F3507C /* Virtex6DeviceInfo.template */,
+				1218CE841390396200E3747C /* Virtex7DeviceInfo.template */,
 			);
 			path = build;
 			sourceTree = "<group>";
@@ -2763,9 +2774,24 @@
 		127DEAF111E7D67C007E1A8F /* placer */ = {
 			isa = PBXGroup;
 			children = (
+				127C475913954D3B00733844 /* DeviceSite.hpp */,
+				127C475A13954D3B00733844 /* DeviceSitePin.hpp */,
+				127C475B13954D3B00733844 /* DeviceSiteType.hpp */,
+				127C475C13954D3B00733844 /* DeviceSiteTypePin.hpp */,
+				127C475D13954D3B00733844 /* DeviceWrapper.hpp */,
 				127DEAF211E7D67C007E1A8F /* Makefile */,
+				127C475E13954D5500733844 /* NetlistInstance.hpp */,
+				127C475F13954D5500733844 /* NetlistNet.hpp */,
+				127C476013954D5500733844 /* NetlistPin.hpp */,
+				127C476113954D5500733844 /* Placement.cpp */,
+				127C476213954D5500733844 /* Placement.hpp */,
+				127C476313954D5500733844 /* PlacementSiteTypeMapping.hpp */,
+				127C476413954D5500733844 /* PlacementSiteTypeMappingVirtex5.hpp */,
 				127B559E129DCA7900AEC74D /* Placer.cpp */,
 				127B559F129DCA7900AEC74D /* Placer.hpp */,
+				127C476613954D6600733844 /* PlacerAnnotations.hpp */,
+				127C476713954D6600733844 /* PlacerHeuristicBase.hpp */,
+				127C476813954D6600733844 /* PlacerNetlist.hpp */,
 			);
 			path = placer;
 			sourceTree = "<group>";
@@ -2839,54 +2865,37 @@
 				12F002E511F8EDA100EECA0E /* Makefile */,
 				12F002E611F8EDA100EECA0E /* Makefile.in */,
 				12F002E711F8EDA100EECA0E /* README */,
-				12F002E811F8EDA100EECA0E /* RealObjectFileList */,
-				12F002E911F8EDA100EECA0E /* TestObjectFileList */,
 				12F002EA11F8EDA100EECA0E /* adler32.c */,
-				12F002EB11F8EDA100EECA0E /* adler32.o */,
 				12F002EF11F8EDA100EECA0E /* compress.c */,
-				12F002F011F8EDA100EECA0E /* compress.o */,
 				12F002F111F8EDA100EECA0E /* configure */,
 				12F002F211F8EDA100EECA0E /* contrib */,
 				12F0038E11F8EDA100EECA0E /* crc32.c */,
 				12F0038F11F8EDA100EECA0E /* crc32.h */,
-				12F0039011F8EDA100EECA0E /* crc32.o */,
 				12F0039111F8EDA100EECA0E /* deflate.c */,
 				12F0039211F8EDA100EECA0E /* deflate.h */,
-				12F0039311F8EDA100EECA0E /* deflate.o */,
 				12F0039A11F8EDA100EECA0E /* example.c */,
 				12F003A711F8EDA100EECA0E /* gzclose.c */,
-				12F003A811F8EDA100EECA0E /* gzclose.o */,
 				12F003A911F8EDA100EECA0E /* gzguts.h */,
 				12F003AA11F8EDA100EECA0E /* gzlib.c */,
-				12F003AB11F8EDA100EECA0E /* gzlib.o */,
 				12F003AC11F8EDA100EECA0E /* gzread.c */,
-				12F003AD11F8EDA100EECA0E /* gzread.o */,
 				12F003AE11F8EDA100EECA0E /* gzwrite.c */,
-				12F003AF11F8EDA100EECA0E /* gzwrite.o */,
 				12F003B011F8EDA100EECA0E /* infback.c */,
-				12F003B111F8EDA100EECA0E /* infback.o */,
 				12F003B211F8EDA100EECA0E /* inffast.c */,
 				12F003B311F8EDA100EECA0E /* inffast.h */,
-				12F003B411F8EDA100EECA0E /* inffast.o */,
 				12F003B511F8EDA100EECA0E /* inffixed.h */,
 				12F003B611F8EDA100EECA0E /* inflate.c */,
 				12F003B711F8EDA100EECA0E /* inflate.h */,
-				12F003B811F8EDA100EECA0E /* inflate.o */,
 				12F003B911F8EDA100EECA0E /* inftrees.c */,
 				12F003BA11F8EDA100EECA0E /* inftrees.h */,
-				12F003BB11F8EDA100EECA0E /* inftrees.o */,
 				12F003BC11F8EDA100EECA0E /* make_vms.com */,
 				12F003BD11F8EDA100EECA0E /* minigzip.c */,
 				12F003DC11F8EDA100EECA0E /* treebuild.xml */,
 				12F003DD11F8EDA100EECA0E /* trees.c */,
 				12F003DE11F8EDA100EECA0E /* trees.h */,
-				12F003DF11F8EDA100EECA0E /* trees.o */,
 				12F003E011F8EDA100EECA0E /* uncompr.c */,
-				12F003E111F8EDA100EECA0E /* uncompr.o */,
 				12F003EF11F8EDA100EECA0E /* zconf.h */,
 				12F003F011F8EDA100EECA0E /* zconf.h.cmakein */,
 				12F003F111F8EDA100EECA0E /* zconf.h.in */,
-				12F003F211F8EDA100EECA0E /* zfstream.o */,
 				12F003F311F8EDA100EECA0E /* zlib.3 */,
 				12F003F411F8EDA100EECA0E /* zlib.3.pdf */,
 				12F003F511F8EDA100EECA0E /* zlib.h */,
@@ -2896,7 +2905,6 @@
 				12F003F911F8EDA100EECA0E /* zlib2ansi */,
 				12F003FA11F8EDA100EECA0E /* zutil.c */,
 				12F003FB11F8EDA100EECA0E /* zutil.h */,
-				12F003FC11F8EDA100EECA0E /* zutil.o */,
 			);
 			name = zlib;
 			path = externals/zlib;
@@ -2925,32 +2933,6 @@
 		12F00FC512086D7E00EECA0E /* old */ = {
 			isa = PBXGroup;
 			children = (
-				12F00FCE12086D9A00EECA0E /* browser.cc */,
-				12F00FCF12086D9A00EECA0E /* CArcUsage.h */,
-				12F00FD012086D9A00EECA0E /* CDB.h */,
-				12F00FD112086D9A00EECA0E /* CDigestStream.cc */,
-				12F00FD212086D9A00EECA0E /* CDigestStream.h */,
-				12F00FD312086D9A00EECA0E /* CNode.h */,
-				12F00FD412086D9A00EECA0E /* CRouteException.h */,
-				12F00FD512086D9A00EECA0E /* CRouteNode.h */,
-				12F00FD612086D9A00EECA0E /* CRouter.h */,
-				12F00FD712086D9A00EECA0E /* CSegments.cc */,
-				12F00FD812086D9A00EECA0E /* CSegments.h */,
-				12F00FD912086D9A00EECA0E /* CSites.h */,
-				12F00FDA12086D9A00EECA0E /* CTileInfo.h */,
-				12F00FDB12086D9A00EECA0E /* CTiles.cc */,
-				12F00FDC12086D9A00EECA0E /* CTiles.h */,
-				12F00FDD12086D9A00EECA0E /* CTilewire.h */,
-				12F00FDE12086D9A00EECA0E /* CTraceNode.h */,
-				12F00FDF12086D9A00EECA0E /* CTracer.h */,
-				12F00FE012086D9A00EECA0E /* CUnrouter.h */,
-				12F00FE112086D9A00EECA0E /* CWireInfo.h */,
-				12F00FE212086D9A00EECA0E /* CWireUsage.h */,
-				12F00FE312086D9A00EECA0E /* HADB.h */,
-				12F00FE412086D9A00EECA0E /* main.cc */,
-				12F00FE512086D9A00EECA0E /* Makefile */,
-				12F00FE612086D9A00EECA0E /* RouteFilter.h */,
-				12F00FE712086D9A00EECA0E /* TArray.h */,
 			);
 			name = old;
 			sourceTree = "<group>";
@@ -3223,27 +3205,6 @@
 				12F5B5631304DBC50095DABA /* xc5vsx95t.debug.bit */,
 				12F5B5641304DBC50095DABA /* xc5vtx150t.debug.bit */,
 				12F5B5651304DBC50095DABA /* xc5vtx240t.debug.bit */,
-				12F5B5661304DBC50095DABA /* xc6slx100.debug.bit */,
-				12F5B5671304DBC50095DABA /* xc6slx100l.debug.bit */,
-				12F5B5681304DBC50095DABA /* xc6slx100t.debug.bit */,
-				12F5B5691304DBC50095DABA /* xc6slx150.debug.bit */,
-				12F5B56A1304DBC50095DABA /* xc6slx150l.debug.bit */,
-				12F5B56B1304DBC50095DABA /* xc6slx150t.debug.bit */,
-				12F5B56C1304DBC50095DABA /* xc6slx16.debug.bit */,
-				12F5B56D1304DBC50095DABA /* xc6slx16l.debug.bit */,
-				12F5B56E1304DBC50095DABA /* xc6slx25.debug.bit */,
-				12F5B56F1304DBC50095DABA /* xc6slx25l.debug.bit */,
-				12F5B5701304DBC50095DABA /* xc6slx25t.debug.bit */,
-				12F5B5711304DBC50095DABA /* xc6slx4.debug.bit */,
-				12F5B5721304DBC50095DABA /* xc6slx45.debug.bit */,
-				12F5B5731304DBC50095DABA /* xc6slx45l.debug.bit */,
-				12F5B5741304DBC50095DABA /* xc6slx45t.debug.bit */,
-				12F5B5751304DBC50095DABA /* xc6slx4l.debug.bit */,
-				12F5B5761304DBC50095DABA /* xc6slx75.debug.bit */,
-				12F5B5771304DBC50095DABA /* xc6slx75l.debug.bit */,
-				12F5B5781304DBC50095DABA /* xc6slx75t.debug.bit */,
-				12F5B5791304DBC50095DABA /* xc6slx9.debug.bit */,
-				12F5B57A1304DBC50095DABA /* xc6slx9l.debug.bit */,
 				12F5B57B1304DBC50095DABA /* xc6vcx130t.debug.bit */,
 				12F5B57C1304DBC50095DABA /* xc6vcx195t.debug.bit */,
 				12F5B57D1304DBC50095DABA /* xc6vcx240t.debug.bit */,
@@ -3330,20 +3291,18 @@
 				12FD636813184EB700352331 /* XdlUnpackUnitTest.cpp */,
 				12FD636913184EB700352331 /* testParse.cpp */,
 			);
-			name = packer;
-			path = ../src/torc/packer;
-			sourceTree = SOURCE_ROOT;
+			path = packer;
+			sourceTree = "<group>";
 		};
 		1AB674ADFE9D54B511CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				12C7CD5612537DA500D191B9 /* untitled */,
 				12F00FC512086D7E00EECA0E /* old */,
-				8DD76F6C0486A84900D96B5E /* torc */,
-				127DEB4C11E7D83E007E1A8F /* xXdlExample */,
-				129AA2AB12288020002235AB /* xEdifExample */,
-				125810E31291A0990053C355 /* xEdifExample */,
+				8DD76F6C0486A84900D96B5E /* test */,
+				127DEB4C11E7D83E007E1A8F /* torc */,
+				129AA2AB12288020002235AB /* torc */,
 				120CED2A1291A9D300A6E417 /* DDBExample */,
+				127C50C5139FC00900733844 /* bitstream_example */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3389,7 +3348,23 @@
 			name = noDDBExample;
 			productInstallPath = "$(HOME)/bin";
 			productName = torc;
-			productReference = 125810E31291A0990053C355 /* xEdifExample */;
+			productReference = 125810E31291A0990053C355 /* xDDBExample */;
+			productType = "com.apple.product-type.tool";
+		};
+		127C50C4139FC00900733844 /* bitstream_example */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 127C50C9139FC02800733844 /* Build configuration list for PBXNativeTarget "bitstream_example" */;
+			buildPhases = (
+				127C50C2139FC00900733844 /* Sources */,
+				127C50C3139FC00900733844 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = bitstream_example;
+			productName = bitstream_example;
+			productReference = 127C50C5139FC00900733844 /* bitstream_example */;
 			productType = "com.apple.product-type.tool";
 		};
 		127DEB2211E7D83E007E1A8F /* XdlExample */ = {
@@ -3408,7 +3383,7 @@
 			name = XdlExample;
 			productInstallPath = "$(HOME)/bin";
 			productName = torc;
-			productReference = 127DEB4C11E7D83E007E1A8F /* xXdlExample */;
+			productReference = 127DEB4C11E7D83E007E1A8F /* torc */;
 			productType = "com.apple.product-type.tool";
 		};
 		129AA22812288020002235AB /* EdifExample */ = {
@@ -3428,12 +3403,12 @@
 			name = EdifExample;
 			productInstallPath = "$(HOME)/bin";
 			productName = torc;
-			productReference = 129AA2AB12288020002235AB /* xEdifExample */;
+			productReference = 129AA2AB12288020002235AB /* torc */;
 			productType = "com.apple.product-type.tool";
 		};
-		8DD76F620486A84900D96B5E /* torc */ = {
+		8DD76F620486A84900D96B5E /* test */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1DEB923108733DC60010E9CD /* Build configuration list for PBXNativeTarget "torc" */;
+			buildConfigurationList = 1DEB923108733DC60010E9CD /* Build configuration list for PBXNativeTarget "test" */;
 			buildPhases = (
 				8DD76F640486A84900D96B5E /* Sources */,
 				8DD76F660486A84900D96B5E /* Frameworks */,
@@ -3447,10 +3422,10 @@
 				1236759911E502D40034B204 /* PBXTargetDependency */,
 				12575FBD126DF0340034AF00 /* PBXTargetDependency */,
 			);
-			name = torc;
+			name = test;
 			productInstallPath = "$(HOME)/bin";
 			productName = torc;
-			productReference = 8DD76F6C0486A84900D96B5E /* torc */;
+			productReference = 8DD76F6C0486A84900D96B5E /* test */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -3475,13 +3450,14 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8DD76F620486A84900D96B5E /* torc */,
+				8DD76F620486A84900D96B5E /* test */,
 				125810881291A0990053C355 /* noDDBExample */,
 				129AA22812288020002235AB /* EdifExample */,
 				127DEB2211E7D83E007E1A8F /* XdlExample */,
 				1236750011E4FF5B0034B204 /* Bison-Flex (XDL) */,
 				129AA0E212276E60002235AB /* Bison-Flex (EDIF) */,
 				120CED291291A9D300A6E417 /* DDBExample */,
+				127C50C4139FC00900733844 /* bitstream_example */,
 			);
 		};
 /* End PBXProject section */
@@ -3576,6 +3552,15 @@
 				1258110B1291A1A10053C355 /* XilinxDatabaseTypes.cpp in Sources */,
 				12793F2A13036DFD000DC069 /* Devices.cpp in Sources */,
 				12793F2B13036DFD000DC069 /* DevicesUnitTest.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		127C50C2139FC00900733844 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				127C50CA139FC02800733844 /* BitstreamExample.cpp in Sources */,
+				127C531013A26E1900733844 /* Component.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3957,10 +3942,6 @@
 				12F5B10B13045B740095DABA /* Spartan3EUnitTest.cpp in Sources */,
 				12F5B10C13045B740095DABA /* Spartan6.cpp in Sources */,
 				12F5B10D13045B740095DABA /* Spartan6UnitTest.cpp in Sources */,
-				12F5B10E13045B740095DABA /* Spartan16Bitstream.cpp in Sources */,
-				12F5B10F13045B740095DABA /* Spartan16BitstreamUnitTest.cpp in Sources */,
-				12F5B11013045B740095DABA /* Spartan16Packet.cpp in Sources */,
-				12F5B11113045B740095DABA /* Spartan16PacketUnitTest.cpp in Sources */,
 				12F5B11213045B740095DABA /* SpartanBitstream.cpp in Sources */,
 				12F5B11313045B740095DABA /* SpartanBitstreamUnitTest.cpp in Sources */,
 				12F5B11413045B740095DABA /* SpartanPacket.cpp in Sources */,
@@ -4002,20 +3983,45 @@
 				12FD60D7131582E200352331 /* TraceUnitTest.cpp in Sources */,
 				12FD60D8131582E300352331 /* Unrouter.cpp in Sources */,
 				12FD60D9131582E400352331 /* UnrouterUnitTest.cpp in Sources */,
-				12FD636A13184EB700352331 /* CombinationalPath.cpp in Sources */,
-				12FD636B13184EB700352331 /* Component.cpp in Sources */,
-				12FD636C13184EB700352331 /* Connection.cpp in Sources */,
-				12FD636D13184EB700352331 /* ConnectionPin.cpp in Sources */,
-				12FD636E13184EB700352331 /* Element.cpp in Sources */,
-				12FD637013184EB700352331 /* ParsePrimitive.cpp in Sources */,
-				12FD637113184EB700352331 /* Primitive.cpp in Sources */,
-				12FD637213184EB700352331 /* PrimitivePin.cpp in Sources */,
-				12FD637313184EB700352331 /* PrimitiveSet.cpp in Sources */,
-				12FD637413184EB700352331 /* RcFactory.cpp in Sources */,
-				12FD637513184EB700352331 /* RoutingNet.cpp in Sources */,
-				12FD637713184EB700352331 /* WritePrimitive.cpp in Sources */,
-				12FD637813184EB700352331 /* XdlUnpack.cpp in Sources */,
-				12FD637913184EB700352331 /* XdlUnpackUnitTest.cpp in Sources */,
+				12BEDBDB133A91E900F3507C /* Virtex6DeviceInfo.cpp in Sources */,
+				12BEE0B313609A2900F3507C /* Frame.cpp in Sources */,
+				12BEE10F1360A45200F3507C /* Virtex2DeviceInfo.cpp in Sources */,
+				12BEE1101360A45200F3507C /* Virtex2PDeviceInfo.cpp in Sources */,
+				12BEE1111360A45200F3507C /* Virtex4DeviceInfo.cpp in Sources */,
+				12BEE1121360A45200F3507C /* VirtexDeviceInfo.cpp in Sources */,
+				12BEE1131360A45200F3507C /* VirtexEDeviceInfo.cpp in Sources */,
+				1285E40013840C3200A709A5 /* Spartan6BuildHelper.cpp in Sources */,
+				1285E40113840C3200A709A5 /* Spartan6BuildHelperUnitTest.cpp in Sources */,
+				1218CD1913902A1E00E3747C /* Virtex7.cpp in Sources */,
+				1218CD1A13902A1E00E3747C /* Virtex7UnitTest.cpp in Sources */,
+				1218CEDE13903FA800E3747C /* Virtex7DeviceInfo.cpp in Sources */,
+				127C475713954C8D00733844 /* Spartan3EDeviceInfo.cpp in Sources */,
+				127C476513954D5500733844 /* Placement.cpp in Sources */,
+				127C48F213996DB400733844 /* FrameUnitTest.cpp in Sources */,
+				127C4F0D139D88A900733844 /* FrameSet.cpp in Sources */,
+				127C4F0E139D88A900733844 /* FrameSetUnitTest.cpp in Sources */,
+				127C4F15139D8AF100733844 /* Spartan6Bitstream.cpp in Sources */,
+				127C4F16139D8AF100733844 /* Spartan6BitstreamUnitTest.cpp in Sources */,
+				127C4F17139D8AF100733844 /* Spartan6Packet.cpp in Sources */,
+				127C4F18139D8AF100733844 /* Spartan6PacketUnitTest.cpp in Sources */,
+				127C4FDE139EB34800733844 /* SiteTypesUnitTest.cpp in Sources */,
+				127C531213A26E4200733844 /* CombinationalPath.cpp in Sources */,
+				127C531313A26E4200733844 /* Connection.cpp in Sources */,
+				127C531413A26E4200733844 /* ConnectionPin.cpp in Sources */,
+				127C531513A26E4200733844 /* Element.cpp in Sources */,
+				127C531613A26E4200733844 /* ParsePrimitive.cpp in Sources */,
+				127C531713A26E4200733844 /* Primitive.cpp in Sources */,
+				127C531813A26E4200733844 /* PrimitivePin.cpp in Sources */,
+				127C531913A26E4200733844 /* PrimitiveSet.cpp in Sources */,
+				127C531A13A26E4200733844 /* RcFactory.cpp in Sources */,
+				127C531B13A26E4200733844 /* RoutingNet.cpp in Sources */,
+				127C531D13A26E4200733844 /* WritePrimitive.cpp in Sources */,
+				127C531E13A26E4200733844 /* XdlUnpack.cpp in Sources */,
+				127C531F13A26E4200733844 /* XdlUnpackUnitTest.cpp in Sources */,
+				127C56D113A7A88900733844 /* Annotated.cpp in Sources */,
+				127C56D213A7A88900733844 /* AnnotatedUnitTest.cpp in Sources */,
+				127C56D313A7A88900733844 /* Renamable.cpp in Sources */,
+				127C56D413A7A88900733844 /* RenamableUnitTest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4240,6 +4246,36 @@
 				);
 				PRODUCT_NAME = xEdifExample;
 				SYMROOT = build;
+			};
+			name = Release;
+		};
+		127C50C7139FC00A00733844 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = /usr/local/bin;
+				PREBINDING = NO;
+				PRODUCT_NAME = bitstream_example;
+			};
+			name = Debug;
+		};
+		127C50C8139FC00A00733844 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				PREBINDING = NO;
+				PRODUCT_NAME = bitstream_example;
+				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -4570,7 +4606,7 @@
 					"-lboost_system",
 					"-lboost_unit_test_framework",
 				);
-				PRODUCT_NAME = torc;
+				PRODUCT_NAME = test;
 				SYMROOT = build;
 				WARNING_CFLAGS = (
 					"-Werror",
@@ -4636,7 +4672,7 @@
 					"-lboost_system",
 					"-lboost_unit_test_framework",
 				);
-				PRODUCT_NAME = torc;
+				PRODUCT_NAME = test;
 				SYMROOT = build;
 				WARNING_CFLAGS = (
 					"-Werror",
@@ -4701,6 +4737,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		127C50C9139FC02800733844 /* Build configuration list for PBXNativeTarget "bitstream_example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				127C50C7139FC00A00733844 /* Debug */,
+				127C50C8139FC00A00733844 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		127DEB4911E7D83E007E1A8F /* Build configuration list for PBXNativeTarget "XdlExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -4728,7 +4773,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1DEB923108733DC60010E9CD /* Build configuration list for PBXNativeTarget "torc" */ = {
+		1DEB923108733DC60010E9CD /* Build configuration list for PBXNativeTarget "test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB923208733DC60010E9CD /* Debug */,

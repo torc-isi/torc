@@ -29,7 +29,7 @@ namespace architecture {
 BOOST_AUTO_TEST_SUITE(architecture)
 
 /// \brief Unit test for the InstancePin class.
-BOOST_AUTO_TEST_CASE(architecture_instance_pin) {
+BOOST_AUTO_TEST_CASE(InstanceUnitTest) {
 	// create objects to work with
 	torc::physical::InstanceSharedPtr instancePtr 
 		= torc::physical::Factory::newInstancePtr("name", "type", "tile", "site");

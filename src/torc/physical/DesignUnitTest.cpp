@@ -23,11 +23,11 @@
 namespace torc {
 namespace physical {
 
-BOOST_AUTO_TEST_SUITE(physical_database)
+BOOST_AUTO_TEST_SUITE(physical)
 
 /// \brief Unit test for the Design class.
 /// \todo Verify that all children can trace their lineage all the way up to the design.
-BOOST_AUTO_TEST_CASE(physical_design) {
+BOOST_AUTO_TEST_CASE(DesignUnitTest) {
 	// functions tested:
 	//		Design(const string& inName, const string& inDevice, const string& inPackage, 
 	//			const string& inSpeedGrade, const string& inXdlVersion);

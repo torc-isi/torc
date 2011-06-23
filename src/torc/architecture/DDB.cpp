@@ -71,7 +71,10 @@ namespace architecture {
 			deviceDatabaseBytesRead += mSites.readPackages(deviceDatabaseStream);
 			deviceDatabaseBytesRead += mTiles.readTileMap(deviceDatabaseStream);
 			deviceDatabaseBytesRead += mSegments.readTilewireSegments(deviceDatabaseStream);
-			deviceDatabaseBytesRead += mSegments.readSegments(deviceDatabaseStream);
+			bool extendedAnchorTileCount 
+				= mDeviceVersion.getFormat() == torc::common::DottedVersion(1, 0, 1);
+			deviceDatabaseBytesRead += mSegments.readSegments(deviceDatabaseStream, 
+				extendedAnchorTileCount);
 			deviceDatabaseBytesRead += mSegments.readIrregularArcs(deviceDatabaseStream);
 			familyDatabaseBytesRead += mSites.readSiteTypes(familyDatabaseStream);
 			familyDatabaseBytesRead += mSites.readSitePinMaps(familyDatabaseStream);
@@ -88,7 +91,7 @@ namespace architecture {
 
 		catch(fstream::failure f) {
 			cerr << "An unprocessed ifstream::failure exception was thrown: " << f.what() << endl;
-			exit(-1);
+			throw;
 		}
 
 	}

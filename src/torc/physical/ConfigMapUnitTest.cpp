@@ -23,10 +23,10 @@
 namespace torc {
 namespace physical {
 
-BOOST_AUTO_TEST_SUITE(physical_database)
+BOOST_AUTO_TEST_SUITE(physical)
 
 /// \brief Unit test for the ConfigMap class.
-BOOST_AUTO_TEST_CASE(physical_config_map) {
+BOOST_AUTO_TEST_CASE(ConfigMapUnitTest) {
 	// create some configuration entries
 	Config config1("name1", "value1");
 	Config config2("name2", "value2");

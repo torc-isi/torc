@@ -240,7 +240,8 @@ namespace bitstream { class bitstream_virtex_packet; }
 		uint32_t getWordCount(void) const { return mCount; }
 		/// \brief Returns the total number of words in the packet, including the header word.
 		uint32_t getWordSize(void) const { return mCount + 1; }
-//		const uint32_t* getWords(void) const { return mWords; }
+		/// brief Returns the raw packet words, including the header word.
+		const WordSharedArray getWords(void) const { return mWords; }
 	// tests
 		bool isType1(void) const { return mType == ePacketType1; }
 		bool isType2(void) const { return mType == ePacketType2; }

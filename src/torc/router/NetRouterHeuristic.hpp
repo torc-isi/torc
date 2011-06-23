@@ -129,7 +129,8 @@ namespace router {
 				std::cout << "NULL PARENT" << std::endl;
 			else
 				cost += inNode.getParent()->getCost(); //add cost to parent;
-			inNode.setCost(cost);	
+			inNode.setCost(cost);
+			
 		}
 		/// \brief 
 		virtual void nodeCostInitial(RouteNode& inNode) {
@@ -204,6 +205,20 @@ namespace router {
 		
 		virtual boost::int32_t clkDistanceToSink(const Tilewire& inTilewire) {
 			return -100;
+		}
+		
+		boost::int32_t distanceFromParent(const Tilewire& inParent, const Tilewire& inCurrent) {
+			const TileInfo* parentInfo = &mTiles.getTileInfo(inParent.getTileIndex());
+			const TileInfo* currentInfo = &mTiles.getTileInfo(inCurrent.getTileIndex());
+			
+			boost::int32_t distance = 0;
+			boost::int32_t pRow = parentInfo->getRow();
+			boost::int32_t pCol = parentInfo->getCol();
+			boost::int32_t cRow = currentInfo->getRow();
+			boost::int32_t cCol = currentInfo->getCol();
+			distance += pRow < cRow ? cRow - pRow : pRow - cRow;
+			distance += pCol < cCol ? cCol - pCol : pCol - cCol;
+			return distance;
 		}
 	}; // class Heuristic
 	

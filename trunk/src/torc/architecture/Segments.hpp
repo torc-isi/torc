@@ -135,7 +135,7 @@ namespace architecture { class segments_unit_test_helper; }
 		/// \brief Read the segment entries for every tile.
 		size_t readTilewireSegments(DigestStream& inStream);
 		/// \brief Read the compact segments for the device.
-		size_t readSegments(DigestStream& inStream);
+		size_t readSegments(DigestStream& inStream, bool inExtendedAnchorTileCount);
 		/// \brief Read the irregular arcs for the device.
 		size_t readIrregularArcs(DigestStream& inStream);
 		/// \brief Return a pointer to the requested IrregularArc, or 0 if the arc does not exist.

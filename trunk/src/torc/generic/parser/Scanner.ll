@@ -1557,7 +1557,7 @@ String \"[^\"]*\"
                               {
                                   REJECT;
                               }
-                              return Token::PAGESIZE; 
+                              return Token::PAGESIZE_TORC; 
                             }
 "parameter"                 { 
                               if( getIsIdContext() )

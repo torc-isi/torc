@@ -41,8 +41,8 @@ BOOST_AUTO_TEST_CASE(NetRouterHeuristicT) {
 	Tilewire tw1(architecture::xilinx::TileIndex(3000), architecture::xilinx::WireIndex(100));
 	Tilewire tw2(architecture::xilinx::TileIndex(4004), architecture::xilinx::WireIndex(225));
 	
-	RouteNode* node1 = new RouteNode(tw1, tw1, 50, 0);
-	RouteNode* node2 = new RouteNode(tw1, tw1, 0, node1);
+	RouteNode* node1 = new RouteNode(tw1, tw1, 50, 50, 0, 0);
+	RouteNode* node2 = new RouteNode(tw1, tw1, 0, 0, 1, node1);
 	
 //	ExtendedWireInfo ewi1(db, tw1);
 //	ExtendedWireInfo ewi2(db, tw2);

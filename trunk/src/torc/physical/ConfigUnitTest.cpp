@@ -22,10 +22,10 @@
 namespace torc {
 namespace physical {
 
-BOOST_AUTO_TEST_SUITE(physical_database)
+BOOST_AUTO_TEST_SUITE(physical)
 
 /// \brief Unit test for the Config class.
-BOOST_AUTO_TEST_CASE(physical_config) {
+BOOST_AUTO_TEST_CASE(ConfigUnitTest) {
 	// functions tested:
 	//		Config(const string& inName, const string& inValue);
 	//		Config(const string& inName, const string& inValue, SequenceIndex inOrder);

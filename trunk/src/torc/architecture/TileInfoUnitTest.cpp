@@ -25,7 +25,11 @@ namespace architecture {
 BOOST_AUTO_TEST_SUITE(architecture)
 
 /// \brief Unit test for the TileInfo class.
-BOOST_AUTO_TEST_CASE(architecture_tile_info) {
+BOOST_AUTO_TEST_CASE(TileInfoUnitTest) {
+
+	/// \todo Write a unit test for torc::architecture::TileInfo.
+	BOOST_REQUIRE(false);
+
 }
 
 BOOST_AUTO_TEST_SUITE_END()

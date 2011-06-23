@@ -28,11 +28,11 @@
 namespace torc {
 namespace physical {
 
-BOOST_AUTO_TEST_SUITE(physical_database)
+BOOST_AUTO_TEST_SUITE(physical)
 
 /// \brief Basic regression test for the entire XDL infrastructure.
 /// \details Note: This is neither a pleasant nor recommended way to create a design.
-BOOST_AUTO_TEST_CASE(physical_xdl_regression) {
+BOOST_AUTO_TEST_CASE(DesignRegressionTest) {
 
 	// determine whether or not to output additional debugging information; this serves primarily 
 	// to show the user how certain design items can be accessed

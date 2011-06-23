@@ -26,6 +26,7 @@
 #include "torc/physical/InstancePin.hpp"
 #include "torc/physical/Pip.hpp"
 #include "torc/physical/Routethrough.hpp"
+#include "torc/physical/Annotated.hpp"
 #include <string>
 
 namespace torc {
@@ -38,7 +39,7 @@ namespace physical {
 	///		other hand, we provide the functions to check for existing resources, so perhaps we can 
 	///		just leave it to the user.
 	class Net : public Named, public Progeny<class Circuit>, public ConfigMap, 
-		protected Progenitor<Net> {
+		public Annotated, protected Progenitor<Net> {
 	// friends
 		/// \brief The Factory class has direct access to our internals.
 		friend class Factory;

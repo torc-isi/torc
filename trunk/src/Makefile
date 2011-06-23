@@ -23,6 +23,7 @@ LDFLAGS = \
 				-lboost_signals \
 				-lboost_system \
 				-lboost_thread \
+				-lstdc++ \
 				$
 LDTESTFLAGS = \
 				-lboost_unit_test_framework \
@@ -37,6 +38,7 @@ LDFLAGS = \
 				-lboost_signals \
 				-lboost_system \
 				-lboost_thread \
+				-lstdc++ \
 				$
 LDTESTFLAGS = \
 				-lboost_unit_test_framework \
@@ -122,83 +124,83 @@ distrib: databases
 
 # make the test executable
 test: torc references
-	g++ \
-				$(LDFLAGS) \
+	$(CC) \
 				$(REAL_OBJECTS) \
 				$(TEST_OBJECTS) \
 				$(LDTESTFLAGS) \
+				$(LDFLAGS) \
 				-o $@ \
 				$
 
 # make the architecture example executable
 architecture_example: torc references
-	g++ \
-				$(LDFLAGS) \
+	$(CC) \
 				$(REAL_OBJECTS) \
 				torc/examples/ArchitectureExample.o \
+				$(LDFLAGS) \
 				-o $@ \
 				$
 
 # make the example example executable
 bitstream_example: torc references
-	g++ \
-				$(LDFLAGS) \
+	$(CC) \
 				$(REAL_OBJECTS) \
 				torc/examples/BitstreamExample.o \
+				$(LDFLAGS) \
 				-o $@ \
 				$
 
 # make the generic example executable
 generic_example: torc references
-	g++ \
-				$(LDFLAGS) \
+	$(CC) \
 				$(REAL_OBJECTS) \
 				torc/examples/GenericExample.o \
+				$(LDFLAGS) \
 				-o $@ \
 				$
 
 # make the EDIF obfuscator example executable
 edif_obfuscator: torc references
-	g++ \
-				$(LDFLAGS) \
+	$(CC) \
 				$(REAL_OBJECTS) \
 				torc/examples/EdifObfuscator.o \
+				$(LDFLAGS) \
 				-o $@ \
 				$
 
 # make the XDL example executable
 physical_example: torc references
-	g++ \
-				$(LDFLAGS) \
+	$(CC) \
 				$(REAL_OBJECTS) \
 				torc/examples/PhysicalExample.o \
+				$(LDFLAGS) \
 				-o $@ \
 				$
 
 # make the xdldiff executable
 xdldiff: torc
-	g++ \
-				$(LDFLAGS) \
+	$(CC) \
 				$(REAL_OBJECTS) \
 				torc/utils/XdlDiffMain.o \
+				$(LDFLAGS) \
 				-o $@ \
 				$
 
 # make the architecture browser executable
 browser: torc
-	g++ \
-				$(LDFLAGS) \
+	$(CC) \
 				$(REAL_OBJECTS) \
 				torc/utils/BrowserMain.o \
+				$(LDFLAGS) \
 				-o $@ \
 				$
 
 # make the XDL extractor executable
 markextract: torc
-	g++ \
-				$(LDFLAGS) \
+	$(CC) \
 				$(REAL_OBJECTS) \
 				torc/utils/XdlExtractMain.o \
+				$(LDFLAGS) \
 				-o $@ \
 				$
 
@@ -252,7 +254,7 @@ regression/%.debug.bit: torc/bitstream/regression/%.debug.bit
 clean:
 	make -C torc clean
 	rm -f $(OBJS)
-	rm -f test architecture_example bitstream_example edif_obfuscator generic_example \
+	rm -f test browser architecture_example bitstream_example edif_obfuscator generic_example \
 		physical_example xdldiff
 	rm -rf regression
 	rm -rf devices

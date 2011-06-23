@@ -23,10 +23,10 @@
 namespace torc {
 namespace physical {
 
-BOOST_AUTO_TEST_SUITE(physical_database)
+BOOST_AUTO_TEST_SUITE(physical)
 
 /// \brief Unit test for the Routethrough class.
-BOOST_AUTO_TEST_CASE(physical_routethrough) {
+BOOST_AUTO_TEST_CASE(RouteThroughUnitTest) {
 	// create an accessory instance
 	InstanceSharedPtr instancePtr = Factory::newInstancePtr("name", "type", "tile", "site", 
 		eInstanceBondingUnknown);

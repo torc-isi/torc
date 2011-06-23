@@ -1,0 +1,21 @@
+// Torc - Copyright 2010 University of Southern California.  All Rights Reserved.
+// $HeadURL: https://svn.east.isi.edu/torc/trunk/src/torc/bitstream/Bitstream.cpp $
+// $Id: Bitstream.cpp 185 2010-10-06 23:17:59Z nsteiner $
+
+/// \file
+/// \brief Static definition of the %%ARCHITECTURE%% class.
+/// \details This is a generated file.  Please modify with care.
+
+#include "torc/bitstream/%%ARCHITECTURE%%.hpp"
+
+namespace torc {
+namespace bitstream {
+
+	enum { Empty = Virtex4::eColumnTypeEmpty, Bram = Virtex4::eColumnTypeBram, 
+		Clb = Virtex4::eColumnTypeClb, Clock = Virtex4::eColumnTypeClock, 
+		Dsp = Virtex4::eColumnTypeDsp, Gtx = Virtex4::eColumnTypeGtx, 
+		Iob = Virtex4::eColumnTypeIob, END = boost::uint32_t(-1) };
+
+%%DEVICES%%
+} // namespace bitstream
+} // namespace torc

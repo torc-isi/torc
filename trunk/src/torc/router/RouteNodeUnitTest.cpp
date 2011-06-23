@@ -43,15 +43,15 @@ BOOST_AUTO_TEST_CASE(RouteNodeT) {
 	//		sizeof(RouteNode)
 	BOOST_CHECK_EQUAL(sizeof(RouteNode), sizeof(architecture::Arc) + sizeof(RouteNode*)
 		+ sizeof(boost::int32_t));
-	BOOST_CHECK_EQUAL(sizeof(RouteNode), 24u);
+	BOOST_CHECK_EQUAL(sizeof(RouteNode), 28u);
 
 	// functions tested:
 	//		RouteNode(void);
 	//		RouteNode(Tilewire inSource, Tilewire inSink, RouteNodeCost inCost, 
 	//			RouteNode* inParent);
-	RouteNode* routenode1 = new RouteNode(tilewire1, tilewire2, cost1, 0);
-	RouteNode* routenode2 = new RouteNode(arc2, cost1, routenode1);
-	RouteNode* routenode3 = new RouteNode(tilewire3, tilewire4, cost2, routenode2);
+	RouteNode* routenode1 = new RouteNode(tilewire1, tilewire2, cost1, cost1, 0, 0);
+	RouteNode* routenode2 = new RouteNode(arc2, cost1, cost1, 1, routenode1);
+	RouteNode* routenode3 = new RouteNode(tilewire3, tilewire4, cost2, cost2, 2, routenode2);
 	RouteNode* routenode4 = new RouteNode();
 	BOOST_CHECK_EQUAL(routenode1 != 0, true);
 	BOOST_CHECK_EQUAL(routenode2 != 0, true);
@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE(RouteNodeT) {
 	//		const Arc& getArc() const;
 	//		const Tilewire& getSourceTilewire() const;
 	//		const Tilewire& getSinkTilewire() const;
-	//		const RouteNodeCost& getCost() const;
+	//		const boost::int32_t getCost() const;
 	//		void setCost(boost::int32_t inCost);
 	//		RouteNode* getParent() const;
 	//		RouteNode* getTop();
@@ -72,6 +72,7 @@ BOOST_AUTO_TEST_CASE(RouteNodeT) {
 	BOOST_CHECK_EQUAL(routenode2->getSinkTilewire() == tilewire3, true);
 	BOOST_CHECK_EQUAL(routenode3->getCost() == cost2, true);
 	BOOST_CHECK_EQUAL(routenode4->getCost() == 0, true);
+	BOOST_CHECK_EQUAL(routenode3->getPathCost() == cost2, true);
 	routenode4->setCost(42);
 	BOOST_CHECK_EQUAL(routenode4->getCost() == 42, true);
 	BOOST_CHECK_EQUAL(routenode3->getParent() == routenode2, true);

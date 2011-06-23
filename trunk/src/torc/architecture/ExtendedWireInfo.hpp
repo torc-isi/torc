@@ -62,10 +62,11 @@ namespace architecture {
 		TileCol mTileCol;
 	// constructors
 		/// \brief Basic constructor.
-		ExtendedWireInfo(const DDB& inDDB) : mDDB(inDDB), mWireIndex(static_cast<WireIndex>(-1)), 
-			mWireName(0), mWireFlags(0), mTileIndex(static_cast<TileIndex>(-1)), mTileName(0), 
-			mTileTypeIndex(static_cast<TileTypeIndex>(-1)), mTileTypeName(0), mTileRow(0), 
-			mTileCol(0) {}
+		ExtendedWireInfo(const DDB& inDDB) : mDDB(inDDB), 
+			mWireIndex(WireIndex(WireIndex::undefined())), mWireName(0), mWireFlags(0), 
+			mTileIndex(TileIndex(TileIndex::undefined())), mTileName(0), 
+			mTileTypeIndex(TileTypeIndex(TileTypeIndex::undefined())), mTileTypeName(0), 
+			mTileRow(0), mTileCol(0) {}
 		/// \brief Tilewire constructor.
 		ExtendedWireInfo(const DDB& inDDB, const Tilewire& inTilewire) : mDDB(inDDB) {
 			set(inTilewire);

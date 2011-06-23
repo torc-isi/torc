@@ -129,7 +129,7 @@ namespace bitstream { class bitstream_spartan_packet; }
 			uint32_t header = 0;
 			uint32_t word = 0;
 			uint32_t* raw_words = 0;
-			bool debug = true;
+			//bool debug = true;
 			// read the header
 			inStream.read((char*) &header, sizeof(header));
 			header = ntohl(header);
@@ -164,7 +164,7 @@ namespace bitstream { class bitstream_spartan_packet; }
 			} else if(count > 1) {
 				raw_words = new uint32_t[count];
 				inStream.read((char*) raw_words, count << 2);
-				if (debug) printf("Packet Count: %x\n", count);
+				//if (debug) printf("Packet Count: %x\n", count);
 				uint32_t* wordPtr = raw_words;
 				for(uint32_t i = 0; i < count; i++, wordPtr++) *wordPtr = ntohl(*wordPtr);
 			}

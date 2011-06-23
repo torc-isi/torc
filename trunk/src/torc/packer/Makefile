@@ -37,6 +37,7 @@ OBJS = \
 				PrimitiveSet.o \
 				WritePrimitive.o \
 				XdlUnpack.o \
+				XdlUnpackUnitTest.o \
 				testParse.o \
 				ParsePrimitive.o \
 				PrimitivePin.o \

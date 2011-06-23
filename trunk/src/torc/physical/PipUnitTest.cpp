@@ -23,10 +23,10 @@
 namespace torc {
 namespace physical {
 
-BOOST_AUTO_TEST_SUITE(physical_database)
+BOOST_AUTO_TEST_SUITE(physical)
 
 /// \brief Unit test for the Pip class.
-BOOST_AUTO_TEST_CASE(physical_pip) {
+BOOST_AUTO_TEST_CASE(PipUnitTest) {
 	// create an accessory instance and routethrough
 	InstanceSharedPtr instancePtr = Factory::newInstancePtr("name", "type", "tile", "site", 
 		eInstanceBondingUnknown);

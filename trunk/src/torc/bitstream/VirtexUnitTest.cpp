@@ -18,13 +18,16 @@
 
 #include <boost/test/unit_test.hpp>
 #include "torc/bitstream/Virtex.hpp"
+#include "torc/common/DirectoryTree.hpp"
+#include "torc/common/Devices.hpp"
 #include "torc/architecture/DDB.hpp"
 #include "torc/architecture/DeviceDesignator.hpp"
 #include "torc/bitstream/OutputStreamHelpers.hpp"
+#include "torc/bitstream/build/DeviceInfoHelper.hpp"
 #include "torc/common/TestHelpers.hpp"
-#include "torc/common/DirectoryTree.hpp"
 #include <fstream>
 #include <iostream>
+#include <boost/filesystem.hpp>
 
 namespace torc {
 namespace bitstream {
@@ -127,31 +130,70 @@ BOOST_AUTO_TEST_CASE(bitstream_virtex) {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 void testVirtexDevice(const std::string& inDeviceName, const boost::filesystem::path& inWorkingPath);
 
 /// \brief Unit test for the Virtex class Frame Address Register mapping.
 BOOST_AUTO_TEST_CASE(bitstream_virtex_far) {
 
-	std::string devices[] = {
-		// Virtex
-		"xcv50", "xcv100", "xcv150", "xcv200", "xcv300", "xcv400", "xcv600", "xcv800", "xcv1000",
+	// look up the command line arguments
+	int& argc = boost::unit_test::framework::master_test_suite().argc;
+	char**& argv = boost::unit_test::framework::master_test_suite().argv;
+	// make sure that we at least have the name under which we were invoked
+	BOOST_REQUIRE(argc >= 1);
+	// resolve symbolic links if applicable
+	torc::common::DirectoryTree directoryTree(argv[0]);
 
-		// VirtexE
-		"xcv50e", "xcv100e", "xcv200e", "xcv300e", "xcv400e", "xcv405e", "xcv600e", "xcv812e", 
-			"xcv1000e", "xcv1600e", "xcv2000e", "xcv2600e", "xcv3200e",
-
-		// termination
-		""
-	};
-
-	for(int i = 0; ; i++) {
-		std::string& device = devices[i];
+	// iterate over the devices
+	const torc::common::DeviceVector& devices = torc::common::Devices::getVirtexDevices();
+	torc::common::DeviceVector::const_iterator dp = devices.begin();
+	torc::common::DeviceVector::const_iterator de = devices.end();
+	while(dp < de) {
+		const std::string& device = *dp++;
 		if(device.empty()) break;
-//if(i == 6) 
+//std::cout << "device " << ": " << device << std::endl;
 		testVirtexDevice(device, torc::common::DirectoryTree::getWorkingPath());
 	}
 }
 
+/*
 	class TileTypeWidths {
 	public:
 		uint32_t mWidth[8];
@@ -164,225 +206,72 @@ BOOST_AUTO_TEST_CASE(bitstream_virtex_far) {
 		void clear(void) { for(int i = 0; i < 8; i++) mWidth[i] = 0; }
 		uint32_t operator[] (int inIndex) const { return mWidth[inIndex]; }
 	};
+*/
 
 	std::ostream& operator<< (std::ostream& os, const Virtex::FrameAddress& rhs);
 	std::ostream& operator<< (std::ostream& os, const Virtex::FrameAddress& rhs) {
-		return os << rhs.mBlockType	<< "(" << rhs.mMajor << "." << rhs.mMinor << ")";
+		return os << rhs.mBlockType << "(" << rhs.mMajor << "." << rhs.mMinor << ")";
 	}
 
-using namespace torc::architecture::xilinx;
 void testVirtexDevice(const std::string& inDeviceName, const boost::filesystem::path& inWorkingPath) {
 
-	torc::architecture::DDB ddb(inDeviceName);
-	BOOST_CHECK_EQUAL(ddb.getDeviceName(), inDeviceName);
-
 	// build the file paths
-	boost::filesystem::path debugBitstreamPath = inWorkingPath / "regression";
+	boost::filesystem::path debugBitstreamPath = inWorkingPath / "torc" / "bitstream" / "regression";
 	//boost::filesystem::path generatedPath = debugBitstreamPath / (inDeviceName + ".debug.bit");
 	boost::filesystem::path referencePath = debugBitstreamPath / (inDeviceName + ".debug.bit");
+std::cerr << "TRYING TO FIND " << referencePath << std::endl;
 
-	std::cerr << "looking for path: " << referencePath << std::endl;
 	// read the bitstream
 	std::fstream fileStream(referencePath.string().c_str(), std::ios::binary | std::ios::in);
+	std::cerr << "Trying to read: " << referencePath << std::endl;
 	BOOST_REQUIRE(fileStream.good());
 	Virtex bitstream;
 	bitstream.read(fileStream, false);
 	// write the bitstream digest to the console
 //	std::cout << bitstream << std::endl;
 
-	// look up the device tile map
-	const torc::architecture::Tiles& tiles = ddb.getTiles();
-	TileCount tileCount = tiles.getTileCount();
-	TileRow rowCount = tiles.getRowCount();
-	TileCol colCount = tiles.getColCount();
-	std::cerr << "tileCount: " << tileCount << std::endl;
-	std::cerr << "rowCount: " << rowCount << std::endl;
-	std::cerr << "colCount: " << colCount << std::endl;
+//	// initialize the bitstream frame maps
+//	boost::filesystem::path deviceColumnsPath = inWorkingPath / "regression" 
+//		/ (inDeviceName + ".cpp");
+//	std::fstream deviceColumnsStream(deviceColumnsPath.string().c_str(), std::ios::out);
+	bitstream.initializeDeviceInfo(inDeviceName);
+	bitstream.initializeFrameMaps();
 
-	typedef std::map<TileTypeIndex, std::string> TileTypeIndexToName;
-	typedef std::map<std::string, TileTypeIndex> TileTypeNameToIndex;
-	typedef std::map<TileTypeIndex, TileTypeWidths> TileTypeIndexToWidths;
-	TileTypeIndexToName tileTypeIndexToName;
-	TileTypeNameToIndex tileTypeNameToIndex;
-	TileTypeIndexToWidths tileTypeWidths;
-	TileTypeCount tileTypeCount = tiles.getTileTypeCount();
-	for(TileTypeIndex tileTypeIndex(0); tileTypeIndex < tileTypeCount; tileTypeIndex++) {
-		const std::string tileTypeName = tiles.getTileTypeName(tileTypeIndex);
-		tileTypeIndexToName[tileTypeIndex] = tileTypeName;
-		tileTypeNameToIndex[tileTypeName] = tileTypeIndex;
-	}
-	// reference row tile types
-	// BRAM columns
-	TileTypeIndex typeBram				= tileTypeNameToIndex["BRAM"];
-	// CLB columns
-	TileTypeIndex typeClb				= tileTypeNameToIndex["CLB"];
-	// CLKV columns
-	TileTypeIndex typeClkv				= tileTypeNameToIndex["CLKV"]; 
-	TileTypeIndex typeClkvDcmT			= tileTypeNameToIndex["CLKV_DCM_T"]; 
-	// DSP columns
-	TileTypeIndex typeDsp				= tileTypeNameToIndex["DSP"]; 
-	// DCM columns
-	TileTypeIndex typeDcm				= tileTypeNameToIndex["DCM"]; 
-	TileTypeIndex typeSysMon 			= tileTypeNameToIndex["SYS_MON"]; 
-	// IOIS columns
-	TileTypeIndex typeIoisLc 			= tileTypeNameToIndex["IOIS_LC"]; 
-	TileTypeIndex typeIoisLcL 			= tileTypeNameToIndex["IOIS_LC_L"]; 
-	// MGT columns
-	TileTypeIndex typeMgtAl				= tileTypeNameToIndex["MGT_AL"]; 
-	TileTypeIndex typeMgtAr				= tileTypeNameToIndex["MGT_AR"]; 
-	// empty columns
-	TileTypeIndex typeCfgVbrkFrame		= tileTypeNameToIndex["CFG_VBRK_FRAME"];
-	TileTypeIndex typeClbBuffer 		= tileTypeNameToIndex["CLB_BUFFER"]; 
-	TileTypeIndex typeEmptyMgt			= tileTypeNameToIndex["EMPTY_MGT"]; 
-	TileTypeIndex typeInt				= tileTypeNameToIndex["INT"]; 
-	TileTypeIndex typeIntSo 			= tileTypeNameToIndex["INT_SO"]; 
-	TileTypeIndex typeIntSoDcm0 		= tileTypeNameToIndex["INT_SO_DCM0"]; 
-	TileTypeIndex typeLTermInt 			= tileTypeNameToIndex["L_TERM_INT"]; 
-	TileTypeIndex typeMgtR				= tileTypeNameToIndex["MGT_R"]; 
-	TileTypeIndex typeRTermInt 			= tileTypeNameToIndex["R_TERM_INT"]; 
-	// tile type widths by block type	  block type:     0   1   2   3   4   5   6   7
-	// BRAM columns
-	tileTypeWidths[typeBram]			= TileTypeWidths( 0, 20, 64,  0,  0,  0,  0,  0);
-	// CLB columns
-	tileTypeWidths[typeClb]				= TileTypeWidths(22,  0,  0,  0,  0,  0,  0,  0);
-	// CLKV columns
-	tileTypeWidths[typeClkv]			= TileTypeWidths( 3,  0,  0,  0,  0,  0,  0,  0);
-	tileTypeWidths[typeClkvDcmT]		= TileTypeWidths( 3,  0,  0,  0,  0,  0,  0,  0);
-	// DSP columns
-	tileTypeWidths[typeDsp]				= TileTypeWidths(21,  0,  0,  0,  0,  0,  0,  0);
-	// DCM columns
-	tileTypeWidths[typeDcm]				= TileTypeWidths(30,  0,  0,  0,  0,  0,  0,  0);
-	tileTypeWidths[typeSysMon]			= TileTypeWidths(30,  0,  0,  0,  0,  0,  0,  0);
-	// IOIS columns
-	tileTypeWidths[typeIoisLc]			= TileTypeWidths(30,  0,  0,  0,  0,  0,  0,  0);
-	tileTypeWidths[typeIoisLcL]			= TileTypeWidths(30,  0,  0,  0,  0,  0,  0,  0);
-	// MGT columns
-	tileTypeWidths[typeMgtAl]			= TileTypeWidths(20,  0,  0,  0,  0,  0,  0,  0);
-	tileTypeWidths[typeMgtAr]			= TileTypeWidths(20,  0,  0,  0,  0,  0,  0,  0);
-	// empty columns
-	tileTypeWidths[typeCfgVbrkFrame]	= TileTypeWidths( 0,  0,  0,  0,  0,  0,  0,  0);
-	tileTypeWidths[typeClbBuffer] 		= TileTypeWidths( 0,  0,  0,  0,  0,  0,  0,  0);
-	tileTypeWidths[typeEmptyMgt]		= TileTypeWidths( 0,  0,  0,  0,  0,  0,  0,  0);
-	tileTypeWidths[typeInt]				= TileTypeWidths( 0,  0,  0,  0,  0,  0,  0,  0);
-	tileTypeWidths[typeIntSo]			= TileTypeWidths( 0,  0,  0,  0,  0,  0,  0,  0);
-	tileTypeWidths[typeIntSoDcm0] 		= TileTypeWidths( 0,  0,  0,  0,  0,  0,  0,  0);
-	tileTypeWidths[typeLTermInt] 		= TileTypeWidths( 0,  0,  0,  0,  0,  0,  0,  0);
-	tileTypeWidths[typeMgtR]			= TileTypeWidths( 0,  0,  0,  0,  0,  0,  0,  0);
-	tileTypeWidths[typeRTermInt] 		= TileTypeWidths( 0,  0,  0,  0,  0,  0,  0,  0);
-
-	TileRow referenceRow(8);
-	TileRow centerRow((rowCount >> 1) + 1);
-//	uint32_t frameRowCount = (rowCount / 20) >> 1;
-	uint32_t frameCount = 0;
-	for(uint32_t i = 0; i < Virtex::eFarBlockTypeCount; i++) {
-		Virtex::EFarBlockType blockType = Virtex::EFarBlockType(i);
-		std::cout << "Block type " << blockType << std::endl;
-		TileRow row = referenceRow;
-//		for(TileRow row = referenceRow; row < rowCount; row += 20) {
-			for(TileCol col; col < colCount; col++) {
-				// look up the tile info
-				const torc::architecture::TileInfo& tileInfo 
-					= tiles.getTileInfo(tiles.getTileIndex(referenceRow, col));
-				TileTypeIndex tileTypeIndex = tileInfo.getTypeIndex();
-				// determine whether the tile type widths are defined
-				TileTypeIndexToWidths::iterator p = tileTypeWidths.find(tileTypeIndex);
-				if(p == tileTypeWidths.end()) {
-					std::cout << "Unknown " << tileTypeIndexToName[tileTypeIndex] 
-						<< " width at column " << col << std::endl;
-					p->second = TileTypeWidths();
-				}
-				uint32_t width = p->second[blockType];
-				frameCount += width;
-				std::cout << "    " << tiles.getTileTypeName(tileInfo.getTypeIndex()) << ": " 
-					<< width << " (" << frameCount << ")" << std::endl;
-//			}
-		}
-if(i == 2) break;
-	}
-	/*Need to remove top/bottom & row functionality for Virtex
-
-	typedef std::map<uint32_t, Virtex::FrameAddress> FrameIndexToAddress;
-	typedef std::map<Virtex::FrameAddress, uint32_t> FrameAddressToIndex;
-	FrameIndexToAddress frameIndexToAddress;
-	FrameAddressToIndex frameAddressToIndex;
-	uint32_t farRowCount = (rowCount / 18) >> 1;
-	uint32_t frameIndex = 0;
-	for(uint32_t i = 0; i < Virtex::eFarBlockTypeCount; i++) {
-		Virtex::EFarBlockType blockType = Virtex::EFarBlockType(i);
-		std::cout << "Block type " << blockType << std::endl;
-		TileRow row = referenceRow;
-		for(uint32_t half = 0; half < 2; half++) {
-			for(uint32_t farRow = 0; farRow < farRowCount; farRow++) {
-				uint32_t farMajor = 0;
-				for(TileCol col; col < colCount; col++) {
-					// look up the tile info
-					const torc::architecture::TileInfo& tileInfo 
-						= tiles.getTileInfo(tiles.getTileIndex(referenceRow, col));
-					TileTypeIndex tileTypeIndex = tileInfo.getTypeIndex();
-					// determine whether the tile type widths are defined
-					TileTypeIndexToWidths::iterator p = tileTypeWidths.find(tileTypeIndex);
-					if(p == tileTypeWidths.end()) {
-						std::cout << "Unknown " << tileTypeIndexToName[tileTypeIndex] 
-							<< " width at column " << col << std::endl;
-						p->second = TileTypeWidths();
-					}
-					uint32_t width = p->second[blockType];
-					for(uint32_t farMinor = 0; farMinor < width; farMinor++) {
-						Virtex::FrameAddress far(Virtex::EFarTopBottom(half), blockType, farRow, 
-							farMajor, farMinor);
-						frameIndexToAddress[frameIndex] = far;
-						frameAddressToIndex[far] = frameIndex;
-//std::cout << frameIndex << ":" << far << " ";
-						frameIndex++;
-					}
-					if(width > 0) farMajor++;
-					frameCount += width;
-	//				std::cout << "    " << tiles.getTileTypeName(tileInfo.getTypeIndex()) << ": " 
-	//					<< width << " (" << frameCount << ")" << std::endl;
-				}
+	// iterate through the packets, and extract all of the FARs
+	Virtex::FrameAddressToIndex farRemaining = bitstream.mFrameAddressToIndex;
+	Virtex::FrameAddressToIndex farVisited;
+	{
+	    bool first = true;
+		Virtex::const_iterator p = bitstream.begin();
+		Virtex::const_iterator e = bitstream.end();
+		uint32_t header = VirtexPacket::makeHeader(VirtexPacket::ePacketType1, 
+			VirtexPacket::eOpcodeWrite, Virtex::eRegisterLOUT, 1);
+		while(p < e) {
+			const VirtexPacket& packet = *p++;
+			if(packet.getHeader() != header) continue;
+			if(first) { first = false; continue; }
+			Virtex::FrameAddress far = packet[1];
+			//std::cout << std::endl << "Debug Far Address: " << Hex32(packet[1]) << std::endl;
+			farVisited[far] = 0;
+			Virtex::FrameAddressToIndex::iterator found = farRemaining.find(far);
+			if(found != farRemaining.end()) {
+				farRemaining.erase(found);
+			} else {
+				std::cerr << "missing " << far << " ";
 			}
 		}
-//std::cout << std::endl;
-if(i == 2) break;
 	}
+	// verify that we have visited all of the expected FARs and no others
+	std::cout << "Device: " << inDeviceName << std::endl;
+	std::cout << "Size of farRemaining: " << farRemaining.size() << std::endl;
+	std::cout << "Size of farVisited: " << farVisited.size() << std::endl;
+	BOOST_REQUIRE_EQUAL(bitstream.mFrameAddressToIndex.size(), farVisited.size());
+	BOOST_REQUIRE_EQUAL(farRemaining.size(), 0u);
 
-std::cout << "size of frameAddressToIndex is " << frameAddressToIndex.size() << std::endl;
-std::cout << "size of frameIndexToAddress is " << frameIndexToAddress.size() << std::endl;		*/
-
-/*Need to remove top/bottom & row functionality for Virtex
-
-	std::cout << "\n\n\nSTART ADDRESSES\n";
-	//FrameAddressToIndex farCopy = frameAddressToIndex;
-	const FrameAddressToIndex& farCopy = frameAddressToIndex;
-	{
-		FrameAddressToIndex::const_iterator p = farCopy.begin();
-		FrameAddressToIndex::const_iterator e = farCopy.end();
-		while(p != e) {
-			std::cout << p->second << ":" << p->first << " ";
-			p++;
-		}
-		std::cout << std::endl;
-	}
-	std::cout << "END ADDRESSES\n\n\n";
-
-	boost::filesystem::path generatedMap = inWorkingPath / (inDeviceName + ".map.csv");
-	std::fstream tilemapStream(generatedMap.string().c_str(), std::ios::out);
-	BOOST_REQUIRE(tilemapStream.good());
-	for(TileRow row; row < rowCount; row++) {
-		for(TileCol col; col < colCount; col++) {
-			const torc::architecture::TileInfo& tileInfo 
-				= tiles.getTileInfo(tiles.getTileIndex(row, col));
-			TileTypeIndex tileTypeIndex = tileInfo.getTypeIndex();
-			tilemapStream << tiles.getTileTypeName(tileTypeIndex);
-			if(col + 1 < colCount) tilemapStream << ",";
-		}
-		tilemapStream << std::endl;
-	}
-	tilemapStream.close();
-*/
-
-	/* Need to remove top/bottom & row functionality for Virtex
-	// iterate through the packets, and extract all of the FARs
+return;
+/*
+	// iterate through the debug bitstream packets, and extract all of the FARs
+	// this isn't currently being used, but it may come in handy for debugging
 	for(int half = 0; half < 2; half++) {
 		for(uint32_t row = 0; row < 2; row++) {
 			typedef std::map<uint32_t, uint32_t> ColumnMaxFrame;
@@ -395,8 +284,8 @@ std::cout << "size of frameIndexToAddress is " << frameIndexToAddress.size() << 
 				const VirtexPacket& packet = *p++;
 				if(packet.getHeader() != header) continue;
 				Virtex::FrameAddress far = packet[1];
-		//		uint32_t far = packet[1];
-		//		std::cerr << Hex32(far) << " ";
+//				uint32_t far = packet[1];
+//				std::cerr << Hex32(far) << " ";
 				if(far.mTopBottom == half && far.mRow == row) {
 //					std::cerr << far << " ";
 					ColumnMaxFrame::iterator i = maxFrames[far.mBlockType].find(far.mMajor);
@@ -409,51 +298,37 @@ std::cout << "size of frameIndexToAddress is " << frameIndexToAddress.size() << 
 				}
 			}
 			std::cerr << std::endl;
-			frameCount = 0;
+			uint32_t frameCount = 0;
 			for(uint32_t i = 0; i < Virtex::eFarBlockTypeCount; i++) {
 				Virtex::EFarBlockType blockType = Virtex::EFarBlockType(i);
 				uint32_t majorCount = maxFrames[blockType].size();
 				for(uint32_t major = 0; major < majorCount; major++) {
 					frameCount += maxFrames[blockType][major] + 1;
-					std::cout << blockType << "(" << major << "): " << (maxFrames[blockType][major] + 1) 
-						<< " (" << frameCount << ")" << std::endl;
+					std::cerr << blockType << "(" << major << "): " 
+						<< (maxFrames[blockType][major] + 1) << " (" << frameCount << ")" 
+						<< std::endl;
 				}
 			}
 		}
 	}
 
-	// iterate through the packets, and extract all of the FARs
-	FrameAddressToIndex farRemaining = frameAddressToIndex;
-	FrameAddressToIndex farVisited;
-	{
-		bool first = true;
-		Virtex::const_iterator p = bitstream.begin();
-		Virtex::const_iterator e = bitstream.end();
-		uint32_t header = VirtexPacket::makeHeader(VirtexPacket::ePacketType1, 
-			VirtexPacket::eOpcodeWrite, Virtex::eRegisterLOUT, 1);
-		while(p < e) {
-			const VirtexPacket& packet = *p++;
-			if(packet.getHeader() != header) continue;
-			if(first) { first = false; continue; }
-			Virtex::FrameAddress far = packet[1];
-			farVisited[far] = 0;
-			FrameAddressToIndex::iterator found = farRemaining.find(far);
-			if(found != farRemaining.end()) {
-				farRemaining.erase(found);
-			} else {
-				std::cerr << "missing " << far << " ";
-			}
-		}
-	}
-std::cout << "size of farRemaining is " << farRemaining.size() << std::endl;
-std::cout << "size of farVisited is " << farVisited.size() << std::endl;
-//std::cout << bitstream;
+*/
+}
 
-	BOOST_REQUIRE_EQUAL(frameAddressToIndex.size(), farVisited.size());
-	BOOST_REQUIRE_EQUAL(farRemaining.size(), 0u);
-	*/
+
+
+
+
+
+/// \brief Unit test for the Virtex static device info generation.
+BOOST_AUTO_TEST_CASE(bitstream_virtex_generate) {
+
+	Virtex bitstream;
+	DeviceInfoHelper::buildFamilyDeviceInfo("Virtex", "VirtexDeviceInfo.template", 
+		"VirtexDeviceInfo.cpp", torc::common::Devices::getVirtexDevices(), bitstream);
 
 }
+
 
 BOOST_AUTO_TEST_SUITE_END()
 

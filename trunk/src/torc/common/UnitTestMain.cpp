@@ -24,6 +24,27 @@
 bool init_unit_test(void);
 #include <boost/test/unit_test.hpp>
 #include "torc/common/DirectoryTree.hpp"
+#include <iostream>
+
+/// \brief Test suite visitor to disable regression tests
+class RegressionFilter : public boost::unit_test::test_tree_visitor {
+public:
+	virtual void visit(const boost::unit_test::test_case& inTestCase) {
+		if(inTestCase.p_name.get().find("Regression") != std::string::npos) {
+			inTestCase.p_enabled.set(false);
+			//std::cout << "    removing test " << inTestCase.p_name.get() << std::endl;
+			boost::unit_test::framework::master_test_suite().remove(inTestCase.p_id);
+		}
+	}
+	virtual bool test_suite_start(const boost::unit_test::test_suite& inTestSuite) {
+		if(inTestSuite.p_name.get().find("regression") != std::string::npos) {
+			inTestSuite.p_enabled.set(false);
+			//std::cout << "    removing test " << inTestSuite.p_name.get() << std::endl;
+			boost::unit_test::framework::master_test_suite().remove(inTestSuite.p_id);
+		}
+		return true;
+	}
+};
 
 /// \brief Convenience test fixture struct to request desired logging level from Boost.Test.
 struct TestFixture {
@@ -43,7 +64,27 @@ struct TestFixture {
 		
 		// initialize the directory tree
 		char**& argv = boost::unit_test::framework::master_test_suite().argv;
+		int argc = boost::unit_test::framework::master_test_suite().argc;
 		torc::common::DirectoryTree directoryTree(argv[0]);
+
+		// determine whether the user requested regression tests
+		std::string regression("-regression");
+		bool regressionRequested = false;
+		for(int i = 1; i < argc; i++) {
+			if(argv[i] == regression) {
+				regressionRequested = true;
+				break;
+			}
+		}
+
+		// disable all regression tests unless the user requested them
+		if(regressionRequested == false) {
+			std::cout << "NOTE: Disabling all regression tests.  Use -regression to enable them." 
+				<< std::endl;
+			RegressionFilter regressionTestFilter;
+			boost::unit_test::traverse_test_tree(boost::unit_test::framework::master_test_suite(), 
+				regressionTestFilter);
+		}
 	}
 };
 /// \brief Global test fixture to request desired logging level from Boost.Test.

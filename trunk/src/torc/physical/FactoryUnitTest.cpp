@@ -22,10 +22,10 @@
 namespace torc {
 namespace physical {
 
-BOOST_AUTO_TEST_SUITE(physical_database)
+BOOST_AUTO_TEST_SUITE(physical)
 
 /// \brief Unit test for the Factory class.
-BOOST_AUTO_TEST_CASE(physical_factory) {
+BOOST_AUTO_TEST_CASE(FactoryUnitTest) {
 	// functions tested:
 	//	static DesignSharedPtr newDesignPtr(const string& inName, const string& inDevice, 
 	//		const string& inPackage, const string& inSpeedGrade, const string& inXdlVersion);

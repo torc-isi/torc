@@ -189,31 +189,31 @@ namespace architecture {
 		Tilewire sitePinToTilewire(const std::string& inSiteName, 
 			const std::string& inPinName) {
 			SiteIndex siteIndex = mSites.findSiteIndex(inSiteName);
-			if(siteIndex == SiteIndex(-1)) return Tilewire::sInvalid;
+			if(siteIndex.isUndefined()) return Tilewire::sInvalid;
 			return mSites.getSite(siteIndex).getPinTilewire(inPinName);
 		}
 		/// \brief Returns the arc for the specified pip tile and wires.
 		Arc tilePipToArc(const std::string& inTileName, const std::string& inSourceWireName, 
 			const std::string& inSinkWireName) {
 			TileIndex tileIndex = mTiles.findTileIndex(inTileName);
-			if(tileIndex == TileIndex(-1)) return Arc();
+			if(tileIndex.isUndefined()) return Arc();
 			const TileInfo& tileInfo = mTiles.getTileInfo(tileIndex);
 			TileTypeIndex tileTypeIndex = tileInfo.getTypeIndex();
 			WireIndex sourceWireIndex = mTiles.findWireIndex(tileTypeIndex, inSourceWireName);
-			if(sourceWireIndex == WireIndex(-1)) return Arc();
+			if(sourceWireIndex.isUndefined()) return Arc();
 			WireIndex sinkWireIndex = mTiles.findWireIndex(tileTypeIndex, inSinkWireName);
-			if(sinkWireIndex == WireIndex(-1)) return Arc();
+			if(sinkWireIndex.isUndefined()) return Arc();
 			return Arc(Tilewire(tileIndex, sourceWireIndex), Tilewire(tileIndex, sinkWireIndex));
 		}
 		/// \brief Returns the tilewire for the specified tile and wire names.
 		/// \todo Add to unit tests.
 		Tilewire lookupTilewire(const std::string& inTileName, const std::string& inWireName) {
 			TileIndex tileIndex = mTiles.findTileIndex(inTileName);
-			if(tileIndex == TileIndex(-1)) return Tilewire::sInvalid;
+			if(tileIndex.isUndefined()) return Tilewire::sInvalid;
 			const TileInfo& tileInfo = mTiles.getTileInfo(tileIndex);
 			TileTypeIndex tileTypeIndex = tileInfo.getTypeIndex();
 			WireIndex wireIndex = mTiles.findWireIndex(tileTypeIndex, inWireName);
-			if(wireIndex == WireIndex(-1)) return Tilewire::sInvalid;
+			if(wireIndex.isUndefined()) return Tilewire::sInvalid;
 			return Tilewire(tileIndex, wireIndex);
 		}
 	};

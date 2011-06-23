@@ -50,6 +50,18 @@ namespace architecture {
 		bool operator ==(const Arc& rhs) const {
 			return mSourceTilewire == rhs.mSourceTilewire && mSinkTilewire == rhs.mSinkTilewire;
 		}
+	// functions
+		bool isUndefined(void) const {
+			return mSourceTilewire.isUndefined() || mSinkTilewire.isUndefined();
+		}
+	};
+
+	class InvalidArcException {
+	public:
+	// members
+		Arc mArc;
+	// constructors
+		InvalidArcException(const Arc& inArc) : mArc(inArc) {}
 	};
 
 	/// \brief Vector of Arc objects.

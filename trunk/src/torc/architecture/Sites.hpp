@@ -35,7 +35,7 @@ namespace architecture {
 
 	/// \brief Site type and population data for the family and the device.
 	/// \details Each device has a collection of logic sites.  Those sites are instantiations of 
-	///		family defined site types, with east instance also including a mapping from site pin 
+	///		family defined site types, with each instance also including a mapping from site pin 
 	///		to Tilewire.
 	class Sites {
 	// friends
@@ -91,12 +91,18 @@ namespace architecture {
 			const Array<const Pad>& getPads(void) const { return mPads; }
 			PadIndex findPadIndexByName(const std::string& inName) const {
 				PadNameToPadIndexMap::const_iterator p = mPadNameToPadIndex.find(inName);
-				return (p == mPadNameToPadIndex.end()) ? PadIndex(-1) : p->second;
+				return (p == mPadNameToPadIndex.end()) 
+					? PadIndex(PadIndex::undefined()) : p->second;
 			}
 			Package(void) : mName(), mPads() {}
 		};
+		/// \bried Encapsulation of pin directionality
+		class PinDirection {
+		public:
+			enum { ePinDirectionNone = 0, ePinDirectionInput = 2, ePinDirectionOutput = 4 };
+		};
 		/// \brief Encapsulation of a site pin's name and flags.
-		class SitePin {
+		class SitePin : public PinDirection {
 			friend class Sites;
 			std::string mName;
 			PinFlags mFlags;
@@ -105,18 +111,25 @@ namespace architecture {
 			const std::string& getName(void) const { return mName; }
 			PinFlags getFlags(void) const { return mFlags; }
 			SitePin(void) : mName(), mFlags() {};
+			bool isInput(void) const { return (mFlags & ePinDirectionInput) != 0; }
+			bool isOutput(void) const { return (mFlags & ePinDirectionOutput) != 0; }
 		};
 		/// \brief Encapsulation of an element pin's name and flags.
-		class ElementPin {
+		class PrimitiveElement;
+		class ElementPin : public PinDirection {
 			friend class Sites;
+			const PrimitiveElement* mElementPtr;
 			std::string mName;
 			PinFlags mFlags;
-			ElementPin(const std::string& inName, PinFlags inFlags) 
-				: mName(inName), mFlags(inFlags) {}
+			ElementPin(const PrimitiveElement* inElementPtr, const std::string& inName, 
+				PinFlags inFlags) : mElementPtr(inElementPtr), mName(inName), mFlags(inFlags) {}
 		public:
+			const PrimitiveElement* getElementPtr(void) const { return mElementPtr; }
 			const std::string& getName(void) const { return mName; }
 			PinFlags getFlags(void) const { return mFlags; }
-			ElementPin(void) : mName(), mFlags() {};
+			ElementPin(void) : mElementPtr(0), mName(), mFlags() {};
+			bool isInput(void) const { return (mFlags & ePinDirectionInput) != 0; }
+			bool isOutput(void) const { return (mFlags & ePinDirectionOutput) != 0; }
 		};
 		/// \brief Encapsulation of a PrimitiveDef element.
 		class PrimitiveElement {
@@ -136,22 +149,32 @@ namespace architecture {
 		public:
 			const std::string& getName(void) const { return mName; }
 			const ElementPinArray& getPins(void) const { return mPins; }
-			bool isBel(void) const { return mIsBel; }
+		        const StringSet& getCfgs(void) const { return mCfg; }
+		        bool isBel(void) const { return mIsBel; }
 			PinIndex findPinIndexByName(const std::string& inName) const {
 				PinNameToPinIndexMap::const_iterator p = mPinNameToPinIndex.find(inName);
-				return (p == mPinNameToPinIndex.end()) ? PinIndex(-1) : p->second;
+				return (p == mPinNameToPinIndex.end()) 
+					? PinIndex(PinIndex::undefined()) : p->second;
 			}
 			PrimitiveElement(void) : mName(), mPins(), mPinNameToPinIndex() {}
 		};
 		/// \brief Encapsulation of a PrimitiveDef internal connection.
 		class PrimitiveConn {
 		protected:
+			friend class Sites;
+			typedef std::vector<const ElementPin*> ElementPinPtrVector;
+			const ElementPin* mSourcePtr;
+			ElementPinPtrVector mSinks;
+		public:
+			const ElementPin* getSourcePtr(void) const { return mSourcePtr; }
+			const ElementPinPtrVector& getSinks(void) const { return mSinks; }
 		};
 		/// \brief Encapsulation of a site type's name and pins.
 		class PrimitiveDef {
 		public:
 			typedef Array<const SitePin> SitePinArray;
 			typedef Array<const PrimitiveElement> PrimitiveElementArray;
+			typedef Array<const PrimitiveConn> PrimitiveConnArray;
 		protected:
 			friend class Sites;
 			typedef xilinx::PinIndex PinIndex;
@@ -159,14 +182,18 @@ namespace architecture {
 			std::string mName;
 			SitePinArray mPins;
 			PrimitiveElementArray mElements;
+			PrimitiveConnArray mConnections;
 			PinNameToPinIndexMap mPinNameToPinIndex;
 			Array<const SitePin>& getPins(void) { return mPins; }
 		public:
 			const std::string& getName(void) const { return mName; }
 			const SitePinArray& getPins(void) const { return mPins; }
+			const PrimitiveElementArray& getElements(void) const { return mElements; }
+			const PrimitiveConnArray& getConnections(void) const { return mConnections; }
 			PinIndex findPinIndexByName(const std::string& inName) const {
 				PinNameToPinIndexMap::const_iterator p = mPinNameToPinIndex.find(inName);
-				return (p == mPinNameToPinIndex.end()) ? PinIndex(-1) : p->second;
+				return (p == mPinNameToPinIndex.end()) 
+					? PinIndex(PinIndex::undefined()) : p->second;
 			}
 			PrimitiveDef(void) : mName(), mPins(), mPinNameToPinIndex() {}
 		};
@@ -197,7 +224,7 @@ namespace architecture {
 			const Tilewire getPinTilewire(const std::string& inName) const {
 				if(mPrimitiveDefPtr == 0) return Tilewire::sInvalid;
 				PinIndex pinIndex = mPrimitiveDefPtr->findPinIndexByName(inName);
-				if(pinIndex == PinIndex(-1)) return Tilewire::sInvalid;
+				if(pinIndex.isUndefined()) return Tilewire::sInvalid;
 				if(mPinMapPtr == 0) return Tilewire::sInvalid;
 				return Tilewire(mTileIndex, (*mPinMapPtr)[pinIndex]);
 			}
@@ -270,13 +297,15 @@ namespace architecture {
 		/// \brief Returns the site index for the given site name.
 		SiteIndex findSiteIndex(const std::string& inName) const {
 			SiteNameToSiteIndexMap::const_iterator p = mSiteNameToSiteIndex.find(inName);
-			return (p == mSiteNameToSiteIndex.end()) ? SiteIndex(-1) : p->second;
+			return (p == mSiteNameToSiteIndex.end()) 
+				? SiteIndex(SiteIndex::undefined()) : p->second;
 		}
 		/// \brief Returns the package index for the given package name.
 		PackageIndex findPackageIndex(const std::string& inName) const {
 			PackageNameToPackageIndexMap::const_iterator p 
 				= mPackageNameToPackageIndex.find(inName);
-			return (p == mPackageNameToPackageIndex.end()) ? PackageIndex(-1) : p->second;
+			return (p == mPackageNameToPackageIndex.end()) 
+				? PackageIndex(PackageIndex::undefined()) : p->second;
 		}
 	};
 

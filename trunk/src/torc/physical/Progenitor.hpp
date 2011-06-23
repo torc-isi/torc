@@ -19,6 +19,7 @@
 #ifndef TORC_PHYSICAL_PROGENITOR_HPP
 #define TORC_PHYSICAL_PROGENITOR_HPP
 
+#include "torc/physical/Renamable.hpp"
 #include <string>
 #include <boost/smart_ptr.hpp>
 
@@ -26,8 +27,8 @@ namespace torc {
 namespace physical {
 
 // forward declaration of our unit test class within its namespace
-namespace physical_database { class physical_progenitor; }
-namespace physical_database { class physical_progeny; }
+namespace physical { class ProgenitorUnitTest; }
+namespace physical { class ProgenyUnitTest; }
 
 	/// \brief Concept for any object that may have children.
 	/// \todo Rename Progenitor to SelfReferent, since some childless objects need to refer to 
@@ -41,9 +42,9 @@ namespace physical_database { class physical_progeny; }
 		///		its children, allowing them to link back.
 		friend class Factory;
 		/// \brief Our unit test has direct access to our internals.
-		friend class torc::physical::physical_database::physical_progenitor;
+		friend class torc::physical::physical::ProgenitorUnitTest;
 		/// \brief The Progeny<T> unit test has direct access to our internals.
-		friend class torc::physical::physical_database::physical_progeny;
+		friend class torc::physical::physical::ProgenyUnitTest;
 	protected:
 	// types
 		/// \brief Weak pointer of our own type.
@@ -57,6 +58,11 @@ namespace physical_database { class physical_progeny; }
 		WeakPtrType mSelfWeakPtr;
 		/// \brief Sets the weak pointer to this object.
 		void setSelfWeakPtr(WeakPtrType inSelfPtr) { mSelfWeakPtr = inSelfPtr; }
+	// functions
+//		/// \brief Rename a child element.
+//		void renameChild(Renamable& inChild, const string& inName) {
+//			inChild.setName(inName);
+//		}
 	public:
 	// accessors
 		/// \brief Returns a weak pointer to this object.

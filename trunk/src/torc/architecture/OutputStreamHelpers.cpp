@@ -42,7 +42,7 @@ using namespace torc::architecture::xilinx;
 
 	std::ostream& operator <<(std::ostream& os, const ExtendedWireInfo& rhs) {
 		// handle uninitialized wire info
-		if(rhs.mTileIndex == TileIndex(-1)) return os << "[UNINITIALIZED]";
+		if(rhs.mTileIndex.isUndefined()) return os << "[UNINITIALIZED]";
 
 		// handle regular wire info
 		return os << rhs.mWireName << "@[" << rhs.mTileRow << "," << rhs.mTileCol << "] " 

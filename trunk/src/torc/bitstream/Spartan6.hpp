@@ -20,7 +20,7 @@
 #define TORC_BITSTREAM_SPARTAN6_HPP
 
 #include <boost/integer.hpp>
-#include "torc/bitstream/Spartan16Bitstream.hpp"
+#include "torc/bitstream/Spartan6Bitstream.hpp"
 
 namespace torc {
 namespace bitstream {
@@ -28,7 +28,7 @@ namespace bitstream {
 namespace bitstream { class bitstream_spartan6; }
 
 	/// \brief Spartan6 bitstream.
-	class Spartan6 : public Spartan16Bitstream {
+	class Spartan6 : public Spartan6Bitstream {
 		friend class torc::bitstream::bitstream::bitstream_spartan6;
 	protected:
 	// typedefs
@@ -58,7 +58,7 @@ namespace bitstream { class bitstream_spartan6; }
 		/// \see Frame Address Register Major Description: UG380, v2.2, July 30, 2010 Table 5-31
 		enum EFarMaj {
 			eFarMajMaskBlock =	0xf000,		eFarMajShiftBlock =	12,
-			eFarMajMaskRow = 	  0x0f00,	  eFarMajShiftRow =	   8,
+			eFarMajMaskRow =	0x0f00,		eFarMajShiftRow =	 8,
 			eFarMajMaskMajor =	0x00ff,		eFarMajShiftMajor =	 0
 		};
 		//
@@ -74,6 +74,11 @@ namespace bitstream { class bitstream_spartan6; }
 		/// \brief Frame Address Register block type constants.
 		enum EFarBlockType { eFarBlockType0 = 0, eFarBlockType1, eFarBlockType2, eFarBlockType3, 
 			eFarBlockType4, eFarBlockType5, eFarBlockType6, eFarBlockType7, eFarBlockTypeCount };
+		/// \brief Frame length.
+		/// \details Constant frame length of 41 32-bit words for the entire Spartan6 family.  Note 
+		///		that this length applies only to non-IOB frames.  IOB frame lengths are defined by 
+		///		the bitstream FLR register plus one.
+		enum { eFrameLength = 41 };
 	protected:
 	// members
 //		/// \brief Configuration controller registers.

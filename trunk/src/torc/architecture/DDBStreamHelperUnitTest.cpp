@@ -30,7 +30,7 @@ using namespace torc::architecture::xilinx;
 BOOST_AUTO_TEST_SUITE(architecture)
 
 /// \brief Unit test for the DDBStreamHelper class.
-BOOST_AUTO_TEST_CASE(architecture_ddb_stream_helper) {
+BOOST_AUTO_TEST_CASE(DDBStreamHelperUnitTest) {
 	// functions tested:
 	//		static IWordIndex getIWordIndex(std::ostream& os);
 	//		static const class DDB* getDDBPtr(std::ostream& os);

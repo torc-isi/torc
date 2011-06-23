@@ -127,7 +127,7 @@ namespace router {
 				if (!((*p)->getName() == routenets[i].getName())) {
 					std::cout << "Name mismatch for corresponding entry: " 
 						<< (*p)->getName() << " " << routenets[i].getName() << std::endl;
-					exit(1);
+					throw;
 				}
 				// convert route nodes to pips
 				RouteNodePtrVector& routeNodes = routenets[i].routeNodes();

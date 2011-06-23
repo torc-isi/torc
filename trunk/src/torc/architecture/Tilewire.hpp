@@ -52,7 +52,7 @@ namespace architecture {
 	// constructors
 		/// \brief Null constructor.
 		/// \details The tilewire will be set to Tilewire::sInvalid.
-		Tilewire(void) : mTileIndex(-1), mWireIndex(-1) {}
+		Tilewire(void) : mTileIndex(TileIndex::undefined()), mWireIndex(WireIndex::undefined()) {}
 		/// \brief Public constructor.
 		Tilewire(const TileIndex& inTileIndex, const WireIndex& inWireIndex) 
 			: mTileIndex(inTileIndex), mWireIndex(inWireIndex) {}
@@ -83,8 +83,8 @@ namespace architecture {
 			return false;
 		}
 	// functions
-		bool isInvalid(void) const {
-			return mTileIndex == TileIndex(-1) || mWireIndex == WireIndex(-1);
+		bool isUndefined(void) const {
+			return mTileIndex.isUndefined() || mWireIndex.isUndefined();
 		}
 	// friends
 		/// \brief Return a hash value for the specified tilewire.

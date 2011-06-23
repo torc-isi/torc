@@ -17,6 +17,7 @@
 /// \brief Source for the DeviceDesignator class.
 
 #include "torc/architecture/DeviceDesignator.hpp"
+#include <boost/algorithm/string.hpp>    
 #include <boost/regex.hpp>
 
 namespace torc {
@@ -93,7 +94,7 @@ namespace architecture {
 	);
 
 	boost::regex DeviceDesignator::sVirtex2PRegEx(
-		"(x?c?2vp[0-9]+)" /* device */
+		"(x?c?2vpx?[0-9]+)" /* device */
 		"((?:ff|fg)[0-9]+)?" /* package */
 		"(-[0-9]+)?", /* speed */
 		boost::regex_constants::icase
@@ -107,7 +108,7 @@ namespace architecture {
 	);
 
 	boost::regex DeviceDesignator::sVirtex5RegEx(
-		"(x?c?5v[fls]x[0-9]+t?)" /* device */
+		"(x?c?5v[flst]x[0-9]+t?)" /* device */
 		"((?:ff)[0-9]+)?" /* package */
 		"(-[0-9]+)?", /* speed */
 		boost::regex_constants::icase
@@ -123,7 +124,35 @@ namespace architecture {
 	boost::regex DeviceDesignator::sVirtex6LRegEx(
 		"(x?c?6v[ls]x[0-9]+t?l)" /* device */
 		"((?:ff)[0-9]+)?" /* package */
+		"(-1L)?", /* speed */
+		boost::regex_constants::icase
+	);
+
+	boost::regex DeviceDesignator::sVirtex7RegEx(
+		"(x?c?7vx?[0-9]+t)" /* device */
+		"((?:ffg|fhg)[0-9]+)?" /* package */
 		"(-[0-9]+)?", /* speed */
+		boost::regex_constants::icase
+	);
+
+	boost::regex DeviceDesignator::sVirtex7LRegEx(
+		"(x?c?7v[0-9]+tl)" /* device */
+		"((?:ffg|fhg)[0-9]+)?" /* package */
+		"(-1L)?", /* speed */
+		boost::regex_constants::icase
+	);
+
+	boost::regex DeviceDesignator::sKintex7RegEx(
+		"(x?c?7k[0-9]+t)" /* device */
+		"((?:fbg|ffg|sbg)[0-9]+)?" /* package */
+		"(-[0-9]+)?", /* speed */
+		boost::regex_constants::icase
+	);
+
+	boost::regex DeviceDesignator::sKintex7LRegEx(
+		"(x?c?7k[0-9]+tl)" /* device */
+		"((?:fbg|ffg|sbg)[0-9]+)?" /* package */
+		"(-1L)?", /* speed */
 		boost::regex_constants::icase
 	);
 
@@ -144,15 +173,25 @@ namespace architecture {
 		if(parse(inDeviceDesignator, sVirtex5RegEx)) { mFamily = eFamilyVirtex5; } else 
 		if(parse(inDeviceDesignator, sVirtex6RegEx)) { mFamily = eFamilyVirtex6; } else 
 		if(parse(inDeviceDesignator, sVirtex6LRegEx)) { mFamily = eFamilyVirtex6L; } else 
+		if(parse(inDeviceDesignator, sVirtex7RegEx)) { mFamily = eFamilyVirtex7; } else 
+		if(parse(inDeviceDesignator, sVirtex7LRegEx)) { mFamily = eFamilyVirtex7L; } else 
+		if(parse(inDeviceDesignator, sKintex7RegEx)) { mFamily = eFamilyKintex7; } else 
+		if(parse(inDeviceDesignator, sKintex7LRegEx)) { mFamily = eFamilyKintex7L; } else 
 		{ mFamily = eFamilyUnknown; }
 	}
 
 	bool DeviceDesignator::parse(const string& inDeviceDesignator, const boost::regex& inRegEx) {
 		boost::smatch what;
-		if(boost::regex_match(inDeviceDesignator, what, inRegEx, boost::match_default)) {
+		string designator = inDeviceDesignator;
+		boost::to_lower(designator);
+		if(boost::regex_match(designator, what, inRegEx, boost::match_default)) {
 			if(what[1].matched) mDeviceName = std::string(what[1].first, what[1].second);
 			if(what[2].matched) mDevicePackage = std::string(what[2].first, what[2].second);
 			if(what[3].matched) mDeviceSpeedGrade = std::string(what[3].first, what[3].second);
+			if(what[1].matched) {
+				// this will have to change when we support other Xilinx and non-Xilinx devices
+				mDeviceName = boost::regex_replace(mDeviceName, boost::regex("^x?c?"), "xc");
+			}
 			return true;
 		} else {
 			return false;

@@ -4737,7 +4737,7 @@ YY_RULE_SETUP
                               {
                                   REJECT;
                               }
-                              return Token::PAGESIZE; 
+                              return Token::PAGESIZE_TORC; 
                             }
 	YY_BREAK
 case 209:

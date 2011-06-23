@@ -25,7 +25,7 @@ namespace architecture {
 BOOST_AUTO_TEST_SUITE(architecture)
 
 /// \brief Unit test for the DeviceDesignator class.
-BOOST_AUTO_TEST_CASE(architecture_device_name) {
+BOOST_AUTO_TEST_CASE(DeviceDesignatorUnitTest) {
 
 	// functions tested:
 	//		DeviceDesignator(const string& inDeviceDesignator);
@@ -50,9 +50,24 @@ BOOST_AUTO_TEST_CASE(architecture_device_name) {
 	BOOST_CHECK_EQUAL(deviceName3.getDeviceName(), "xc4vfx60");
 	BOOST_CHECK_EQUAL(deviceName3.getDevicePackage(), "ff1152");
 	BOOST_CHECK_EQUAL(deviceName3.getDeviceSpeedGrade(), "-12");
+	DeviceDesignator deviceName4("xc5vfx130tff1738-3");
+	BOOST_CHECK_EQUAL(deviceName4.getFamily(), DeviceDesignator::eFamilyVirtex5);
+	BOOST_CHECK_EQUAL(deviceName4.getDeviceName(), "xc5vfx130t");
+	BOOST_CHECK_EQUAL(deviceName4.getDevicePackage(), "ff1738");
+	BOOST_CHECK_EQUAL(deviceName4.getDeviceSpeedGrade(), "-3");
+	DeviceDesignator deviceName5("xc6vhx380tff1924-3");
+	BOOST_CHECK_EQUAL(deviceName5.getFamily(), DeviceDesignator::eFamilyVirtex6);
+	BOOST_CHECK_EQUAL(deviceName5.getDeviceName(), "xc6vhx380t");
+	BOOST_CHECK_EQUAL(deviceName5.getDevicePackage(), "ff1924");
+	BOOST_CHECK_EQUAL(deviceName5.getDeviceSpeedGrade(), "-3");
+	DeviceDesignator deviceName6("xc7vx485tffg1929-3");
+	BOOST_CHECK_EQUAL(deviceName6.getFamily(), DeviceDesignator::eFamilyVirtex7);
+	BOOST_CHECK_EQUAL(deviceName6.getDeviceName(), "xc7vx485t");
+	BOOST_CHECK_EQUAL(deviceName6.getDevicePackage(), "ffg1929");
+	BOOST_CHECK_EQUAL(deviceName6.getDeviceSpeedGrade(), "-3");
 
-	// the above tests do not check the recently added devices
-	BOOST_CHECK(false);
+	// the above tests are not exhaustive
+	//BOOST_CHECK(false);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

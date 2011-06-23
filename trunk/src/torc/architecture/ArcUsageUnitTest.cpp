@@ -27,7 +27,7 @@ BOOST_AUTO_TEST_SUITE(architecture)
 using namespace torc::architecture::xilinx;
 
 /// \brief Unit test for the ArcUsage class.
-BOOST_AUTO_TEST_CASE(architecture_arc_usage) {
+BOOST_AUTO_TEST_CASE(ArcUsageUnitTest) {
 }
 
 BOOST_AUTO_TEST_SUITE_END()

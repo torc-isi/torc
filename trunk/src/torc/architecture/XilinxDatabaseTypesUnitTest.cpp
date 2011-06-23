@@ -23,10 +23,10 @@ namespace torc {
 
 using namespace torc::architecture::xilinx;
 
-BOOST_AUTO_TEST_SUITE(portability)
+BOOST_AUTO_TEST_SUITE(architecture)
 
 /// \brief Unit test for device database type sizes.
-BOOST_AUTO_TEST_CASE(architecture_type_sizes) {
+BOOST_AUTO_TEST_CASE(XilinxDatabaseTypesUnitTest) {
 	// verify the sizes of device database types
 	// wires
 	BOOST_CHECK_EQUAL((size_t) 2, sizeof(WireCount));

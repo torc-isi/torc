@@ -24,7 +24,6 @@
 #include "torc/architecture/DeviceDesignator.hpp"
 #include "torc/bitstream/OutputStreamHelpers.hpp"
 #include "torc/bitstream/build/DeviceInfoHelper.hpp"
-#include "torc/common/Devices.hpp"
 #include "torc/common/TestHelpers.hpp"
 #include <fstream>
 #include <iostream>
@@ -35,6 +34,15 @@ namespace bitstream {
 
 BOOST_AUTO_TEST_SUITE(bitstream)
 
+/// \brief Unit test for the Virtex5 CRC
+BOOST_AUTO_TEST_CASE(crc_virtex5) {
+	std::fstream fileStream("Virtex5UnitTest.reference.bit", std::ios::binary | std::ios::in);
+	Virtex5 bitstream;
+	bitstream.read(fileStream, false);
+	std::cout << bitstream << std::endl;
+	bitstream.preflightPackets();
+	BOOST_REQUIRE(true);
+}
 
 /// \brief Unit test for the Virtex5 class.
 BOOST_AUTO_TEST_CASE(bitstream_virtex5) {
@@ -120,7 +128,7 @@ BOOST_AUTO_TEST_CASE(bitstream_virtex5) {
 
 	// build the file paths
 	boost::filesystem::path regressionPath 
-		= torc::common::DirectoryTree::getExecutablePath() / "regression";
+		= torc::common::DirectoryTree::getExecutablePath() / "torc" / "bitstream" / "regression";
 	boost::filesystem::path generatedPath = regressionPath / "Virtex5UnitTest.generated.bit";
 	boost::filesystem::path referencePath = regressionPath / "Virtex5UnitTest.reference.bit";
 
@@ -148,9 +156,6 @@ BOOST_AUTO_TEST_CASE(bitstream_virtex5) {
 	// compare the reference and generated XDL
 	BOOST_CHECK(torc::common::fileContentsAreEqual(generatedPath, referencePath));
 }
-
-
-
 
 
 
@@ -237,7 +242,7 @@ BOOST_AUTO_TEST_CASE(bitstream_virtex5_far) {
 void testVirtex5Device(const std::string& inDeviceName, const boost::filesystem::path& inWorkingPath) {
 
 	// build the file paths
-	boost::filesystem::path debugBitstreamPath = inWorkingPath / "regression";
+	boost::filesystem::path debugBitstreamPath = inWorkingPath / "torc" / "bitstream" / "regression";
 	//boost::filesystem::path generatedPath = debugBitstreamPath / (inDeviceName + ".debug.bit");
 	boost::filesystem::path referencePath = debugBitstreamPath / (inDeviceName + ".debug.bit");
 std::cerr << "TRYING TO FIND " << referencePath << std::endl;
@@ -252,7 +257,7 @@ std::cerr << "TRYING TO FIND " << referencePath << std::endl;
 //	std::cout << bitstream << std::endl;
 
 //	// initialize the bitstream frame maps
-//	boost::filesystem::path deviceColumnsPath = inWorkingPath / "regression" 
+//	boost::filesystem::path deviceColumnsPath = inWorkingPath / "torc" / "bitstream" / "regression" 
 //		/ (inDeviceName + ".cpp");
 //	std::fstream deviceColumnsStream(deviceColumnsPath.string().c_str(), std::ios::out);
 	bitstream.initializeDeviceInfo(inDeviceName);
@@ -334,7 +339,60 @@ return;
 
 }
 
+/// \brief Unit test for the Virtex5 bitstream to bitmap conversion.
+BOOST_AUTO_TEST_CASE(Virtex5BitmapConversion) {
+	// read the bitstream
+	boost::filesystem::path referencePath = torc::common::DirectoryTree::getExecutablePath() 
+		/ "regression" / "Virtex5UnitTest.reference.bit";
+	std::fstream fileStream(referencePath.string().c_str(), std::ios::binary | std::ios::in);
+	BOOST_REQUIRE(fileStream.good());
+	Virtex5 bitstream;
+	bitstream.read(fileStream, false);
 
+	// initialize the bitstream frame maps
+	bitstream.initializeDeviceInfo(bitstream.getDeviceName());
+	bitstream.initializeFrameMaps();
+
+	// walk the bitstream and process all FAR and FDRI writes
+	Virtex5::const_iterator p = bitstream.begin();
+	Virtex5::const_iterator e = bitstream.end();
+/*
+	uint32_t farHeader = VirtexPacket::makeHeader(VirtexPacket::ePacketType1, 
+		VirtexPacket::eOpcodeWrite, Virtex5::eRegisterFAR, 1);
+	uint32_t fdriHeader = VirtexPacket::makeHeader(VirtexPacket::ePacketType1, 
+		VirtexPacket::eOpcodeWrite, Virtex5::eRegisterFAR, 1);
+*/
+	while(p < e) {
+		const VirtexPacket& packet = *p++;
+		if(!packet.isWrite()) continue;
+		switch(packet.getAddress()) {
+		}
+/*
+		EPacketType getType(void) const { return mType; }
+		EOpcode getOpcode(void) const { return mOpcode; }
+		int getAddress(void) const { return mAddress; }
+		uint32_t getHeader(void) const { return mHeader; }
+		/// \brief Returns the number of payload words in the packet, excluding the header word.
+		uint32_t getWordCount(void) const { return mCount; }
+		/// \brief Returns the total number of words in the packet, including the header word.
+		uint32_t getWordSize(void) const { return mCount + 1; }
+//		const uint32_t* getWords(void) const { return mWords; }
+// tests
+bool isType1(void) const { return mType == ePacketType1; }
+bool isType2(void) const { return mType == ePacketType2; }
+bool isNop(void) const { return mOpcode == eOpcodeNOP; }
+bool isReserved(void) const { return mOpcode == eOpcodeReserved; }
+bool isRead(void) const { return mOpcode == eOpcodeRead; }
+bool isWrite(void) const { return mOpcode == eOpcodeWrite; }
+bool isDummyWord(void) const { return mHeader == eSynchronizationDummy; }
+bool isSyncWord(void) const { return mHeader == eSynchronizationSync; }
+bool isBusWidthSyncWord(void) const { return mHeader == eSynchronizationBusWidthSync; }
+bool isBusWidthDetectWord(void) const { return mHeader == eSynchronizationBusWidthDetect; }
+*/
+		Virtex5::FrameAddress far = packet[1];
+	}
+
+}
 
 
 

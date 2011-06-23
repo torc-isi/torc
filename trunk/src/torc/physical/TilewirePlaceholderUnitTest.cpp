@@ -23,10 +23,10 @@
 namespace torc {
 namespace physical {
 
-BOOST_AUTO_TEST_SUITE(physical_database)
+BOOST_AUTO_TEST_SUITE(physical)
 
 /// \brief Unit test for the TilewirePlaceholder class.
-BOOST_AUTO_TEST_CASE(physical_tilewire_placeholder) {
+BOOST_AUTO_TEST_CASE(TilewirePlaceholderUnitTest) {
 	// features tested:
 	//		sizeof(TilewirePlaceholder)
 	BOOST_CHECK_EQUAL(sizeof(torc::architecture::Tilewire), sizeof(TilewirePlaceholder));

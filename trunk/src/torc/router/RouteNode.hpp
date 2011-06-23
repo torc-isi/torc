@@ -50,18 +50,31 @@ namespace router {
 		architecture::Arc mArc;
 		/// \brief Cost associated with this arc.
 		boost::int32_t mCost;
+		/// \brief Path cost for this arc.
+		boost::int32_t mPathCost;
+		/// \brief Depth of node from the source.
+		boost::int32_t mDepth;
 		/// \brief Pointer to parent node.
 		RouteNode* mParent;
 	public:
 	// constructors
-		/// \brief Null Constructor
-		RouteNode() : mArc(), mCost(0), mParent(0) {}
-		/// \brief Public Constructor
-		RouteNode(Tilewire inSource, Tilewire inSink, boost::int32_t inCost, RouteNode* inParent)
-			: mArc(inSource, inSink), mCost(inCost), mParent(inParent) {}
-		/// \brief Public Constructor
-		RouteNode(Arc inArc, boost::int32_t inCost, RouteNode* inParent)
-			: mArc(inArc), mCost(inCost), mParent(inParent) {}
+		/// \brief Null Constructor.
+		RouteNode() : mArc(), mCost(0), mPathCost(0), mDepth(-1), mParent(0) {}
+		/// \brief Arc only constructor.
+		RouteNode(Tilewire inSource, Tilewire inSink, boost::int32_t inDepth, RouteNode* inParent)
+			: mArc(inSource, inSink), mCost(0), mPathCost(0), mDepth(inDepth), mParent(0) {}
+		/// \brief Complete Tilewire based constructor.
+		RouteNode(Tilewire inSource, Tilewire inSink, boost::int32_t inCost, 
+			boost::int32_t inPathCost, boost::int32_t inDepth, RouteNode* inParent)
+			: mArc(inSource, inSink), mCost(inCost), mPathCost(inPathCost), mDepth(inDepth), 
+			mParent(inParent) {}
+		/// \brief Public Constructor.
+		RouteNode(Arc inArc, boost::int32_t inDepth, RouteNode* inParent)
+			:mArc(inArc), mCost(0), mPathCost(0), mDepth(inDepth), mParent(inParent) {}
+		/// \brief Public Constructor.
+		RouteNode(Arc inArc, boost::int32_t inCost, boost::int32_t inPathCost, 
+			boost::int32_t inDepth, RouteNode* inParent) : mArc(inArc), mCost(inCost), 
+			mPathCost(inPathCost), mDepth(inDepth), mParent(inParent) {}
 	// accessors
 		/// \brief Get the associated Arc.
 		const Arc& getArc() const { return mArc; }
@@ -69,10 +82,18 @@ namespace router {
 		const Tilewire& getSourceTilewire() const { return mArc.getSourceTilewire(); }
 		/// \brief Get the sink Tilewire.
 		const Tilewire& getSinkTilewire() const { return mArc.getSinkTilewire(); }
-		/// \brief Get the node cost.
+		/// \brief Get the heuristic node cost.
 		const boost::int32_t getCost() const { return mCost; }
-		/// \brief Set the node cost.
-		void setCost(boost::int32_t inCost) { mCost = inCost; }
+		/// \brief Set the heuristic node cost.
+		void setCost(boost::int32_t inHeuristicCost) { mCost = inHeuristicCost; }
+		/// \brief Get the path cost.
+		const boost::int32_t getPathCost() const { return mPathCost; }
+		/// \brief Set the path cost.
+		void setPathCost(boost::int32_t inPathCost) { mPathCost = inPathCost; }
+		/// \brief Get the node depth.
+		const boost::int32_t getDepth() const { return mDepth; }
+		/// \brief Set the node depth.
+		void setDepth(boost::int32_t inDepth) { mDepth = inDepth; }
 		/// \brief Get the node's parent.
 		RouteNode* getParent() const { return mParent; }
 		/// \brief Return the top node by tracing parent pointers.

@@ -20,6 +20,7 @@
 #define TORC_BITSTREAM_VIRTEX6_HPP
 
 #include <boost/integer.hpp>
+#include <boost/filesystem.hpp>
 #include "torc/bitstream/VirtexBitstream.hpp"
 #include <map>
 
@@ -29,10 +30,16 @@ namespace torc {
 namespace bitstream {
 
 namespace bitstream { class bitstream_virtex6; }
+namespace bitstream { class bitstream_virtex6_far; }
+namespace bitstream { void testVirtex6Device(const std::string& inDeviceName, 
+	const boost::filesystem::path& inWorkingPath); }
 
 	/// \brief Virtex6 bitstream.
 	class Virtex6 : public VirtexBitstream {
 		friend class torc::bitstream::bitstream::bitstream_virtex6;
+		friend class torc::bitstream::bitstream::bitstream_virtex6_far;
+		friend void torc::bitstream::bitstream::testVirtex6Device(const std::string& inDeviceName, 
+			const boost::filesystem::path& inWorkingPath);
 	protected:
 	// typedefs
 		/// \brief Imported type name.
@@ -58,11 +65,11 @@ namespace bitstream { class bitstream_virtex6; }
 		/// \brief Frame Address Register subfields.
 		/// \see Frame Address Register Description: UG360, v3.2, November 1, 2010, Table 6-31.
 		enum EFar {
-			eFarMaskBlockType =	0x00e00000,		eFarShiftBlockType =	21,
-			eFarMaskTopBottom =	0x00100000,		eFarShiftTopBottom =	20,
-			eFarMaskRow =				0x000f8000,		eFarShiftRow =				15,
-			eFarMaskMajor =			0x00007f80,		eFarShiftMajor =			 7,
-			eFarMaskMinor =			0x0000007f,		eFarShiftMinor =			 0
+			eFarMaskBlockType =		0x00e00000,		eFarShiftBlockType =	21,
+			eFarMaskTopBottom =		0x00100000,		eFarShiftTopBottom =	20,
+			eFarMaskRow =			0x000f8000,		eFarShiftRow =          15,
+			eFarMaskMajor =			0x00007f80,		eFarShiftMajor =         7,
+			eFarMaskMinor =			0x0000007f,		eFarShiftMinor =         0
 		};
 		//
 		/// \brief Frame Address Register top and bottom constants.
@@ -79,6 +86,16 @@ namespace bitstream { class bitstream_virtex6; }
 			eStartAddr =						0x03ffffff,
 			eTimerValue =						0x00ffffff
 		};
+		/// \brief Major column types.
+		/// \details These are defined and used for internal purposes only, and are not derived 
+		///		from any Xilinx documentation.
+		enum EColumnType { eColumnTypeEmpty = 0, eColumnTypeBram, eColumnTypeClb, eColumnTypeClock,
+			eColumnTypeDsp, eColumnTypeGtx, eColumnTypeIob, eColumnTypeCount };
+		/// \brief Frame length.
+		/// \details Constant frame length of 81 32-bit words for the entire Virtex6 family.
+		/// \see Virtex-6 FPGA Frame Count, Frame Length, and Bitstream Size: UG360, v.3.2, 
+		///		November 1, 2010, Table 6-22.
+		enum { eFrameLength = 81 };
 	protected:
 	// members
 //		/// \brief Configuration controller registers.
@@ -109,16 +126,54 @@ namespace bitstream { class bitstream_virtex6; }
 		static const Subfield sTIMER[];
 		/// \brief Boot History Status Register (BOOTSTS) subfields.
 		static const Subfield sBOOTSTS[];
+		/// \brief The number of top bitstream rows.
+		uint32_t mTopRowCount;
+		/// \brief The number of bottom bitstream rows.
+		uint32_t mBottomRowCount;
+	// functions
+		/// \brief Set the number of top and bottom bitstream rows.
+		void setRowCounts(void);
 	public:
-//	// constructors
-//		/// \brief Basic constructor.
-//		Virtex6(void) : VirtexBitstream() {
+	// constructors
+		/// \brief Basic constructor.
+		Virtex6(void) : VirtexBitstream(), mTopRowCount(0), mBottomRowCount(0) {
 //			for(int i = 0; i < eRegisterCount; i++) mRegister[i] = 0;
-//		}
+			// initialize the column type widths for this family
+			mColumnDefs.resize(eColumnTypeCount);
+			mColumnDefs[eColumnTypeEmpty] 	= ColumnDef("Empty",    0,  0,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeBram]	= ColumnDef("Bram",    28,128,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeClb]	= ColumnDef("Clb",     36,  0,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeClock] 	= ColumnDef("Clock",   38,  0,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeDsp]	= ColumnDef("Dsp",     28,  0,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeGtx]	= ColumnDef("Gtx",     30,  0,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeIob]	= ColumnDef("Iob",     44,  0,  0,  0,  0,  0,  0,  0);
+			// map type type names to column types
+			mTileTypeNameToColumnType["BRAM"]		= eColumnTypeBram;
+			mTileTypeNameToColumnType["PCIE_BRAM"]		= eColumnTypeBram;
+			mTileTypeNameToColumnType["CLBLL"]		= eColumnTypeClb;
+			mTileTypeNameToColumnType["CLBLM"]		= eColumnTypeClb;
+			mTileTypeNameToColumnType["CMT_TOP"]		= eColumnTypeClock;
+			mTileTypeNameToColumnType["DSP"]		= eColumnTypeDsp;
+			mTileTypeNameToColumnType["GTX"]		= eColumnTypeGtx;
+			mTileTypeNameToColumnType["GTX_LEFT"]		= eColumnTypeGtx;
+			mTileTypeNameToColumnType["GT3"]		= eColumnTypeGtx;
+			mTileTypeNameToColumnType["CIOB"]		= eColumnTypeIob;
+			mTileTypeNameToColumnType["LIOB"]		= eColumnTypeIob;
+			mTileTypeNameToColumnType["LIOB_FT"]		= eColumnTypeIob;
+			mTileTypeNameToColumnType["RIOB"]		= eColumnTypeIob;
+		}
 	// functions
 		/// \brief Return the masked value for a subfield of the specified register.
 		static uint32_t makeSubfield(ERegister inRegister, const std::string& inSubfield, 
 			const std::string& inSetting);
+		/// \brief Initialize the device information.
+		virtual void initializeDeviceInfo(const std::string& inDeviceName);
+		/// \brief Initialize the maps between frame indexes and frame addresses.
+		/// \detail This is generally only useful for internal purposes.
+		virtual void initializeFrameMaps(void);
+	// accessors
+		/// \brief Return the frame length for the current device.
+		virtual uint32_t getFrameLength(void) const { return eFrameLength; }
 	// inserters
 		/// \brief Insert the bitstream header into an output stream.
 		friend std::ostream& operator<< (std::ostream& os, const Virtex6& rhs);
@@ -175,11 +230,18 @@ namespace bitstream { class bitstream_virtex6; }
 		typedef std::map<uint32_t, Virtex6::FrameAddress> FrameIndexToAddress;
 		/// \brief Map from frame address to frame index.
 		typedef std::map<Virtex6::FrameAddress, uint32_t> FrameAddressToIndex;
+		/// \brief Array of vectors to store frame indexes of each block type
+		typedef std::vector<uint32_t> ColumnIndexVector;
+
 	// members
 		/// \brief Map of frame indexes to frame addresses.
 		FrameIndexToAddress mFrameIndexToAddress;
 		/// \brief Map of frame addressee to frame indexes.
 		FrameAddressToIndex mFrameAddressToIndex;
+		/// \brief Vector to store frame indexes of XDL columns.
+		ColumnIndexVector mBitColumnIndexes [Virtex6::eFarBlockTypeCount];
+		/// \brief Vector to store frame indexes of Bitstream columns.
+		ColumnIndexVector mXdlColumnIndexes [Virtex6::eFarBlockTypeCount];
 	};
 
 } // namespace bitstream

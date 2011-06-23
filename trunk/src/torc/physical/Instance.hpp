@@ -20,10 +20,12 @@
 #define TORC_PHYSICAL_INSTANCE_HPP
 
 #include "torc/physical/Named.hpp"
+#include "torc/physical/Renamable.hpp"
 #include "torc/physical/Progeny.hpp"
 #include "torc/physical/Progenitor.hpp"
 #include "torc/physical/ConfigMap.hpp"
 #include "torc/physical/InstanceReference.hpp"
+#include "torc/physical/Annotated.hpp"
 #include <boost/smart_ptr.hpp>
 #include <vector>
 #include <map>
@@ -45,8 +47,8 @@ namespace physical {
 	/// \brief Physical design instance.
 	/// \details This class describes a physical instance in the design.
 	/// \todo Need a good way of finding the direction of each instance pin.
-	class Instance : public Named, public Progeny<class Circuit>, public ConfigMap,
-		protected Progenitor<Instance> {
+	class Instance : public Renamable<class Circuit>, public Progeny<class Circuit>, 
+		public ConfigMap, public Annotated, protected Progenitor<Instance> {
 	// friends
 		/// \brief The Factory class has direct access to our internals.
 		friend class Factory;
@@ -103,8 +105,8 @@ namespace physical {
 		///		design.
 		Instance(const string& inName, const string& inType, const string& inTile, 
 			const string& inSite, EInstanceBonding inBonding, 
-			InstanceReferenceSharedPtr& inInstanceReferencePtr) : Named(inName), mType(inType), 
-			mTile(inTile), mSite(inSite), mBonding(inBonding), 
+			InstanceReferenceSharedPtr& inInstanceReferencePtr) : Renamable<class Circuit>(inName), 
+			mType(inType), mTile(inTile), mSite(inSite), mBonding(inBonding), 
 			mInstanceReferencePtr(inInstanceReferencePtr) {}
 	public:
 	// types

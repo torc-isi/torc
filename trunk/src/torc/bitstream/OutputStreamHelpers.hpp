@@ -26,7 +26,7 @@ namespace torc {
 namespace bitstream {
 
 	class Bitstream;
-	class Spartan16Bitstream;
+	class Spartan6Bitstream;
 	
 	class Spartan3E;
 	class Spartan6;
@@ -36,9 +36,10 @@ namespace bitstream {
 	class Virtex4;
 	class Virtex5;
 	class Virtex6;
+	class Virtex7;
 
-	/// \brief Spartan16Bitstream stream inserter.
-	std::ostream& operator <<(std::ostream& os, const Spartan16Bitstream& rhs);
+	/// \brief Spartan6Bitstream stream inserter.
+	std::ostream& operator <<(std::ostream& os, const Spartan6Bitstream& rhs);
 	/// \brief Bitstream stream inserter.
 	std::ostream& operator <<(std::ostream& os, const Bitstream& rhs);
 	/// \brief Spartan3E stream inserter.
@@ -55,6 +56,8 @@ namespace bitstream {
 	std::ostream& operator <<(std::ostream& os, const Virtex5& rhs);
 	/// \brief Virtex6 stream inserter.
 	std::ostream& operator <<(std::ostream& os, const Virtex6& rhs);
+	/// \brief Virtex7 stream inserter.
+	std::ostream& operator <<(std::ostream& os, const Virtex7& rhs);
 
 	class Hex16 {
 		boost::uint16_t mWord;

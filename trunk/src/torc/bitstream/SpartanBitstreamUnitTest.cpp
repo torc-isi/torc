@@ -33,6 +33,15 @@ namespace bitstream {
 BOOST_AUTO_TEST_SUITE(bitstream)
 
 /// \brief Unit test for the SpartanBitstream class.
+BOOST_AUTO_TEST_CASE(crc_spartan) {
+	std::fstream fileStream("Spartan3EUnitTest.reference.bit", std::ios::binary | std::ios::in);
+	Spartan3E bitstream;
+	bitstream.read(fileStream, false);
+	std::cout << bitstream << std::endl;
+	bitstream.preflightPackets();
+	BOOST_REQUIRE(true);
+}
+/// \brief Unit test for the SpartanBitstream class.
 BOOST_AUTO_TEST_CASE(bitstream_spartan_bitstream) {
 
 	// build the file paths

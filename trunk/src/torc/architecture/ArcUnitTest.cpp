@@ -26,7 +26,7 @@ namespace architecture {
 BOOST_AUTO_TEST_SUITE(architecture)
 
 /// \brief Unit test for the Arc class.
-BOOST_AUTO_TEST_CASE(architecture_arc) {
+BOOST_AUTO_TEST_CASE(ArcUnitTest) {
 }
 
 BOOST_AUTO_TEST_SUITE_END()

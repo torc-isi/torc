@@ -23,6 +23,9 @@ CFLAGS = \
 				-Werror \
 				-I$(SRC_DIR) \
 				$
+ifeq ($(OSTYPE),cygwin)
+	CFLAGS += -DNO_VIZ
+endif
 
 # C++ flags
 CCFLAGS = \

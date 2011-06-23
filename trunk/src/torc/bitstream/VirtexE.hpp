@@ -22,14 +22,52 @@
 #include <boost/integer.hpp>
 #include "torc/bitstream/Virtex.hpp"
 
+namespace torc { namespace architecture { class DDB; } }
+
 namespace torc {
 namespace bitstream {
 
 namespace bitstream { class bitstream_virtexe; }
+namespace bitstream { class bitstream_virtexe_far; }
+namespace bitstream { void testVirtexEDevice(const std::string& inDeviceName, 
+	const boost::filesystem::path& inWorkingPath); }
+
 	/// \brief VirtexE bitstream inherited from Virtex bitstream.
 	class VirtexE : public Virtex {
 		friend class torc::bitstream::bitstream::bitstream_virtexe;
+		friend class torc::bitstream::bitstream::bitstream_virtexe_far;
+		friend void torc::bitstream::bitstream::testVirtexEDevice(const std::string& inDeviceName, 
+			const boost::filesystem::path& inWorkingPath);
+	  public:
+	// functions
+		/// \brief Initialize the device information.
+		virtual void initializeDeviceInfo(const std::string& inDeviceName);
+		/// \brief Initialize the maps between frame indexes and frame addresses.
+		/// \detail This is generally only useful for internal purposes.
+		virtual void initializeFrameMaps(void);
+	// accessors
+		virtual uint32_t getFrameLength(void) const {
+			using namespace torc::common;
+			// Frame Length Register Value: XAPP151, v.1.7, October 20, 2004, Table 24.
+			switch(mDevice) {
+				case eXCV50E: return 12;
+				case eXCV100E: return 14;
+				case eXCV200E: return 18;
+				case eXCV300E: return 21;
+				case eXCV400E: return 25;
+				case eXCV405E: return 25;
+				case eXCV600E: return 30;
+				case eXCV812E: return 34;
+				case eXCV1000E: return 39;
+				case eXCV1600E: return 43;
+				case eXCV2000E: return 48;
+				case eXCV2600E: return 54;
+				case eXCV3200E: return 61;
+				default: return 0;
+			}
+		}
 	};
+
 } // namespace bitstream
 } // namespace torc
 

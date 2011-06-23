@@ -46,21 +46,22 @@ TEST_OBJS = $(filter %UnitTest.o %RegressionTest.o, $(OBJS))
 .PHONY: all flex-bison code clean
 
 # make everything
-all: flex-bison code
+all: code # flex-bison
 
 # Include automatically generated dependencies or silently make them.
 #-include $(DEPS)
 
 # make the scanner and parser
-flex-bison: XdlScanner.cpp XdlParser.cpp
+#flex-bison: XdlScanner.cpp XdlParser.cpp
+flex-bison:
 
-# generate the parser with bison
-XdlParser.cpp: parser.yy
-	/bin/sh ylwrap parser.yy y.tab.c XdlParser.cpp y.tab.h XdlParser.hpp y.output parser.output -- bison -y
-
-# generate the scanner with flex
-XdlScanner.cpp: scanner.ll
-	/bin/sh ylwrap scanner.ll lex.yy.c XdlScanner.cpp -- flex -olex.yy.c
+## generate the parser with bison
+#XdlParser.cpp: parser.yy
+#	/bin/sh ylwrap parser.yy y.tab.c XdlParser.cpp y.tab.h XdlParser.hpp y.output parser.output -- bison -y
+#
+## generate the scanner with flex
+#XdlScanner.cpp: scanner.ll
+#	/bin/sh ylwrap scanner.ll lex.yy.c XdlScanner.cpp -- flex -olex.yy.c
 
 # compile the code
 code: $(OBJS) RealObjectFileList TestObjectFileList

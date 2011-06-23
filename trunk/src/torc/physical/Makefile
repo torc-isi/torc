@@ -29,6 +29,8 @@ CCFLAGS = \
 
 # object files
 OBJS = \
+				Annotated.o \
+				AnnotatedUnitTest.o \
 				Circuit.o \
 				CircuitUnitTest.o \
 				Config.o \
@@ -62,6 +64,8 @@ OBJS = \
 				ProgenitorUnitTest.o \
 				Progeny.o \
 				ProgenyUnitTest.o \
+				Renamable.o \
+				RenamableUnitTest.o \
 				Routethrough.o \
 				RoutethroughUnitTest.o \
 				SampleCodeUnitTest.o \

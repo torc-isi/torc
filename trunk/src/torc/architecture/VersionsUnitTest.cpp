@@ -27,7 +27,7 @@ namespace architecture {
 BOOST_AUTO_TEST_SUITE(architecture)
 
 /// \brief Unit test for the Versions class.
-BOOST_AUTO_TEST_CASE(Versions) {
+BOOST_AUTO_TEST_CASE(VersionsUnitTest) {
 
 	/// \todo Write a unit test for torc::architecture::Versions.
 	BOOST_REQUIRE(false);

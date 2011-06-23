@@ -96,6 +96,8 @@ namespace architecture {
 		uint32_t elementCount;			// number of site elements
 		PinCount pinCount;				// number of pins
 		PinFlags pinFlags;				// pin attribute flags
+		uint32_t elementIndex;			// connection element index
+		uint32_t pinIndex;				// connection pin index
 
 		// read the section header
 		string sectionName;
@@ -156,6 +158,10 @@ namespace architecture {
 				if(nameLength > sizeof(scratch)) throw -1;
 				inStream.read(scratch, nameLength);
 				scratch[nameLength] = 0;
+				// update the element name
+				element.mName = scratch;
+//std::cout << primitiveDef.getName() << " - " << element.getName() << ":" << std::endl;
+//std::cout << "    ";
 				// read the BEL flag
 				uint16_t isBel;
 				inStream.read(isBel);
@@ -177,10 +183,17 @@ namespace architecture {
 					inStream.read(scratch, nameLength);
 					scratch[nameLength] = 0;
 					// update the site pin
+					elementPin.mElementPtr = &element;
+//std::cout << elementPin.mElementPtr->getName() << "." << scratch << " ";
+//if(elementPin.mElementPtr == 0) {
+//	std::cout << "Element pin " << scratch << " has NULL element" << std::endl;
+//	std::cout.flush();
+//}
 					elementPin.mFlags = pinFlags;
 					elementPin.mName = scratch;
 					element.mPinNameToPinIndex[scratch] = xilinx::PinIndex(k);
 				}
+//std::cout << std::endl;
 				// read the config count
 				uint32_t cfgCount;
 				inStream.read(cfgCount);
@@ -203,27 +216,43 @@ namespace architecture {
 			// read the conn count
 			uint32_t connCount;
 			inStream.read(connCount);
+//std::cout << primitiveDef.mName << ": " << connCount << std::endl;
+			// update the site definition
+			primitiveDef.mConnections.setSize(connCount);
 			// loop through each conn
+			const Sites::PrimitiveDef::PrimitiveElementArray& elements = primitiveDef.getElements();
 			for(uint32_t j = 0; j < connCount; j++) {
-				uint32_t dummy;
+				// look up the current connection
+				PrimitiveConn& connection = const_cast<PrimitiveConn&>(primitiveDef.mConnections[j]);
 				// read the source count
 				uint16_t sourceCount;
 				inStream.read(sourceCount);
 				/// \todo Throw a proper exception
 				if(sourceCount != 1) throw -1;
 				// read the source element and pin
-				inStream.read(dummy);
-				inStream.read(dummy);
+				inStream.read(elementIndex);
+				inStream.read(pinIndex);
+				const PrimitiveElement* elementPtr = elements.begin() + elementIndex;
+				PrimitiveElement& element = const_cast<PrimitiveElement&>(*elementPtr);
+				const Sites::PrimitiveElement::ElementPinArray& pins = element.getPins();
+				const Sites::ElementPin& pin = pins[pinIndex];
+				connection.mSourcePtr = &pin;
 				// read the sink count
 				uint16_t sinkCount;
 				inStream.read(sinkCount);
 				// loop through each sink
 				for(uint32_t k = 0; k < sinkCount; k++) {
 					// read the sink element and pin
-					inStream.read(dummy);
-					inStream.read(dummy);
+					inStream.read(elementIndex);
+					inStream.read(pinIndex);
+					elementPtr = elements.begin() + elementIndex;
+					PrimitiveElement& element = const_cast<PrimitiveElement&>(*elementPtr);
+					const Sites::PrimitiveElement::ElementPinArray& pins = element.getPins();
+					const Sites::ElementPin& pin = pins[pinIndex];
+					connection.mSinks.push_back(&pin);
 				}
 			}
+//std::cout << primitiveDef.getName() << " - " << element.getName() << ":" << std::endl;
 		}
 
 		// return the number of bytes read

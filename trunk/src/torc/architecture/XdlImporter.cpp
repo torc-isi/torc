@@ -47,11 +47,19 @@ namespace architecture {
 			//std::cerr << inPip.getDirectionString() << std::endl;
 		case torc::physical::ePipBidirectionalBidirectionallyBuffered: 
 			//std::cerr << inPip.getDirectionString() << std::endl;
-			mDDBPtr->useArc(mDDBPtr->tilePipToArc(tileName, sinkWireName, sourceWireName));
+			try {
+				mDDBPtr->useArc(mDDBPtr->tilePipToArc(tileName, sinkWireName, sourceWireName));
+			} catch(InvalidArcException& iae) {
+				std::cerr << "WARNING: Arc " << iae.mArc << " is invalid." << std::endl;
+			}
 			// fall through to include opposite direction arc
 		case torc::physical::ePipUnidirectionalBuffered: 
 			//std::cerr << inPip.getDirectionString() << std::endl;
-			mDDBPtr->useArc(mDDBPtr->tilePipToArc(tileName, sourceWireName, sinkWireName));
+			try {
+				mDDBPtr->useArc(mDDBPtr->tilePipToArc(tileName, sourceWireName, sinkWireName));
+			} catch(InvalidArcException& iae) {
+				std::cerr << "WARNING: Arc " << iae.mArc << " is invalid." << std::endl;
+			}
 		default: 
 			break;
 		}

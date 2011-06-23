@@ -321,7 +321,7 @@
 %token          OVERSIZE
 %token          OWNER
 %token          PAGE
-%token          PAGESIZE
+%token          PAGESIZE_TORC
 %token          PARAMETER
 %token          PARAMETERASSIGN
 %token          PARAMETERDISPLAY
@@ -4337,7 +4337,7 @@ _Page :         InstNameDef
       |         _Page UserData
       ;
 
-PageSize : LBKT PAGESIZE Rectangle RBKT
+PageSize : LBKT PAGESIZE_TORC Rectangle RBKT
          ;
 
 ParamDisp : LBKT PARAMETERDISPLAY _ParamDisp RBKT

@@ -23,12 +23,13 @@
 #include "torc/bitstream/Virtex4.hpp"
 #include "torc/bitstream/Virtex5.hpp"
 #include "torc/bitstream/Virtex6.hpp"
+#include "torc/bitstream/Virtex7.hpp"
 #include "torc/bitstream/VirtexPacket.hpp"
 #include "torc/bitstream/Spartan3E.hpp"
 #include "torc/bitstream/Spartan6.hpp"
 #include "torc/bitstream/SpartanPacket.hpp"
-#include "torc/bitstream/Spartan16Packet.hpp"
-#include "torc/bitstream/Spartan16Bitstream.hpp"
+#include "torc/bitstream/Spartan6Packet.hpp"
+#include "torc/bitstream/Spartan6Bitstream.hpp"
 #include <iostream>
 #include <iomanip>
 
@@ -49,7 +50,7 @@ namespace bitstream {
 			<< " bytes (" << (rhs.mBitstreamByteLength >> 2) << " words)";
 	}
 
-	std::ostream& operator <<(std::ostream& os, const Spartan16Bitstream& rhs) {
+	std::ostream& operator <<(std::ostream& os, const Spartan6Bitstream& rhs) {
 		return os << "Design " << rhs.mDesignName << " (" << rhs.mDeviceName << ") @ " 
 			<< rhs.mDesignDate << " " << rhs.mDesignTime << ": " << rhs.mBitstreamByteLength 
 			<< " bytes (" << (rhs.mBitstreamByteLength >> 1) << " words)";
@@ -60,6 +61,12 @@ namespace bitstream {
 		// insert the bitstream header
 		os << static_cast<const Bitstream>(rhs) << std::endl;
 		uint32_t cumulativeWordLength = 0;
+		bool newColumn = false;
+		bool newBlock = false;
+		uint32_t oldColumnValue = 0;
+		uint32_t oldBlockValue = 0;
+		uint32_t currentColumnValue = 0;
+		uint32_t currentBlockValue = 0;
 
 		// iterate over the packets
 		Spartan3E::ERegister address = Spartan3E::ERegister();
@@ -147,6 +154,18 @@ namespace bitstream {
 						os << ": " << Hex32(word);
 						Spartan3E::writeSubfieldSettings(os, uint32_t(word), Spartan3E::sMASK);
 						break;
+					// Added to make frame mapping debug easier
+					case Spartan3E::eRegisterLOUT:
+						oldColumnValue = currentColumnValue;
+						oldBlockValue = currentBlockValue;
+						currentColumnValue = (word & Virtex::eFarMaskMajor);
+						currentBlockValue = (word & Virtex::eFarMaskBlockType);
+						newColumn = (currentColumnValue != oldColumnValue);
+						newBlock = (currentBlockValue != oldBlockValue);
+						os << ": " << Hex32(word);
+						if(newColumn) std::cout << "\t\t\t!!!New Column!!!";
+						if(newBlock) std::cout << "\t\t\t\t\t***New Block***" << Hex32(currentBlockValue);
+						break;
 					default:
 						// output the register contents
 						os << ": " << Hex32(word);
@@ -167,22 +186,22 @@ namespace bitstream {
 	// Spartan6 Output Stream
 	std::ostream& operator <<(std::ostream& os, const Spartan6& rhs) {
 		// insert the bitstream header
-		// be careful to cast this as a Spartan16Bitstream, rather than an ordinary Bitstream
-		os << static_cast<const Spartan16Bitstream>(rhs) << std::endl;
+		// be careful to cast this as a Spartan6Bitstream, rather than an ordinary Bitstream
+		os << static_cast<const Spartan6Bitstream>(rhs) << std::endl;
 		uint32_t cumulativeWordLength = 0;
 
 		// iterate over the packets
 		Spartan6::ERegister address = Spartan6::ERegister();
 		//SpartanPacketVector::const_iterator p = rhs.begin();
-		std::vector<Spartan16Packet>::const_iterator p = rhs.begin();
+		std::vector<Spartan6Packet>::const_iterator p = rhs.begin();
 		//SpartanPacketVector::const_iterator e = rhs.end();
-		std::vector<Spartan16Packet>::const_iterator e = rhs.end();
+		std::vector<Spartan6Packet>::const_iterator e = rhs.end();
 		while(p < e) {
 
 			// insert the byte address
 			os << "    " << Hex32(rhs.getHeaderByteLength() + (cumulativeWordLength << 1)) << ": ";
 			// look up the packet
-			const Spartan16Packet& packet = *p++;
+			const Spartan6Packet& packet = *p++;
 			cumulativeWordLength += packet.getWordSize();
 
 			// handle dummy words
@@ -239,9 +258,6 @@ namespace bitstream {
 					os << " WRITE " << Spartan6::sRegisterName[address];
 					// process according to register address
 					switch(address) {
-					case Spartan6::eRegisterFDRI:
-						os << ": " << Hex32(wordCount) << " words";
-						break;
 					case Spartan6::eRegisterCMD: 
 						os << " " << Spartan6::sCommandName[word];
 						break;
@@ -294,6 +310,29 @@ namespace bitstream {
 					case Spartan6::eRegisterCRC:
 						os << ": " << Hex32(word32);
 						break;
+					case Spartan6::eRegisterFDRI:
+					//    if(packet.hasAutoCRC())
+					//	{
+					//	  os << ": " << Hex32(wordCount) << " words\n";
+					//	  os << "\t\t\t\tAUTOCRC: " << Hex32(packet.getAutoCRC());
+					//	}
+					//	else
+						  os << ": " << Hex32(wordCount) << " words\n";
+						break;
+					case Spartan6::eRegisterFARMAJ:
+						// Only updates the FAR Major
+						if (wordCount == 1)
+  						  os << "Major Address: " << Hex16(packet[1]);
+						// Updates both the FAR Major and Minor address
+						// Word 1: FAR Major
+						// Word 2: FAR Minor
+						else if (wordCount == 2) {
+						  std::cout << std::endl;
+						  os << "\t\t\t\tMajor Address: " << Hex16(packet[1]);
+						  std::cout << std::endl;
+						  os << "\t\t\t\tMinor Address: " << Hex16(packet[2] >> 1);
+						}
+						break;
 					default:
 						// output the register contents
 						os << ": " << Hex16(word);
@@ -316,6 +355,12 @@ namespace bitstream {
 		// insert the bitstream header
 		os << static_cast<const Bitstream>(rhs) << std::endl;
 		uint32_t cumulativeWordLength = 0;
+		bool newColumn = false;
+		bool newBlock = false;
+		uint32_t oldColumnValue = 0;
+		uint32_t oldBlockValue = 0;
+		uint32_t currentColumnValue = 0;
+		uint32_t currentBlockValue = 0;
 
 		// iterate over the packets
 		Virtex::ERegister address = Virtex::ERegister();
@@ -403,6 +448,18 @@ namespace bitstream {
 						os << ": " << Hex32(word);
 						Virtex::writeSubfieldSettings(os, uint32_t(word), Virtex::sMASK);
 						break;
+					// Added to make frame mapping debug easier
+					case Virtex::eRegisterLOUT:
+						oldColumnValue = currentColumnValue;
+						oldBlockValue = currentBlockValue;
+						currentColumnValue = (word & Virtex::eFarMaskMajor);
+						currentBlockValue = (word & Virtex::eFarMaskBlockType);
+						newColumn = (currentColumnValue != oldColumnValue);
+						newBlock = (currentBlockValue != oldBlockValue);
+						os << ": " << Hex32(word);
+						if(newColumn) std::cout << "\t\t\t!!!New Column!!!";
+						if(newBlock) std::cout << "\t\t\t\t\t***New Block***" << Hex32(currentBlockValue);
+						break;
 					default:
 						// output the register contents
 						os << ": " << Hex32(word);
@@ -430,6 +487,12 @@ namespace bitstream {
 		Virtex2::ERegister address = Virtex2::ERegister();
 		VirtexPacketVector::const_iterator p = rhs.begin();
 		VirtexPacketVector::const_iterator e = rhs.end();
+		bool newColumn = false;
+		bool newBlock = false;
+		uint32_t oldColumnValue = 0;
+		uint32_t oldBlockValue = 0;
+		uint32_t currentColumnValue = 0;
+		uint32_t currentBlockValue = 0;
 		while(p < e) {
 
 			// insert the byte address
@@ -510,6 +573,18 @@ namespace bitstream {
 						os << ": " << Hex32(word);
 						Virtex2::writeSubfieldSettings(os, uint32_t(word), Virtex2::sMASK);
 						break;
+					// Added to make frame mapping debug easier
+					case Virtex2::eRegisterLOUT:
+						oldColumnValue = currentColumnValue;
+						oldBlockValue = currentBlockValue;
+						currentColumnValue = (word & Virtex2::eFarMaskMajor);
+						currentBlockValue = (word & Virtex2::eFarMaskBlockType);
+						newColumn = (currentColumnValue != oldColumnValue);
+						newBlock = (currentBlockValue != oldBlockValue);
+						os << ": " << Hex32(word);
+						if(newColumn) std::cout << "\t\t\t!!!New Column!!!";
+						if(newBlock) std::cout << "\t\t\t\t\t***New Block***" << Hex32(currentBlockValue);
+						break;
 					default:
 						// output the register contents
 						os << ": " << Hex32(word);
@@ -537,6 +612,18 @@ namespace bitstream {
 		Virtex4::ERegister address = Virtex4::ERegister();
 		VirtexPacketVector::const_iterator p = rhs.begin();
 		VirtexPacketVector::const_iterator e = rhs.end();
+		bool newColumn = false;
+		bool newRow = false;
+		bool newTop = false;
+		bool newBlock = false;
+		uint32_t oldColumnValue = 0;
+		uint32_t oldRowValue = 0;
+		uint32_t oldTopValue = 0;
+		uint32_t oldBlockValue = 0;
+		uint32_t currentColumnValue = 0;
+		uint32_t currentRowValue = 0;
+		uint32_t currentTopValue = 0;
+		uint32_t currentBlockValue = 0;
 		while(p < e) {
 
 			// insert the byte address
@@ -617,6 +704,26 @@ namespace bitstream {
 						os << ": " << Hex32(word);
 						Virtex4::writeSubfieldSettings(os, uint32_t(word), Virtex4::sMASK);
 						break;
+					// Added to make frame mapping debug easier
+					case Virtex4::eRegisterLOUT:
+						oldColumnValue = currentColumnValue;
+						oldRowValue = currentRowValue;
+						oldTopValue = currentTopValue;
+						oldBlockValue = currentBlockValue;
+						currentColumnValue = (word & Virtex6::eFarMaskMajor);
+						currentRowValue = (word & Virtex6::eFarMaskRow);
+						currentTopValue = (word & Virtex6::eFarMaskTopBottom);
+						currentBlockValue = (word & Virtex6::eFarMaskBlockType);
+						newColumn = (currentColumnValue != oldColumnValue);
+						newRow = (currentRowValue != oldRowValue);
+						newTop = (currentTopValue != oldTopValue);
+						newBlock = (currentBlockValue != oldBlockValue);
+						os << ": " << Hex32(word);
+						if(newColumn) std::cout << "\t\t\t!!!New Column!!!";
+						if(newRow) std::cout << "\t\t\t$$$New Row$$$";
+						if(newTop) std::cout << "\t\t\t&&&New Top&&&";
+						if(newBlock) std::cout << "\t\t\t\t\t***New Block***" << Hex32(currentBlockValue);
+						break;
 					default:
 						// output the register contents
 						os << ": " << Hex32(word);
@@ -644,6 +751,18 @@ namespace bitstream {
 		VirtexPacketVector::const_iterator p = rhs.begin();
 		VirtexPacketVector::const_iterator e = rhs.end();
 		bool synchronized = false;
+		bool newColumn = false;
+		bool newRow = false;
+		bool newTop = false;
+		bool newBlock = false;
+		uint32_t oldColumnValue = 0;
+		uint32_t oldRowValue = 0;
+		uint32_t oldTopValue = 0;
+		uint32_t oldBlockValue = 0;
+		uint32_t currentColumnValue = 0;
+		uint32_t currentRowValue = 0;
+		uint32_t currentTopValue = 0;
+		uint32_t currentBlockValue = 0;
 		while(p < e) {
 
 			// insert the byte address
@@ -760,6 +879,26 @@ namespace bitstream {
 						os << ": " << Hex32(word);
 						Virtex5::writeSubfieldSettings(os, (uint32_t) word, Virtex5::sTIMER);
 						break;
+					// Added to make frame mapping debug easier
+					case Virtex5::eRegisterLOUT:
+						oldColumnValue = currentColumnValue;
+						oldRowValue = currentRowValue;
+						oldTopValue = currentTopValue;
+						oldBlockValue = currentBlockValue;
+						currentColumnValue = (word & Virtex6::eFarMaskMajor);
+						currentRowValue = (word & Virtex6::eFarMaskRow);
+						currentTopValue = (word & Virtex6::eFarMaskTopBottom);
+						currentBlockValue = (word & Virtex6::eFarMaskBlockType);
+						newColumn = (currentColumnValue != oldColumnValue);
+						newRow = (currentRowValue != oldRowValue);
+						newTop = (currentTopValue != oldTopValue);
+						newBlock = (currentBlockValue != oldBlockValue);
+						os << ": " << Hex32(word);
+						if(newColumn) std::cout << "\t\t\t!!!New Column!!!";
+						if(newRow) std::cout << "\t\t\t$$$New Row$$$";
+						if(newTop) std::cout << "\t\t\t&&&New Top&&&";
+						if(newBlock) std::cout << "\t\t\t\t\t***New Block***" << Hex32(currentBlockValue);
+						break;
 					default:
 						// output the register contents
 						os << ": " << Hex32(word);
@@ -787,6 +926,18 @@ namespace bitstream {
 		Virtex6::ERegister address = Virtex6::ERegister();
 		VirtexPacketVector::const_iterator p = rhs.begin();
 		VirtexPacketVector::const_iterator e = rhs.end();
+		bool newColumn = false;
+		bool newRow = false;
+		bool newTop = false;
+		bool newBlock = false;
+		uint32_t oldColumnValue = 0;
+		uint32_t oldRowValue = 0;
+		uint32_t oldTopValue = 0;
+		uint32_t oldBlockValue = 0;
+		uint32_t currentColumnValue = 0;
+		uint32_t currentRowValue = 0;
+		uint32_t currentTopValue = 0;
+		uint32_t currentBlockValue = 0;
 		bool synchronized = false;
 		while(p < e) {
 
@@ -904,6 +1055,26 @@ namespace bitstream {
 						os << ": " << Hex32(word);
 						Virtex6::writeSubfieldSettings(os, (uint32_t) word, Virtex6::sTIMER);
 						break;
+					// Added to make frame mapping debug easier
+					case Virtex6::eRegisterLOUT:
+						oldColumnValue = currentColumnValue;
+						oldRowValue = currentRowValue;
+						oldTopValue = currentTopValue;
+						oldBlockValue = currentBlockValue;
+						currentColumnValue = (word & Virtex6::eFarMaskMajor);
+						currentRowValue = (word & Virtex6::eFarMaskRow);
+						currentTopValue = (word & Virtex6::eFarMaskTopBottom);
+						currentBlockValue = (word & Virtex6::eFarMaskBlockType);
+						newColumn = (currentColumnValue != oldColumnValue);
+						newRow = (currentRowValue != oldRowValue);
+						newTop = (currentTopValue != oldTopValue);
+						newBlock = (currentBlockValue != oldBlockValue);
+						os << ": " << Hex32(word);
+						if(newColumn) std::cout << "\t\t\t!!!New Column!!!";
+						if(newRow) std::cout << "\t\t\t$$$New Row$$$";
+						if(newTop) std::cout << "\t\t\t&&&New Top&&&";
+						if(newBlock) std::cout << "\t\t\t\t\t***New Block***" << Hex32(currentBlockValue);
+						break;
 					default:
 						// output the register contents
 						os << ": " << Hex32(word);
@@ -920,6 +1091,16 @@ namespace bitstream {
 		// return the stream reference
 		return os;
 	}
+
+	// Virtex7 Output Stream
+	std::ostream& operator <<(std::ostream& os, const Virtex7& rhs) {
+		// insert the bitstream header
+		os << static_cast<const Bitstream>(rhs) << std::endl;
+
+		// return the stream reference
+		return os;
+	}
+
 
 } // namespace bitstream
 } // namespace torc

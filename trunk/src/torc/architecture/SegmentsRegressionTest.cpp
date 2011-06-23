@@ -74,9 +74,10 @@ class segments_regression_test_helper {
 public:
 	/// \brief Basic constructor.
 	segments_regression_test_helper(DDB& inDDB) : mDDB(inDDB), mTiles(mDDB.getTiles()), 
-		mSegments(mDDB.getSegments()), cUsagePruned(CompactSegmentIndex(-1)), 
-		cUsageUndefined(CompactSegmentIndex(-2)), mTilewireCount(0), mTilewiresAnalyzed(0), 
-		mTilewiresPruned(0), mTilewiresUndefined(0), mTilewireMismatches(0) {
+		mSegments(mDDB.getSegments()), 
+		cUsagePruned(CompactSegmentIndex(CompactSegmentIndex::undefined())), 
+		cUsageUndefined(CompactSegmentIndex(static_cast<boost::uint32_t>(-2))), mTilewireCount(0), 
+		mTilewiresAnalyzed(0), mTilewiresPruned(0), mTilewiresUndefined(0), mTilewireMismatches(0) {
 		// functions tested during database initialization and deletion:
 		//		Segments(void);
 		//		size_t readTilewireSegments(DigestStream& inStream);
@@ -216,10 +217,10 @@ uint64_t segments_regression_test_helper::sTotalTilewiresUndefined = 0;
 uint64_t segments_regression_test_helper::sTotalTilewireMismatches = 0;
 
 /// \brief Regression test for the Segments class.
-BOOST_AUTO_TEST_CASE(architecture_segments_regression) {
+BOOST_AUTO_TEST_CASE(SegmentsRegressionTest) {
 
 	// iterate over the devices
-	const torc::common::DeviceVector& devices = torc::common::Devices::getAllDevices();
+	const torc::common::DeviceVector& devices = torc::common::Devices::getSupportedDevices();
 	torc::common::DeviceVector::const_iterator dp = devices.begin();
 	torc::common::DeviceVector::const_iterator de = devices.end();
 	while(dp < de) {

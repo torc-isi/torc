@@ -58,8 +58,8 @@ namespace torc
 
 
 // Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
-// $HeadURL: https://torc-isi.svn.sourceforge.net/svnroot/torc-isi/trunk/src/torc/physical/xdl/parser.yy $
-// $Id: parser.yy 1 2011-02-25 22:11:16Z nsteiner $
+// $HeadURL: https://svn.east.isi.edu/torc/trunk/src/torc/physical/xdl/parser.yy $
+// $Id: parser.yy 382 2011-02-23 05:04:15Z nsteiner $
 
 // This program is free software: you can redistribute it and/or modify it under the terms of the 
 // GNU General Public License as published by the Free Software Foundation, either version 3 of the 

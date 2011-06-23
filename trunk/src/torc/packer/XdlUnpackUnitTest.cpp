@@ -32,7 +32,7 @@ namespace physical {
 BOOST_AUTO_TEST_SUITE(packer)
 
 /// \brief Unit test for the XdlUnpack class.
-BOOST_AUTO_TEST_CASE(packer_xdl_unpack) {
+BOOST_AUTO_TEST_CASE(XdlUnpackUnitTest) {
 
 	// create the appropriate file paths
 	boost::filesystem::path regressionPath 

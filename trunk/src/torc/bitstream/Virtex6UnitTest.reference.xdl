@@ -1,0 +1,61 @@
+
+# =======================================================
+# XDL NCD CONVERSION MODE $Revision: 1.01$
+# time: Wed Mar 23 11:45:16 2011
+
+# =======================================================
+
+
+# =======================================================
+# The syntax for the design statement is:                
+# design <design_name> <part> <ncd version>;             
+# or                                                     
+# design <design_name> <device> <package> <speed> <ncd_version>
+# =======================================================
+design "Virtex6UnitTest.reference.ncd" xc6vlx75tff484-1 v3.2 ;
+
+
+#  ================================================
+#  The syntax for nets is:
+#     net <name> <type>,
+#       outpin <inst_name> <inst_pin>,
+#       .
+#       .
+#       inpin <inst_name> <inst_pin>,
+#       .
+#       .
+#       pip <tile> <wire0> <dir> <wire1> , # [<rt>]
+#       .
+#       .
+#       ;
+# 
+#  There are three available wire types: wire, power and ground.
+#  If no type is specified, wire is assumed.
+# 
+#  Wire indicates that this a normal wire.
+#  Power indicates that this net is tied to a DC power source.
+#  You can use "power", "vcc" or "vdd" to specify a power net.
+# 
+#  Ground indicates that this net is tied to ground.
+#  You can use "ground", or "gnd" to specify a ground net.
+# 
+#  The <dir> token will be one of the following:
+# 
+#     Symbol Description
+#     ====== ==========================================
+#       ==   Bidirectional, unbuffered.
+#       =>   Bidirectional, buffered in one direction.
+#       =-   Bidirectional, buffered in both directions.
+#       ->   Directional, buffered.
+# 
+#  No pips exist for unrouted nets.
+#  ================================================
+
+# =======================================================
+# SUMMARY
+# Number of Module Defs: 0
+# Number of Module Insts: 0
+# Number of Primitive Insts: 0
+# Number of Nets: 0
+# =======================================================
+

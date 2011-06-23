@@ -27,10 +27,10 @@
 namespace torc {
 namespace physical {
 
-BOOST_AUTO_TEST_SUITE(physical_database)
+BOOST_AUTO_TEST_SUITE(physical)
 
 /// \brief Unit test demonstrating some sample code.
-BOOST_AUTO_TEST_CASE(sample_code) {
+BOOST_AUTO_TEST_CASE(SampleCodeUnitTest) {
 
 	// create the appropriate file paths
 	boost::filesystem::path regressionPath = 

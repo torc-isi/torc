@@ -16,7 +16,7 @@
 if(1) {
 
 @devices::development = qw/
-	xc3s100e
+	development1
 	/;
 
 @devices::virtex = qw/
@@ -69,6 +69,22 @@ if(1) {
 	xc6vsx315tl xc6vsx475tl 
 	/;
 
+@devices::virtex7 = qw/
+	xc7v285t xc7v450t xc7vx485t xc7v585t xc7v855t xc7v1500t xc7v2000t
+	/;
+
+@devices::virtex7l = qw/
+	xc7v285tl xc7v450tl xc7v585tl xc7v855tl xc7v1500tl xc7v2000tl
+	/;
+
+@devices::kintex7 = qw/
+	xc7k30t xc7k70t xc7k160t xc7k325t xc7k410t
+	/;
+
+@devices::kintex7l = qw/
+	xc7k30tl xc7k70tl xc7k160tl xc7k325tl xc7k410tl
+	/;
+
 @devices::spartan3e = qw/
 	xc3s100e xc3s250e xc3s500e xc3s1200e xc3s1600e
 	/;
@@ -101,6 +117,14 @@ if(1) {
 	@devices::virtex6 = qw//;
 
 	@devices::virtex6l = qw//;
+
+	@devices::virtex7 = qw//;
+
+	@devices::virtex7l = qw//;
+
+	@devices::kintex7 = qw//;
+
+	@devices::kintex7l = qw//;
 
 	@devices::spartan3e = qw//;
 

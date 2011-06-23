@@ -26,6 +26,9 @@
 namespace torc {
 namespace architecture {
 
+// forward declaration of our unit test class within its namespace
+namespace architecture { class DigestStreamUnitTest; }
+
 	/// \brief Encapsulation of database version information.
 	/// \details The format version information determines if and how DDB should read the database. 
 	///		The vendor vesion information indicates the version of the vendor tools that the 
@@ -34,6 +37,8 @@ namespace architecture {
 	// friends
 		/// \brief The database has access to our protected functions.
 		friend class DDB;
+		/// \brief The DigestStream unit test has access to our protected functions.
+		friend class torc::architecture::architecture::DigestStreamUnitTest;
 	protected:
 	// types
 		typedef std::string string;						///< \brief Imported type name.
@@ -54,7 +59,7 @@ namespace architecture {
 		string mVendorString;
 	// functions
 		/// \brief Read the version information.
-		size_t readVersions(DigestStream& inStream, bool inShowVersion);
+		size_t readVersions(DigestStream& inStream, bool inShowVersion = false);
 	// constructors
 		/// \brief Protected constructor.
 		Versions(void) : mFormat(), mBuild(0), mVendor(), mVendorString() {}

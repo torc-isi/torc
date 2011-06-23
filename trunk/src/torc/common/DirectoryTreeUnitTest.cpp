@@ -22,10 +22,10 @@
 namespace torc {
 namespace common {
 
-BOOST_AUTO_TEST_SUITE(portability)
+BOOST_AUTO_TEST_SUITE(common)
 
 /// \brief Unit test for the directory tree.
-BOOST_AUTO_TEST_CASE(directory_tree) {
+BOOST_AUTO_TEST_CASE(DirectoryTreeUnitTest) {
 	// look up the command line arguments
 	int& argc = boost::unit_test::framework::master_test_suite().argc;
 	char**& argv = boost::unit_test::framework::master_test_suite().argv;

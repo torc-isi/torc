@@ -30,10 +30,10 @@ BOOST_AUTO_TEST_SUITE(architecture)
 void testDeviceTiles(DDB& inDDB);
 
 /// \brief Unit test for the Tiles class.
-BOOST_AUTO_TEST_CASE(architecture_tiles) {
+BOOST_AUTO_TEST_CASE(TilesUnitTest) {
 
 	// iterate over the devices
-	const torc::common::DeviceVector& devices = torc::common::Devices::getAllDevices();
+	const torc::common::DeviceVector& devices = torc::common::Devices::getSupportedDevices();
 	torc::common::DeviceVector::const_iterator dp = devices.begin();
 	torc::common::DeviceVector::const_iterator de = devices.end();
 	while(dp < de) {

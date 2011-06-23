@@ -23,7 +23,7 @@
 namespace torc {
 namespace physical {
 
-BOOST_AUTO_TEST_SUITE(physical_database)
+BOOST_AUTO_TEST_SUITE(physical)
 
 /// \cond OMIT_FROM_DOXYGEN
 class A : public Progenitor<class A> {};
@@ -31,7 +31,7 @@ class B : public Progeny<class A> {};
 /// \endcond
 
 /// \brief Unit test for the Progeny class.
-BOOST_AUTO_TEST_CASE(physical_progeny) {
+BOOST_AUTO_TEST_CASE(ProgenyUnitTest) {
 	// create an accessory progenitor
 	typedef Progenitor<A> progenitor_t;
 	progenitor_t::SharedPtrType progenitorPtr(new A());

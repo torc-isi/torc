@@ -32,6 +32,8 @@ CCFLAGS = \
 OBJS = \
 				DeviceInfoHelper.o \
 				DeviceInfoHelperUnitTest.o \
+				Spartan6BuildHelper.o \
+				Spartan6BuildHelperUnitTest.o \
 				$
 
 # dependencies

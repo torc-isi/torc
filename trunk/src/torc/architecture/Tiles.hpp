@@ -166,7 +166,7 @@ namespace architecture {
 		TileIndex findTileIndex(const string& inName) const {
 			Array<const TileNameIndexPair>::const_iterator b = mOrderedTileNames.begin();
 			Array<const TileNameIndexPair>::const_iterator e = mOrderedTileNames.end();
-			TileNameIndexPair value(inName, TileIndex(-1));
+			TileNameIndexPair value(inName, TileIndex(TileIndex::undefined()));
 			Array<const TileNameIndexPair>::const_iterator p = lower_bound(b, e, value, 
 				&CompareTilePairByName);
 			return TileIndex((p == e || p->first != inName) ? -1 : p->second);
@@ -180,7 +180,7 @@ namespace architecture {
 				= mOrderedWireNames[inTileTypeIndex];
 			Array<const WireNameIndexPair>::const_iterator b = wireNameIndexPairArray.begin();
 			Array<const WireNameIndexPair>::const_iterator e = wireNameIndexPairArray.end();
-			WireNameIndexPair value(inName, WireIndex(-1));
+			WireNameIndexPair value(inName, WireIndex(WireIndex::undefined()));
 			Array<const WireNameIndexPair>::const_iterator p = lower_bound(b, e, value, 
 				&CompareWirePairByName);
 			return WireIndex((p == e || p->first != inName) ? -1 : p->second);

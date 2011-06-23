@@ -25,7 +25,7 @@ namespace architecture {
 BOOST_AUTO_TEST_SUITE(architecture)
 
 /// \brief Unit test for the ExtendedWireInfo class.
-BOOST_AUTO_TEST_CASE(architecture_extended_wire_info) {
+BOOST_AUTO_TEST_CASE(ExtendedWireInfoUnitTest) {
 }
 
 BOOST_AUTO_TEST_SUITE_END()

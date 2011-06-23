@@ -27,17 +27,20 @@ namespace torc {
 	void ArchitectureBrowser::printFullMenu() {
 		using std::cout;
 		using std::endl;
+		cout << endl;
 		cout << "########## Device Database Browser ##########" << endl;
 		cout << "Select a command:" << endl
 			<< "\t0) Device Summary - Display basic information about the device." << endl
-			<< "\t1) Tile list - Display a list of all tiles in the device." << endl
+			<< "\t1) Tile list - Search a list of all tiles in the device." << endl
 			<< "\t2) Wire List - Display a list of all wires in a given tile type." << endl
 			<< "\t3) Tilewire Detail - Display detail of a tilewire." << endl
 			<< "\t4) Segment Information" << endl
 			<< "\t5) Sources - Display segment sources." << endl
 			<< "\t6) Sinks - Display segment sinks." << endl
-			<< "\t7) Site List - Display a list of all sites in the device." << endl
+			<< "\t7) Site List - Search a list of all sites in the device." << endl
 			<< "\t8) Site Detail - Display detail of a site." << endl
+			<< "\t9) Site Types - Display a list of all site types in the device family." << endl
+			<< "\t10) Sites of Type - Display a list of all sites of a specified type." << endl
 			<< "\tq) Quit" << endl 
 			<< "> ";
 	}
@@ -57,6 +60,8 @@ namespace torc {
 		mFunctionMap["6"] = eSinks;
 		mFunctionMap["7"] = eSites;
 		mFunctionMap["8"] = eSiteDetail;
+		mFunctionMap["9"] = eSiteTypes;
+		mFunctionMap["10"] = eSitesOfType;
 		mFunctionMap["d"] = eDetail;
 		mFunctionMap["D"] = eDetail;
 	}

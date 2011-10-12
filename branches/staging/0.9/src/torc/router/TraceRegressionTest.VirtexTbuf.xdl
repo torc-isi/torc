@@ -1,0 +1,166 @@
+
+# =======================================================
+# XDL NCD CONVERSION MODE $Revision: 1.01$
+# time: Thu Oct 21 13:12:50 2010
+
+# =======================================================
+
+
+# =======================================================
+# The syntax for the design statement is:                
+# design <design_name> <part> <ncd version>;             
+# or                                                     
+# design <design_name> <device> <package> <speed> <ncd_version>
+# =======================================================
+design "C:\Documents and Settings\awood\Desktop\VirtexTest.ncd" xcv50bg256-4 v3.2 ;
+
+
+#  =======================================================
+#  The syntax for instances is:
+#      instance <name> <sitedef>, placed <tile> <site>, cfg <string> ;
+#  or
+#      instance <name> <sitedef>, unplaced, cfg <string> ;
+# 
+#  For typing convenience you can abbreviate instance to inst.
+# 
+#  For IOs there are two special keywords: bonded and unbonded
+#  that can be used to designate whether the PAD of an unplaced IO is
+#  bonded out. If neither keyword is specified, bonded is assumed.
+# 
+#  The bonding of placed IOs is determined by the site they are placed in.
+# 
+#  If you specify bonded or unbonded for an instance that is not an
+#  IOB it is ignored.
+# 
+#  Shown below are three examples for IOs. 
+#     instance IO1 IOB, unplaced ;          # This will be bonded
+#     instance IO1 IOB, unplaced bonded ;   # This will be bonded
+#     instance IO1 IOB, unplaced unbonded ; # This will be unbonded
+#  =======================================================
+inst "$COMP_0" "TBUF",placed R7C14 TBUF_R7C14.1  ,
+  cfg " IMUX::#OFF TMUX::#OFF "
+  ;
+inst "$COMP_1" "SLICE",placed R7C14 CLB_R7C14.S0  ,
+  cfg " BXMUX::#OFF BYMUX::#OFF CEMUX::#OFF CKINV::#OFF COUTUSED::#OFF CY0F::#OFF
+       CY0G::#OFF CYINIT::#OFF CYSELF::#OFF CYSELG::#OFF DXMUX::#OFF DYMUX::#OFF
+       F::#OFF F5USED::#OFF FFX::#OFF FFY::#OFF FXMUX::#OFF G::#OFF GYMUX::#OFF
+       INITX::#OFF INITY::#OFF RAMCONFIG::#OFF REVUSED::#OFF SRFFMUX::#OFF
+       SRMUX::#OFF SYNC_ATTR::#OFF XBUSED::#OFF XUSED::#OFF YBMUX::#OFF
+       YUSED::#OFF "
+  ;
+inst "$COMP_2" "SLICE",placed R7C14 CLB_R7C14.S1  ,
+  cfg " BXMUX::#OFF BYMUX::#OFF CEMUX::#OFF CKINV::#OFF COUTUSED::#OFF CY0F::#OFF
+       CY0G::#OFF CYINIT::#OFF CYSELF::#OFF CYSELG::#OFF DXMUX::#OFF DYMUX::#OFF
+       F::#OFF F5USED::#OFF FFX::#OFF FFY::#OFF FXMUX::#OFF G::#OFF GYMUX::#OFF
+       INITX::#OFF INITY::#OFF RAMCONFIG::#OFF REVUSED::#OFF SRFFMUX::#OFF
+       SRMUX::#OFF SYNC_ATTR::#OFF XBUSED::#OFF XUSED::#OFF YBMUX::#OFF
+       YUSED::#OFF "
+  ;
+inst "$COMP_3" "SLICE",placed R7C18 CLB_R7C18.S0  ,
+  cfg " BXMUX::#OFF BYMUX::#OFF CEMUX::#OFF CKINV::#OFF COUTUSED::#OFF CY0F::#OFF
+       CY0G::#OFF CYINIT::#OFF CYSELF::#OFF CYSELG::#OFF DXMUX::#OFF DYMUX::#OFF
+       F::#OFF F5USED::#OFF FFX::#OFF FFY::#OFF FXMUX::#OFF G::#OFF GYMUX::#OFF
+       INITX::#OFF INITY::#OFF RAMCONFIG::#OFF REVUSED::#OFF SRFFMUX::#OFF
+       SRMUX::#OFF SYNC_ATTR::#OFF XBUSED::#OFF XUSED::#OFF YBMUX::#OFF
+       YUSED::#OFF "
+  ;
+inst "$COMP_4" "SLICE",placed R7C18 CLB_R7C18.S1  ,
+  cfg " BXMUX::#OFF BYMUX::#OFF CEMUX::#OFF CKINV::#OFF COUTUSED::#OFF CY0F::#OFF
+       CY0G::#OFF CYINIT::#OFF CYSELF::#OFF CYSELG::#OFF DXMUX::#OFF DYMUX::#OFF
+       F::#OFF F5USED::#OFF FFX::#OFF FFY::#OFF FXMUX::#OFF G::#OFF GYMUX::#OFF
+       INITX::#OFF INITY::#OFF RAMCONFIG::#OFF REVUSED::#OFF SRFFMUX::#OFF
+       SRMUX::#OFF SYNC_ATTR::#OFF XBUSED::#OFF XUSED::#OFF YBMUX::#OFF
+       YUSED::#OFF "
+  ;
+inst "$COMP_5" "TBUF",placed R7C18 TBUF_R7C18.1  ,
+  cfg " IMUX::#OFF TMUX::#OFF "
+  ;
+
+#  ================================================
+#  The syntax for nets is:
+#     net <name> <type>,
+#       outpin <inst_name> <inst_pin>,
+#       .
+#       .
+#       inpin <inst_name> <inst_pin>,
+#       .
+#       .
+#       pip <tile> <wire0> <dir> <wire1> , # [<rt>]
+#       .
+#       .
+#       ;
+# 
+#  There are three available wire types: wire, power and ground.
+#  If no type is specified, wire is assumed.
+# 
+#  Wire indicates that this a normal wire.
+#  Power indicates that this net is tied to a DC power source.
+#  You can use "power", "vcc" or "vdd" to specify a power net.
+# 
+#  Ground indicates that this net is tied to ground.
+#  You can use "ground", or "gnd" to specify a ground net.
+# 
+#  The <dir> token will be one of the following:
+# 
+#     Symbol Description
+#     ====== ==========================================
+#       ==   Bidirectional, unbuffered.
+#       =>   Bidirectional, buffered in one direction.
+#       =-   Bidirectional, buffered in both directions.
+#       ->   Directional, buffered.
+# 
+#  No pips exist for unrouted nets.
+#  ================================================
+net "$NET_0" , 
+  outpin "$COMP_0" O ,
+  outpin "$COMP_5" O ,
+  inpin "$COMP_1" F1 ,
+  inpin "$COMP_1" G1 ,
+  inpin "$COMP_2" F1 ,
+  inpin "$COMP_2" G1 ,
+  inpin "$COMP_3" F1 ,
+  inpin "$COMP_4" F1 ,
+  inpin "$COMP_4" G1 ,
+  pip R7C14 E14 -> E_P14 , 
+  pip R7C14 E_P14 -> S0_F_B1 , 
+  pip R7C14 N1 -> N_P1 , 
+  pip R7C14 N_P1 -> S1_F_B1 , 
+  pip R7C14 OUT0 -> N1 , 
+  pip R7C14 OUT3 -> W11 , 
+  pip R7C14 OUT4 -> E14 , 
+  pip R7C14 OUT5 -> W17 , 
+  pip R7C14 TBUF2 -> TBUFO , 
+  pip R7C14 TBUFO -> OUT0 , 
+  pip R7C14 TBUFO -> OUT3 , 
+  pip R7C14 TBUFO -> OUT4 , 
+  pip R7C14 TBUFO -> OUT5 , 
+  pip R7C14 TBUF_OUT0 -> TBUF2 , 
+  pip R7C14 W11 -> W_P11 , 
+  pip R7C14 W17 -> W_P17 , 
+  pip R7C14 W_P11 -> S1_G_B1 , 
+  pip R7C14 W_P17 -> S0_G_B1 , 
+  pip R7C15 TBUF3 =- TBUF_STUB3 , 
+  pip R7C18 E17 -> E_P17 , 
+  pip R7C18 E20 -> E_P20 , 
+  pip R7C18 E_P17 -> S1_G_B1 , 
+  pip R7C18 E_P20 -> S0_F_B1 , 
+  pip R7C18 N1 -> N_P1 , 
+  pip R7C18 N_P1 -> S1_F_B1 , 
+  pip R7C18 OUT0 -> N1 , 
+  pip R7C18 OUT5 -> E17 , 
+  pip R7C18 OUT7 -> E20 , 
+  pip R7C18 TBUF2 -> TBUFO , 
+  pip R7C18 TBUFO -> OUT0 , 
+  pip R7C18 TBUFO -> OUT5 , 
+  pip R7C18 TBUFO -> OUT7 , 
+  pip R7C18 TBUF_OUT0 -> TBUF2 , 
+  ;
+
+# =======================================================
+# SUMMARY
+# Number of Module Defs: 0
+# Number of Module Insts: 0
+# Number of Primitive Insts: 6
+# Number of Nets: 1
+# =======================================================
+

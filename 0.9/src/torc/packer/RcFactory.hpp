@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the RcFactory class.
 
-#ifndef TORC_PHYSICAL_RcFactory_HPP
-#define TORC_PHYSICAL_RcFactory_HPP
+#ifndef TORC_PACKER_RCFACTORY_HPP
+#define TORC_PACKER_RCFACTORY_HPP
 
 #include "torc/physical/Design.hpp"
 #include "torc/packer/PrimitiveSet.hpp"
@@ -99,6 +99,4 @@ namespace physical {
 } // namespace physical
 } // namespace torc
 
-#endif // TORC_PHYSICAL_RcFactory_HPP
-
-
+#endif // TORC_PACKER_RCFACTORY_HPP

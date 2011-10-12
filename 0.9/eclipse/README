@@ -1,0 +1,23 @@
+Getting Eclipse CDT:
+====================
+If you do not have Eclipse with CDT installed, please install them before invoking the scripts in 
+this directory.
+
+    Eclipse is available at http://www.eclipse.org.
+    CDT (C/C++ Development Tooling) is available at http://www.eclipse.org/cdt.
+
+
+Importing Torc projects from the command line:
+==============================================
+Be sure to add Eclipse to your PATH environment variable.  You can then import the Torc projects 
+into eclipse on a one-time basis with import-projects.sh.  After the projects have been imported, 
+you can reopen Eclipse with open-eclipse.sh.
+
+
+Importing Torc projects from inside Eclipse:
+============================================
+If you prefer to import the Torc projects manually, you may do so as follows:
+
+    File -> Import... -> General -> Existing Projects into Workspace
+
+Select torc/trunk as the root directory, and click the Finish button.

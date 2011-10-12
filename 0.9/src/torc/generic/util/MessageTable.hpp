@@ -13,9 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_MESSAGE_TABLE_HPP
-#define TORC_GENERIC_MESSAGE_TABLE_HPP
-
+#ifndef TORC_GENERIC_UTIL_MESSAGETABLE_HPP
+#define TORC_GENERIC_UTIL_MESSAGETABLE_HPP
 
 #include "torc/generic/util/MessageId.hpp"
 #include "torc/generic/util/Error.hpp"
@@ -96,4 +95,4 @@ class MessageTable
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_UTIL_MESSAGETABLE_HPP

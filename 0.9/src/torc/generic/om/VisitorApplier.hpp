@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_VISITORAPPLIER_HPP
-#define TORC_GENERIC_VISITORAPPLIER_HPP
+#ifndef TORC_GENERIC_OM_VISITORAPPLIER_HPP
+#define TORC_GENERIC_OM_VISITORAPPLIER_HPP
 
 namespace torc
 {
@@ -50,11 +50,11 @@ class VisitorApplier {
             }
         }
     private:
-        mutable _Tp &mVisitor;
+        _Tp &mVisitor;
 };
 
 } //namespace generic
 } //namespace torc
 
 
-#endif
+#endif // TORC_GENERIC_OM_VISITORAPPLIER_HPP

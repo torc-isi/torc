@@ -14,14 +14,14 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the Virtex4 unit test.
+/// \brief Unit test for the Virtex4 class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/bitstream/Virtex4.hpp"
 #include "torc/common/DirectoryTree.hpp"
 #include "torc/common/Devices.hpp"
 #include "torc/architecture/DDB.hpp"
-#include "torc/architecture/DeviceDesignator.hpp"
+#include "torc/common/DeviceDesignator.hpp"
 #include "torc/bitstream/OutputStreamHelpers.hpp"
 #include "torc/bitstream/build/DeviceInfoHelper.hpp"
 #include "torc/common/TestHelpers.hpp"
@@ -35,7 +35,7 @@ namespace bitstream {
 BOOST_AUTO_TEST_SUITE(bitstream)
 
 /// \brief Unit test for the Virtex4 CRC
-BOOST_AUTO_TEST_CASE(crc_virtex4) {
+BOOST_AUTO_TEST_CASE(Virtex4CrcUnitTest) {
 	std::fstream fileStream("Virtex4UnitTest.reference.bit", std::ios::binary | std::ios::in);
 	Virtex4 bitstream;
 	bitstream.read(fileStream, false);
@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE(crc_virtex4) {
 }
 
 /// \brief Unit test for the Virtex4 class.
-BOOST_AUTO_TEST_CASE(bitstream_virtex4) {
+BOOST_AUTO_TEST_CASE(Virtex4UnitTest) {
 
 	// enums tested:
 	//		EPacket
@@ -117,6 +117,20 @@ BOOST_AUTO_TEST_CASE(bitstream_virtex4) {
 	BOOST_CHECK_EQUAL(Virtex4::sCommandName[Virtex4::eCommandGCAPTURE],		"GCAPTURE");
 	BOOST_CHECK_EQUAL(Virtex4::sCommandName[Virtex4::eCommandDESYNC],		"DESYNC");
 
+	// verify conversion to and from FrameAddress objects
+	uint32_t u1 = 0xffffffff & mask;
+	BOOST_CHECK_EQUAL(uint32_t(Virtex4::FrameAddress(u1)), u1);
+	uint32_t u2 = 0xffff0000 & mask;
+	BOOST_CHECK_EQUAL(uint32_t(Virtex4::FrameAddress(u2)), u2);
+	uint32_t u3 = 0xff00ff00 & mask;
+	BOOST_CHECK_EQUAL(uint32_t(Virtex4::FrameAddress(u3)), u3);
+	uint32_t u4 = 0xf0f0f0f0 & mask;
+	BOOST_CHECK_EQUAL(uint32_t(Virtex4::FrameAddress(u4)), u4);
+	uint32_t u5 = 0xcccccccc & mask;
+	BOOST_CHECK_EQUAL(uint32_t(Virtex4::FrameAddress(u5)), u5);
+	uint32_t u6 = 0xaaaaaaaa & mask;
+	BOOST_CHECK_EQUAL(uint32_t(Virtex4::FrameAddress(u6)), u6);
+
 	// build the file paths
 	boost::filesystem::path regressionPath 
 		= torc::common::DirectoryTree::getExecutablePath() / "regression";
@@ -135,7 +149,7 @@ BOOST_AUTO_TEST_CASE(bitstream_virtex4) {
 	std::string deviceName = bitstream.getDeviceName();
 	std::string designDate = bitstream.getDesignDate();
 	std::string designTime = bitstream.getDesignTime();
-	torc::architecture::DeviceDesignator deviceDesignator(deviceName);
+	torc::common::DeviceDesignator deviceDesignator(deviceName);
 	std::cout << "family of " << deviceName << " is " << deviceDesignator.getFamily() << std::endl;
 
 	// write the bitstream back out
@@ -190,7 +204,7 @@ BOOST_AUTO_TEST_CASE(bitstream_virtex4) {
 void testVirtex4Device(const std::string& inDeviceName, const boost::filesystem::path& inWorkingPath);
 
 /// \brief Unit test for the Virtex4 class Frame Address Register mapping.
-BOOST_AUTO_TEST_CASE(bitstream_virtex4_far) {
+BOOST_AUTO_TEST_CASE(Virtex4FarUnitTest) {
 
 	// look up the command line arguments
 	int& argc = boost::unit_test::framework::master_test_suite().argc;
@@ -227,11 +241,11 @@ BOOST_AUTO_TEST_CASE(bitstream_virtex4_far) {
 	};
 */
 
-	std::ostream& operator<< (std::ostream& os, const Virtex4::FrameAddress& rhs);
-	std::ostream& operator<< (std::ostream& os, const Virtex4::FrameAddress& rhs) {
-		return os << (rhs.mTopBottom == Virtex4::eFarTop ? 'T' : 'B') << "" << rhs.mBlockType 
-				<< "(" << rhs.mRow << "," << rhs.mMajor << "." << rhs.mMinor << ")";
-	}
+	//std::ostream& operator<< (std::ostream& os, const Virtex4::FrameAddress& rhs);
+	//std::ostream& operator<< (std::ostream& os, const Virtex4::FrameAddress& rhs) {
+	//	return os << (rhs.mTopBottom == Virtex4::eFarTop ? 'T' : 'B') << "" << rhs.mBlockType 
+	//			<< "(" << rhs.mRow << "," << rhs.mMajor << "." << rhs.mMinor << ")";
+	//}
 
 void testVirtex4Device(const std::string& inDeviceName, const boost::filesystem::path& inWorkingPath) {
 
@@ -333,21 +347,88 @@ return;
 
 }
 
+void testVirtex4FullMapping(const boost::filesystem::path& inWorkingPath);
+void testVirtex4PartialMapping(const boost::filesystem::path& inWorkingPath);
+
+/// \brief Unit test for the Virtex4 bitstream to bitmap conversion.
+BOOST_AUTO_TEST_CASE(Virtex4MapUnitTest) {
+	// look up the command line arguments
+	int& argc = boost::unit_test::framework::master_test_suite().argc;
+	char**& argv = boost::unit_test::framework::master_test_suite().argv;
+	// make sure that we at least have the name under which we were invoked
+	BOOST_REQUIRE(argc >= 1);
+	// resolve symbolic links if applicable
+	torc::common::DirectoryTree directoryTree(argv[0]);
+	testVirtex4FullMapping(torc::common::DirectoryTree::getWorkingPath());
+	//testVirtex4PartialMapping(torc::common::DirectoryTree::getWorkingPath());
+}
+
+
+void testVirtex4FullMapping(const boost::filesystem::path& inWorkingPath) {
+	// build the file paths
+	boost::filesystem::path regressionPath 
+		= torc::common::DirectoryTree::getExecutablePath() / "regression";
+	boost::filesystem::path generatedPath = regressionPath / "Virtex4UnitTest.generatedFull.bit";
+	boost::filesystem::path referencePath = regressionPath / "Virtex4UnitTest.reference.bit";
+
+	// read the bitstream
+	std::fstream fileStream(referencePath.string().c_str(), std::ios::binary | std::ios::in);
+	BOOST_REQUIRE(fileStream.good());
+	// read and gather bitstream frames
+	Virtex4 bitstream;
+	bitstream.read(fileStream, false);
+
+	// initialize frame map
+	bitstream.initializeDeviceInfo("xc4vlx15");
+	bitstream.initializeFrameMaps();
+
+	// load bitstream frames in data structure
+	bitstream.initializeFullFrameBlocks();
+
+	// write full bitstream from frame blocks data structure
+	uint32_t frameLength = bitstream.getFrameLength();
+	typedef boost::shared_array<uint32_t> WordSharedArray;
+	Virtex4::iterator p = bitstream.begin();
+	Virtex4::iterator e = bitstream.end();
+	while (p < e) {
+		const VirtexPacket& packet = *p++;
+		if (packet.isType2()) {
+			WordSharedArray words = packet.getWords();
+			uint32_t* ptr = words.get();
+			for (uint32_t block = 0; block < 8; block++) {
+				for (uint32_t frame = 0; frame < bitstream.mBlockFrameIndexBounds[block]; frame++) {
+					VirtexFrameBlocks::word_t* words = const_cast<VirtexFrameBlocks::word_t*>(bitstream.mFrameBlocks.mBlock[block][frame]->getWords());
+					for (uint32_t index = 0; index < frameLength; index++) {
+						*ptr++ = words[index];
+					}
+				}
+			}
+		}
+	}
+	// write the test bitstream back out
+	std::fstream outputStream(generatedPath.string().c_str(), std::ios::binary | std::ios::out);
+	BOOST_REQUIRE(outputStream.good());
+	bitstream.write(outputStream);
+	outputStream.flush();
+	BOOST_REQUIRE(torc::common::fileContentsAreEqual(referencePath, generatedPath));
+
+	return;
+}
 
 
 
 
 
-
+/*
 /// \brief Unit test for the Virtex4 static device info generation.
-BOOST_AUTO_TEST_CASE(bitstream_virtex4_generate) {
+BOOST_AUTO_TEST_CASE(Virtex4GenerateUnitTest) {
 
 	Virtex4 bitstream;
 	DeviceInfoHelper::buildFamilyDeviceInfo("Virtex4", "Virtex4DeviceInfo.template", 
 		"Virtex4DeviceInfo.cpp", torc::common::Devices::getVirtex4Devices(), bitstream);
 
 }
-
+*/
 
 BOOST_AUTO_TEST_SUITE_END()
 

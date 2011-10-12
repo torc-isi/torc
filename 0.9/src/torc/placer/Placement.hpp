@@ -24,6 +24,7 @@
 #include "torc/placer/DeviceWrapper.hpp"
 #include "torc/placer/PlacerAnnotations.hpp"
 #include "torc/placer/PlacerHeuristicBase.hpp"
+#include "torc/placer/PlacerHelpers.hpp"
 #include <boost/timer.hpp>
 
 #include <boost/random/mersenne_twister.hpp>
@@ -40,7 +41,7 @@ namespace placer {
 	//types
 		typedef architecture::DDB DDB;
 		typedef architecture::Sites Sites;
-		typedef architecture::Sites::Site Site;
+		typedef architecture::Site Site;
 		typedef std::vector<const Site*> SitePtrVector;
 		typedef std::vector<SitePtrVector> SitePtrVectorVector;
 
@@ -83,7 +84,6 @@ namespace placer {
 		
 		// the sites
 		const architecture::Array<const Site>& mAllSites;
-//		architecture::Array<uint32> mAllSiteTypes;
 		SitePtrVectorVector mAllSitesByType;
 		SitePtrVectorVector mCandidatesByType; // extend to group? yes
 		SitePtrToIntMap mSiteTypeLookup;
@@ -125,7 +125,6 @@ namespace placer {
 	public:
 		Placement(DeviceWrapper& inDevice, DesignSharedPtr inDesign)
 			: mDevice(inDevice), mDesign(inDesign), mAllSites(mDevice.mSites.getSites()),
-			/*mAllSiteTypes(mAllSites.getSize())*/
 			mRandomSource(42), mUniformInstanceRange(0, mDesign->getInstanceCount() - 1),
 			mInstanceRandomGen(mRandomSource, mUniformInstanceRange),
 			mCost(0), mDebug(false) {
@@ -173,9 +172,9 @@ std::cout << "Prepped for " << mDevice.mSites.getSiteTypeCount() << " types" << 
 std::cout << "There are " << mAllSites.getSize() << " sites" << std::endl;
 			for (uint32 i = 0; i < mAllSites.getSize(); i++) {
 			
-				const architecture::Sites::Site& site = mAllSites[i];
+				const architecture::Site& site = mAllSites[i];
 				//SiteSharedPtr ssp(site);
-				const architecture::Sites::PrimitiveDef* siteType = site.getPrimitiveDefPtr();
+				const architecture::PrimitiveDef* siteType = site.getPrimitiveDefPtr();
 				uint32 typeIndex = mDevice.mTypeMapping.getTypeIndex(siteType->getName());
 				std::vector<uint32>& map = mDevice.mTypeMapping.getLegalInstancesForSite(typeIndex);
 				
@@ -235,8 +234,9 @@ std::cout << "There are " << mAllSites.getSize() << " sites" << std::endl;
 				// place each instance
 				InstanceSharedPtr instance = mAllInstances[i];
 std::cout << "Placing instance: " << instance->getName() << std::endl;
-				uint32 typeIndex = boost::any_cast<uint32>(
-					instance->getAnnotation(ePlacerInstanceTypeIndex));
+				//uint32 typeIndex = boost::any_cast<uint32>(
+				//	instance->getAnnotation(ePlacerInstanceTypeIndex));
+				uint32 typeIndex = getInstanceTypeIndex(instance);
 					
 std::cout << "\tInstance type index: " << typeIndex << " (" 
 	<< mDevice.mTypeMapping.getName(typeIndex) << ")" << std::endl;
@@ -265,14 +265,6 @@ std::cout << "\tSite type index: " << siteTypeIndex << " ("
 				uint32 r = random();
 std::cout << "\tSelected index " << r << " from " << sitesByType[siteTypeIndex].size() << std::endl;
 
-if (siteTypeIndex == 3) {
-	std::vector<const Site*>::iterator p = sitesByType[3].begin();
-	std::vector<const Site*>::iterator e = sitesByType[3].end();
-	for ( ; p != e; p++) {
-		std::cout << "\t\t" << (*p)->getName() << std::endl;
-	}
-}
-			
 				const Site* selectedSite = sitesByType[siteTypeIndex][r];
 
 std::cout << "\tSelected Site: " << selectedSite->getName() << std::endl;
@@ -370,7 +362,7 @@ std::cout << "\tSelected Site: " << selectedSite->getName() << std::endl;
 			}
 			std::cout << "updateCostFull: " << mCost << std::endl;
 		}
-		void randomMove(bool debug) {
+		bool randomMove(bool debug) {
 			if (debug) std::cout << "randomMove: " << std::endl;
 			// pick a random instance - this will later be weighted
 			uint32 r = mInstanceRandomGen();
@@ -380,22 +372,34 @@ std::cout << "\tSelected Site: " << selectedSite->getName() << std::endl;
 			mDepartureSite = const_cast<Site*>(boost::any_cast<const Site*>(
 				mSelectedInstance->getAnnotation(ePlacerInstanceSitePtr)));
 			if (debug) std::cout << "\tdeparture site: " << mDepartureSite->getName() << std::endl;
-			uint32 type = boost::any_cast<uint32>(
-				mSelectedInstance->getAnnotation(ePlacerInstanceTypeIndex));
-			if (debug) std::cout << "\tinstance type: " << type << std::endl;
-			uint32 s = (*mTypeRandomGen[type])();
-			if (debug) std::cout << "\tselected: " << s << " of " << mCandidatesByType[type].size()
-				<< std::endl;
-			mTargetSite = const_cast<Site*>(mCandidatesByType[type][s]);
+			uint32 instanceType = getInstanceTypeIndex(mSelectedInstance);
+			if (debug) std::cout << "\tinstance type: " << instanceType << std::endl;
+			uint32 s = (*mTypeRandomGen[instanceType])();
+			if (debug) std::cout << "\tselected: " << s << " of " 
+				<< mCandidatesByType[instanceType].size() << std::endl;
+			mTargetSite = const_cast<Site*>(mCandidatesByType[instanceType][s]);
 			if (debug) std::cout << "\ttarget site: " << mTargetSite->getName() << std::endl;
 			SitePtrToInstanceSharedPtrMap::iterator p = mAssignedSites.find(mTargetSite);
 			mEvictedInstance = InstanceSharedPtr();
-			if (p != mAssignedSites.end()) mEvictedInstance = p->second;
+			if (p != mAssignedSites.end()) {
+				mEvictedInstance = p->second;
+				// we have an evicted instance and it needs to be checked for legal placement
+				uint32 evictedType = getInstanceTypeIndex(mEvictedInstance);
+				uint32 departureSiteType = mSiteTypeLookup[mDepartureSite];
+				bool illegalMapping = true;
+				std::vector<uint32>& v = mDevice.mTypeMapping.getLegalSitesForInstance(evictedType);
+				for (uint32 i = 0; i < v.size(); i++) {
+					if (departureSiteType == v[i]) illegalMapping = false;
+				}
+				if (illegalMapping) return false;
+			}
 			if (debug) mEvictedInstance == 0 ? std::cout << "\tEMPTY " << std::endl
 				: std::cout << "\t" << mEvictedInstance->getName() << std::endl;
 			
 			// 4 things to update
+			if (debug) std::cout << "\tCost before move: " << mCost << std::endl;
 			updateCostRemovePair(mSelectedInstance, mEvictedInstance);
+			if (debug) std::cout << "\tCost without instance nets: " << mCost << std::endl;
 			
 			mSelectedInstance->setAnnotation(ePlacerInstanceSitePtr, 
 				const_cast<const Site*>(mTargetSite));
@@ -409,7 +413,8 @@ std::cout << "\tSelected Site: " << selectedSite->getName() << std::endl;
 			}
 			
 			updateCostAddPair(mSelectedInstance, mEvictedInstance);
-			
+			if (debug) std::cout << "\tCost after move: " << mCost << std::endl;
+			return true;
 		}
 		void undoMove(bool debug) {
 			if (debug) {
@@ -472,8 +477,8 @@ std::cout << "\tSelected Site: " << selectedSite->getName() << std::endl;
 				}
 			}
 			
-			std::set<NetSharedPtr>::iterator r;
-			std::set<NetSharedPtr>::iterator g;
+			std::set<NetSharedPtr>::iterator r = modifiedNets.begin();
+			std::set<NetSharedPtr>::iterator g = modifiedNets.end();
 			for ( ; r != g; r++) {
 				addCost ? mCost += getNetCost(*r) : mCost -= getNetCost(*r);
 			}
@@ -502,9 +507,8 @@ std::cout << "\tSelected Site: " << selectedSite->getName() << std::endl;
 					modifiedNets.insert(n);
 				}
 			}
-			
-			std::set<NetSharedPtr>::iterator r;
-			std::set<NetSharedPtr>::iterator g;
+			std::set<NetSharedPtr>::iterator r = modifiedNets.begin();
+			std::set<NetSharedPtr>::iterator g = modifiedNets.end();
 			for ( ; r != g; r++) {
 				addCost ? mCost += getNetCost(*r) : mCost -= getNetCost(*r);
 			}
@@ -513,7 +517,7 @@ std::cout << "\tSelected Site: " << selectedSite->getName() << std::endl;
 		uint32 getNetCost(NetSharedPtr inNet) {
 			uint32 returnCost = 0;
 			
-			if (mDebug) std::cout << "net : " << inNet->getName() << std::endl;
+			if (mDebug) std::cout << "getNetCost - net : " << inNet->getName() << std::endl;
 			if (inNet->getSourceCount() != 1 || inNet->getSinkCount() < 1) {
 				if (mDebug) std::cout << "\tEmpty!" << std::endl;
 				return returnCost;

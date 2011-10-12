@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_COPIER_HPP
-#define TORC_GENERIC_COPIER_HPP
+#ifndef TORC_GENERIC_OM_CLONING_HPP
+#define TORC_GENERIC_OM_CLONING_HPP
 
 #include <cstdio>
 #include <iostream>
@@ -52,6 +52,11 @@ namespace torc {
 namespace generic {
 
 namespace _impl { template<typename _Tp> class Copier; }    
+
+extern void
+copyParams( const Instance &inOriginal,
+            const InstanceSharedPtr &outCloned,
+            const ObjectFactorySharedPtr &inFactory );
 
 template<typename _Tp>
 boost::shared_ptr<_Tp>
@@ -257,12 +262,23 @@ class Copier<class Cell>
             CellSharedPtr cellPtr;
             mFactory->create( cellPtr );
             cellPtr->setComments ( inCell.getComments() );
+
+            std::list< std::string > userData;
+            inCell.getUserData( userData );
+            cellPtr->setUserData ( userData );
+
+            std::vector< StatusSharedPtr > outStatus;
+            inCell.getStatuses( outStatus );
+            cellPtr->setStatuses ( outStatus );
+
             cellPtr->setIsExtern ( inCell.getIsExtern() );
             cellPtr->setName( inCell.getName() );
             cellPtr->setParent ( inCell.getParent() );
+
             std::map< std::string, PropertySharedPtr > outProperties;
             inCell.getProperties( outProperties );
             cellPtr->setProperties( outProperties );
+
             cellPtr->setType( inCell.getType() );
             cellPtr->setOriginalName( inCell.getOriginalName() );
             std::vector< ViewSharedPtr > outViews;
@@ -321,6 +337,15 @@ class Copier<class View>
             ViewSharedPtr viewPtr;
             mFactory->create( viewPtr );
             viewPtr->setComments ( inView.getComments() );
+        
+            std::list< std::string > userData;
+            inView.getUserData( userData );
+            viewPtr->setUserData ( userData );
+
+            std::vector< StatusSharedPtr > outStatus;
+            inView.getStatuses( outStatus );
+            viewPtr->setStatuses ( outStatus );
+
             viewPtr->setIsExtern ( inView.getIsExtern() );
             viewPtr->setName( inView.getName() );
             viewPtr->setParent ( inView.getParent() );
@@ -364,6 +389,15 @@ class Copier<class View>
                 PortSharedPtr newPort = clone( *portIt, mFactory );
                 viewPtr->addPort( newPort );
             }
+            
+            std::vector< PermutableSharedPtr > outPermutables;
+            inView.getPermutables( outPermutables );
+            viewPtr->setPermutables( outPermutables );
+
+            std::vector< InterfaceJoinedInfoSharedPtr > outJoinedInfos;
+            inView.getInterfaceJoinedInfos( outJoinedInfos );
+            viewPtr->setInterfaceJoinedInfos( outJoinedInfos );
+
             std::vector< NetSharedPtr > outNets;
             inView.getNets( outNets );
             std::vector< NetSharedPtr >::iterator netIt
@@ -650,6 +684,11 @@ copyObject( ScalarPort &inPort,
         scalarPort->setIsExtern( inPort.getIsExtern() ); 
         scalarPort->setParent( inPort.getParent() );
         scalarPort->setParentCollection( inPort.getParentCollection() );
+
+        std::list< std::string > userData;
+        inPort.getUserData( userData );
+        scalarPort->setUserData ( userData );
+
         std::map< std::string, PropertySharedPtr > outProperties;
         inPort.getProperties( outProperties );
         scalarPort->setProperties( outProperties );
@@ -794,6 +833,10 @@ copyObject( VectorPort &inPort,
         vectorPortPtr->setIsExtern ( inPort.getIsExtern() );    
         vectorPortPtr->setParent ( inPort.getParent() );
         vectorPortPtr->setParentCollection(inPort.getParentCollection());
+
+        std::list< std::string > userData;
+        inPort.getUserData( userData );
+        vectorPortPtr->setUserData ( userData );
 
         std::map< std::string, PropertySharedPtr > outProperties;
         inPort.getProperties( outProperties );
@@ -981,6 +1024,10 @@ copyObject( PortBundle &inPort,
         portBundlePtr->setParent ( inPort.getParent() );
         portBundlePtr->setParentCollection( inPort.getParentCollection() );       
         
+        std::list< std::string > userData;
+        inPort.getUserData( userData );
+        portBundlePtr->setUserData ( userData );
+
         std::map< std::string, PropertySharedPtr > outProperties;
         inPort.getProperties( outProperties );
         portBundlePtr->setProperties( outProperties );        
@@ -1064,7 +1111,6 @@ copyObject( PortBundleReference &inPortRef,
         portBundleRefPtr->setParent ( inPortRef.getParent() );
         portBundleRefPtr->setParentCollection(
                                 inPortRef.getParentCollection() );
-        portBundleRefPtr->bindToMasterPort( inPortRef.getMaster() );
         std::vector<PortReferenceSharedPtr> children;
         inPortRef.getChildren( children );
         for( std::vector<PortReferenceSharedPtr>::iterator it = children.begin();
@@ -1073,6 +1119,8 @@ copyObject( PortBundleReference &inPortRef,
             PortReferenceSharedPtr clonedPortRef = clone( *it, inFactory );
             portBundleRefPtr->addChild( clonedPortRef );
         }
+        portBundleRefPtr->bindToMasterPort( inPortRef.getMaster() );
+
         //CONNECTIONS ARE NOT COPIED
         outPointer = portBundleRefPtr;
     }
@@ -1127,29 +1175,6 @@ class Copier<class PortBundleReference>
     Pointer mReturnVal;
 };
 
-void
-copyParams( const Instance &inOriginal,
-            const InstanceSharedPtr &outCloned,
-            const ObjectFactorySharedPtr &inFactory ) {
-
-    ParameterMapSharedPtr params = inOriginal.getParameters();
-    ParameterMapSharedPtr clonedParams = outCloned->getParameters();
-    ParameterContext origContext = inOriginal.getParameterContext();
-    ParameterContext clonedContext
-                            = outCloned->getParameterContext();
-    std::map< std::string, ParameterSharedPtr> overriddenParams;
-    params->getOverriddenParameters( origContext, overriddenParams );
-    for( std::map< std::string, ParameterSharedPtr>::iterator
-            it = overriddenParams.begin();
-            it != overriddenParams.end(); ++it )
-    {
-        ParameterSharedPtr clonedParam
-                                = clone( (*it).second, inFactory );
-        clonedParams->set(
-                        clonedContext, (*it).first, clonedParam );
-    }
-}
-
 // For SingleInstance
 template<typename _PointerType>
 void
@@ -1177,6 +1202,11 @@ copyObject( SingleInstance &inInstance,
         instPtr->bindToMasterView( inInstance.getMaster() );
         //THIS SHOULD BIND ALL THE CLONED PORTREFS TO THE MASTERS
         copyParams( inInstance, instPtr, inFactory );
+
+        std::list< std::string > userData;
+        inInstance.getUserData( userData );
+        instPtr->setUserData ( userData );
+
         std::map< std::string, PropertySharedPtr > outProperties;
         inInstance.getProperties( outProperties );
         instPtr->setProperties( outProperties );
@@ -1249,6 +1279,11 @@ copyObject( ScalarNet &inNet,
         netPtr->setName( inNet.getName() );
         netPtr->setParent ( inNet.getParent() );
         netPtr->setOriginalName( inNet.getOriginalName() );
+
+        std::list< std::string > userData;
+        inNet.getUserData( userData );
+        netPtr->setUserData ( userData );
+
         std::map< std::string, PropertySharedPtr > outProperties;
         inNet.getProperties( outProperties );
         netPtr->setProperties( outProperties );
@@ -1331,6 +1366,11 @@ copyObject( NetBundle &inNet,
         netBundlePtr->setName( inNet.getName() );
         netBundlePtr->setParent ( inNet.getParent() );
         netBundlePtr->setOriginalName( inNet.getOriginalName() );
+
+        std::list< std::string > userData;
+        inNet.getUserData( userData );
+        netBundlePtr->setUserData ( userData );
+
         std::map< std::string, PropertySharedPtr > outProperties;
         inNet.getProperties( outProperties );
         netBundlePtr->setProperties( outProperties );
@@ -1419,6 +1459,10 @@ copyObject( VectorNet &inNet,
         vectorNetPtr->setName( inNet.getName() );
         vectorNetPtr->setParent ( inNet.getParent() );
         vectorNetPtr->setOriginalName( inNet.getOriginalName() );
+
+        std::list< std::string > userData;
+        inNet.getUserData( userData );
+        vectorNetPtr->setUserData ( userData );
 
         std::map< std::string, PropertySharedPtr > outProperties;
         inNet.getProperties( outProperties );
@@ -1534,6 +1578,10 @@ copyObject( InstanceArray &inInstanceArray,
         instArrayPtr->setOriginalName(
                                 inInstanceArray.getOriginalName() );
 
+        std::list< std::string > userData;
+        inInstanceArray.getUserData( userData );
+        instArrayPtr->setUserData ( userData );
+
         std::map< std::string, PropertySharedPtr > outProperties;
         inInstanceArray.getProperties( outProperties );
         instArrayPtr->setProperties( outProperties );
@@ -1562,6 +1610,10 @@ copyObject( InstanceArray &inInstanceArray,
             cloned->setName( orig->getName() );
             cloned->setOriginalName( orig->getOriginalName() );
             cloned->setParent ( orig->getParent() );
+
+            std::list< std::string > userData;
+            orig->getUserData( userData );
+            cloned->setUserData ( userData );
 
             std::map< std::string, PropertySharedPtr > outProperties;
             orig->getProperties( outProperties );
@@ -2279,4 +2331,4 @@ class Copier<class PortList>
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_OM_CLONING_HPP

@@ -25,7 +25,7 @@
 #include "torc/physical/Progenitor.hpp"
 #include "torc/physical/ConfigMap.hpp"
 #include "torc/physical/InstanceReference.hpp"
-#include "torc/physical/Annotated.hpp"
+#include "torc/common/Annotated.hpp"
 #include <boost/smart_ptr.hpp>
 #include <vector>
 #include <map>
@@ -48,7 +48,7 @@ namespace physical {
 	/// \details This class describes a physical instance in the design.
 	/// \todo Need a good way of finding the direction of each instance pin.
 	class Instance : public Renamable<class Circuit>, public Progeny<class Circuit>, 
-		public ConfigMap, public Annotated, protected Progenitor<Instance> {
+		public ConfigMap, public common::Annotated, protected Progenitor<Instance> {
 	// friends
 		/// \brief The Factory class has direct access to our internals.
 		friend class Factory;
@@ -61,8 +61,6 @@ namespace physical {
 		/// \brief Imported type name.
 		typedef std::string string;
 		/// \brief Map from instance pin name to instance pin
-		/// \todo This needs to be made a multimap, to account for multiple InstancePin objects 
-		///		with the same pin name being unintentionally created by the user.
 		typedef std::multimap<PinName, InstancePinSharedPtr> InstancePinMap;
 	// members
 		/// \brief The instance logic type.

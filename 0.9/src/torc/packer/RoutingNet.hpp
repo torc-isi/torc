@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the RoutingNet class.
 
-#ifndef TORC_PHYSICAL_ROUTING_NET_HPP
-#define TORC_PHYSICAL_ROUTING_NET_HPP
+#ifndef TORC_PACKER_ROUTINGNET_HPP
+#define TORC_PACKER_ROUTINGNET_HPP
 
 #include "torc/physical/Net.hpp"
 #include <vector>
@@ -136,4 +136,4 @@ namespace physical {
 } // namespace physical
 } // namespace torc
 
-#endif // TORC_PHYSICAL_RoutingNet_HPP
+#endif // TORC_PACKER_ROUTINGNET_HPP

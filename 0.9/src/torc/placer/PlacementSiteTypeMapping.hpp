@@ -40,7 +40,7 @@ namespace placer {
 		//typedef std::map<uint32, uint32> InstanceTypeToCandidateTypeMap;
 		typedef std::vector<uint32> InstanceTypeToCandidateTypeMap;
 		
-		typedef architecture::Sites::Site Site;
+		typedef architecture::Site Site;
 		typedef std::vector<const Site*> SitePtrVector;
 		typedef std::vector<SitePtrVector> SitePtrVectorVector;
 		typedef std::vector<SitePtrVectorVector> SitePtrVectorVectorVector;
@@ -68,7 +68,7 @@ namespace placer {
 	// members	
 		DDB& mDB;
 		const Sites& mSites;
-		const architecture::Array<const architecture::Sites::PrimitiveDef>& mSiteTypes;
+		const architecture::Array<const architecture::PrimitiveDef>& mSiteTypes;
 		
 		TypeVector mTypeVector;
 		std::map<std::string, uint32> mTypeLookup;
@@ -114,11 +114,11 @@ namespace placer {
 			return mTypeVector;
 		}
 		
-		std::vector<uint32>& getLegalSitesForInstance(uint32 instanceIndex) {
-			return mTypeVector[instanceIndex].getSiteTypes();
+		std::vector<uint32>& getLegalSitesForInstance(uint32 inInstanceTypeIndex) {
+			return mTypeVector[inInstanceTypeIndex].getSiteTypes();
 		}
-		std::vector<uint32>& getLegalInstancesForSite(uint32 siteIndex) {
-			return mTypeVector[siteIndex].getInstanceTypes();
+		std::vector<uint32>& getLegalInstancesForSite(uint32 inSiteTypeIndex) {
+			return mTypeVector[inSiteTypeIndex].getInstanceTypes();
 		}
 		MappingSiteType& getType(uint32 inIndex) { return mTypeVector[inIndex]; }
 		
@@ -127,6 +127,7 @@ namespace placer {
 		}
 		const std::string& getName(uint32 inIndex) { return mTypeVector[inIndex].getName(); }
 		
+		/// \brief Get the type index for a given type name, creates a new entry if not found.
 		uint32 getTypeIndex(const std::string& inType) { return mTypeLookup[inType]; }
 		
 		/*std::vector<uint32>& operator[] (const uint32 inIndex) {

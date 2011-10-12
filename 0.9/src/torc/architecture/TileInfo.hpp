@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the TileInfo class.
 
-#ifndef TORC_ARCHITECTURE_TILE_INFO_HPP
-#define TORC_ARCHITECTURE_TILE_INFO_HPP
+#ifndef TORC_ARCHITECTURE_TILEINFO_HPP
+#define TORC_ARCHITECTURE_TILEINFO_HPP
 
 #include "torc/architecture/XilinxDatabaseTypes.hpp"
 #include <cstring>
@@ -89,4 +89,4 @@ namespace architecture {
 } // namespace architecture
 } // namespace torc
 
-#endif // TORC_ARCHITECTURE_TILE_INFO_HPP
+#endif // TORC_ARCHITECTURE_TILEINFO_HPP

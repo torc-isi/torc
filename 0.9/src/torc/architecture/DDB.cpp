@@ -73,11 +73,11 @@ namespace architecture {
 			deviceDatabaseBytesRead += mSegments.readTilewireSegments(deviceDatabaseStream);
 			bool extendedAnchorTileCount 
 				= mDeviceVersion.getFormat() == torc::common::DottedVersion(1, 0, 1);
-			deviceDatabaseBytesRead += mSegments.readSegments(deviceDatabaseStream, 
-				extendedAnchorTileCount);
+			deviceDatabaseBytesRead 
+				+= mSegments.readSegments(deviceDatabaseStream, extendedAnchorTileCount);
 			deviceDatabaseBytesRead += mSegments.readIrregularArcs(deviceDatabaseStream);
-			familyDatabaseBytesRead += mSites.readSiteTypes(familyDatabaseStream);
-			familyDatabaseBytesRead += mSites.readSitePinMaps(familyDatabaseStream);
+			familyDatabaseBytesRead += mSites.readPrimitiveTypes(familyDatabaseStream);
+			familyDatabaseBytesRead += mSites.readPrimitivePinMaps(familyDatabaseStream);
 			deviceDatabaseBytesRead += mSites.readSites(deviceDatabaseStream);
 			cout << "Read " << familyDatabaseBytesRead << " bytes from " << mFamilyName << endl;
 			cout << "Read " << deviceDatabaseBytesRead << " bytes from " << mDeviceName << endl;

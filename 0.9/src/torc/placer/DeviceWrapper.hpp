@@ -37,7 +37,7 @@ namespace placer {
 		//typedef std::map<uint32, uint32> InstanceTypeToCandidateTypeMap;
 		typedef std::vector<uint32> InstanceTypeToCandidateTypeMap;
 		
-		typedef architecture::Sites::Site Site;
+		typedef architecture::Site Site;
 		typedef std::vector<const Site*> SitePtrVector;
 		typedef std::vector<SitePtrVector> SitePtrVectorVector;
 		typedef std::vector<SitePtrVectorVector> SitePtrVectorVectorVector;

@@ -438,6 +438,7 @@ std::cout << "Block type " << blockType << std::endl;
 			for(TileCol col; col < colCount; col++) {
 //std::cout << "Tile column " << col << std::endl;
 				bool found = false;
+                (void) found;
 				columnTypes[col] = eColumnTypeEmpty;
 				TileTypeIndexToColumnType::iterator ttwe = mTileTypeIndexToColumnType.end();
 				TileTypeIndexToColumnType::iterator ttwp = ttwe;
@@ -448,8 +449,7 @@ std::cout << "Block type " << blockType << std::endl;
 						= tiles.getTileInfo(tiles.getTileIndex(row, col));
 					TileTypeIndex tileTypeIndex = tileInfo.getTypeIndex();
 					// determine whether the tile type widths are defined
-					TileTypeIndexToColumnType::iterator ttwp 
-						= mTileTypeIndexToColumnType.find(tileTypeIndex);
+					ttwp = mTileTypeIndexToColumnType.find(tileTypeIndex);
 					if(ttwp != ttwe) {
 						uint32_t width = mColumnDefs[ttwp->second][blockType];
 						frameCount += width;

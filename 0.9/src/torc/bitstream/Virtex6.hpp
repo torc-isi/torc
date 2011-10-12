@@ -19,9 +19,10 @@
 #ifndef TORC_BITSTREAM_VIRTEX6_HPP
 #define TORC_BITSTREAM_VIRTEX6_HPP
 
-#include <boost/integer.hpp>
+#include <boost/cstdint.hpp>
 #include <boost/filesystem.hpp>
 #include "torc/bitstream/VirtexBitstream.hpp"
+#include "torc/bitstream/VirtexFrameAddress.hpp"
 #include <map>
 
 namespace torc { namespace architecture { class DDB; } }
@@ -29,17 +30,21 @@ namespace torc { namespace architecture { class DDB; } }
 namespace torc {
 namespace bitstream {
 
-namespace bitstream { class bitstream_virtex6; }
-namespace bitstream { class bitstream_virtex6_far; }
+namespace bitstream { class Virtex6UnitTest; }
+namespace bitstream { class Virtex6FarUnitTest; }
 namespace bitstream { void testVirtex6Device(const std::string& inDeviceName, 
 	const boost::filesystem::path& inWorkingPath); }
+namespace bitstream { void testVirtex6FullMapping(const boost::filesystem::path& inWorkingPath); }
+namespace bitstream { void testVirtex6PartialMapping(const boost::filesystem::path& inWorkingPath); }
 
 	/// \brief Virtex6 bitstream.
 	class Virtex6 : public VirtexBitstream {
-		friend class torc::bitstream::bitstream::bitstream_virtex6;
-		friend class torc::bitstream::bitstream::bitstream_virtex6_far;
+		friend class torc::bitstream::bitstream::Virtex6UnitTest;
+		friend class torc::bitstream::bitstream::Virtex6FarUnitTest;
 		friend void torc::bitstream::bitstream::testVirtex6Device(const std::string& inDeviceName, 
 			const boost::filesystem::path& inWorkingPath);
+		friend void torc::bitstream::bitstream::testVirtex6FullMapping(const boost::filesystem::path& inWorkingPath);
+		friend void torc::bitstream::bitstream::testVirtex6PartialMapping(const boost::filesystem::path& inWorkingPath);
 	protected:
 	// typedefs
 		/// \brief Imported type name.
@@ -171,6 +176,12 @@ namespace bitstream { void testVirtex6Device(const std::string& inDeviceName,
 		/// \brief Initialize the maps between frame indexes and frame addresses.
 		/// \detail This is generally only useful for internal purposes.
 		virtual void initializeFrameMaps(void);
+		/// \brief Loads full bitstream frames into block data structure.
+		void initializeFullFrameBlocks(void);
+		/// \brief Returns frames for queried bitstream co-ordinates
+		VirtexFrameBlocks getBitstreamFrames(uint32_t inBlockCount, uint32_t inBitCol);
+		/// \brief Returns frames for queried xdl co-ordinates
+		VirtexFrameBlocks getXdlFrames(uint32_t inBlockCount, uint32_t inXdlCol);
 	// accessors
 		/// \brief Return the frame length for the current device.
 		virtual uint32_t getFrameLength(void) const { return eFrameLength; }
@@ -178,9 +189,9 @@ namespace bitstream { void testVirtex6Device(const std::string& inDeviceName,
 		/// \brief Insert the bitstream header into an output stream.
 		friend std::ostream& operator<< (std::ostream& os, const Virtex6& rhs);
 	// inner classes
-		class FrameAddress {
+		class FrameAddress : public VirtexFrameAddress {
 		protected:
-			void assign(uint32_t inAddress) {
+			virtual void assign(uint32_t inAddress) {
 				mTopBottom = EFarTopBottom((inAddress & eFarMaskTopBottom) >> eFarShiftTopBottom);
 				mBlockType = EFarBlockType((inAddress & eFarMaskBlockType) >> eFarShiftBlockType);
 				mRow = (inAddress & eFarMaskRow) >> eFarShiftRow;
@@ -199,11 +210,13 @@ namespace bitstream { void testVirtex6Device(const std::string& inDeviceName,
 			uint32_t mRow;
 			uint32_t mMajor;
 			uint32_t mMinor;
-			bool operator== (const FrameAddress& rhs) const {
+			virtual bool operator== (const VirtexFrameAddress& vrhs) const {
+			    const FrameAddress& rhs = reinterpret_cast<const FrameAddress&>(vrhs);
 				return mTopBottom == rhs.mTopBottom && mBlockType == rhs.mBlockType 
 					&& mRow == rhs.mRow && mMajor == rhs.mMajor && mMinor == rhs.mMinor;
 			}
-			bool operator< (const FrameAddress& rhs) const {
+			virtual bool operator< (const VirtexFrameAddress& vrhs) const {
+			    const FrameAddress& rhs = reinterpret_cast<const FrameAddress&>(vrhs);
 				int diffBlockType = mBlockType - rhs.mBlockType;
 				if(diffBlockType) return diffBlockType < 0;
 				int diffTopBottom = mTopBottom - rhs.mTopBottom;
@@ -231,7 +244,7 @@ namespace bitstream { void testVirtex6Device(const std::string& inDeviceName,
 		/// \brief Map from frame address to frame index.
 		typedef std::map<Virtex6::FrameAddress, uint32_t> FrameAddressToIndex;
 		/// \brief Array of vectors to store frame indexes of each block type
-		typedef std::vector<uint32_t> ColumnIndexVector;
+		typedef std::vector<uint32_t> IndexVector;
 
 	// members
 		/// \brief Map of frame indexes to frame addresses.
@@ -239,9 +252,13 @@ namespace bitstream { void testVirtex6Device(const std::string& inDeviceName,
 		/// \brief Map of frame addressee to frame indexes.
 		FrameAddressToIndex mFrameAddressToIndex;
 		/// \brief Vector to store frame indexes of XDL columns.
-		ColumnIndexVector mBitColumnIndexes [Virtex6::eFarBlockTypeCount];
+		IndexVector mBitColumnIndexes [Virtex6::eFarBlockTypeCount];
 		/// \brief Vector to store frame indexes of Bitstream columns.
-		ColumnIndexVector mXdlColumnIndexes [Virtex6::eFarBlockTypeCount];
+		IndexVector mXdlColumnIndexes [Virtex6::eFarBlockTypeCount];
+		/// \brief Array to hold frame index boundaries for blocks.
+		uint32_t mBlockFrameIndexBounds [Virtex6::eFarBlockTypeCount];
+		/// \brief Map of xdl columns to bit columns.
+		std::map<uint32_t, uint32_t> mXdlIndexToBitIndex;
 	};
 
 } // namespace bitstream

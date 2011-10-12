@@ -46,6 +46,7 @@ Port::Port()
     Renamable(),
     Visitable(),
     ParentedObject<View>(),
+    UserDataContainer(),
     mDirection( ePortDirectionUndefined ),
     mAttributes() {
 }

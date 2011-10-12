@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_LOG_HPP
-#define TORC_GENERIC_LOG_HPP
+#ifndef TORC_GENERIC_UTIL_LOG_HPP
+#define TORC_GENERIC_UTIL_LOG_HPP
 
 #include <string>
 
@@ -30,4 +30,4 @@ log( const char *fmt, ... );
 } //namespace torc
 } //namespace generic
 
-#endif //TORC_GENERIC_LOG_HPP
+#endif // TORC_GENERIC_UTIL_LOG_HPP

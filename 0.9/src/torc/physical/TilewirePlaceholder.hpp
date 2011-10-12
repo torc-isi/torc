@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the TilewirePlaceholder class.
 
-#ifndef TORC_PHYSICAL_TILEWIRE_PLACEHOLDER_HPP
-#define TORC_PHYSICAL_TILEWIRE_PLACEHOLDER_HPP
+#ifndef TORC_PHYSICAL_TILEWIREPLACEHOLDER_HPP
+#define TORC_PHYSICAL_TILEWIREPLACEHOLDER_HPP
 
 #include <boost/cstdint.hpp>
 
@@ -50,4 +50,4 @@ namespace physical {
 } // namespace physical
 } // namespace torc
 
-#endif // TORC_PHYSICAL_TILEWIRE_PLACEHOLDER_HPP
+#endif // TORC_PHYSICAL_TILEWIREPLACEHOLDER_HPP

@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the DigestStream unit test.
+/// \brief Unit test for the DigestStream class.
 
 #include <boost/test/unit_test.hpp>
 #include <boost/smart_ptr.hpp>
@@ -30,10 +30,25 @@ BOOST_AUTO_TEST_SUITE(architecture)
 
 /// \brief Unit test for the DigestStream class.
 BOOST_AUTO_TEST_CASE(DigestStreamUnitTest) {
+	// functions tested:
+	//		DigestStream(const boost::filesystem::path& inPath);
 	DigestStream digestStream(torc::common::DirectoryTree::getDevicesPath() / "xc5vlx30.db");
 	Versions versions;
+
+	// functions tested:
+	//		std::istream& read(uint8_t& outValue);
+	//		std::istream& read(uint16_t& outValue);
+	//		std::istream& read(uint32_t& outValue);
+	//		std::istream& read(char* s, std::streamsize n);
 	BOOST_CHECK(versions.readVersions(digestStream, true) > 0);
 	std::string header;
+
+	// functions tested:
+	//		void readSectionHeader(string& outHeader);
+	//		std::istream& read(uint8_t& outValue);
+	//		std::istream& read(uint16_t& outValue);
+	//		std::istream& read(uint32_t& outValue);
+	//		std::istream& read(char* s, std::streamsize n);
 	digestStream.readSectionHeader(header);
 	BOOST_CHECK_EQUAL(header, ">>>> Family >>>>");
 	boost::uint16_t familyNameLength;
@@ -47,6 +62,12 @@ BOOST_AUTO_TEST_CASE(DigestStreamUnitTest) {
 	uint16_t speedGradeCount;
 	digestStream.read(speedGradeCount);
 	BOOST_CHECK_EQUAL(speedGradeCount, 3);
+
+	// members tested:
+	//		size_t mBytesRead;
+	// functions tested:
+	//		size_t getBytesRead(void) const;
+	BOOST_CHECK(digestStream.getBytesRead() > 0u);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

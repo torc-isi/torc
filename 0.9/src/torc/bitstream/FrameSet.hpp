@@ -16,19 +16,19 @@
 /// \file
 /// \brief Header for the FrameSet class.
 
-#ifndef TORC_BITSTREAM_FRAME_SET_HPP
-#define TORC_BITSTREAM_FRAME_SET_HPP
+#ifndef TORC_BITSTREAM_FRAMESET_HPP
+#define TORC_BITSTREAM_FRAMESET_HPP
 
 #include "torc/bitstream/Frame.hpp"
-#include <vector>
-#include <boost/shared_ptr.hpp>
+#include "torc/bitstream/VirtexFrameAddress.hpp"
 
 namespace torc {
 namespace bitstream {
 
+    class VirtexFrameAddress;
 	/// \brief Set of contiguous frames.
 	template <class FRAME_TYPE> class FrameSet 
-		: public std::vector<boost::shared_ptr<FRAME_TYPE > > {
+		: public std::vector<boost::shared_ptr<FRAME_TYPE> > {
 	protected:
 	// typedefs
 		/// \brief Imported type name.
@@ -41,33 +41,30 @@ namespace bitstream {
 		typedef typename FRAME_TYPE::word_t word_t;
 		/// \brief Shared pointer encapsulation of a Frame.
 		typedef boost::shared_ptr<FRAME_TYPE> FrameSharedPtr;
+		/// \brief Shared pointer for frame addressing.
+		typedef boost::shared_ptr<VirtexFrameAddress> VirtexFarSharedPtr;
+		/// \brief Word shared array for frame words
+		typedef boost::shared_array<uint32_t> WordSharedArray;
 	// constructors
 		/// \brief Null constructor.
 		FrameSet(void) {}
-		/// \brief Basic constructor.
+		/// \brief Basic constructor for full bitstream.
 		/// \var inFrameLength The default length of each frame in the set.
 		/// \var inFrameCount The number of frames in the set.
 		FrameSet(uint32_t inFrameLength, uint32_t inFrameCount) {
-			for(uint32_t i = 0; i < inFrameCount; i++) {
+		  	for(uint32_t i = 0; i < inFrameCount; i++)
 				push_back(FrameSharedPtr(new FRAME_TYPE(inFrameLength)));
-			}
 		}
-	// accessors
-//		/// \brief Returns the length of the FrameSet in words.
-//		uint32_t getLength(void) const { return mLength; }
-//		/// \brief Returns a const raw word pointer.
-//		const word_t* getWords(void) const { return mWords; }
-//		/// \brief Returns a non-const raw word pointer.
-//		word_t* getWords(void) { return mWords; }
-//		/// \brief Returns true if the FrameSet is in use in the bitstream, or false otherwise.
-//		bool isUsed(void) const { return mIsUsed; }
-//		/// \brief Returns true if the FrameSet has been modified, or false otherwise.
-//		bool isDirty(void) const { return mIsDirty; }
-//		/// \brief Returns the specified FrameSet word, or 0 if out of bounds.
-//		word_t operator[] (int index) {
-//			if(index < 0 || index >= mLength) return 0;
-//			return mWords[index];
-//		}
+		/// \brief Basic constructor for partial bitstream.
+		/// \var inFrameLength The default length of each frame in the set.
+		/// \var inFrameCount The number of frames in the set.
+		/// \var inWords The frame words
+		/// \var inFar Address of the frames in the set
+		FrameSet(uint32_t inFrameLength, uint32_t inFrameCount, WordSharedArray inWords, VirtexFrameAddress& inFar) {
+		    VirtexFarSharedPtr farPtr = inFar;
+		  	for(uint32_t i = 0; i < inFrameCount; i++)
+				push_back(FrameSharedPtr(new FRAME_TYPE(inFrameLength, &inWords[i*inFrameLength])));
+		}
 	};
 
 	typedef FrameSet<VirtexFrame> VirtexFrameSet;		///< \brief Virtex frame set type.
@@ -81,6 +78,11 @@ namespace bitstream {
 	// enumerations
 		/// \brief The block type count is fixed at eight across all Xilinx architectures.
 		enum { eBlockTypeCount = 8 };
+	// typedefs
+		/// \brief FrameSet frame type.
+		typedef FRAME_TYPE frame_t;
+		/// \brief FrameSet word type.
+		typedef typename FRAME_TYPE::word_t word_t;
 	// members
 		/// \brief FrameSets for each of the eight block types.
 		FrameSet<FRAME_TYPE> mBlock[eBlockTypeCount];
@@ -93,4 +95,4 @@ namespace bitstream {
 } // namespace bitstream
 } // namespace torc
 
-#endif // TORC_BITSTREAM_FRAME_SET_HPP
+#endif // TORC_BITSTREAM_FRAMESET_HPP

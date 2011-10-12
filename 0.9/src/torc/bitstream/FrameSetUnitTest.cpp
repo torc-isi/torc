@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the FrameSet unit test.
+/// \brief Unit test for the FrameSet class.
 
 #include "torc/bitstream/FrameSet.hpp"
 #include "torc/bitstream/Virtex5.hpp"

@@ -14,14 +14,14 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the Spartan3E unit test.
+/// \brief Unit test for the Spartan3E class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/bitstream/Spartan3E.hpp"
 #include "torc/common/DirectoryTree.hpp"
 #include "torc/common/Devices.hpp"
 #include "torc/architecture/DDB.hpp"
-#include "torc/architecture/DeviceDesignator.hpp"
+#include "torc/common/DeviceDesignator.hpp"
 #include "torc/bitstream/OutputStreamHelpers.hpp"
 #include "torc/bitstream/build/DeviceInfoHelper.hpp"
 #include "torc/common/TestHelpers.hpp"
@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_SUITE(bitstream)
 
 
 /// \brief Unit test for the Spartan3E class.
-BOOST_AUTO_TEST_CASE(bitstream_spartan3e) {
+BOOST_AUTO_TEST_CASE(Spartan3EUnitTest) {
 
 	// enums tested:
 	//		EPacket
@@ -123,7 +123,7 @@ BOOST_AUTO_TEST_CASE(bitstream_spartan3e) {
 	std::string deviceName = bitstream.getDeviceName();
 	std::string designDate = bitstream.getDesignDate();
 	std::string designTime = bitstream.getDesignTime();
-	torc::architecture::DeviceDesignator deviceDesignator(deviceName);
+	torc::common::DeviceDesignator deviceDesignator(deviceName);
 	std::cout << "family of " << deviceName << " is " << deviceDesignator.getFamily() << std::endl;
 
 	// write the bitstream back out
@@ -177,7 +177,7 @@ BOOST_AUTO_TEST_CASE(bitstream_spartan3e) {
 void testSpartan3EDevice(const std::string& inDeviceName, const boost::filesystem::path& inWorkingPath);
 
 /// \brief Unit test for the Spartan3E class Frame Address Register mapping.
-BOOST_AUTO_TEST_CASE(bitstream_spartan3e_far) {
+BOOST_AUTO_TEST_CASE(Spartan3EFarUnitTest) {
 
 	// look up the command line arguments
 	int& argc = boost::unit_test::framework::master_test_suite().argc;
@@ -292,17 +292,16 @@ return;
 
 
 
-
+/*
 /// \brief Unit test for the Spartan3E static device info generation.
-BOOST_AUTO_TEST_CASE(bitstream_spartan3e_generate) {
+BOOST_AUTO_TEST_CASE(Spartan3EGenerateUnitTest) {
 
 	Spartan3E bitstream;
 	DeviceInfoHelper::buildFamilyDeviceInfo("Spartan3E", "Spartan3EDeviceInfo.template", 
 		"Spartan3EDeviceInfo.cpp", torc::common::Devices::getSpartan3EDevices(), bitstream);
 
 }
-
-
+*/
 
 BOOST_AUTO_TEST_SUITE_END()
 

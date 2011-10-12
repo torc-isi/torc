@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_VECTOR_NET_HPP
-#define TORC_GENERIC_VECTOR_NET_HPP
+#ifndef TORC_GENERIC_OM_VECTORNET_HPP
+#define TORC_GENERIC_OM_VECTORNET_HPP
 
 #include "torc/generic/om/PointerTypes.hpp"
 #include "torc/generic/om/DumpRestoreConfig.hpp"
@@ -117,7 +117,7 @@ class VectorNet
      * 
      * @note This metod can be overridden by derived classes. However, the method must call the on_connected() method after this. The sigConnected_ signal must also be invoked in the overriding method.
      * 
-     * @param[in] inNet A pointer to the Net object that eeds to be connected
+     * @param[in] inNet A pointer to the Net object that needs to be connected
      * @return A connection that has been established. This can be used later for disconnection.
      */
     virtual Connectable::Connection
@@ -172,4 +172,4 @@ class VectorNet
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_OM_VECTORNET_HPP

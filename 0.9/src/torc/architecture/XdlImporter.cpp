@@ -17,13 +17,14 @@
 /// \brief Source for the XdlImporter class.
 
 #include "torc/architecture/XdlImporter.hpp"
-#include "torc/architecture/DeviceDesignator.hpp"
+#include "torc/common/DeviceDesignator.hpp"
 
 namespace torc {
 namespace architecture {
 
 	void XdlImporter::initializeDatabase(void) {
-		DeviceDesignator deviceDesignator(mDesignDevice + mDesignPackage + mDesignSpeedGrade);
+		torc::common::DeviceDesignator deviceDesignator(mDesignDevice + mDesignPackage 
+			+ mDesignSpeedGrade);
 		mDDBPtr = new DDB(deviceDesignator);
 	}
 

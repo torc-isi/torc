@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the Spartan6BuildHelper unit test.
+/// \brief Unit test for the Spartan6BuildHelper class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/bitstream/build/Spartan6BuildHelper.hpp"
@@ -121,7 +121,7 @@ void buildSpartan6Partials(const std::string& inDeviceName, const boost::filesys
 }
 
 /// \brief Unit test for the Spartan6BuildHelper class.
-BOOST_AUTO_TEST_CASE(bitstream_spartan6_build_helper) {
+BOOST_AUTO_TEST_CASE(Spartan6BuildHelperUnitTest) {
 
 	BOOST_REQUIRE(true);
 
@@ -160,7 +160,7 @@ BOOST_AUTO_TEST_CASE(bitstream_spartan6_build_helper) {
 }
 
 /// \brief Unit test to dump Spartan6 bitstream packets.
-BOOST_AUTO_TEST_CASE(bitstream_spartan6_dump_packets) {
+BOOST_AUTO_TEST_CASE(Spartan6DumpPacketsUnitTest) {
 
 	// look up the command line arguments
 	int& argc = boost::unit_test::framework::master_test_suite().argc;

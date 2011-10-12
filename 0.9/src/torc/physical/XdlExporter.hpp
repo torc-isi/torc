@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the XdlExport class.
 
-#ifndef TORC_PHYSICAL_XDL_EXPORTER_HPP
-#define TORC_PHYSICAL_XDL_EXPORTER_HPP
+#ifndef TORC_PHYSICAL_XDLEXPORTER_HPP
+#define TORC_PHYSICAL_XDLEXPORTER_HPP
 
 #include "torc/physical/Design.hpp"
 #include <boost/smart_ptr.hpp>
@@ -76,4 +76,4 @@ namespace physical {
 } // namespace physical
 } // namespace torc
 
-#endif // TORC_PHYSICAL_XDL_EXPORTER_HPP
+#endif // TORC_PHYSICAL_XDLEXPORTER_HPP

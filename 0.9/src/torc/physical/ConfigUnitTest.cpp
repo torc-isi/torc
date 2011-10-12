@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the Config unit test.
+/// \brief Unit test for the Config class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/physical/Config.hpp"

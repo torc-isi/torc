@@ -16,8 +16,8 @@
 /// \file
 /// \brief Device database types for Xilinx architectures.
 
-#ifndef TORC_ARCHITECTURE_XILINX_XILINX_DATABASE_TYPES_HPP
-#define TORC_ARCHITECTURE_XILINX_XILINX_DATABASE_TYPES_HPP
+#ifndef TORC_ARCHITECTURE_XILINXDATABASETYPES_HPP
+#define TORC_ARCHITECTURE_XILINXDATABASETYPES_HPP
 
 #include "torc/common/EncapsulatedInteger.hpp"
 #include <boost/cstdint.hpp>
@@ -261,4 +261,4 @@ namespace xilinx {
 } // namespace architecture
 } // namespace torc
 
-#endif // TORC_ARCHITECTURE_XILINX_XILINX_DATABASE_TYPES_HPP
+#endif // TORC_ARCHITECTURE_XILINXDATABASETYPES_HPP

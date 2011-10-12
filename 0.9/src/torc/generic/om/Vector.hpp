@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_VECTOR_HPP
-#define TORC_GENERIC_VECTOR_HPP
+#ifndef TORC_GENERIC_OM_VECTOR_HPP
+#define TORC_GENERIC_OM_VECTOR_HPP
 
 #include "torc/generic/om/DumpRestoreConfig.hpp"
 
@@ -927,4 +927,4 @@ Vector<_Type, _ChildType, _ChildFactoryType, cPreserve>::save(
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_OM_VECTOR_HPP

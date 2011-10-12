@@ -13,25 +13,16 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-/*******************************************************************************
-* TORC - Copyright 2010 University of Southern California. All Rights Reserved.
-*
-* FILE : driver.hpp
-*
-* DATE : 08-July-2010
-*
-* DESCRIPTION : Declaration of the torc::generic::Driver class
-*
-* REVISION HISTORY:
-*
-* SI        REVISION        AUTHOR               CHANGES          PRs
-*[0]    Initial Version    Niladri
-*[1]    First   Version    Santanu
-*
-*******************************************************************************/
+// FILE : driver.hpp
+// DATE : 08-July-2010
+// DESCRIPTION : Declaration of the torc::generic::Driver class
+// REVISION HISTORY:
+// SI        REVISION        AUTHOR               CHANGES          PRs
+// [0]    Initial Version    Niladri
+// [1]    First   Version    Santanu
 
-#ifndef TORC_EDIF_DRIVER_HPP
-#define TORC_EDIF_DRIVER_HPP
+#ifndef TORC_GENERIC_PARSER_DRIVER_HPP
+#define TORC_GENERIC_PARSER_DRIVER_HPP
 
 #include <string>
 #include "torc/generic/om/PointerTypes.hpp"
@@ -166,4 +157,4 @@ Driver::getIsParserErrorSet() const throw() {
 } // namespace generic
 } // namespace torc
 
-#endif // TORC_EDIF_DRIVER_HPP
+#endif // TORC_GENERIC_PARSER_DRIVER_HPP

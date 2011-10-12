@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the XdlImporter unit test.
+/// \brief Unit test for the XdlImporter class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/architecture/XdlImporter.hpp"
@@ -41,9 +41,7 @@ BOOST_AUTO_TEST_CASE(XdlImporterUnitTest) {
 	std::fstream fileStream(referencePath.string().c_str());
 	BOOST_REQUIRE(fileStream.good());
 	XdlImporter importer;
-std::cerr << "importer invocation" << std::endl;
 	importer(fileStream, referencePath.string());
-std::cerr << "importer finished" << std::endl;
 
 	// look up the design (and do something with it ...)
 	torc::physical::DesignSharedPtr designPtr = importer.getDesignPtr();

@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the DeviceInfoHelper unit test.
+/// \brief Unit test for the DeviceInfoHelper class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/bitstream/build/DeviceInfoHelper.hpp"

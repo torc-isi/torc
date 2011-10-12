@@ -1,43 +1,45 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
-// $HeadURL$
-// $Id$
+% Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+% $HeadURL$
+% $Id$
 
-// This program is free software: you can redistribute it and/or modify it under the terms of the 
-// GNU General Public License as published by the Free Software Foundation, either version 3 of the 
-// License, or (at your option) any later version.
-// 
-// This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See 
-// the GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License along with this program.  If 
-// not, see <http://www.gnu.org/licenses/>.
+% This program is free software: you can redistribute it and/or modify it under the terms of the 
+% GNU General Public License as published by the Free Software Foundation, either version 3 of the 
+% License, or (at your option) any later version.
+% 
+% This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+% without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See 
+% the GNU General Public License for more details.
+% 
+% You should have received a copy of the GNU General Public License along with this program.  If 
+% not, see <http://www.gnu.org/licenses/>.
+
+/*******************************************************************************
+* TORC - Copyright 2010 University of Southern California. All Rights Reserved.
+*
+* FILE : Scanner.ll
+*
+* DATE : 08-July-2010
+*
+* DESCRIPTION : Define the EDIF Flex lexical scanner
+*
+* REVISION HISTORY:
+*
+* SI        REVISION        AUTHOR               CHANGES          PRs
+*[0]    Initial Version    Niladri
+*
+*******************************************************************************/
 
 %{ /*** C/C++ Declarations ***/
-
-/*
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
-// $HeadURL$
-// $Id$
-
-// This program is free software: you can redistribute it and/or modify it under the terms of the 
-// GNU General Public License as published by the Free Software Foundation, either version 3 of the 
-// License, or (at your option) any later version.
-// 
-// This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See 
-// the GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License along with this program.  If 
-// not, see <http://www.gnu.org/licenses/>.
-*/
 
 #include <string>
 
 #include "torc/generic/parser/ParserHelpers.hpp"
 #include "torc/generic/om/PortAttributes.hpp"
+#include "torc/generic/om/NetAttributes.hpp"
 #include "torc/generic/parser/Parser.h"
 #include "torc/generic/parser/Scanner.hpp"
+#include "torc/generic/om/InterfaceAttributes.hpp"
+#include "torc/generic/om/LogicValueAttributes.hpp"
 
 /* import the parser's Token type into a local typedef */
 typedef torc::generic::Parser::token Token;
@@ -78,7 +80,9 @@ typedef torc::generic::Parser::token_type TokenType;
 /* The following paragraph suffices to track locations accurately. Each time
  * yylex is invoked, the begin position is moved onto the end position. */
 %{
-#define YY_USER_ACTION  { yylloc->columns(yyleng); addToBuffer( yytext ); }
+#define YY_USER_ACTION  { yylloc->columns(yyleng); addToBuffer( yytext ); \
+                          yylloc->columns(yyleng); addToUserDataBuffer( yytext ); \
+                        }
 %}
 
 Digit [0-9]
@@ -104,6 +108,7 @@ String \"[^\"]*\"
 "angle"                        { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ANGLE; 
@@ -111,6 +116,7 @@ String \"[^\"]*\"
 "behavior"                    {
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               } 
                               return Token::BEHAVIOR; 
@@ -118,6 +124,7 @@ String \"[^\"]*\"
 "calculated"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CALCULATED; 
@@ -125,6 +132,7 @@ String \"[^\"]*\"
 "capacitance"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CAPACITANCE; 
@@ -132,6 +140,7 @@ String \"[^\"]*\"
 "centercenter"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CENTERCENTER; 
@@ -139,6 +148,7 @@ String \"[^\"]*\"
 "centerleft"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CENTERLEFT; 
@@ -146,6 +156,7 @@ String \"[^\"]*\"
 "centerright"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CENTERRIGHT; 
@@ -153,6 +164,7 @@ String \"[^\"]*\"
 "charge"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CHARGE; 
@@ -160,6 +172,7 @@ String \"[^\"]*\"
 "conductance"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CONDUCTANCE; 
@@ -167,6 +180,7 @@ String \"[^\"]*\"
 "current"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CURRENT; 
@@ -174,6 +188,7 @@ String \"[^\"]*\"
 "distance"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DISTANCE; 
@@ -181,6 +196,7 @@ String \"[^\"]*\"
 "document"                    {
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               } 
                               return Token::DOCUMENT; 
@@ -188,6 +204,7 @@ String \"[^\"]*\"
 "energy"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ENERGY; 
@@ -195,6 +212,7 @@ String \"[^\"]*\"
 "extend"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::EXTEND; 
@@ -202,6 +220,7 @@ String \"[^\"]*\"
 "flux"                        { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FLUX; 
@@ -209,6 +228,7 @@ String \"[^\"]*\"
 "frequency"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FREQUENCY; 
@@ -216,6 +236,7 @@ String \"[^\"]*\"
 "generic"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::GENERIC; 
@@ -223,6 +244,7 @@ String \"[^\"]*\"
 "graphic"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::GRAPHIC; 
@@ -230,6 +252,7 @@ String \"[^\"]*\"
 "inductance"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::INDUCTANCE; 
@@ -237,6 +260,7 @@ String \"[^\"]*\"
 "inout"                        { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::INOUT; 
@@ -244,6 +268,7 @@ String \"[^\"]*\"
 "input"                        {
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               } 
                               return Token::INPUT; 
@@ -251,6 +276,7 @@ String \"[^\"]*\"
 "logicmodel"                {
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               } 
                               return Token::LOGICMODEL; 
@@ -258,6 +284,7 @@ String \"[^\"]*\"
 "lowercenter"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LOWERCENTER; 
@@ -265,6 +292,7 @@ String \"[^\"]*\"
 "lowerleft"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LOWERLEFT; 
@@ -272,6 +300,7 @@ String \"[^\"]*\"
 "lowerright"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LOWERRIGHT; 
@@ -279,6 +308,7 @@ String \"[^\"]*\"
 "masklayout"                {
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               } 
                               return Token::MASKLAYOUT; 
@@ -286,6 +316,7 @@ String \"[^\"]*\"
 "mass"                        { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::MASS; 
@@ -293,6 +324,7 @@ String \"[^\"]*\"
 "measured"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::MEASURED; 
@@ -300,6 +332,7 @@ String \"[^\"]*\"
 "mx"                        { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::MX; 
@@ -307,6 +340,7 @@ String \"[^\"]*\"
 "mxr90"                        { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::MXR90; 
@@ -314,6 +348,7 @@ String \"[^\"]*\"
 "my"                        { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::MY; 
@@ -321,6 +356,7 @@ String \"[^\"]*\"
 "myr90"                        { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::MYR90; 
@@ -328,13 +364,16 @@ String \"[^\"]*\"
 "netlist"                    {
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
+                              setIsIdContext( true );
                               return Token::NETLIST;
                             }
 "output"                    {
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               } 
                               return Token::OUTPUT; 
@@ -342,6 +381,7 @@ String \"[^\"]*\"
 "pcblayout"                    {
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               } 
                               return Token::PCBLAYOUT; 
@@ -349,6 +389,7 @@ String \"[^\"]*\"
 "power"                        { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::POWER; 
@@ -356,6 +397,7 @@ String \"[^\"]*\"
 "r0"                        { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::R0; 
@@ -363,6 +405,7 @@ String \"[^\"]*\"
 "r180"                        { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::R180; 
@@ -370,6 +413,7 @@ String \"[^\"]*\"
 "r270"                        { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::R270; 
@@ -377,6 +421,7 @@ String \"[^\"]*\"
 "r90"                        { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::R90; 
@@ -384,6 +429,7 @@ String \"[^\"]*\"
 "required"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::REQUIRED; 
@@ -391,6 +437,7 @@ String \"[^\"]*\"
 "resistance"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::RESISTANCE; 
@@ -398,6 +445,7 @@ String \"[^\"]*\"
 "ripper"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::RIPPER; 
@@ -405,6 +453,7 @@ String \"[^\"]*\"
 "round"                        { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ROUND; 
@@ -412,6 +461,7 @@ String \"[^\"]*\"
 "schematic"                    {
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::SCHEMATIC; 
@@ -419,6 +469,7 @@ String \"[^\"]*\"
 "stranger"                    {
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               } 
                               return Token::STRANGER; 
@@ -426,6 +477,7 @@ String \"[^\"]*\"
 "symbolic"                    {
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               } 
                               return Token::SYMBOLIC; 
@@ -433,6 +485,7 @@ String \"[^\"]*\"
 "temperature"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TEMPERATURE; 
@@ -440,6 +493,7 @@ String \"[^\"]*\"
 "tie"                        { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TIE; 
@@ -447,6 +501,7 @@ String \"[^\"]*\"
 "time"                        { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TIME; 
@@ -454,6 +509,7 @@ String \"[^\"]*\"
 "truncate"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TRUNCATE; 
@@ -461,6 +517,7 @@ String \"[^\"]*\"
 "uppercenter"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::UPPERCENTER; 
@@ -468,6 +525,7 @@ String \"[^\"]*\"
 "upperleft"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::UPPERLEFT; 
@@ -475,6 +533,7 @@ String \"[^\"]*\"
 "upperright"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::UPPERRIGHT; 
@@ -482,6 +541,7 @@ String \"[^\"]*\"
 "voltage"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::VOLTAGE; 
@@ -490,6 +550,7 @@ String \"[^\"]*\"
 "acload"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ACLOAD; 
@@ -497,6 +558,7 @@ String \"[^\"]*\"
 "after"                     { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::AFTER; 
@@ -504,6 +566,7 @@ String \"[^\"]*\"
 "annotate"                  { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ANNOTATE; 
@@ -511,6 +574,7 @@ String \"[^\"]*\"
 "apply"                     { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::APPLY; 
@@ -518,6 +582,7 @@ String \"[^\"]*\"
 "arc"                       { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ARC; 
@@ -525,6 +590,7 @@ String \"[^\"]*\"
 "array"                     { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -533,6 +599,7 @@ String \"[^\"]*\"
 "arraymacro"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ARRAYMACRO; 
@@ -540,6 +607,7 @@ String \"[^\"]*\"
 "arrayrelatedinfo"          { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ARRAYRELATEDINFO; 
@@ -547,6 +615,7 @@ String \"[^\"]*\"
 "arraysite"                 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ARRAYSITE; 
@@ -554,6 +623,7 @@ String \"[^\"]*\"
 "atleast"                   { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ATLEAST; 
@@ -561,6 +631,7 @@ String \"[^\"]*\"
 "atmost"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ATMOST; 
@@ -568,6 +639,7 @@ String \"[^\"]*\"
 "author"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::AUTHOR; 
@@ -575,6 +647,7 @@ String \"[^\"]*\"
 "basearray"                 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::BASEARRAY; 
@@ -582,6 +655,7 @@ String \"[^\"]*\"
 "becomes"                   { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::BECOMES; 
@@ -589,6 +663,7 @@ String \"[^\"]*\"
 "between"                   { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::BETWEEN; 
@@ -596,6 +671,7 @@ String \"[^\"]*\"
 "boolean"                   { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::BOOLEAN; 
@@ -603,6 +679,7 @@ String \"[^\"]*\"
 "booleandisplay"            { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::BOOLEANDISPLAY; 
@@ -610,6 +687,7 @@ String \"[^\"]*\"
 "booleanmap"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::BOOLEANMAP; 
@@ -617,6 +695,7 @@ String \"[^\"]*\"
 "borderpattern"             { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::BORDERPATTERN; 
@@ -624,6 +703,7 @@ String \"[^\"]*\"
 "borderwidth"               { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::BORDERWIDTH; 
@@ -631,6 +711,7 @@ String \"[^\"]*\"
 "boundingbox"               { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::BOUNDINGBOX; 
@@ -638,6 +719,7 @@ String \"[^\"]*\"
 "cell"                      {
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -646,6 +728,7 @@ String \"[^\"]*\"
 "cellref"                   { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -654,6 +737,7 @@ String \"[^\"]*\"
 "celltype"                  { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CELLTYPE; 
@@ -661,6 +745,7 @@ String \"[^\"]*\"
 "change"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CHANGE; 
@@ -668,6 +753,7 @@ String \"[^\"]*\"
 "circle"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CIRCLE; 
@@ -675,6 +761,7 @@ String \"[^\"]*\"
 "color"                     { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::COLOR; 
@@ -682,6 +769,7 @@ String \"[^\"]*\"
 "comment"                   { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::COMMENT; 
@@ -689,6 +777,7 @@ String \"[^\"]*\"
 "commentgraphics"           { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::COMMENTGRAPHICS; 
@@ -696,6 +785,7 @@ String \"[^\"]*\"
 "compound"                  { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::COMPOUND; 
@@ -703,6 +793,7 @@ String \"[^\"]*\"
 "connectlocation"           { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CONNECTLOCATION; 
@@ -710,6 +801,7 @@ String \"[^\"]*\"
 "contents"                  { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CONTENTS; 
@@ -717,6 +809,7 @@ String \"[^\"]*\"
 "cornertype"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CORNERTYPE; 
@@ -724,6 +817,7 @@ String \"[^\"]*\"
 "criticality"               { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CRITICALITY; 
@@ -731,6 +825,7 @@ String \"[^\"]*\"
 "currentmap"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CURRENTMAP; 
@@ -738,6 +833,7 @@ String \"[^\"]*\"
 "curve"                     { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CURVE; 
@@ -745,6 +841,7 @@ String \"[^\"]*\"
 "cycle"                     { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CYCLE; 
@@ -752,6 +849,7 @@ String \"[^\"]*\"
 "dataorigin"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DATAORIGIN; 
@@ -759,6 +857,7 @@ String \"[^\"]*\"
 "dcfaninload"               { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DCFANINLOAD; 
@@ -766,6 +865,7 @@ String \"[^\"]*\"
 "dcfanoutload"              { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DCFANOUTLOAD; 
@@ -773,6 +873,7 @@ String \"[^\"]*\"
 "dcmaxfanin"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DCMAXFANIN; 
@@ -780,6 +881,7 @@ String \"[^\"]*\"
 "dcmaxfanout"               { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DCMAXFANOUT; 
@@ -787,6 +889,7 @@ String \"[^\"]*\"
 "delay"                     { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DELAY; 
@@ -794,6 +897,7 @@ String \"[^\"]*\"
 "delta"                     { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DELTA; 
@@ -801,6 +905,7 @@ String \"[^\"]*\"
 "derivation"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DERIVATION; 
@@ -808,6 +913,7 @@ String \"[^\"]*\"
 "design"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DESIGN; 
@@ -815,6 +921,7 @@ String \"[^\"]*\"
 "designator"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DESIGNATOR; 
@@ -822,6 +929,7 @@ String \"[^\"]*\"
 "difference"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DIFFERENCE; 
@@ -829,6 +937,7 @@ String \"[^\"]*\"
 "direction"                 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DIRECTION; 
@@ -836,6 +945,7 @@ String \"[^\"]*\"
 "display"                   { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DISPLAY; 
@@ -843,6 +953,7 @@ String \"[^\"]*\"
 "dominates"                 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DOMINATES; 
@@ -850,6 +961,7 @@ String \"[^\"]*\"
 "dot"                       { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DOT; 
@@ -857,6 +969,7 @@ String \"[^\"]*\"
 "duration"                  { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DURATION; 
@@ -864,6 +977,7 @@ String \"[^\"]*\"
 "e"                         { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::E; 
@@ -871,6 +985,7 @@ String \"[^\"]*\"
 "edif"                      { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::EDIF; 
@@ -878,6 +993,7 @@ String \"[^\"]*\"
 "ediflevel"                 { 
                              if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::EDIFLEVEL; 
@@ -885,6 +1001,7 @@ String \"[^\"]*\"
 "edifversion"               { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::EDIFVERSION; 
@@ -892,6 +1009,7 @@ String \"[^\"]*\"
 "enclosuredistance"         { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ENCLOSUREDISTANCE; 
@@ -899,6 +1017,7 @@ String \"[^\"]*\"
 "endtype"                   { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ENDTYPE; 
@@ -906,6 +1025,7 @@ String \"[^\"]*\"
 "entry"                     { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ENTRY; 
@@ -913,6 +1033,7 @@ String \"[^\"]*\"
 "event"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::EVENT; 
@@ -921,6 +1042,7 @@ String \"[^\"]*\"
 "exactly"                   { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::EXACTLY; 
@@ -928,6 +1050,7 @@ String \"[^\"]*\"
 "external"                  { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -936,6 +1059,7 @@ String \"[^\"]*\"
 "fabricate"                 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FABRICATE; 
@@ -943,6 +1067,7 @@ String \"[^\"]*\"
 "false"                     { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FALSE; 
@@ -950,6 +1075,7 @@ String \"[^\"]*\"
 "figure"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FIGURE; 
@@ -957,6 +1083,7 @@ String \"[^\"]*\"
 "figurearea"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FIGUREAREA; 
@@ -964,6 +1091,7 @@ String \"[^\"]*\"
 "figuregroup"               { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FIGUREGROUP; 
@@ -971,6 +1099,7 @@ String \"[^\"]*\"
 "figuregroupobject"         { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FIGUREGROUPOBJECT; 
@@ -978,6 +1107,7 @@ String \"[^\"]*\"
 "figuregroupoverride"       { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FIGUREGROUPOVERRIDE; 
@@ -985,6 +1115,7 @@ String \"[^\"]*\"
 "figuregroupref"            { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FIGUREGROUPREF; 
@@ -992,6 +1123,7 @@ String \"[^\"]*\"
 "figureperimeter"           { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FIGUREPERIMETER; 
@@ -999,6 +1131,7 @@ String \"[^\"]*\"
 "figurewidth"               { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FIGUREWIDTH; 
@@ -1006,6 +1139,7 @@ String \"[^\"]*\"
 "fillpattern"               { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FILLPATTERN; 
@@ -1013,6 +1147,7 @@ String \"[^\"]*\"
 "follow"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FOLLOW; 
@@ -1020,6 +1155,7 @@ String \"[^\"]*\"
 "forbiddenevent"            { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FORBIDDENEVENT; 
@@ -1027,6 +1163,7 @@ String \"[^\"]*\"
 "globalportref"             { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::GLOBALPORTREF; 
@@ -1034,6 +1171,7 @@ String \"[^\"]*\"
 "greaterthan"               { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::GREATERTHAN; 
@@ -1041,6 +1179,7 @@ String \"[^\"]*\"
 "gridmap"                   { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::GRIDMAP; 
@@ -1048,6 +1187,7 @@ String \"[^\"]*\"
 "ignore"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::IGNORE; 
@@ -1055,6 +1195,7 @@ String \"[^\"]*\"
 "includefiguregroup"        { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::INCLUDEFIGUREGROUP; 
@@ -1062,6 +1203,7 @@ String \"[^\"]*\"
 "initial"                   { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::INITIAL_KW; 
@@ -1069,6 +1211,7 @@ String \"[^\"]*\"
 "instance"                  { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -1077,6 +1220,7 @@ String \"[^\"]*\"
 "instancebackannotate"      { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::INSTANCEBACKANNOTATE; 
@@ -1084,6 +1228,7 @@ String \"[^\"]*\"
 "instancegroup"             { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::INSTANCEGROUP; 
@@ -1091,6 +1236,7 @@ String \"[^\"]*\"
 "instancemap"               { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::INSTANCEMAP; 
@@ -1098,6 +1244,7 @@ String \"[^\"]*\"
 "instanceref"               { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -1106,6 +1253,7 @@ String \"[^\"]*\"
 "integer"                   { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::INTEGER; 
@@ -1113,6 +1261,7 @@ String \"[^\"]*\"
 "integerdisplay"            { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::INTEGERDISPLAY; 
@@ -1120,6 +1269,7 @@ String \"[^\"]*\"
 "interface"                 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::INTERFACE; 
@@ -1127,6 +1277,7 @@ String \"[^\"]*\"
 "interfiguregroupspacing"   { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                                return Token::INTERFIGUREGROUPSPACING; 
@@ -1134,6 +1285,7 @@ String \"[^\"]*\"
 "intersection"              { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::INTERSECTION; 
@@ -1141,6 +1293,7 @@ String \"[^\"]*\"
 "intrafiguregroupspacing"   { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::INTRAFIGUREGROUPSPACING; 
@@ -1148,6 +1301,7 @@ String \"[^\"]*\"
 "inverse"                   { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::INVERSE; 
@@ -1155,6 +1309,7 @@ String \"[^\"]*\"
 "isolated"                  { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ISOLATED; 
@@ -1162,6 +1317,7 @@ String \"[^\"]*\"
 "joined"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::JOINED; 
@@ -1169,6 +1325,7 @@ String \"[^\"]*\"
 "justify"                   { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::JUSTIFY; 
@@ -1176,6 +1333,7 @@ String \"[^\"]*\"
 "keyworddisplay"            { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
 							  setIsIdContext( true );
@@ -1184,6 +1342,7 @@ String \"[^\"]*\"
 "keywordlevel"              { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::KEYWORDLEVEL; 
@@ -1191,6 +1350,7 @@ String \"[^\"]*\"
 "keywordmap"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::KEYWORDMAP; 
@@ -1198,6 +1358,7 @@ String \"[^\"]*\"
 "lessthan"                  { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LESSTHAN; 
@@ -1205,6 +1366,7 @@ String \"[^\"]*\"
 "library"                   {
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               } 
                               setIsIdContext( true );
@@ -1213,6 +1375,7 @@ String \"[^\"]*\"
 "libraryref"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -1221,6 +1384,7 @@ String \"[^\"]*\"
 "listofnets"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LISTOFNETS; 
@@ -1228,6 +1392,7 @@ String \"[^\"]*\"
 "listofports"               { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LISTOFPORTS; 
@@ -1235,6 +1400,7 @@ String \"[^\"]*\"
 "loaddelay"                 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LOADDELAY; 
@@ -1242,6 +1408,7 @@ String \"[^\"]*\"
 "logicassign"               { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LOGICASSIGN; 
@@ -1249,13 +1416,16 @@ String \"[^\"]*\"
 "logicinput"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
+                              setIsIdContext( true );
                               return Token::LOGICINPUT; 
                             }
 "logiclist"                 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LOGICLIST; 
@@ -1263,6 +1433,7 @@ String \"[^\"]*\"
 "logicmapinput"             { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LOGICMAPINPUT; 
@@ -1270,6 +1441,7 @@ String \"[^\"]*\"
 "logicmapoutput"            { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LOGICMAPOUTPUT; 
@@ -1277,6 +1449,7 @@ String \"[^\"]*\"
 "logiconeof"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LOGICONEOF; 
@@ -1284,13 +1457,16 @@ String \"[^\"]*\"
 "logicoutput"               { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
+                              setIsIdContext( true );
                               return Token::LOGICOUTPUT; 
                             }
 "logicport"                 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LOGICPORT; 
@@ -1298,6 +1474,7 @@ String \"[^\"]*\"
 "logicref"                  { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LOGICREF; 
@@ -1305,13 +1482,16 @@ String \"[^\"]*\"
 "logicvalue"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
+                              setIsIdContext( true );
                               return Token::LOGICVALUE; 
                             }
 "logicwaveform"             { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LOGICWAVEFORM; 
@@ -1319,6 +1499,7 @@ String \"[^\"]*\"
 "maintain"                  { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::MAINTAIN; 
@@ -1326,6 +1507,7 @@ String \"[^\"]*\"
 "match"                     { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::MATCH; 
@@ -1333,6 +1515,7 @@ String \"[^\"]*\"
 "member"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -1341,6 +1524,7 @@ String \"[^\"]*\"
 "minomax"                   { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::MINOMAX; 
@@ -1348,6 +1532,7 @@ String \"[^\"]*\"
 "minomaxdisplay"            { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::MINOMAXDISPLAY; 
@@ -1355,6 +1540,7 @@ String \"[^\"]*\"
 "mnm"                       { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::MNM; 
@@ -1362,6 +1548,7 @@ String \"[^\"]*\"
 "multiplevalueset"          { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::MULTIPLEVALUESET; 
@@ -1369,6 +1556,7 @@ String \"[^\"]*\"
 "mustjoin"                  { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::MUSTJOIN; 
@@ -1376,6 +1564,7 @@ String \"[^\"]*\"
 "name"                      { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
 							  setIsIdContext( true );
@@ -1384,6 +1573,7 @@ String \"[^\"]*\"
 "net"                       { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -1392,6 +1582,7 @@ String \"[^\"]*\"
 "netbackannotate"           { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::NETBACKANNOTATE; 
@@ -1399,6 +1590,7 @@ String \"[^\"]*\"
 "netbundle"                 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -1407,6 +1599,7 @@ String \"[^\"]*\"
 "netdelay"                  { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::NETDELAY; 
@@ -1414,6 +1607,7 @@ String \"[^\"]*\"
 "netgroup"                  { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::NETGROUP; 
@@ -1421,6 +1615,7 @@ String \"[^\"]*\"
 "netmap"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::NETMAP; 
@@ -1428,6 +1623,7 @@ String \"[^\"]*\"
 "netref"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -1436,6 +1632,7 @@ String \"[^\"]*\"
 "nochange"                  { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::NOCHANGE; 
@@ -1443,6 +1640,7 @@ String \"[^\"]*\"
 "nonpermutable"             { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::NONPERMUTABLE; 
@@ -1450,6 +1648,7 @@ String \"[^\"]*\"
 "notallowed"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::NOTALLOWED; 
@@ -1457,6 +1656,7 @@ String \"[^\"]*\"
 "notchspacing"              { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::NOTCHSPACING; 
@@ -1464,6 +1664,7 @@ String \"[^\"]*\"
 "number"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::NUMBER; 
@@ -1471,6 +1672,7 @@ String \"[^\"]*\"
 "numberdefinition"          { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::NUMBERDEFINITION; 
@@ -1478,6 +1680,7 @@ String \"[^\"]*\"
 "numberdisplay"             { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::NUMBERDISPLAY; 
@@ -1485,6 +1688,7 @@ String \"[^\"]*\"
 "offpageconnector"          { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::OFFPAGECONNECTOR; 
@@ -1492,6 +1696,7 @@ String \"[^\"]*\"
 "offsetevent"               { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }    
                               return Token::OFFSETEVENT; 
@@ -1499,6 +1704,7 @@ String \"[^\"]*\"
 "openshape"                 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::OPENSHAPE; 
@@ -1506,6 +1712,7 @@ String \"[^\"]*\"
 "orientation"               { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ORIENTATION; 
@@ -1513,6 +1720,7 @@ String \"[^\"]*\"
 "origin"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ORIGIN; 
@@ -1520,6 +1728,7 @@ String \"[^\"]*\"
 "overhangdistance"          { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::OVERHANGDISTANCE; 
@@ -1527,6 +1736,7 @@ String \"[^\"]*\"
 "overlapdistance"           { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::OVERLAPDISTANCE; 
@@ -1534,6 +1744,7 @@ String \"[^\"]*\"
 "oversize"                  { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::OVERSIZE; 
@@ -1541,6 +1752,7 @@ String \"[^\"]*\"
 "owner"                     { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }    
                               return Token::OWNER; 
@@ -1548,6 +1760,7 @@ String \"[^\"]*\"
 "page"                      { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PAGE; 
@@ -1555,13 +1768,15 @@ String \"[^\"]*\"
 "pagesize"                  { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
-                              return Token::PAGESIZE_TORC; 
+                              return Token::PAGESIZE_EDIF; 
                             }
 "parameter"                 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -1570,6 +1785,7 @@ String \"[^\"]*\"
 "parameterassign"           { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -1578,6 +1794,7 @@ String \"[^\"]*\"
 "parameterdisplay"          { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PARAMETERDISPLAY; 
@@ -1585,6 +1802,7 @@ String \"[^\"]*\"
 "path"                      { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PATH; 
@@ -1592,6 +1810,7 @@ String \"[^\"]*\"
 "pathdelay"                 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PATHDELAY; 
@@ -1599,6 +1818,7 @@ String \"[^\"]*\"
 "pathwidth"                 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PATHWIDTH; 
@@ -1606,6 +1826,7 @@ String \"[^\"]*\"
 "permutable"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PERMUTABLE; 
@@ -1613,6 +1834,7 @@ String \"[^\"]*\"
 "physicaldesignrule"        { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PHYSICALDESIGNRULE; 
@@ -1620,6 +1842,7 @@ String \"[^\"]*\"
 "plug"                      { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PLUG; 
@@ -1627,6 +1850,7 @@ String \"[^\"]*\"
 "point"                     { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::POINT; 
@@ -1634,6 +1858,7 @@ String \"[^\"]*\"
 "pointdisplay"              { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::POINTDISPLAY; 
@@ -1641,6 +1866,7 @@ String \"[^\"]*\"
 "pointlist"                 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::POINTLIST; 
@@ -1648,6 +1874,7 @@ String \"[^\"]*\"
 "polygon"                   { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::POLYGON; 
@@ -1655,6 +1882,7 @@ String \"[^\"]*\"
 "port"                      { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;    
                               }
                               setIsIdContext( true );
@@ -1663,6 +1891,7 @@ String \"[^\"]*\"
 "portbackannotate"          { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PORTBACKANNOTATE; 
@@ -1670,6 +1899,7 @@ String \"[^\"]*\"
 "portbundle"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -1678,6 +1908,7 @@ String \"[^\"]*\"
 "portdelay"                 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PORTDELAY; 
@@ -1685,6 +1916,7 @@ String \"[^\"]*\"
 "portgroup"                 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PORTGROUP; 
@@ -1692,6 +1924,7 @@ String \"[^\"]*\"
 "portimplementation"        { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PORTIMPLEMENTATION; 
@@ -1699,6 +1932,7 @@ String \"[^\"]*\"
 "portinstance"              { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PORTINSTANCE; 
@@ -1706,20 +1940,25 @@ String \"[^\"]*\"
 "portlist"                  { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
+                              setIsIdContext( true );
                               return Token::PORTLIST; 
                             }
 "portlistalias"             { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
+                              setIsIdContext( true );
                               return Token::PORTLISTALIAS; 
                             }
 "portmap"                   { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PORTMAP; 
@@ -1727,6 +1966,7 @@ String \"[^\"]*\"
 "portref"                   { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -1735,6 +1975,7 @@ String \"[^\"]*\"
 "program"                   { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PROGRAM; 
@@ -1742,6 +1983,7 @@ String \"[^\"]*\"
 "property"                  { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -1750,6 +1992,7 @@ String \"[^\"]*\"
 "propertydisplay"           { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PROPERTYDISPLAY; 
@@ -1757,6 +2000,7 @@ String \"[^\"]*\"
 "protectionframe"           { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PROTECTIONFRAME; 
@@ -1764,6 +2008,7 @@ String \"[^\"]*\"
 "pt"                        { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PT; 
@@ -1771,6 +2016,7 @@ String \"[^\"]*\"
 "rangevector"               { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::RANGEVECTOR; 
@@ -1778,6 +2024,7 @@ String \"[^\"]*\"
 "rectangle"                 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::RECTANGLE; 
@@ -1785,6 +2032,7 @@ String \"[^\"]*\"
 "rectanglesize"             { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::RECTANGLESIZE; 
@@ -1792,6 +2040,7 @@ String \"[^\"]*\"
 "rename"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -1800,6 +2049,7 @@ String \"[^\"]*\"
 "resolves"                  { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::RESOLVES; 
@@ -1807,6 +2057,7 @@ String \"[^\"]*\"
 "scale"                     { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::SCALE; 
@@ -1814,6 +2065,7 @@ String \"[^\"]*\"
 "scalex"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                                return Token::SCALEX; 
@@ -1821,6 +2073,7 @@ String \"[^\"]*\"
 "scaley"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::SCALEY; 
@@ -1828,6 +2081,7 @@ String \"[^\"]*\"
 "section"                   { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::SECTION; 
@@ -1835,6 +2089,7 @@ String \"[^\"]*\"
 "shape"                     { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::SHAPE; 
@@ -1842,13 +2097,16 @@ String \"[^\"]*\"
 "simulate"                  { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
+                              setIsIdContext( true );
                               return Token::SIMULATE; 
                             }
 "simulationinfo"            { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::SIMULATIONINFO; 
@@ -1856,6 +2114,7 @@ String \"[^\"]*\"
 "singlevalueset"            { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::SINGLEVALUESET; 
@@ -1863,6 +2122,7 @@ String \"[^\"]*\"
 "site"                      { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::SITE; 
@@ -1870,6 +2130,7 @@ String \"[^\"]*\"
 "socket"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::SOCKET; 
@@ -1877,6 +2138,7 @@ String \"[^\"]*\"
 "socketset"                 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::SOCKETSET; 
@@ -1884,6 +2146,7 @@ String \"[^\"]*\"
 "status"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::STATUS; 
@@ -1891,6 +2154,7 @@ String \"[^\"]*\"
 "steady"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::STEADY; 
@@ -1898,6 +2162,7 @@ String \"[^\"]*\"
 "string"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::STRING; 
@@ -1905,6 +2170,7 @@ String \"[^\"]*\"
 "stringdisplay"             { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::STRINGDISPLAY; 
@@ -1912,6 +2178,7 @@ String \"[^\"]*\"
 "strong"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::STRONG; 
@@ -1919,6 +2186,7 @@ String \"[^\"]*\"
 "symbol"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::SYMBOL; 
@@ -1926,6 +2194,7 @@ String \"[^\"]*\"
 "symmetry"                  { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::SYMMETRY; 
@@ -1933,6 +2202,7 @@ String \"[^\"]*\"
 "table"                     { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TABLE; 
@@ -1940,6 +2210,7 @@ String \"[^\"]*\"
 "tabledefault"              { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TABLEDEFAULT; 
@@ -1947,6 +2218,7 @@ String \"[^\"]*\"
 "technology"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TECHNOLOGY; 
@@ -1954,6 +2226,7 @@ String \"[^\"]*\"
 "textheight"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TEXTHEIGHT; 
@@ -1961,6 +2234,7 @@ String \"[^\"]*\"
 "timeinterval"              { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TIMEINTERVAL; 
@@ -1968,6 +2242,7 @@ String \"[^\"]*\"
 "timestamp"                 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TIMESTAMP; 
@@ -1975,6 +2250,7 @@ String \"[^\"]*\"
 "timing"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TIMING; 
@@ -1982,6 +2258,7 @@ String \"[^\"]*\"
 "transform"                 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TRANSFORM; 
@@ -1989,6 +2266,7 @@ String \"[^\"]*\"
 "transition"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TRANSITION; 
@@ -1996,6 +2274,7 @@ String \"[^\"]*\"
 "trigger"                   { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TRIGGER; 
@@ -2003,6 +2282,7 @@ String \"[^\"]*\"
 "true"                      { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TRUE; 
@@ -2010,6 +2290,7 @@ String \"[^\"]*\"
 "unconstrained"             { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::UNCONSTRAINED; 
@@ -2017,6 +2298,7 @@ String \"[^\"]*\"
 "undefined"                 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::UNDEFINED; 
@@ -2024,6 +2306,7 @@ String \"[^\"]*\"
 "union"                     { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::UNION; 
@@ -2031,6 +2314,7 @@ String \"[^\"]*\"
 "unit"                      { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::UNIT; 
@@ -2038,6 +2322,7 @@ String \"[^\"]*\"
 "unused"                    { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::UNUSED; 
@@ -2045,13 +2330,16 @@ String \"[^\"]*\"
 "userdata"                  { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
+                              setIsIdContext( true );
                               return Token::USERDATA; 
                             }
 "version"                   { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::VERSION; 
@@ -2059,6 +2347,7 @@ String \"[^\"]*\"
 "view"                      { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -2067,6 +2356,7 @@ String \"[^\"]*\"
 "viewlist"                  { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::VIEWLIST; 
@@ -2074,6 +2364,7 @@ String \"[^\"]*\"
 "viewmap"                   { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::VIEWMAP; 
@@ -2081,6 +2372,7 @@ String \"[^\"]*\"
 "viewref"                   { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -2089,6 +2381,7 @@ String \"[^\"]*\"
 "viewtype"                  { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::VIEWTYPE; 
@@ -2096,6 +2389,7 @@ String \"[^\"]*\"
 "visible"                   { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::VISIBLE; 
@@ -2103,6 +2397,7 @@ String \"[^\"]*\"
 "voltagemap"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::VOLTAGEMAP; 
@@ -2110,13 +2405,16 @@ String \"[^\"]*\"
 "wavevalue"                 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
+                              setIsIdContext( true );
                               return Token::WAVEVALUE; 
                             }
 "weak"                      { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::WEAK; 
@@ -2124,6 +2422,7 @@ String \"[^\"]*\"
 "weakjoined"                { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::WEAKJOINED; 
@@ -2131,6 +2430,7 @@ String \"[^\"]*\"
 "when"                      { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::WHEN; 
@@ -2138,6 +2438,7 @@ String \"[^\"]*\"
 "written"                   { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::WRITTEN; 
@@ -2158,8 +2459,8 @@ String \"[^\"]*\"
                       return Token::DOUBLE;
                     }
 
-{String}            {  std::string str = std::string(yytext);
-                        yylval->stringVal = new std::string(str, 1, yyleng -2);
+{String}            { 
+                      yylval->stringVal = new std::string(yytext +1, yyleng -2);
                       return Token::STRING;
                     }
 
@@ -2191,7 +2492,10 @@ Scanner::Scanner(std::istream* in,
 : EdifFlexLexer(in, out),
   mIsIdContext( false ),
   mAppendToBuffer( false ),
-  mBuffer()
+  mAppendToUserDataBuffer( false ),
+  mBuffer(),
+  mUserDataBuffer(),
+  mIsIdAlreadyAdded( false )  
 {
 }
 
@@ -2241,11 +2545,30 @@ Scanner::resetBuffer() throw() {
 }
 
 void
+Scanner::setAppendToUserDataBuffer( bool inAppendToBuffer ) throw() {
+	mAppendToUserDataBuffer = inAppendToBuffer;
+}
+
+void
+Scanner::resetUserDataBuffer() throw() {
+	mUserDataBuffer = "";
+}
+
+void
 Scanner::addToBuffer( const char *str ) throw() {
 	if( getAppendToBuffer() )
 	{
 		mBuffer += str;
 	}
+}
+
+void
+Scanner::addToUserDataBuffer( const char *str ) throw() {
+	if( getAppendToUserDataBuffer() && (mIsIdAlreadyAdded == false) )
+	{
+		mUserDataBuffer += str;
+	}
+    mIsIdAlreadyAdded = false;
 }
 
 void

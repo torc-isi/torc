@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_PHYSICAL_XDLUNPACK_HPP
-#define TORC_PHYSICAL_XDLUNPACK_HPP
+#ifndef TORC_PACKER_XDLUNPACK_HPP
+#define TORC_PACKER_XDLUNPACK_HPP
 
 #include "torc/physical/Design.hpp"
 #include "torc/physical/Factory.hpp"
@@ -89,6 +89,4 @@ protected:
 } // namespace physical
 } // namespace torc
 
-#endif // TORC_PHYSICAL_XDLUNPACK_HPP
-
-
+#endif // TORC_PACKER_XDLUNPACK_HPP

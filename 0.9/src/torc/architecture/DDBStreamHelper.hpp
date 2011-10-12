@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the DDBStreamHelper class.
 
-#ifndef TORC_ARCHITECTURE_DDB_STREAM_HELPER_HPP
-#define TORC_ARCHITECTURE_DDB_STREAM_HELPER_HPP
+#ifndef TORC_ARCHITECTURE_DDBSTREAMHELPER_HPP
+#define TORC_ARCHITECTURE_DDBSTREAMHELPER_HPP
 
 #include "torc/common/EncapsulatedInteger.hpp"
 #include <ostream>
@@ -73,4 +73,4 @@ namespace architecture {
 } // namespace architecture
 } // namespace torc
 
-#endif // TORC_ARCHITECTURE_DDB_STREAM_HELPER_HPP
+#endif // TORC_ARCHITECTURE_DDBSTREAMHELPER_HPP

@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the Arc unit test.
+/// \brief Unit test for the Arc class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/architecture/Arc.hpp"
@@ -27,6 +27,34 @@ BOOST_AUTO_TEST_SUITE(architecture)
 
 /// \brief Unit test for the Arc class.
 BOOST_AUTO_TEST_CASE(ArcUnitTest) {
+	// supporting variables
+	Tilewire tilewire1(xilinx::TileIndex(5), xilinx::WireIndex(3));
+	Tilewire tilewire2(xilinx::TileIndex(0), xilinx::WireIndex(9));
+
+	// members tested:
+	//		Tilewire mSourceTilewire;
+	//		Tilewire mSinkTilewire;
+	// functions tested:
+	//		Arc(void);
+	//		Arc(const Tilewire& inSourceTilewire, const Tilewire& inSinkTilewire);
+	//		bool operator ==(const Arc& rhs) const;
+	//		bool isUndefined(void) const;
+	Arc arc1;
+	Arc arc2;
+	Arc arc3(tilewire1, tilewire2);
+	BOOST_CHECK((arc1 == arc2) == true);
+	BOOST_CHECK((arc1 == arc3) == false);
+	BOOST_CHECK(arc1.isUndefined());
+
+	// functions tested:
+	//		const Tilewire& getSourceTilewire(void) const;
+	//		const Tilewire& getSinkTilewire(void) const;
+	BOOST_CHECK(arc3.getSourceTilewire() == tilewire1);
+	BOOST_CHECK(arc3.getSinkTilewire() == tilewire2);
+
+	// functions tested:
+	//		friend std::size_t hash_value(const Arc& inArc);
+	BOOST_CHECK_EQUAL(hash_value(arc1), hash_value(arc2));
 }
 
 BOOST_AUTO_TEST_SUITE_END()

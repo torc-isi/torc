@@ -1,34 +1,35 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
-// $HeadURL$
-// $Id$
+% Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+% $HeadURL$
+% $Id$
 
-// This program is free software: you can redistribute it and/or modify it under the terms of the 
-// GNU General Public License as published by the Free Software Foundation, either version 3 of the 
-// License, or (at your option) any later version.
-// 
-// This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See 
-// the GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License along with this program.  If 
-// not, see <http://www.gnu.org/licenses/>.
+% This program is free software: you can redistribute it and/or modify it under the terms of the 
+% GNU General Public License as published by the Free Software Foundation, either version 3 of the 
+% License, or (at your option) any later version.
+% 
+% This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+% without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See 
+% the GNU General Public License for more details.
+% 
+% You should have received a copy of the GNU General Public License along with this program.  If 
+% not, see <http://www.gnu.org/licenses/>.
+
+/*******************************************************************************
+* TORC - Copyright 2010 University of Southern California. All Rights Reserved.
+*
+* FILE : parser.yy
+*
+* DATE : 08-July-2010
+*
+* DESCRIPTION : Contains the EDIF Bison parser source
+*
+* REVISION HISTORY:
+*
+* SI        REVISION        AUTHOR               CHANGES          PRs
+*[0]    Initial Version    Niladri
+*
+*******************************************************************************/
 
 %{
-
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
-// $HeadURL$
-// $Id$
-
-// This program is free software: you can redistribute it and/or modify it under the terms of the 
-// GNU General Public License as published by the Free Software Foundation, either version 3 of the 
-// License, or (at your option) any later version.
-// 
-// This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See 
-// the GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License along with this program.  If 
-// not, see <http://www.gnu.org/licenses/>.
 
 #include <algorithm>
 #include <cstdio>
@@ -41,7 +42,12 @@
 #include "torc/generic/util/Log.hpp"
 #include "torc/generic/om/PointerTypes.hpp"
 #include "torc/generic/om/PortAttributes.hpp"
+#include "torc/generic/om/NetAttributes.hpp"
 #include "torc/generic/om/PortRefCreator.hpp"
+#include "torc/generic/om/TimeStamp.hpp"
+#include "torc/generic/om/Written.hpp"
+#include "torc/generic/om/InterfaceAttributes.hpp"
+#include "torc/generic/om/LogicValueAttributes.hpp"
 
 %}
 
@@ -88,24 +94,33 @@
  /*** BEGIN EXAMPLE - Change the example grammar's tokens below ***/
 
 %union {
-    int                                 integerVal;
-    double                              doubleVal;
-    std::string                        *stringVal;
-    torc::generic::NameData            *nameData;
-    torc::generic::ViewRefData         *viewRefData;
-    torc::generic::CellRefData         *cellRefData;
-    torc::generic::PortRefData         *portRefData;
-    torc::generic::InstanceRefData     *instanceRef;
-    torc::generic::PortListData        *portListData;
-    torc::generic::InstanceInfo        *instanceInfo;
-    std::vector<size_t>                *arrayDimensions;
-    torc::generic::VersionData         *edifVersion;
-    torc::generic::ValueData           *valueData;
-    torc::generic::PairData            *pairData;
-    torc::generic::ParamAssignInfo     *paramAssignInfo;
-    torc::generic::PortAttributes      *portAttributes;
-    torc::generic::PortDelay           *portDelay;
-    torc::generic::PortInstData        *portInst;
+    int                                   integerVal;
+    double                                doubleVal;
+    std::string                          *stringVal;
+    torc::generic::NameData              *nameData;
+    torc::generic::ViewRefData           *viewRefData;
+    torc::generic::CellRefData           *cellRefData;
+    torc::generic::PortRefData           *portRefData;
+    torc::generic::InstanceRefData       *instanceRef;
+    torc::generic::PortListData          *portListData;
+    torc::generic::InstanceInfo          *instanceInfo;
+    std::vector<size_t>                  *arrayDimensions;
+    torc::generic::VersionData           *edifVersion;
+    torc::generic::ValueData             *valueData;
+    torc::generic::PairData              *pairData;
+    torc::generic::ParamAssignInfo       *paramAssignInfo;
+    torc::generic::PortAttributes        *portAttributes;
+    torc::generic::NetAttributes         *netAttributes;
+    torc::generic::PortDelay             *portDelay;
+    torc::generic::NetDelay              *netDelay;
+    torc::generic::PortInstData          *portInst;
+    torc::generic::TimeStamp             *timeStamp;
+    torc::generic::PairStrData           *pairStrData;  
+    torc::generic::InterfaceAttributes   *interfaceAttributes;
+    torc::generic::LogicValueAttributes  *logicValueAttributes;
+    torc::generic::LogicListData         *logicListData;
+    torc::generic::LogicRefData          *logicRefData;
+    torc::generic::NetRefData            *netRefData;
 }
 
 %token            END         0    "end of file"
@@ -321,7 +336,7 @@
 %token          OVERSIZE
 %token          OWNER
 %token          PAGE
-%token          PAGESIZE_TORC
+%token          PAGESIZE_EDIF
 %token          PARAMETER
 %token          PARAMETERASSIGN
 %token          PARAMETERDISPLAY
@@ -422,7 +437,6 @@
 %type <stringVal>_Rename
 %type <nameData>Rename
 %type <stringVal>Author
-%type <stringVal>Program
 %type <stringVal>Version
 %type <nameData>LibNameDef
 %type <integerVal>EdifLevel
@@ -500,8 +514,8 @@
 %type <paramAssignInfo>ParamAssign
 %type <stringVal>Owner
 %type <nameData>PropNameDef
-%type <integerVal>_DerivationData
-%type <integerVal>DerivationData
+%type <integerVal>_Derivation
+%type <integerVal>Derivation
 %type <portDelay>_DelayData
 %type <portDelay>DelayData
 %type <valueData>_LoadDelayData
@@ -526,9 +540,56 @@
 %type <valueData>_AcLoad
 %type <valueData>AcLoad
 
+%type <stringVal>UserData
+%type <timeStamp>TimeStamp
+%type <stringVal>_Program
+%type <pairStrData>Program
+%type <stringVal>_DataOrigin
+%type <pairStrData>DataOrigin   
+%type <stringVal>_Comment
+%type <stringVal>Comment 
+%type <integerVal>_Criticality
+%type <integerVal>Criticality
+%type <netAttributes>_Net
+%type <interfaceAttributes>_Interface
+%type <interfaceAttributes>Interface
+%type <nameData>LogicNameDef
+%type <valueData>VoltageMap
+%type <valueData>CurrentMap
+%type <integerVal>BooleanMap
+%type <logicValueAttributes>_LogicValue
+%type <nameData>LogicNameRefData
+%type <nameData>Weak
+%type <nameData>Strong
+%type <logicListData>_Compound
+%type <logicListData>Compound
+%type <logicListData>_Dominates
+%type <logicListData>Dominates
+%type <logicListData>_Resolves
+%type <logicListData>Resolves
+%type <logicRefData>_LogicRef
+%type <logicRefData>LogicRef
+%type <logicRefData>LogicMapIn
+%type <logicRefData>LogicMapOut
+%type <nameData>SimNameDef
+%type <pairData>Duration
+%type <pairData>_Cycle
+%type <valueData>_PathDelayValue
+%type <pairData>OffsetEvent
+%type <netRefData>_NetRefData
+%type <netRefData>NetRefData
+%type <nameData>NetNameRefData
+%type <netDelay>NetDelayData
+%type <netDelay>_NetDelayData
+%type <netDelay>_NetDelay
+%type <netDelay>NetDelay
+
+
 %destructor { } <integerVal>
 %destructor { } <doubleVal>
 %destructor { } <nameData>
+%destructor { } <edifVersion>
+%destructor { } <pairData>
 %destructor { delete $$; } <*>
 
 %{
@@ -895,7 +956,7 @@ connectElementToNet( PortRefData *inPortData,
 
 %% /*** Grammar Rules ***/
 
-Edif : LBKT EDIF EdifFileName EdifVersion EdifLevel KeywordMap _Edif RBKT
+Edif : LBKT EDIF EdifFileName EdifVersion EdifLevel KeywordMap 
         {
             boost::scoped_ptr<NameData> fileName( $3 );
             boost::scoped_ptr<VersionData> versionData( $4 );
@@ -912,16 +973,32 @@ Edif : LBKT EDIF EdifFileName EdifVersion EdifLevel KeywordMap _Edif RBKT
             version.mThird = versionData->mThird;
             root->setVersion( version );
             root->setLevel( static_cast<EdifLevel>( $5 ) );
+            ctx->pushStatusContainer( root );
+        } _Edif RBKT
+        {
+            inDriver.getContext()->popStatusContainer();
         }
      ;
 
 _Edif :
-      |         _Edif Status
-      |         _Edif External
-      |         _Edif Library
-      |         _Edif Design
-      |         _Edif Comment
-      |         _Edif UserData
+      | _Edif Status
+      | _Edif External
+      | _Edif Library
+      | _Edif Design
+      | _Edif Comment
+        {
+            EdifContextSharedPtr ctx = inDriver.getContext();
+            RootSharedPtr root = ctx->getRoot();
+            root->addComment( *$2 );
+            delete $2;
+        }
+      | _Edif UserData
+        {
+            EdifContextSharedPtr ctx = inDriver.getContext();
+            RootSharedPtr root = ctx->getRoot();
+            root->addUserData( *$2 );
+            delete $2;
+        }
       ;
 
 EdifFileName :  NameDefData
@@ -955,35 +1032,85 @@ _AcLoad :       MiNoMaValue
 After : LBKT AFTER _After RBKT
       ;
 
-_After :        MiNoMaValue
-       |        _After Follow
-       |        _After Maintain
-       |        _After LogicAssn
-       |        _After Comment
-       |        _After UserData
+_After :     MiNoMaValue
+       |     _After Follow
+       |     _After Maintain
+       |     _After LogicAssn
+       |     _After Comment
+            {
+                delete $2;
+            }
+       |    _After UserData
+            {
+                delete $2;
+            }
        ;
 
 Annotate : LBKT ANNOTATE _Annotate RBKT
          ;
 
-_Annotate :     Str
+_Annotate : Str
             {
                 delete $1;
             }
-          |     StrDisplay
-              {
+          | StrDisplay
+            {
                 delete $1;
             }
           ;
 
-Apply : LBKT APPLY _Apply RBKT
+Apply : LBKT APPLY 
+        {
+            ApplySharedPtr apply;
+            EdifContextSharedPtr ctx
+                        = inDriver.getContext();
+            try
+            {
+                ctx->getFactory()->create( apply );
+            }
+            catch( Error &e )
+            {
+                std::string message = constructErrorMessage(
+                        "Unable to create apply" );
+                log("%s\n", message.c_str());
+                e.setCurrentLocation( __FUNCTION__,
+                                        __FILE__, __LINE__ );
+                e.saveContextData( "Parser error message", message );
+                e.saveContextData( "Filename", yyloc.begin.filename );
+                e.saveContextData( "StartLine", yyloc.begin.line );
+                e.saveContextData( "EndLine", yyloc.end.line );
+                inDriver.setParserError( e );
+                error( yyloc, message );
+                YYABORT;
+            }
+            ctx->setCurrentApply( apply );
+            SimulateSharedPtr simulate
+                    = ctx->getCurrentSimulate();
+            simulate->addApply( apply );
+        } _Apply RBKT
+        {
+            EdifContextSharedPtr ctx = inDriver.getContext();
+            ctx->setCurrentApply( ApplySharedPtr() );
+        }
       ;
 
-_Apply :        Cycle
-       |        _Apply LogicIn
-       |        _Apply LogicOut
-       |        _Apply Comment
-       |        _Apply UserData
+_Apply :    Cycle
+       |    _Apply LogicIn
+       |    _Apply LogicOut
+       |    _Apply Comment
+            {
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                ApplySharedPtr apply = ctx->getCurrentApply();
+                apply->addComment( *$2 );
+                delete $2;
+            }
+       |    _Apply UserData
+            {
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                ApplySharedPtr apply = ctx->getCurrentApply();
+                apply->addUserData( *$2 );
+                delete $2;
+            }
        ;
 
 Arc : LBKT ARC PointValue PointValue PointValue RBKT
@@ -1041,7 +1168,13 @@ _ArrayRelInfo : BaseArray
               | ArraySite
               | ArrayMacro
               | _ArrayRelInfo Comment
+                {
+                    delete $2;
+                }
               | _ArrayRelInfo UserData
+                {
+                    delete $2;
+                }
               ;
 
 ArraySite : LBKT ARRAYSITE Socket RBKT
@@ -1068,13 +1201,40 @@ Author : LBKT AUTHOR Str RBKT
 BaseArray : LBKT BASEARRAY RBKT
           ;
 
-Becomes : LBKT BECOMES _Becomes RBKT
+Becomes : LBKT BECOMES 
+        {
+                EdifContextSharedPtr ctx
+                                = inDriver.getContext();
+                LogicElementSharedPtr logicElem;
+                try
+                {
+                    ctx->getFactory()->create( logicElem );
+                    logicElem->setType( LogicElement::eTypeBecomes );
+                }
+                catch( Error &e )
+                {
+                    std::string message = constructErrorMessage(
+                            "Unable to create becomes" );
+                    log("%s\n", message.c_str());
+                    e.setCurrentLocation( __FUNCTION__,
+                                            __FILE__, __LINE__ );
+                    e.saveContextData( "Parser error message", message );
+                    e.saveContextData( "Filename", yyloc.begin.filename );
+                    e.saveContextData( "StartLine", yyloc.begin.line );
+                    e.saveContextData( "EndLine", yyloc.end.line );
+                    inDriver.setParserError( e );
+                    error( yyloc, message );
+                    YYABORT;
+                }
+                ctx->pushLogicElement( logicElem );
+                ctx->incrementLogicElementDepth();
+            } _PresentValue RBKT
         ;
 
-_Becomes :      LogicNameRef
-         |      LogicList
-         |      LogicOneOf
-         ;
+_PresentValue : LogicNameData
+              | LogicList
+              | LogicOneOf
+              ;
 
 Between : LBKT BETWEEN __Between _Between RBKT
         ;
@@ -1152,6 +1312,7 @@ _BooleanDisp :  BooleanValue
 BooleanMap : LBKT BOOLEANMAP BooleanValue RBKT
             {
                 if($3);
+                $$ = $3;
             }
            ;
 
@@ -1282,21 +1443,35 @@ Cell : LBKT CELL CellNameDef
             }
             ctx->setCurrentCell( cell );
             ctx->pushPropertyContainer( cell );
+            ctx->pushStatusContainer( cell );
         } _Cell RBKT
         {
             inDriver.getContext()->setCurrentCell(
                                     CellSharedPtr() );
             inDriver.getContext()->popPropertyContainer();
+            inDriver.getContext()->popStatusContainer();
         }
         ;
 
-_Cell :         CellType
-      |         _Cell Status
-      |         _Cell ViewMap
-      |         _Cell View
-      |         _Cell Comment
-      |         _Cell UserData
-      |         _Cell Property
+_Cell : CellType
+      | _Cell Status
+      | _Cell ViewMap
+      | _Cell View
+      | _Cell Comment
+        {
+            EdifContextSharedPtr ctx = inDriver.getContext();
+            CellSharedPtr cell = ctx->getCurrentCell();
+            cell->addComment( *$2 );
+            delete $2;
+        }
+      | _Cell UserData
+        {
+            EdifContextSharedPtr ctx = inDriver.getContext();
+            CellSharedPtr cell = ctx->getCurrentCell();
+            cell->addUserData( *$2 );
+            delete $2;
+        }
+      | _Cell Property
       ;
 
 CellNameDef :   NameDefData
@@ -1419,14 +1594,18 @@ Color : LBKT COLOR ScaledInt ScaledInt ScaledInt RBKT
       ;
 
 Comment : LBKT COMMENT _Comment RBKT
+        {
+            $$ = $3;
+        }
         ;
 
-_Comment :
-         |      _Comment Str
-        {
-            //TBD::HANDLE COMMENT
-            delete $2;
-        }
+_Comment :  {
+                $$ = NULL;
+            }
+         |  _Comment Str
+            {
+                $$ = ( $1 ) ? $1 : $2;
+            }
          ;
 
 CommGraph : LBKT COMMENTGRAPHICS _CommGraph RBKT
@@ -1439,11 +1618,31 @@ _CommGraph :
            |    _CommGraph BoundBox
            |    _CommGraph Property
            |    _CommGraph Comment
+                {
+                    delete $2;
+                }
            |    _CommGraph UserData
+                {
+                    delete $2;
+                }
            ;
 
-Compound : LBKT COMPOUND LogicNameRef RBKT
+Compound : LBKT COMPOUND _Compound RBKT
+            {
+                $$ = $3;
+            }
          ;
+
+_Compound :
+            {
+                $$ = NULL;
+            }
+          | _Compound LogicNameRefData
+            {
+                $$ = ($1)?$1:new LogicListData();
+                $$->mNameDataList.push_back( $2 );
+            }
+          ;    
 
 Contents : LBKT CONTENTS _Contents RBKT
          ;
@@ -1459,13 +1658,39 @@ _Contents :
           |     _Contents CommGraph
           |     _Contents PortImpl
           |     _Contents Timing
+                {
+                    EdifContextSharedPtr ctx
+                                    = inDriver.getContext();
+                    ViewSharedPtr view
+                            = ctx->getCurrentView();
+                    TimingSharedPtr timing
+                            = ctx->getCurrentTiming();
+                    view->setTiming( timing );
+                    ctx->setCurrentTiming( TimingSharedPtr() );
+                }
           |     _Contents Simulate
+                {
+                    EdifContextSharedPtr ctx
+                                    = inDriver.getContext();
+                    ViewSharedPtr view
+                            = ctx->getCurrentView();
+                    SimulateSharedPtr simulate
+                            = ctx->getCurrentSimulate();
+                    view->setSimulate( simulate );
+                    ctx->setCurrentSimulate( SimulateSharedPtr() );
+                }
           |     _Contents When
           |     _Contents Follow
           |     _Contents LogicPort
           |     _Contents BoundBox
           |     _Contents Comment
+                {
+                    delete $2;
+                }
           |     _Contents UserData
+                {
+                    delete $2;
+                }
           ;
 
 ConnectLoc : LBKT CONNECTLOCATION _ConnectLoc RBKT
@@ -1484,21 +1709,26 @@ _CornerType :   EXTEND
             ;
 
 Criticality : LBKT CRITICALITY _Criticality RBKT
+            {   
+                $$ = $3;
+            }
             ;
 
 _Criticality :  Int
                 {
                     if( $1 );
+                    $$ = $1;
                 }
              |  IntDisplay
                 {
                     if( $1 );
+                    $$ = $1;
                 }
              ;
 
 CurrentMap : LBKT CURRENTMAP MiNoMaValue RBKT
             {
-                delete $3;
+                $$ = $3;
             }
            ;
 
@@ -1515,24 +1745,42 @@ _Curve :
 
 Cycle : LBKT CYCLE Int _Cycle RBKT
         {
-            if( $3 );
+            if( $3 )
+            {
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                ApplySharedPtr apply = ctx->getCurrentApply();
+                apply->setNoOfCycle( $3 );
+
+                boost::scoped_ptr<PairData> data($4);
+                Value::Number num( data->mX, data->mY );
+                Value val( Value::eValueTypeNumber, num );
+                apply->setCycleDuration( val );
+            }
         }
       ;
 
 _Cycle :
-       |        Duration
+            {
+                $$ = new PairData();
+            }
+       |    Duration
+            {
+                $$ = $1;
+            }     
        ;
 
 DataOrigin : LBKT DATAORIGIN Str _DataOrigin RBKT
             {
-                delete $3;
+                $$ = new PairStrData( *$3, *$4 );
             }
            ;
 
-_DataOrigin :
+_DataOrigin :   {
+                    $$ = new std::string();
+                }
             |   Version
                 {
-                    delete $1;
+                    $$ = $1;
                 }
             ;
 
@@ -1598,17 +1846,17 @@ _DelayData :  MiNoMaValue
         }
        ;
 
-Delay: LBKT DELAY _Delay RBKT
+Delay : LBKT DELAY _Delay RBKT
       ;
 
-_Delay:     MiNoMaValue
-            {
-                delete $1;
-            }
-       |    MiNoMaDisp
-            {
-                delete $1;
-            }
+_Delay : MiNoMaValue
+        {
+            delete $1;
+        }
+       | MiNoMaDisp
+        {
+            delete $1;
+        }
        ;
 
 Delta : LBKT DELTA _Delta RBKT
@@ -1622,30 +1870,22 @@ _Delta :
        ;
 
 Derivation : LBKT DERIVATION _Derivation RBKT
-           ;
-
-_Derivation :   CALCULATED
-            |   MEASURED
-            |   REQUIRED
-            ;
-
-DerivationData : LBKT DERIVATION _DerivationData RBKT
             {
                 $$ = $3;
             }
            ;
 
-_DerivationData :   CALCULATED
+_Derivation :   CALCULATED
             {
-                $$ = PortDelay::eDerivationCalculated;
+                $$ = eDerivationCalculated;
             }
             |   MEASURED
             {
-                $$ = PortDelay::eDerivationMeasured;
+                $$ = eDerivationMeasured;
             }
             |   REQUIRED
             {
-                $$ = PortDelay::eDerivationRequired;
+                $$ = eDerivationRequired;
             }
             ;
 
@@ -1671,7 +1911,8 @@ Design : LBKT DESIGN DesignNameDef
                     catch( Error &e )
                     {
                         std::string message = constructErrorMessage(
-                                "Unable to create design : %s", design->getName().c_str());
+                                "Unable to create design : %s", 
+                                        design->getName().c_str());
                         log("%s\n", message.c_str());
                         e.setCurrentLocation( __FUNCTION__,
                                                 __FILE__, __LINE__ );
@@ -1693,12 +1934,15 @@ Design : LBKT DESIGN DesignNameDef
                 }
                 ctx->setCurrentDesign( design );
                 ctx->pushPropertyContainer( design );
+                ctx->pushStatusContainer( design );
                 delete $3;
             }
         } _Design RBKT
         {
             EdifContextSharedPtr ctx = inDriver.getContext();
             ctx->popPropertyContainer();
+            ctx->popStatusContainer();
+
             boost::scoped_ptr<CellRefData> cellRefData( $5 );
             std::string cellName =  cellRefData->mCellName->mName;
             std::string libName = cellRefData->mLibraryName->mName;
@@ -1739,34 +1983,42 @@ Design : LBKT DESIGN DesignNameDef
                 error( yyloc, message );
                 YYABORT;
             }
-            
             DesignSharedPtr design = ctx->getCurrentDesign();
             design->setCellRefName( cellName );
             design->setLibraryRefName( libName );
+            ctx->setCurrentDesign( DesignSharedPtr() );
         }            
        ;
 
-_Design :       CellRef
-        {
-            $$ = new CellRefData();
-            $$ = $1;
-        }
-        |       _Design Status
-        {
-            $$ = $1;
-        }
-        |       _Design Comment
-        {
-            $$ = $1;
-        }
-        |       _Design Property
-        {
-            $$ = $1;
-        }
-        |       _Design UserData
-        {
-            $$ = $1;
-        }
+_Design : CellRef
+          {
+              $$ = new CellRefData();
+              $$ = $1;
+          }
+        | _Design Status
+          {
+              $$ = $1;
+          }
+        | _Design Comment
+          {
+              $$ = $1;
+              EdifContextSharedPtr ctx = inDriver.getContext();
+              DesignSharedPtr design = ctx->getCurrentDesign();
+              design->addComment( *$2 );
+              delete $2;  
+          }
+        | _Design Property
+          {
+              $$ = $1;
+          }
+        | _Design UserData
+          {
+              $$ = $1;
+              EdifContextSharedPtr ctx = inDriver.getContext();
+              DesignSharedPtr design = ctx->getCurrentDesign();
+              design->addUserData( *$2 );
+              delete $2;
+          }
         ;
 
 Designator : LBKT DESIGNATOR _Designator RBKT
@@ -1812,7 +2064,13 @@ _DesignRule :
             |   _DesignRule NotAllowed
             |   _DesignRule FigGrp
             |   _DesignRule Comment
+                {
+                    delete $2;
+                }
             |   _DesignRule UserData
+                {
+                    delete $2;
+                }
             ;
 
 Difference : LBKT DIFFERENCE _Difference RBKT
@@ -1859,10 +2117,20 @@ _DisplayExt:
             ;
 
 Dominates : LBKT DOMINATES _Dominates RBKT
+            {
+                $$ = $3;
+            }
           ;
 
 _Dominates :
-           |    _Dominates LogicNameRef
+            {
+                $$ = NULL;
+            }
+           |    _Dominates LogicNameRefData
+            {
+                $$ = ($1)?$1:new LogicListData();
+                $$->mNameDataList.push_back( $2 );
+            }
            ;
 
 Dot : LBKT DOT _Dot RBKT
@@ -1877,7 +2145,7 @@ _Dot :          PointValue
 
 Duration : LBKT DURATION ScaledInt RBKT
             {
-                delete $3;
+                $$ = $3;
             }
          ;
 
@@ -1887,7 +2155,13 @@ EncloseDist : LBKT ENCLOSUREDISTANCE RuleNameDef FigGrpObj FigGrpObj _EncloseDis
 _EncloseDist :  Range
              |  SingleValSet
              |  _EncloseDist Comment
+                {
+                    delete $2;
+                }
              |  _EncloseDist UserData
+                {
+                    delete $2;
+                }
              ;
 
 EndType : LBKT ENDTYPE _EndType RBKT
@@ -1906,10 +2180,13 @@ ___Entry :      Match
          |      Steady
          ;
 
-__Entry :       LogicRef
-        |       PortRef
-        |       NoChange
-        |       Table
+__Entry :   LogicRef
+            {
+                delete $1;
+            }
+        |   PortRef
+        |   NoChange
+        |   Table
         ;
 
 _Entry :
@@ -1917,17 +2194,522 @@ _Entry :
        |        LoadDelay
        ;
 
-Event : LBKT EVENT _Event RBKT
+Event : LBKT EVENT 
+        {
+            EventSharedPtr event;
+            EdifContextSharedPtr ctx
+                        = inDriver.getContext();
+            try
+            {
+                ctx->getFactory()->create( event );
+            }
+            catch( Error &e )
+            {
+                std::string message = constructErrorMessage(
+                        "Unable to create event" );
+                log("%s\n", message.c_str());
+                e.setCurrentLocation( __FUNCTION__,
+                                        __FILE__, __LINE__ );
+                e.saveContextData( "Parser error message", message );
+                e.saveContextData( "Filename", yyloc.begin.filename );
+                e.saveContextData( "StartLine", yyloc.begin.line );
+                e.saveContextData( "EndLine", yyloc.end.line );
+                inDriver.setParserError( e );
+                error( yyloc, message );
+                YYABORT;
+            }
+            ctx->setCurrentEvent( event );
+        } _Event RBKT
+        {
+            // Note : Need to do the followings, from where Event called
+            //EdifContextSharedPtr ctx = inDriver.getContext();
+            //ctx->setCurrentEvent( EventSharedPtr() );
+        }
       ;
 
-_Event :        PortRef
-       |        PortList
-       |        PortGroup
-       |        NetRef
-       |        NetGroup
-       |        _Event Transition
-       |        _Event Becomes
-       ;
+_Event :    EventPortRefData
+       |    EventPortListData
+       |    EventPortGroup
+       |    EventNetRefData
+       |    EventNetGroup
+       |    _Event Transition
+            {
+                EdifContextSharedPtr ctx
+                        = inDriver.getContext();
+                EventSharedPtr event
+                        = ctx->getCurrentEvent();
+                LogicElementSharedPtr logicElem
+                            = ctx->getCurrentLogicElement();
+                if( event )
+                {
+                    if( logicElem )
+                    {
+                        event->setTransition( logicElem );
+                    }
+                }
+            }
+       |    _Event Becomes
+            {
+                EdifContextSharedPtr ctx
+                        = inDriver.getContext();
+                EventSharedPtr event
+                        = ctx->getCurrentEvent();
+                LogicElementSharedPtr logicElem
+                            = ctx->getCurrentLogicElement();
+                if( event )
+                {
+                    if( logicElem )
+                    {
+                        event->setTransition( logicElem );
+                    }
+                }
+            }
+        ;
+
+EventPortRefData : PortRefData
+                {
+                    boost::scoped_ptr<PortRefData> portData( $1 );
+                    EdifContextSharedPtr ctx
+                                = inDriver.getContext();
+                    ViewSharedPtr view 
+                                = ctx->getCurrentView();
+                    std::vector< std::string > nestedNames;
+                    PortRefData *currPortRef = $1;
+                    PortRefData *nextPortRef = portData->mParentPort;
+                    nestedNames.push_back(currPortRef->mPortName->mName);
+                    while( nextPortRef )    
+                    {
+                        currPortRef = nextPortRef;
+                        nestedNames.push_back( nextPortRef->mPortName->mName );
+                        nextPortRef = currPortRef->mParentPort;
+                    }
+                    bool isPort = ( NULL == currPortRef->mInstanceName );
+                    NameData *portNameData = currPortRef->mPortName;
+                    std::string topName = *(nestedNames.rbegin());
+                    if( isPort )
+                    {
+                        PortSharedPtr port = view->findPort( topName );
+                        if( !port )
+                        {
+                            std::string message = constructErrorMessage(
+                                    "No port %s found",
+                                        portNameData->mName.c_str());
+                            log("%s\n", message.c_str());
+                            Error e( eMessageIdParserError,
+                                __FUNCTION__, __FILE__, __LINE__ );
+                            e.saveContextData( "Parser error message", message );
+                            e.saveContextData( "Filename", yyloc.begin.filename );
+                            e.saveContextData( "StartLine", yyloc.begin.line );
+                            e.saveContextData( "EndLine", yyloc.end.line );
+                            inDriver.setParserError( e );
+                            error( yyloc, message );
+                            YYABORT;
+                        }
+                        try
+                        {
+                            connectibleFinder( nestedNames, port );
+                            if( !portData->mPortName->mIndices.empty() )
+                            {
+                                port = port->get( portData->mPortName->mIndices );
+                            }
+                            EventSharedPtr event
+                                        = ctx->getCurrentEvent();
+                            event->addPort( port );
+                        }
+                        catch( Error &e )
+                        {
+                            e.setCurrentLocation(
+                                __FUNCTION__, __FILE__, __LINE__ );
+                            throw;
+                        }
+                    }
+                    else
+                    {
+                        NameData *instanceName
+                                        = currPortRef->mInstanceName;
+                        InstanceSharedPtr instance
+                                        = view->findInstance(
+                                                    instanceName->mName );
+                        if( !instance )
+                        {
+                            std::string message = constructErrorMessage(
+                                    "Instance %s not known",
+                                    instanceName->mName.c_str() );
+                            log("%s\n", message.c_str());
+                            Error e( eMessageIdParserError,
+                                __FUNCTION__, __FILE__, __LINE__ );
+                            e.saveContextData( "Parser error message", message );
+                            e.saveContextData( "Filename", yyloc.begin.filename );
+                            e.saveContextData( "StartLine", yyloc.begin.line );
+                            e.saveContextData( "EndLine", yyloc.end.line );
+                            inDriver.setParserError( e );
+                            error( yyloc, message );
+                            YYABORT;
+                        }
+                        if( !instanceName->mIndices.empty() )
+                        {
+                            InstanceSharedPtr bit
+                                    = instance->get( instanceName->mIndices );
+                            instance = bit;
+                        }
+                        PortReferenceSharedPtr portRef
+                                = instance->findPortReference( topName );
+                        if( !portRef )
+                        {
+                            std::string message = constructErrorMessage(
+                                    "No port ref %s found",
+                                        portNameData->mName.c_str());
+                            log("%s\n", message.c_str());
+                            Error e( eMessageIdParserError,
+                                __FUNCTION__, __FILE__, __LINE__ );
+                            e.saveContextData( "Parser error message", message );
+                            e.saveContextData( "Filename", yyloc.begin.filename );
+                            e.saveContextData( "StartLine", yyloc.begin.line );
+                            e.saveContextData( "EndLine", yyloc.end.line );
+                            inDriver.setParserError( e );
+                            error( yyloc, message );
+                            YYABORT;
+                        }
+                        try
+                        {
+                            connectibleFinder( nestedNames, portRef );
+                            if( !portData->mPortName->mIndices.empty() )
+                            {
+                                portRef = portRef->get( 
+                                            portData->mPortName->mIndices );
+                            }
+                            EventSharedPtr event
+                                        = ctx->getCurrentEvent();
+                            event->addPortReference( portRef );
+                        }
+                        catch( Error &e )
+                        {
+                            std::string message = constructErrorMessage(
+                                    "Unable to connect port ref : %s", 
+                                            portRef->getName().c_str());
+                            log("%s\n", message.c_str());
+                            e.setCurrentLocation( __FUNCTION__,
+                                                    __FILE__, __LINE__ );
+                            e.saveContextData( "Parser error message", message );
+                            e.saveContextData( "Filename", yyloc.begin.filename );
+                            e.saveContextData( "StartLine", yyloc.begin.line );
+                            e.saveContextData( "EndLine", yyloc.end.line );
+                            inDriver.setParserError( e );
+                            error( yyloc, message );
+                            YYABORT;
+                        }
+                    }
+                }
+                ;
+
+EventPortListData : PortListData
+                    {
+                        if( NULL != $1 && !$1->mPortRefs.empty() )
+                        {
+                            boost::scoped_ptr<PortListData> portListData( $1 );
+                            std::string message;
+
+                            EdifContextSharedPtr ctx = inDriver.getContext();
+
+                            PortListSharedPtr portList;
+                            ctx->getFactory()->create( portList );    
+
+                            for( std::vector<PortRefData *>::iterator it
+                                    = portListData->mPortRefs.begin();
+                                    it != portListData->mPortRefs.end(); ++it )
+                            {
+                                PortRefData *portData = *it;
+                                std::vector< std::string > nestedNames;
+                                PortRefData *currPortRef = *it;
+                                PortRefData *nextPortRef = portData->mParentPort;
+                                nestedNames.push_back(currPortRef->mPortName->mName);
+                                while( nextPortRef )
+                                {
+                                    currPortRef = nextPortRef;
+                                    nestedNames.push_back( nextPortRef->mPortName->mName );
+                                    nextPortRef = currPortRef->mParentPort;
+                                }
+                                bool isPort = ( NULL == currPortRef->mInstanceName );
+                                NameData *portNameData = currPortRef->mPortName;
+                                std::string topName = *(nestedNames.rbegin());
+                                ViewSharedPtr view = ctx->getCurrentView();
+                                if( isPort )
+                                {
+                                    PortSharedPtr port = view->findPort( topName );
+                                    if( !port )
+                                    {
+                                        SimulateSharedPtr simulate 
+                                                    = ctx->getCurrentSimulate();
+                                        if( simulate )
+                                        { 
+                                            PortListAliasSharedPtr portList 
+                                                        = simulate->findPortListAlias( topName );
+                                            if( !portList )
+                                            {
+                                                std::string message = constructErrorMessage(
+                                                        "No port %s found in portListAlias\n", 
+                                                            portNameData->mName.c_str());
+                                                log("%s\n", message.c_str());
+                                                Error e( eMessageIdParserError,
+                                                    __FUNCTION__, __FILE__, __LINE__ );
+                                                e.saveContextData( "Parser error message", message );
+                                                e.saveContextData( "Filename", yyloc.begin.filename );
+                                                e.saveContextData( "StartLine", yyloc.begin.line );
+                                                e.saveContextData( "EndLine", yyloc.end.line );
+                                                inDriver.setParserError( e );
+                                                error( yyloc, message );
+                                                YYABORT;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            std::string message = constructErrorMessage(
+                                                   "No port %s found in view %s",
+                                                        portNameData->mName.c_str(),
+                                                        view->getName().c_str() );
+                                            log("%s\n", message.c_str());
+                                            Error e( eMessageIdParserError,
+                                                __FUNCTION__, __FILE__, __LINE__ );
+                                            e.saveContextData( "Parser error message", message );
+                                            e.saveContextData( "Filename", yyloc.begin.filename );
+                                            e.saveContextData( "StartLine", yyloc.begin.line );
+                                            e.saveContextData( "EndLine", yyloc.end.line );
+                                            inDriver.setParserError( e );
+                                            error( yyloc, message );
+                                            YYABORT;
+                                        }
+                                    }
+                                    try
+                                    {
+                                        connectibleFinder( nestedNames, port );
+                                        if( !portData->mPortName->mIndices.empty() )
+                                        {
+                                            port = port->get( portData->mPortName->mIndices );
+                                        }
+                                        portList->addChildPort( port );
+                                    }
+                                    catch( Error &e )
+                                    {
+                                        std::string message = constructErrorMessage(
+                                                "Unable to connect port : %s", 
+                                                        port->getName().c_str());
+                                        log("%s\n", message.c_str());
+                                        e.setCurrentLocation( __FUNCTION__,
+                                                                __FILE__, __LINE__ );
+                                        e.saveContextData( "Parser error message", message );
+                                        e.saveContextData( "Filename", yyloc.begin.filename );
+                                        e.saveContextData( "StartLine", yyloc.begin.line );
+                                        e.saveContextData( "EndLine", yyloc.end.line );
+                                        inDriver.setParserError( e );
+                                        error( yyloc, message );
+                                        YYABORT;
+                                    }
+                                }
+                                else
+                                {
+                                    NameData *instanceName
+                                                    = currPortRef->mInstanceName;
+                                    InstanceSharedPtr instance
+                                                    = view->findInstance(
+                                                                instanceName->mName );
+                                    if( !instance )
+                                    {
+                                        std::string message = constructErrorMessage(
+                                                "Instance %s not known",
+                                                instanceName->mName.c_str() );
+                                        log("%s\n", message.c_str());
+                                        Error e( eMessageIdParserError,
+                                            __FUNCTION__, __FILE__, __LINE__ );
+                                        e.saveContextData( "Parser error message", message );
+                                        e.saveContextData( "Filename", yyloc.begin.filename );
+                                        e.saveContextData( "StartLine", yyloc.begin.line );
+                                        e.saveContextData( "EndLine", yyloc.end.line );
+                                        inDriver.setParserError( e );
+                                        error( yyloc, message );
+                                        YYABORT;
+                                    }
+                                    if( !instanceName->mIndices.empty() )
+                                    {
+                                        InstanceSharedPtr bit
+                                                = instance->get( instanceName->mIndices );
+                                        instance = bit;
+                                    }
+                                    PortReferenceSharedPtr portRef
+                                            = instance->findPortReference( topName );
+                                    if( !portRef )
+                                    {
+                                        std::string message = constructErrorMessage(
+                                                "No port ref %s found",
+                                                    portNameData->mName.c_str());
+                                        log("%s\n", message.c_str());
+                                        Error e( eMessageIdParserError,
+                                            __FUNCTION__, __FILE__, __LINE__ );
+                                        e.saveContextData( "Parser error message", message );
+                                        e.saveContextData( "Filename", yyloc.begin.filename );
+                                        e.saveContextData( "StartLine", yyloc.begin.line );
+                                        e.saveContextData( "EndLine", yyloc.end.line );
+                                        inDriver.setParserError( e );
+                                        error( yyloc, message );
+                                        YYABORT;
+                                    }
+                                    try
+                                    {
+                                        connectibleFinder( nestedNames, portRef );
+                                        if( !portData->mPortName->mIndices.empty() )
+                                        {
+                                            portRef = portRef->get( 
+                                                        portData->mPortName->mIndices );
+                                        }
+                                        portList->addChildPortReference( portRef );
+                                    }
+                                    catch( Error &e )
+                                    {
+                                        std::string message = constructErrorMessage(
+                                                "Unable to connect port ref : %s", 
+                                                        portRef->getName().c_str());
+                                        log("%s\n", message.c_str());
+                                        e.setCurrentLocation( __FUNCTION__,
+                                                                __FILE__, __LINE__ );
+                                        e.saveContextData( "Parser error message", message );
+                                        e.saveContextData( "Filename", yyloc.begin.filename );
+                                        e.saveContextData( "StartLine", yyloc.begin.line );
+                                        e.saveContextData( "EndLine", yyloc.end.line );
+                                        inDriver.setParserError( e );
+                                        error( yyloc, message );
+                                        YYABORT;
+                                    }
+                                }
+                            }
+                            EventSharedPtr event
+                                        = ctx->getCurrentEvent();
+                            event->setPortList( portList );
+                        }
+                    }
+                    ; 
+
+EventNetRefData : NetRefData
+                {
+                    boost::scoped_ptr<NetRefData> netData( $1 );
+                    EdifContextSharedPtr ctx
+                                = inDriver.getContext();
+                    ViewSharedPtr view 
+                                = ctx->getCurrentView();
+                    std::vector< std::string > nestedNames;
+                    NetRefData *currNetRef = $1;
+                    NetRefData *nextNetRef = netData->mParentNet;
+                    nestedNames.push_back(currNetRef->mNetName->mName);
+                    while( nextNetRef )    
+                    {
+                        currNetRef = nextNetRef;
+                        nestedNames.push_back( nextNetRef->mNetName->mName );
+                        nextNetRef = currNetRef->mParentNet;
+                    }
+                    bool isNet = ( NULL == currNetRef->mInstanceName );
+                    NameData *netNameData = currNetRef->mNetName;
+                    std::string topName = *(nestedNames.rbegin());
+                    if( isNet )
+                    {
+                        NetSharedPtr net = view->findNet( topName );
+                        if( !net )
+                        {
+                            std::string message = constructErrorMessage(
+                                    "No Net %s found",
+                                        netNameData->mName.c_str());
+                            log("%s\n", message.c_str());
+                            Error e( eMessageIdParserError,
+                                __FUNCTION__, __FILE__, __LINE__ );
+                            e.saveContextData( "Parser error message", message );
+                            e.saveContextData( "Filename", yyloc.begin.filename );
+                            e.saveContextData( "StartLine", yyloc.begin.line );
+                            e.saveContextData( "EndLine", yyloc.end.line );
+                            inDriver.setParserError( e );
+                            error( yyloc, message );
+                            YYABORT;
+                        }
+                        try
+                        {
+                            connectibleFinder( nestedNames, net );
+                            if( !netData->mNetName->mIndices.empty() )
+                            {
+                                net = net->get( netData->mNetName->mIndices );
+                            }
+                            EventSharedPtr event
+                                        = ctx->getCurrentEvent();
+                            event->addNet( net );
+                        }
+                        catch( Error &e )
+                        {
+                            e.setCurrentLocation(
+                                __FUNCTION__, __FILE__, __LINE__ );
+                            throw;
+                        }
+                    }
+                    else
+                    {
+                        NameData *instanceName
+                                        = currNetRef->mInstanceName;
+                        InstanceSharedPtr instance
+                                        = view->findInstance(
+                                                    instanceName->mName );
+                        if( !instance )
+                        {
+                            std::string message = constructErrorMessage(
+                                    "Instance %s not known",
+                                    instanceName->mName.c_str() );
+                            log("%s\n", message.c_str());
+                            Error e( eMessageIdParserError,
+                                __FUNCTION__, __FILE__, __LINE__ );
+                            e.saveContextData( "Parser error message", message );
+                            e.saveContextData( "Filename", yyloc.begin.filename );
+                            e.saveContextData( "StartLine", yyloc.begin.line );
+                            e.saveContextData( "EndLine", yyloc.end.line );
+                            inDriver.setParserError( e );
+                            error( yyloc, message );
+                            YYABORT;
+                        }
+                        if( !instanceName->mIndices.empty() )
+                        {
+                            InstanceSharedPtr bit
+                                    = instance->get( instanceName->mIndices );
+                            instance = bit;
+                        }
+                        NetSharedPtr net = view->findNet( topName );
+                        if( !net )
+                        {
+                            std::string message = constructErrorMessage(
+                                    "No Net ref %s found",
+                                        netNameData->mName.c_str());
+                            log("%s\n", message.c_str());
+                            Error e( eMessageIdParserError,
+                                __FUNCTION__, __FILE__, __LINE__ );
+                            e.saveContextData( "Parser error message", message );
+                            e.saveContextData( "Filename", yyloc.begin.filename );
+                            e.saveContextData( "StartLine", yyloc.begin.line );
+                            e.saveContextData( "EndLine", yyloc.end.line );
+                            inDriver.setParserError( e );
+                            error( yyloc, message );
+                            YYABORT;
+                        }
+                        try
+                        {
+                            connectibleFinder( nestedNames, net );
+                            if( !netData->mNetName->mIndices.empty() )
+                            {
+                                net = net->get( netData->mNetName->mIndices );
+                            }
+                            EventSharedPtr event
+                                        = ctx->getCurrentEvent();
+                            event->addNet( net );
+                        }
+                        catch( Error &e )
+                        {
+                            e.setCurrentLocation(
+                                __FUNCTION__, __FILE__, __LINE__ );
+                            throw;
+                        }
+                    }
+                }
+                ;
 
 Exactly : LBKT EXACTLY ScaledInt RBKT
             {
@@ -2024,6 +2806,7 @@ External : LBKT EXTERNAL LibNameDef EdifLevel
                                 lib->getName().c_str(), level );
                 }
                 ctx->setCurrentLibrary( lib );
+                ctx->pushStatusContainer( lib );
             }
             else
             {
@@ -2033,6 +2816,7 @@ External : LBKT EXTERNAL LibNameDef EdifLevel
         {
             inDriver.getContext()->setCurrentLibrary(
                                     LibrarySharedPtr() );
+            inDriver.getContext()->popStatusContainer();
         }
         ;
          ;
@@ -2041,7 +2825,19 @@ _External :     Technology
           |     _External Status
           |     _External Cell
           |     _External Comment
+                {
+                    EdifContextSharedPtr ctx = inDriver.getContext();
+                    LibrarySharedPtr lib = ctx->getCurrentLibrary();
+                    lib->addComment( *$2 );
+                    delete $2;
+                }
           |     _External UserData
+                {
+                    EdifContextSharedPtr ctx = inDriver.getContext();
+                    LibrarySharedPtr lib = ctx->getCurrentLibrary();
+                    lib->addUserData( *$2 );
+                    delete $2;
+                }
           ;
 
 Fabricate : LBKT FABRICATE LayerNameDef FigGrpNameRef RBKT
@@ -2064,8 +2860,14 @@ _FigGrp :       FigGrpNameDef
         |       _FigGrp TextHeight
         |       _FigGrp Visible
         |       _FigGrp Comment
+                {
+                    delete $2;
+                }
         |       _FigGrp Property
         |       _FigGrp UserData
+                {
+                    delete $2;
+                }
         |       _FigGrp IncFigGrp
         ;
 
@@ -2097,8 +2899,14 @@ _FigGrpOver :   FigGrpNameRef
             |   _FigGrpOver TextHeight
             |   _FigGrpOver Visible
             |   _FigGrpOver Comment
+                {
+                    delete $2;
+                }
             |   _FigGrpOver Property
             |   _FigGrpOver UserData
+                {
+                    delete $2;
+                }
             ;
 
 FigGrpRef : LBKT FIGUREGROUPREF FigGrpNameRef _FigGrpRef RBKT
@@ -2121,7 +2929,13 @@ _Figure :       FigGrpNameDef
         |       _Figure Rectangle
         |       _Figure Shape
         |       _Figure Comment
+                {
+                    delete $2;
+                }
         |       _Figure UserData
+                {
+                    delete $2;
+                }
         ;
 
 FigureArea : LBKT FIGUREAREA RuleNameDef FigGrpObj _FigureArea RBKT
@@ -2130,7 +2944,13 @@ FigureArea : LBKT FIGUREAREA RuleNameDef FigGrpObj _FigureArea RBKT
 _FigureArea :   Range
             |   SingleValSet
             |   _FigureArea Comment
+                {
+                    delete $2;
+                }
             |   _FigureArea UserData
+                {
+                    delete $2;
+                }
             ;
 
 FigureOp :      Intersection
@@ -2147,7 +2967,13 @@ FigurePerim : LBKT FIGUREPERIMETER RuleNameDef FigGrpObj _FigurePerim RBKT
 _FigurePerim :  Range
              |  SingleValSet
              |  _FigurePerim Comment
+                {
+                    delete $2;
+                }
              |  _FigurePerim UserData
+                {
+                    delete $2;
+                }
              ;
 
 FigureWidth : LBKT FIGUREWIDTH RuleNameDef FigGrpObj _FigureWidth RBKT
@@ -2156,7 +2982,13 @@ FigureWidth : LBKT FIGUREWIDTH RuleNameDef FigGrpObj _FigureWidth RBKT
 _FigureWidth :  Range
              |  SingleValSet
              |  _FigureWidth Comment
+                {
+                    delete $2;
+                }
              |  _FigureWidth UserData
+                {
+                    delete $2;
+                }
              ;
 
 FillPattern : LBKT FILLPATTERN Int Int Boolean RBKT
@@ -2180,11 +3012,52 @@ _Follow :       PortRef
         |       _Follow LoadDelay
         ;
 
-Forbidden : LBKT FORBIDDENEVENT _Forbidden RBKT
-          ;
+Forbidden : LBKT FORBIDDENEVENT 
+            {
+                ForbiddenEventSharedPtr forbiddenEvent;
+                EdifContextSharedPtr ctx
+                            = inDriver.getContext();
+                try
+                {
+                    ctx->getFactory()->create( forbiddenEvent );
+                }
+                catch( Error &e )
+                {
+                    std::string message = constructErrorMessage(
+                            "Unable to create forbiddenEvent" );
+                    log("%s\n", message.c_str());
+                    e.setCurrentLocation( __FUNCTION__,
+                                            __FILE__, __LINE__ );
+                    e.saveContextData( "Parser error message", message );
+                    e.saveContextData( "Filename", yyloc.begin.filename );
+                    e.saveContextData( "StartLine", yyloc.begin.line );
+                    e.saveContextData( "EndLine", yyloc.end.line );
+                    inDriver.setParserError( e );
+                    error( yyloc, message );
+                    YYABORT;
+                }
+                ctx->setCurrentForbiddenEvent( forbiddenEvent );
+                TimingSharedPtr timing = ctx->getCurrentTiming();
+                timing->addForbiddenEvent( forbiddenEvent );
+            } _Forbidden RBKT
+            {
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                ctx->setCurrentForbiddenEvent( ForbiddenEventSharedPtr() );
+            }
+            ;
 
-_Forbidden :    TimeIntval
-           |    _Forbidden Event
+_Forbidden : TimeIntval
+           | _Forbidden Event
+             {
+                 EdifContextSharedPtr ctx = inDriver.getContext();
+                 ForbiddenEventSharedPtr forbiddenEvent 
+                             = ctx->getCurrentForbiddenEvent();
+                 EventSharedPtr event
+                         = ctx->getCurrentEvent();
+                 event->setType( Event::eTypeEvent );
+                 forbiddenEvent->addEvent( event );
+                 ctx->setCurrentEvent( EventSharedPtr() );
+             }
            ;
 
 Form : LBKT
@@ -2192,26 +3065,23 @@ Form : LBKT
             inDriver.getLexer()->setIsIdContext( true );
         }
         Keyword _Form RBKT
-           ;
+        ;
 
 _Form :
-      |         _Form Int
-                  {
-                    if( $2 );
-                }
-      |         _Form Str
-                  {
-                    delete $2;
-                }
-      |         _Form Ident
-                  {
-                    delete $2;
-                }
-      |         _Form Form
+      | _Form Int
+        {
+            if( $2 );
+        }
+      | _Form Str
+        {
+            delete $2;
+        }
+      | _Form Ident
+        {
+            delete $2;
+        }
+      | _Form Form
       ;
-
-GlobPortRef : LBKT GLOBALPORTREF PortNameRef RBKT
-            ;
 
 GlobPortRefData : LBKT GLOBALPORTREF PortNameRefData RBKT
             {
@@ -2233,6 +3103,34 @@ GridMap : LBKT GRIDMAP ScaledInt ScaledInt RBKT
         ;
 
 Ignore : LBKT IGNORE RBKT
+        {
+            LogicElementSharedPtr ignoreLogicElem;
+            EdifContextSharedPtr ctx
+                        = inDriver.getContext();
+            try
+            {
+                ctx->getFactory()->create( ignoreLogicElem );
+                ignoreLogicElem->setType( LogicElement::eTypeIgnored );
+            }
+            catch( Error &e )
+            {
+                std::string message = constructErrorMessage(
+                        "Unable to create Ignore" );
+                log("%s\n", message.c_str());
+                e.setCurrentLocation( __FUNCTION__,
+                                        __FILE__, __LINE__ );
+                e.saveContextData( "Parser error message", message );
+                e.saveContextData( "Filename", yyloc.begin.filename );
+                e.saveContextData( "StartLine", yyloc.begin.line );
+                e.saveContextData( "EndLine", yyloc.end.line );
+                inDriver.setParserError( e );
+                error( yyloc, message );
+                YYABORT;
+            }
+            LogicElementSharedPtr logicElem
+                            = ctx->getCurrentLogicElement();
+            logicElem->addChildLogicElement( ignoreLogicElem );
+        }
        ;
 
 IncFigGrp : LBKT INCLUDEFIGUREGROUP _IncFigGrp RBKT
@@ -2366,7 +3264,8 @@ Instance : LBKT INSTANCE InstNameDef
                     catch(Error &e)
                     {
                         std::string message = constructErrorMessage(
-                                "Unable to create Instance : %s", instance->getName().c_str());
+                                "Unable to create Instance : %s", 
+                                        instance->getName().c_str());
                         log("%s\n", message.c_str());
                         e.setCurrentLocation( __FUNCTION__,
                                                 __FILE__, __LINE__ );
@@ -2398,7 +3297,8 @@ Instance : LBKT INSTANCE InstNameDef
                     catch(Error &e)
                     {
                         std::string message = constructErrorMessage(
-                                "Unable to create Instance Array : %s", instance->getName().c_str());
+                                "Unable to create Instance Array : %s", 
+                                        instance->getName().c_str());
                         log("%s\n", message.c_str());
                         e.setCurrentLocation( __FUNCTION__,
                                                 __FILE__, __LINE__ );
@@ -2411,6 +3311,7 @@ Instance : LBKT INSTANCE InstNameDef
                         YYABORT;
                     }
                 }
+                ctx->setCurrentInstance( instance );
                 try
                 {
                     instance->bindToMasterView( masterView );
@@ -2435,8 +3336,8 @@ Instance : LBKT INSTANCE InstNameDef
                     else
                     {
                         //Create Port references now
-                        PortRefCreator<PortReferenceSharedPtr> creator( ctx->getFactory(),
-                                                        instance );
+                        PortRefCreator<PortReferenceSharedPtr> 
+                                creator( ctx->getFactory(), instance );
                         masterView->applyOnAllPorts(
                             VisitorApplier< PortRefCreator<PortReferenceSharedPtr> >( creator ) );
                     }
@@ -2504,7 +3405,8 @@ Instance : LBKT INSTANCE InstNameDef
                         //SIZE MISMATCH
                         std::string message = constructErrorMessage(
                                 "Params size mismatch : %d with %d",
-                                    pA->mValueData->mValues.size(), chkP->getSize());
+                                    pA->mValueData->mValues.size(), 
+                                    chkP->getSize());
                         log("%s\n", message.c_str());
                         Error e( eMessageIdParserError,
                             __FUNCTION__, __FILE__, __LINE__ );
@@ -2644,7 +3546,8 @@ Instance : LBKT INSTANCE InstNameDef
                     catch( Error &e )
                     {
                         std::string message = constructErrorMessage(
-                                "Unable to connect port ref : %s", portRef->getName().c_str());
+                                "Unable to connect port ref : %s", 
+                                    portRef->getName().c_str());
                         log("%s\n", message.c_str());
                         e.setCurrentLocation( __FUNCTION__,
                                                 __FILE__, __LINE__ );
@@ -2657,7 +3560,31 @@ Instance : LBKT INSTANCE InstNameDef
                         YYABORT;
                     }
                 }
-            }
+                //Handle UserData
+                for( std::vector< std::string >::iterator it
+                        = info->mUserData.begin();
+                        it != info->mUserData.end(); ++it )
+                {
+                    std::string val = *it;
+                    instance->addUserData( val );
+                }
+                //Handle Comment
+                for( std::vector< std::string >::iterator it
+                        = info->mComment.begin();
+                        it != info->mComment.end(); ++it )
+                {
+                    std::string val = *it;
+                    instance->addComment( val );
+                }
+                //Handle Designator
+                instance->setDesignator( info->mDesignator );
+                
+                //Handle Timing
+                instance->setTiming( info->mTiming );
+
+                inDriver.getContext()->setCurrentInstance( 
+                                            InstanceSharedPtr() );
+            } 
          ;
 
 _Instance :     ViewRefData
@@ -2685,11 +3612,17 @@ _Instance :     ViewRefData
             }
           |     _Instance Timing
             {
-                $$ = $1;
+                $$ = ($1)?$1:new InstanceInfo();
+                EdifContextSharedPtr ctx
+                                = inDriver.getContext();
+                TimingSharedPtr timing
+                        = ctx->getCurrentTiming();
+                $$->mTiming = timing;
             }
-          |     _Instance Designator
+          |     _Instance DesignatorData
             {
-                $$ = $1;
+                $$ = ($1)?$1:new InstanceInfo();
+                $$->mDesignator = *$2;
             }
           |     _Instance Property
             {
@@ -2697,11 +3630,13 @@ _Instance :     ViewRefData
             }
           |     _Instance Comment
             {
-                $$ = $1;
+                $$ = ($1)?$1:new InstanceInfo();
+                $$->mComment.push_back( *$2 );
             }
           |     _Instance UserData
             {
-                $$ = $1;
+                $$ = ($1)?$1:new InstanceInfo();
+                $$->mUserData.push_back( *$2 );
             }
           ;
 
@@ -2742,6 +3677,9 @@ _InstBackAn :   InstanceRef
             |   _InstBackAn Timing
             |   _InstBackAn Property
             |   _InstBackAn Comment
+                {
+                    delete $2;
+                }
             ;
 
 InstGroup : LBKT INSTANCEGROUP _InstGroup RBKT
@@ -2758,7 +3696,13 @@ _InstMap :
          |      _InstMap InstanceRef
          |      _InstMap InstGroup
          |      _InstMap Comment
+                {
+                    delete $2;
+                }
          |      _InstMap UserData
+                {
+                    delete $2;
+                }
          ;
 
 InstNameDef :   NameDefData
@@ -2835,25 +3779,95 @@ _Integer :
          ;
 
 Interface : LBKT INTERFACE _Interface RBKT
+            {
+                $$ = $3;
+            }
           ;
 
 _Interface :
+            {
+                $$ = NULL;
+            }
            |    _Interface Port
+                {
+                    $$ = $1;
+                }
            |    _Interface PortBundle
+                {
+                    $$ = $1;
+                }
            |    _Interface Symbol
+                {
+                    $$ = $1;
+                }
            |    _Interface ProtectFrame
+                {
+                    $$ = $1;
+                }
            |    _Interface ArrayRelInfo
+                {
+                    $$ = $1;
+                }
            |    _Interface Parameter
+                {
+                    $$ = $1;
+                }
            |    _Interface Joined
+                {
+                    $$ = $1;
+                }
            |    _Interface MustJoin
+                {
+                    $$ = $1;
+                }
            |    _Interface WeakJoined
+                {
+                    $$ = $1;
+                }
            |    _Interface Permutable
+                {
+                    $$ = $1;
+                }
            |    _Interface Timing
+                {
+                    $$ = ($1)?$1:new InterfaceAttributes();
+                    EdifContextSharedPtr ctx
+                                    = inDriver.getContext();
+                    TimingSharedPtr timing
+                            = ctx->getCurrentTiming();
+                    $$->setTiming( timing );
+                    ctx->setCurrentTiming( TimingSharedPtr() );
+                }
            |    _Interface Simulate
-           |    _Interface Designator
+                {
+                    $$ = ($1)?$1:new InterfaceAttributes();
+                    EdifContextSharedPtr ctx
+                                    = inDriver.getContext();
+                    SimulateSharedPtr simulate
+                            = ctx->getCurrentSimulate();
+                    $$->setSimulate( simulate );
+                    ctx->setCurrentSimulate( SimulateSharedPtr() );
+                }
+           |    _Interface DesignatorData
+                {
+                    $$ = ($1)?$1:new InterfaceAttributes();
+                    $$->setDesignator( *$2 );
+                }
            |    _Interface Property
+                {
+                    $$ = $1;
+                }
            |    _Interface Comment
+                {
+                    $$ = ($1)?$1:new InterfaceAttributes();
+                    $$->addComment( *$2 );
+                }
            |    _Interface UserData
+                {
+                    $$ = ($1)?$1:new InterfaceAttributes();
+                    $$->addUserData( *$2 );
+                    delete $2;
+                }
            ;
 
 InterFigGrp : LBKT INTERFIGUREGROUPSPACING RuleNameDef FigGrpObj FigGrpObj _InterFigGrp RBKT
@@ -2862,7 +3876,13 @@ InterFigGrp : LBKT INTERFIGUREGROUPSPACING RuleNameDef FigGrpObj FigGrpObj _Inte
 _InterFigGrp :  Range
              |  SingleValSet
              |  _InterFigGrp Comment
+                {
+                    delete $2;
+                }
              |  _InterFigGrp UserData
+                {
+                    delete $2;
+                }
              ;
 
 Intersection : LBKT INTERSECTION _Intersection RBKT
@@ -2880,7 +3900,13 @@ IntraFigGrp : LBKT INTRAFIGUREGROUPSPACING RuleNameDef FigGrpObj _IntraFigGrp RB
 _IntraFigGrp :  Range
              |  SingleValSet
              |  _IntraFigGrp Comment
+                {
+                    delete $2;
+                }
              |  _IntraFigGrp UserData
+                {
+                    delete $2;
+                }
              ;
 
 Inverse : LBKT INVERSE _Inverse RBKT
@@ -2893,13 +3919,343 @@ _Inverse :      FigGrpRef
 Isolated : LBKT ISOLATED RBKT
          ;
 
-Joined : LBKT JOINED _Joined RBKT
+Joined : LBKT JOINED 
+            {
+                InterfaceJoinedInfoSharedPtr joinedInfo;
+                EdifContextSharedPtr ctx
+                                    = inDriver.getContext();
+                try
+                {
+                    ctx->getFactory()->create( joinedInfo );
+                    joinedInfo->setJoinedType( 
+                            InterfaceJoinedInfo::eJoinedTypeJoin );
+                }
+                catch( Error &e )
+                {
+                    std::string message = constructErrorMessage(
+                            "Unable to create joined info" );
+                    log("%s\n", message.c_str());
+                    e.setCurrentLocation( __FUNCTION__,
+                                            __FILE__, __LINE__ );
+                    e.saveContextData( "Parser error message", message );
+                    e.saveContextData( "Filename", yyloc.begin.filename );
+                    e.saveContextData( "StartLine", yyloc.begin.line );
+                    e.saveContextData( "EndLine", yyloc.end.line );
+                    inDriver.setParserError( e );
+                    error( yyloc, message );
+                    YYABORT;
+                }
+                if(ctx->getInterfaceJoinedInfoDepth() == 0 )
+                {
+                    ctx->getCurrentView()->addInterfaceJoinedInfo( joinedInfo );
+                }
+                ctx->pushInterfaceJoinedInfo( joinedInfo );
+                ctx->incrementInterfaceJoinedInfoDepth();
+            } _Joined RBKT
+            {
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                InterfaceJoinedInfoSharedPtr currentJoinedInfo 
+                        = ctx->getCurrentInterfaceJoinedInfo();
+                ctx->popInterfaceJoinedInfo();
+                InterfaceJoinedInfoSharedPtr parentJoinedInfo; 
+                if(ctx->getInterfaceJoinedInfoDepth() > 1 )
+                {
+                    parentJoinedInfo = ctx->getCurrentInterfaceJoinedInfo();
+                }
+                ctx->decrementInterfaceJoinedInfoDepth();
+                if( parentJoinedInfo )
+                {
+                    parentJoinedInfo->setRelationType( 
+                            InterfaceJoinedInfo::eRelationTypeParent );
+                    currentJoinedInfo->setRelationType( 
+                            InterfaceJoinedInfo::eRelationTypeChild );
+                    //Check size
+                    size_t parentJoinedInfoSize = parentJoinedInfo->getSize();
+                    size_t currentJoinedInfoSize = currentJoinedInfo->getSize();
+
+                    log("Parent joined info Size :: %d\n",
+                            parentJoinedInfoSize ); 
+                    log("Current joined info Size :: %d\n", 
+                            currentJoinedInfoSize );
+
+                    //std::cout << "Parent joined info Size :: " << parentJoinedInfoSize << std::endl;
+                    //std::cout << "Current joined info Size :: " << currentJoinedInfoSize << std::endl;
+
+                    std::vector< InterfaceJoinedInfoSharedPtr > outJoinedInfos;
+                    parentJoinedInfo->getChildren( outJoinedInfos );
+
+                    std::list< PortSharedPtr > outPorts;
+                    parentJoinedInfo->getPorts( outPorts );
+                    
+                    std::list< PortListSharedPtr > outPortLists;
+                    parentJoinedInfo->getPortLists( outPortLists );
+                    
+                    if( parentJoinedInfoSize != 0 ) 
+                    {
+                        if( parentJoinedInfoSize
+                                == currentJoinedInfoSize )
+                        {
+                            parentJoinedInfo->addChildJoinedInfo(
+                                    currentJoinedInfo );
+                        }
+                        else
+                        {
+                            std::string message = constructErrorMessage(
+                                    "Child joined info can't be added, port size mismatch %d with %d",
+                                        parentJoinedInfoSize,
+                                        currentJoinedInfoSize);
+                            log("%s\n", message.c_str());
+                            Error e( eMessageIdParserError,
+                                __FUNCTION__, __FILE__, __LINE__ );
+                            e.saveContextData( "Parser error message", message );
+                            e.saveContextData( "Filename", yyloc.begin.filename );
+                            e.saveContextData( "StartLine", yyloc.begin.line );
+                            e.saveContextData( "EndLine", yyloc.end.line );
+                            inDriver.setParserError( e );
+                            error( yyloc, message );
+                            YYABORT;
+                        }
+                    }
+                    else
+                    {
+                        parentJoinedInfo->addChildJoinedInfo(
+                                currentJoinedInfo );
+                    }
+                } 
+                else
+                {
+                    ctx->pushInterfaceJoinedInfo( currentJoinedInfo );
+                }              
+            }
        ;
 
 _Joined :
-        |   _Joined PortRef
-        |   _Joined PortList
-        |   _Joined GlobPortRef
+        |   _Joined PortRefData
+        {
+                boost::scoped_ptr<PortRefData> portData( $2 );
+                NameData *portNameData = portData->mPortName;
+                std::string name = portNameData->mName;
+                EdifContextSharedPtr ctx
+                                    = inDriver.getContext();
+                ViewSharedPtr view = ctx->getCurrentView();
+
+                PortRefData *currPortRef = $2;
+                PortRefData *nextPortRef = portData->mParentPort;
+                std::vector< std::string > nestedNames;
+                nestedNames.push_back(currPortRef->mPortName->mName);
+                while( nextPortRef )
+                {
+                    currPortRef = nextPortRef;
+                    nestedNames.push_back( nextPortRef->mPortName->mName );
+                    nextPortRef = currPortRef->mParentPort;
+                }
+                bool isPort = ( NULL == currPortRef->mInstanceName );
+                std::string topName = *(nestedNames.rbegin());
+                if( isPort )
+                {
+                    PortSharedPtr port = view->findPort( topName );
+                    if( !port )
+                    {
+                        std::string message = constructErrorMessage(
+                                "No port %s found in view %s\n", 
+                                            name.c_str(),
+                                            view->getName().c_str());
+                        log("%s\n", message.c_str());
+                        Error e( eMessageIdParserError,
+                            __FUNCTION__, __FILE__, __LINE__ );
+                        e.saveContextData( "Parser error message", message );
+                        e.saveContextData( "Filename", yyloc.begin.filename );
+                        e.saveContextData( "StartLine", yyloc.begin.line );
+                        e.saveContextData( "EndLine", yyloc.end.line );
+                        inDriver.setParserError( e );
+                        error( yyloc, message );
+                        YYABORT;
+                    }
+
+                    InterfaceJoinedInfoSharedPtr currentJoinedInfo 
+                                        = ctx->getCurrentInterfaceJoinedInfo();
+                    try
+                    {             
+                        connectibleFinder( nestedNames, port );  
+                        if( !portData->mPortName->mIndices.empty() )
+                        {
+                            port = port->get( portData->mPortName->mIndices );
+                        }
+                        //Check port size
+                        std::list< PortSharedPtr > outPorts;
+                        currentJoinedInfo->getPorts( outPorts );
+                        
+                        if( !outPorts.empty() )
+                        {
+                            PortSharedPtr firstPort = outPorts.front();
+                            std::list< PortSharedPtr >::iterator it
+                                            = std::find( outPorts.begin(), outPorts.end(),
+                                                    port);
+                            if( it != outPorts.end() )
+                            {
+                                std::string message = constructErrorMessage(
+                                            "Port %s already exist in joined info",
+                                                port->getName().c_str() );
+                                    log("%s\n", message.c_str());
+                                    Error e( eMessageIdParserError,
+                                        __FUNCTION__, __FILE__, __LINE__ );
+                                    e.saveContextData( "Parser error message", message );
+                                    e.saveContextData( "Filename", yyloc.begin.filename );
+                                    e.saveContextData( "StartLine", yyloc.begin.line );
+                                    e.saveContextData( "EndLine", yyloc.end.line );
+                                    inDriver.setParserError( e );
+                                    error( yyloc, message );
+                                    YYABORT;
+                            }
+                            else
+                            {
+                                if( firstPort->getSize() == port->getSize() )
+                                {
+                                    currentJoinedInfo->addPort( port );
+                                }
+                                else
+                                {
+                                    std::string message = constructErrorMessage(
+                                            "Port %s can't be added, port size mismatch %d with %d",
+                                                name.c_str(),
+                                                firstPort->getSize(),
+                                                port->getSize());
+                                    log("%s\n", message.c_str());
+                                    Error e( eMessageIdParserError,
+                                        __FUNCTION__, __FILE__, __LINE__ );
+                                    e.saveContextData( "Parser error message", message );
+                                    e.saveContextData( "Filename", yyloc.begin.filename );
+                                    e.saveContextData( "StartLine", yyloc.begin.line );
+                                    e.saveContextData( "EndLine", yyloc.end.line );
+                                    inDriver.setParserError( e );
+                                    error( yyloc, message );
+                                    YYABORT;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            currentJoinedInfo->addPort( port );
+                        }
+                    }
+                    catch( Error &e )
+                    {
+                        e.setCurrentLocation(
+                            __FUNCTION__, __FILE__, __LINE__ );
+                        throw;
+                    }
+                }
+                else
+                {
+                }
+            }
+        |   _Joined PortListData
+            {
+                if( NULL != $2 && !$2->mPortRefs.empty() )
+                {
+                    boost::scoped_ptr<PortListData> portListData( $2 );
+                    std::string message;
+
+                    EdifContextSharedPtr ctx = inDriver.getContext();
+                    PortListSharedPtr portList;
+                    ctx->getFactory()->create( portList );
+
+                    InterfaceJoinedInfoSharedPtr currentJoinedInfo 
+                                = ctx->getCurrentInterfaceJoinedInfo();
+
+                    for( std::vector<PortRefData *>::iterator it
+                            = portListData->mPortRefs.begin();
+                            it != portListData->mPortRefs.end(); ++it )
+                    {
+                        PortRefData *portData = *it;
+                        std::vector< std::string > nestedNames;
+                        PortRefData *currPortRef = *it;
+                        PortRefData *nextPortRef = portData->mParentPort;
+                        nestedNames.push_back(currPortRef->mPortName->mName);
+                        while( nextPortRef )
+                        {
+                            currPortRef = nextPortRef;
+                            nestedNames.push_back( nextPortRef->mPortName->mName );
+                            nextPortRef = currPortRef->mParentPort;
+                        }
+                        bool isPort = ( NULL == currPortRef->mInstanceName );
+                        NameData *portNameData = currPortRef->mPortName;
+                        std::string topName = *(nestedNames.rbegin());
+                        ViewSharedPtr view = ctx->getCurrentView();
+                        if( isPort )
+                        {
+                            PortSharedPtr port = view->findPort( topName );
+                            if( !port )
+                            {
+                                std::string message = constructErrorMessage(
+                                        "No port %s found in view %s\n", 
+                                            portNameData->mName.c_str(),
+                                            view->getName().c_str());
+                                log("%s\n", message.c_str());
+                                Error e( eMessageIdParserError,
+                                    __FUNCTION__, __FILE__, __LINE__ );
+                                e.saveContextData( "Parser error message", message );
+                                e.saveContextData( "Filename", yyloc.begin.filename );
+                                e.saveContextData( "StartLine", yyloc.begin.line );
+                                e.saveContextData( "EndLine", yyloc.end.line );
+                                inDriver.setParserError( e );
+                                error( yyloc, message );
+                                YYABORT;
+                            }
+
+                            try
+                            {
+                                connectibleFinder( nestedNames, port );
+                                if( !portData->mPortName->mIndices.empty() )
+                                {
+                                    port = port->get( portData->mPortName->mIndices );
+                                }
+                                portList->addChildPort( port );
+                            }
+                            catch( Error &e )
+                            {
+                                std::string message = constructErrorMessage(
+                                        "Unable to connect port : %s", 
+                                                port->getName().c_str());
+                                log("%s\n", message.c_str());
+                                e.setCurrentLocation( __FUNCTION__,
+                                                        __FILE__, __LINE__ );
+                                e.saveContextData( "Parser error message", message );
+                                e.saveContextData( "Filename", yyloc.begin.filename );
+                                e.saveContextData( "StartLine", yyloc.begin.line );
+                                e.saveContextData( "EndLine", yyloc.end.line );
+                                inDriver.setParserError( e );
+                                error( yyloc, message );
+                                YYABORT;
+                            }
+                        }
+                        else
+                        {
+                        }
+                    }
+                    if( currentJoinedInfo->getSize() == portList->getSize() )
+                    {
+                        currentJoinedInfo->addPortList( portList );
+                    }
+                    else
+                    {
+                        std::string message = constructErrorMessage(
+                                "Port size mismatch %d with %d",
+                                    currentJoinedInfo->getSize(),
+                                    portList->getSize());
+                        log("%s\n", message.c_str());
+                        Error e( eMessageIdParserError,
+                            __FUNCTION__, __FILE__, __LINE__ );
+                        e.saveContextData( "Parser error message", message );
+                        e.saveContextData( "Filename", yyloc.begin.filename );
+                        e.saveContextData( "StartLine", yyloc.begin.line );
+                        e.saveContextData( "EndLine", yyloc.end.line );
+                        inDriver.setParserError( e );
+                        error( yyloc, message );
+                        YYABORT;
+                    }
+                }
+            }
         ;
 
 JoinedElements : LBKT JOINED _JoinedElements RBKT
@@ -2984,7 +4340,8 @@ _JoinedElements :
                             catch( Error &e )
                             {
                                 std::string message = constructErrorMessage(
-                                        "Unable to connect port : %s", port->getName().c_str());
+                                        "Unable to connect port : %s", 
+                                                port->getName().c_str());
                                 log("%s\n", message.c_str());
                                 e.setCurrentLocation( __FUNCTION__,
                                                         __FILE__, __LINE__ );
@@ -3049,14 +4406,16 @@ _JoinedElements :
                                 connectibleFinder( nestedNames, portRef );
                                 if( !portData->mPortName->mIndices.empty() )
                                 {
-                                    portRef = portRef->get( portData->mPortName->mIndices );
+                                    portRef = portRef->get( 
+                                                portData->mPortName->mIndices );
                                 }
                                 portList->addChildPortReference( portRef );
                             }
                             catch( Error &e )
                             {
                                 std::string message = constructErrorMessage(
-                                        "Unable to connect port ref : %s", portRef->getName().c_str());
+                                        "Unable to connect port ref : %s", 
+                                                portRef->getName().c_str());
                                 log("%s\n", message.c_str());
                                 e.setCurrentLocation( __FUNCTION__,
                                                         __FILE__, __LINE__ );
@@ -3103,7 +4462,8 @@ _JoinedElements :
                     catch( Error &e )
                     {
                         std::string message = constructErrorMessage(
-                                "Unable to connect port : %s", port->getName().c_str());
+                                "Unable to connect port : %s", 
+                                        port->getName().c_str());
                         log("%s\n", message.c_str());
                         e.setCurrentLocation( __FUNCTION__,
                                                 __FILE__, __LINE__ );
@@ -3121,7 +4481,7 @@ _JoinedElements :
                     std::vector< InstanceSharedPtr > instances;
                     view->getInstances( instances );
                     for( std::vector< InstanceSharedPtr >::iterator it
-                                = instances.begin(); it != instances.end(); ++it )
+                        = instances.begin(); it != instances.end(); ++it )
                     {
                         if( eCompositionTypeScalar
                             == (*it)->getCompositionType() )
@@ -3134,8 +4494,8 @@ _JoinedElements :
                         }
                     }
                 }
-                for( std::vector< InstanceSharedPtr >::iterator it = leafInstances.begin();
-                        it != leafInstances.end(); ++it )
+                for( std::vector< InstanceSharedPtr >::iterator it 
+                    = leafInstances.begin(); it != leafInstances.end(); ++it )
                 {
                     PortReferenceSharedPtr pRef
                                  = (*it)->findPortReference( name );
@@ -3149,7 +4509,8 @@ _JoinedElements :
                         catch( Error &e )
                         {
                             std::string message = constructErrorMessage(
-                                    "Unable to connect port : %s", pRef->getName().c_str());
+                                    "Unable to connect port : %s", 
+                                            pRef->getName().c_str());
                             log("%s\n", message.c_str());
                             e.setCurrentLocation( __FUNCTION__,
                                                     __FILE__, __LINE__ );
@@ -3198,6 +4559,9 @@ KeywordMap : LBKT KEYWORDMAP _KeywordMap RBKT
 
 _KeywordMap :   KeywordLevel
             |   _KeywordMap Comment
+                {
+                    delete $2;
+                }
             ;
 
 KeywordName :   Ident
@@ -3312,7 +4676,8 @@ Library :  LBKT LIBRARY LibNameDef EdifLevel
                     catch( Error &e )
                     {
                         std::string message = constructErrorMessage(
-                                "Unable to create lib : %s", lib->getName().c_str());
+                                "Unable to create lib : %s", 
+                                        lib->getName().c_str());
                         log("%s\n", message.c_str());
                         e.setCurrentLocation( __FUNCTION__,
                                                 __FILE__, __LINE__ );
@@ -3336,6 +4701,7 @@ Library :  LBKT LIBRARY LibNameDef EdifLevel
                                 lib->getName().c_str(), level );
                 }
                 ctx->setCurrentLibrary( lib );
+                ctx->pushStatusContainer( lib );
                 delete $3;
             }
             else
@@ -3346,14 +4712,27 @@ Library :  LBKT LIBRARY LibNameDef EdifLevel
         {
             inDriver.getContext()->setCurrentLibrary(
                                     LibrarySharedPtr() );
+            inDriver.getContext()->popStatusContainer();
         }
         ;
 
-_Library :      Technology
-         |      _Library Status
-         |      _Library Cell
-         |      _Library Comment
-         |      _Library UserData
+_Library : Technology
+         | _Library Status
+         | _Library Cell
+         | _Library Comment
+           {
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                LibrarySharedPtr lib = ctx->getCurrentLibrary();
+                lib->addComment( *$2 );
+                delete $2;
+           }
+         | _Library UserData
+           {
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                LibrarySharedPtr lib = ctx->getCurrentLibrary();
+                lib->addUserData( *$2 );
+                delete $2;
+           }
          ;
 
 LibraryRef : LBKT LIBRARYREF LibNameRef RBKT
@@ -3377,7 +4756,7 @@ ListOfPorts : LBKT LISTOFPORTS _ListOfPorts RBKT
 
 _ListOfPorts :
              | _ListOfPorts Port
-             |  _ListOfPorts PortBundle
+             | _ListOfPorts PortBundle
              ;
 
 LoadDelayData : LBKT LOADDELAY _LoadDelayData _LoadDelayData RBKT
@@ -3413,6 +4792,9 @@ ___LogicAssn :  PortNameRef
 
 __LogicAssn :   PortRef
             |   LogicRef
+                {
+                    delete $1;
+                }
             |   Table
             ;
 
@@ -3421,58 +4803,603 @@ _LogicAssn :
            |    LoadDelay
            ;
 
-LogicIn : LBKT LOGICINPUT _LogicIn RBKT
+LogicIn : LBKT LOGICINPUT 
+        {
+            LogicalResponseSharedPtr logicalResponse;
+            EdifContextSharedPtr ctx
+                        = inDriver.getContext();
+            try
+            {
+                ctx->getFactory()->create( logicalResponse );
+            }
+            catch( Error &e )
+            {
+                std::string message = constructErrorMessage(
+                        "Unable to create logicInput/logicOutput" );
+                log("%s\n", message.c_str());
+                e.setCurrentLocation( __FUNCTION__,
+                                        __FILE__, __LINE__ );
+                e.saveContextData( "Parser error message", message );
+                e.saveContextData( "Filename", yyloc.begin.filename );
+                e.saveContextData( "StartLine", yyloc.begin.line );
+                e.saveContextData( "EndLine", yyloc.end.line );
+                inDriver.setParserError( e );
+                error( yyloc, message );
+                YYABORT;
+            }
+            logicalResponse->setResponseType( LogicalResponse::eResponseTypeInput );
+            ctx->setCurrentLogicalResponse( logicalResponse );
+            ApplySharedPtr apply
+                    = ctx->getCurrentApply();
+            apply->addLogicResponse( logicalResponse );
+        } _LogicIn RBKT
+        {
+            EdifContextSharedPtr ctx = inDriver.getContext();
+            ctx->setCurrentLogicalResponse( LogicalResponseSharedPtr() );
+        }
         ;
 
-_LogicIn :      PortList
-         |      PortRef
-         |      PortNameRef
-         |      _LogicIn LogicWave
+_LogicIn :  CommonPortData
+         |  _LogicIn LogicWave
+         ; 
+
+CommonPortData :  PortListData
+            {
+                if( NULL != $1 && !$1->mPortRefs.empty() )
+                {
+                    boost::scoped_ptr<PortListData> portListData( $1 );
+                    std::string message;
+
+                    EdifContextSharedPtr ctx = inDriver.getContext();
+                    LogicalResponseSharedPtr logicalResponse 
+                                = ctx->getCurrentLogicalResponse();
+
+                    PortListSharedPtr portList;
+                    ctx->getFactory()->create( portList );    
+
+                    for( std::vector<PortRefData *>::iterator it
+                            = portListData->mPortRefs.begin();
+                            it != portListData->mPortRefs.end(); ++it )
+                    {
+                        PortRefData *portData = *it;
+                        std::vector< std::string > nestedNames;
+                        PortRefData *currPortRef = *it;
+                        PortRefData *nextPortRef = portData->mParentPort;
+                        nestedNames.push_back(currPortRef->mPortName->mName);
+                        while( nextPortRef )
+                        {
+                            currPortRef = nextPortRef;
+                            nestedNames.push_back( nextPortRef->mPortName->mName );
+                            nextPortRef = currPortRef->mParentPort;
+                        }
+                        bool isPort = ( NULL == currPortRef->mInstanceName );
+                        NameData *portNameData = currPortRef->mPortName;
+                        std::string topName = *(nestedNames.rbegin());
+                        ViewSharedPtr view = ctx->getCurrentView();
+                        if( isPort )
+                        {
+                            PortSharedPtr port = view->findPort( topName );
+                            if( !port )
+                            {
+                                SimulateSharedPtr simulate 
+                                            = ctx->getCurrentSimulate(); 
+                                PortListAliasSharedPtr portList 
+                                            = simulate->findPortListAlias( topName );
+                                if( !portList )
+                                {
+                                    std::string message = constructErrorMessage(
+                                            "No port %s found in view/portListAlias\n", 
+                                                portNameData->mName.c_str());
+                                    log("%s\n", message.c_str());
+                                    Error e( eMessageIdParserError,
+                                        __FUNCTION__, __FILE__, __LINE__ );
+                                    e.saveContextData( "Parser error message", message );
+                                    e.saveContextData( "Filename", yyloc.begin.filename );
+                                    e.saveContextData( "StartLine", yyloc.begin.line );
+                                    e.saveContextData( "EndLine", yyloc.end.line );
+                                    inDriver.setParserError( e );
+                                    error( yyloc, message );
+                                    YYABORT;
+                                }
+                            }
+
+                            try
+                            {
+                                connectibleFinder( nestedNames, port );
+                                if( !portData->mPortName->mIndices.empty() )
+                                {
+                                    port = port->get( portData->mPortName->mIndices );
+                                }
+                                portList->addChildPort( port );
+                            }
+                            catch( Error &e )
+                            {
+                                std::string message = constructErrorMessage(
+                                        "Unable to connect port : %s", 
+                                                port->getName().c_str());
+                                log("%s\n", message.c_str());
+                                e.setCurrentLocation( __FUNCTION__,
+                                                        __FILE__, __LINE__ );
+                                e.saveContextData( "Parser error message", message );
+                                e.saveContextData( "Filename", yyloc.begin.filename );
+                                e.saveContextData( "StartLine", yyloc.begin.line );
+                                e.saveContextData( "EndLine", yyloc.end.line );
+                                inDriver.setParserError( e );
+                                error( yyloc, message );
+                                YYABORT;
+                            }
+                        }
+                        else
+                        {
+                        }
+                    }
+                    logicalResponse->setConnectedPortList( portList );
+                }
+            }
+         |  PortRefData
+            {
+                boost::scoped_ptr<PortRefData> portData( $1 );
+                NameData *portNameData = portData->mPortName;
+                std::string name = portNameData->mName;
+                EdifContextSharedPtr ctx
+                                = inDriver.getContext();
+                ViewSharedPtr view = ctx->getCurrentView();
+
+                PortRefData *currPortRef = $1;
+                PortRefData *nextPortRef = portData->mParentPort;
+                std::vector< std::string > nestedNames;
+                nestedNames.push_back(currPortRef->mPortName->mName);
+                while( nextPortRef )
+                {
+                    currPortRef = nextPortRef;
+                    nestedNames.push_back( nextPortRef->mPortName->mName );
+                    nextPortRef = currPortRef->mParentPort;
+                }
+
+                bool isPort = ( NULL == currPortRef->mInstanceName );
+                std::string topName = *(nestedNames.rbegin());
+                if( isPort )
+                {
+                    PortSharedPtr port = view->findPort( topName );
+                    if( !port )
+                    {
+                        std::string message = constructErrorMessage(
+                                "No port %s found in view %s\n", 
+                                            name.c_str(),
+                                            view->getName().c_str());
+                        log("%s\n", message.c_str());
+                        Error e( eMessageIdParserError,
+                            __FUNCTION__, __FILE__, __LINE__ );
+                        e.saveContextData( "Parser error message", message );
+                        e.saveContextData( "Filename", yyloc.begin.filename );
+                        e.saveContextData( "StartLine", yyloc.begin.line );
+                        e.saveContextData( "EndLine", yyloc.end.line );
+                        inDriver.setParserError( e );
+                        error( yyloc, message );
+                        YYABORT;
+                    }
+
+                    LogicalResponseSharedPtr logicalResponse 
+                                = ctx->getCurrentLogicalResponse();
+                    try
+                    {             
+                        connectibleFinder( nestedNames, port );  
+                        if( !portData->mPortName->mIndices.empty() )
+                        {
+                            port = port->get( portData->mPortName->mIndices );
+                        }
+                        logicalResponse->setConnectedPort( port );
+                    }
+                    catch( Error &e )
+                    {
+                        e.setCurrentLocation(
+                            __FUNCTION__, __FILE__, __LINE__ );
+                        throw;
+                    }
+                }
+            }
+         |  PortNameRefData
+            {
+                boost::scoped_ptr<NameData> portData( $1 );
+                std::string name = portData->mName;
+                EdifContextSharedPtr ctx
+                                = inDriver.getContext();
+                ViewSharedPtr view = ctx->getCurrentView();
+                PortSharedPtr port = view->findPort( name );
+                LogicalResponseSharedPtr logicalResponse 
+                                = ctx->getCurrentLogicalResponse();
+                if( !port )
+                {
+                    SimulateSharedPtr simulate 
+                                = ctx->getCurrentSimulate(); 
+                    PortListAliasSharedPtr portListAlias 
+                                = simulate->findPortListAlias( name );
+                    if( !portListAlias )
+                    {
+                        std::string message = constructErrorMessage(
+                                "No port %s found in view/portListAlias\n", 
+                                            name.c_str());
+                        log("%s\n", message.c_str());
+                        Error e( eMessageIdParserError,
+                            __FUNCTION__, __FILE__, __LINE__ );
+                        e.saveContextData( "Parser error message", message );
+                        e.saveContextData( "Filename", yyloc.begin.filename );
+                        e.saveContextData( "StartLine", yyloc.begin.line );
+                        e.saveContextData( "EndLine", yyloc.end.line );
+                        inDriver.setParserError( e );
+                        error( yyloc, message );
+                        YYABORT;
+                    }
+                    else
+                    {
+                        logicalResponse->setConnectedPortListAlias( portListAlias );
+                    }
+                }
+                else
+                {
+                    logicalResponse->setConnectedPort( port );
+                }
+            }
          ;
 
-LogicList : LBKT LOGICLIST _LogicList RBKT
+LogicList : LBKT LOGICLIST 
+            {
+                LogicElementSharedPtr logicElem;
+                EdifContextSharedPtr ctx
+                                    = inDriver.getContext();
+                try
+                {
+                    ctx->getFactory()->create( logicElem );
+                    logicElem->setType( LogicElement::eTypeList );
+                }
+                catch( Error &e )
+                {
+                    std::string message = constructErrorMessage(
+                            "Unable to create logicList" );
+                    log("%s\n", message.c_str());
+                    e.setCurrentLocation( __FUNCTION__,
+                                            __FILE__, __LINE__ );
+                    e.saveContextData( "Parser error message", message );
+                    e.saveContextData( "Filename", yyloc.begin.filename );
+                    e.saveContextData( "StartLine", yyloc.begin.line );
+                    e.saveContextData( "EndLine", yyloc.end.line );
+                    inDriver.setParserError( e );
+                    error( yyloc, message );
+                    YYABORT;
+                }
+                ctx->pushLogicElement( logicElem );
+                ctx->incrementLogicElementDepth();
+            } _LogicList RBKT
+            {
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                LogicElementSharedPtr currentLogicElem
+                            = ctx->getCurrentLogicElement();
+                ctx->popLogicElement();
+                LogicElementSharedPtr parentLogicElem;
+                if(ctx->getLogicElementDepth() > 1 )
+                {
+                    parentLogicElem = ctx->getCurrentLogicElement();
+                }
+                ctx->decrementLogicElementDepth();
+                if( parentLogicElem )
+                {                    
+                    parentLogicElem->setRelationType( 
+                            LogicElement::eRelationTypeParent );
+                    currentLogicElem->setRelationType( 
+                            LogicElement::eRelationTypeChild );
+                    //Check size
+                    size_t parentLogicElemSize = parentLogicElem->getSize();
+                    size_t currentLogicElemSize = currentLogicElem->getSize();
+
+                    log("Parent LogicList Size :: %d\n",
+                            parentLogicElemSize); 
+                    log("Current LogicList Size :: %d\n", 
+                            currentLogicElemSize);
+
+                    //std::cout << "Parent LogicList Size :: " << parentLogicElemSize << std::endl;
+                    //std::cout << "Current LogicList Size :: " << currentLogicElemSize << std::endl;
+ 
+                    if( parentLogicElemSize != 0 )                   
+                    {
+                        if( parentLogicElemSize == currentLogicElemSize )
+                        {
+                            parentLogicElem->addChildLogicElement( currentLogicElem );
+                        }
+                        else
+                        {
+                            std::string message = constructErrorMessage(
+                                    "Child logicList can't be added, size mismatch %d with %d",
+                                        parentLogicElemSize,
+                                        currentLogicElemSize);
+                            log("%s\n", message.c_str());
+                            Error e( eMessageIdParserError,
+                                __FUNCTION__, __FILE__, __LINE__ );
+                            e.saveContextData( "Parser error message", message );
+                            e.saveContextData( "Filename", yyloc.begin.filename );
+                            e.saveContextData( "StartLine", yyloc.begin.line );
+                            e.saveContextData( "EndLine", yyloc.end.line );
+                            inDriver.setParserError( e );
+                            error( yyloc, message );
+                            YYABORT;
+                        }
+                    }
+                    else
+                    {
+                        parentLogicElem->addChildLogicElement( currentLogicElem );
+                    }
+                } 
+                else
+                {
+                    ctx->pushLogicElement( currentLogicElem );
+                    ctx->incrementLogicElementDepth();
+                }              
+            }
           ;
 
 _LogicList :
-           |    _LogicList LogicNameRef
+           |    _LogicList LogicNameData
            |    _LogicList LogicOneOf
            |    _LogicList Ignore
            ;
 
-LogicMapIn : LBKT LOGICMAPINPUT _LogicMapIn RBKT
+LogicMapIn : LBKT LOGICMAPINPUT LogicRef RBKT
+            {
+                $$ = $3;
+            }
            ;
 
-_LogicMapIn :
-            |   _LogicMapIn LogicNameRef
+LogicMapOut : LBKT LOGICMAPOUTPUT LogicRef RBKT
+            {
+                $$ = $3;
+            }
             ;
 
-LogicMapOut : LBKT LOGICMAPOUTPUT _LogicMapOut RBKT
-            ;
-
-_LogicMapOut :
-             |  _LogicMapOut LogicNameRef
+LogicNameDef :  NameDefData
              ;
 
-LogicNameDef :  NameDef
-             ;
+LogicNameRefData :  NameRef
+                    {
+                        $$ = $1;
+                    }
+                ;
 
 LogicNameRef :  NameRef
              ;
 
-LogicOneOf : LBKT LOGICONEOF _LogicOneOf RBKT
+LogicOneOf : LBKT LOGICONEOF 
+            {
+                LogicElementSharedPtr logicElem;
+                EdifContextSharedPtr ctx
+                                    = inDriver.getContext();
+                try
+                {
+                    ctx->getFactory()->create( logicElem );
+                    logicElem->setType( LogicElement::eTypeOneOf );
+                }
+                catch( Error &e )
+                {
+                    std::string message = constructErrorMessage(
+                            "Unable to create logicOneOf" );
+                    log("%s\n", message.c_str());
+                    e.setCurrentLocation( __FUNCTION__,
+                                            __FILE__, __LINE__ );
+                    e.saveContextData( "Parser error message", message );
+                    e.saveContextData( "Filename", yyloc.begin.filename );
+                    e.saveContextData( "StartLine", yyloc.begin.line );
+                    e.saveContextData( "EndLine", yyloc.end.line );
+                    inDriver.setParserError( e );
+                    error( yyloc, message );
+                    YYABORT;
+                }
+                ctx->pushLogicElement( logicElem );
+                ctx->incrementLogicElementDepth();
+            } _LogicOneOf RBKT
+            {
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                LogicElementSharedPtr currentLogicElem
+                            = ctx->getCurrentLogicElement();
+                ctx->popLogicElement();
+                LogicElementSharedPtr parentLogicElem;
+                if(ctx->getLogicElementDepth() > 1 )
+                {
+                    parentLogicElem = ctx->getCurrentLogicElement();
+                }
+                ctx->decrementLogicElementDepth();
+                if( parentLogicElem )
+                {                    
+                    parentLogicElem->setRelationType( 
+                            LogicElement::eRelationTypeParent );
+                    currentLogicElem->setRelationType( 
+                            LogicElement::eRelationTypeChild );
+                    //Check size
+                    size_t parentLogicElemSize = parentLogicElem->getSize();
+                    size_t currentLogicElemSize = currentLogicElem->getSize();
+
+                    log("Parent LogicOneOf Size :: %d\n",
+                            parentLogicElemSize); 
+                    log("Current LogicOneOf Size :: %d\n", 
+                            currentLogicElemSize);
+
+                    //std::cout << "Parent LogicOneOf Size :: " << parentLogicElemSize << std::endl;
+                    //std::cout << "Current LogicOneOf Size :: " << currentLogicElemSize << std::endl;
+                
+                    if( parentLogicElemSize != 0 )
+                    {
+                        if( parentLogicElemSize == currentLogicElemSize )
+                        {
+                            parentLogicElem->addChildLogicElement( currentLogicElem );
+                        }
+                        else
+                        {
+                            std::string message = constructErrorMessage(
+                                    "Child logictOneOf can't be added, size mismatch %d with %d",
+                                        parentLogicElemSize,
+                                        currentLogicElemSize);
+                            log("%s\n", message.c_str());
+                            Error e( eMessageIdParserError,
+                                __FUNCTION__, __FILE__, __LINE__ );
+                            e.saveContextData( "Parser error message", message );
+                            e.saveContextData( "Filename", yyloc.begin.filename );
+                            e.saveContextData( "StartLine", yyloc.begin.line );
+                            e.saveContextData( "EndLine", yyloc.end.line );
+                            inDriver.setParserError( e );
+                            error( yyloc, message );
+                            YYABORT;
+                        }
+                    }
+                    else
+                    {
+                        parentLogicElem->addChildLogicElement( currentLogicElem );
+                    }
+                } 
+                else
+                {
+                    ctx->pushLogicElement( currentLogicElem );
+                    ctx->incrementLogicElementDepth();
+                }              
+            }
            ;
 
+LogicNameData : LogicNameRefData
+            {
+                boost::scoped_ptr<NameData> logicData( $1 );
+                std::string name = logicData->mName;
+                EdifContextSharedPtr ctx
+                                = inDriver.getContext();
+                LibrarySharedPtr lib 
+                                = ctx->getCurrentLibrary();
+                SimulationInfoSharedPtr simuInfo
+                                = lib->getSimulationInfo();
+                if( !simuInfo )
+                {
+                    std::string message = constructErrorMessage(
+                                        "SimulatioInfo not found in %s library",
+                                            lib->getName().c_str() );
+                    log("%s\n", message.c_str());
+                    Error e( eMessageIdParserError,
+                        __FUNCTION__, __FILE__, __LINE__ );
+                    e.saveContextData( "Parser error message", message );
+                    e.saveContextData( "Filename", yyloc.begin.filename );
+                    e.saveContextData( "StartLine", yyloc.begin.line );
+                    e.saveContextData( "EndLine", yyloc.end.line );
+                    inDriver.setParserError( e );
+                    error( yyloc, message );
+                    YYABORT;
+                }
+                LogicValueSharedPtr logicVal
+                                = simuInfo->findLogicValue( name );
+                if( !logicVal )
+                {
+                    SimulateSharedPtr simulate
+                                = ctx->getCurrentSimulate();
+                    if( simulate )
+                    {
+                        WaveValueSharedPtr waveValue
+                                    = simulate->findWaveValue( name );
+                        if( !waveValue )
+                        {
+                            std::string message = constructErrorMessage(
+                                                "Wave Value %s not found",
+                                                    logicData->mName.c_str() );
+                            log("%s\n", message.c_str());
+                            Error e( eMessageIdParserError,
+                                __FUNCTION__, __FILE__, __LINE__ );
+                            e.saveContextData( "Parser error message", message );
+                            e.saveContextData( "Filename", yyloc.begin.filename );
+                            e.saveContextData( "StartLine", yyloc.begin.line );
+                            e.saveContextData( "EndLine", yyloc.end.line );
+                            inDriver.setParserError( e );
+                            error( yyloc, message );
+                            YYABORT;
+                        }
+                    }
+                    else
+                    {
+                        std::string message = constructErrorMessage(
+                                            "Logic Value %s not found",
+                                                name.c_str() );
+                        log("%s\n", message.c_str());
+                        Error e( eMessageIdParserError,
+                            __FUNCTION__, __FILE__, __LINE__ );
+                        e.saveContextData( "Parser error message", message );
+                        e.saveContextData( "Filename", yyloc.begin.filename );
+                        e.saveContextData( "StartLine", yyloc.begin.line );
+                        e.saveContextData( "EndLine", yyloc.end.line );
+                        inDriver.setParserError( e );
+                        error( yyloc, message );
+                        YYABORT;
+                    }
+                }
+                LogicElementSharedPtr singleElem;
+                try
+                {
+                    ctx->getFactory()->create( singleElem );
+                    singleElem->setType( LogicElement::eTypeSingle );
+                    singleElem->setName( name );
+                }
+                catch( Error &e )
+                {
+                    std::string message = constructErrorMessage(
+                            "Unable to create logic single element" );
+                    log("%s\n", message.c_str());
+                    e.setCurrentLocation( __FUNCTION__,
+                                            __FILE__, __LINE__ );
+                    e.saveContextData( "Parser error message", message );
+                    e.saveContextData( "Filename", yyloc.begin.filename );
+                    e.saveContextData( "StartLine", yyloc.begin.line );
+                    e.saveContextData( "EndLine", yyloc.end.line );
+                    inDriver.setParserError( e );
+                    error( yyloc, message );
+                    YYABORT;
+                }
+                LogicElementSharedPtr logicElem
+                                = ctx->getCurrentLogicElement();
+                logicElem->addChildLogicElement( singleElem );
+            }
+          ;  
+
 _LogicOneOf :
-            |   _LogicOneOf LogicNameRef
+            |   _LogicOneOf LogicNameData
             |   _LogicOneOf LogicList
             ;
 
-LogicOut : LBKT LOGICOUTPUT _LogicOut RBKT
-         ;
+LogicOut : LBKT LOGICOUTPUT 
+        {
+            LogicalResponseSharedPtr logicalResponse;
+            EdifContextSharedPtr ctx
+                        = inDriver.getContext();
+            try
+            {
+                ctx->getFactory()->create( logicalResponse );
+            }
+            catch( Error &e )
+            {
+                std::string message = constructErrorMessage(
+                        "Unable to create logicOutput" );
+                log("%s\n", message.c_str());
+                e.setCurrentLocation( __FUNCTION__,
+                                        __FILE__, __LINE__ );
+                e.saveContextData( "Parser error message", message );
+                e.saveContextData( "Filename", yyloc.begin.filename );
+                e.saveContextData( "StartLine", yyloc.begin.line );
+                e.saveContextData( "EndLine", yyloc.end.line );
+                inDriver.setParserError( e );
+                error( yyloc, message );
+                YYABORT;
+            }
+            logicalResponse->setResponseType( LogicalResponse::eResponseTypeOutput );
+            ctx->setCurrentLogicalResponse( logicalResponse );
+            ApplySharedPtr apply
+                    = ctx->getCurrentApply();
+            apply->addLogicResponse( logicalResponse );
+        }  _LogicOut RBKT
+        {
+            EdifContextSharedPtr ctx = inDriver.getContext();
+            ctx->setCurrentLogicalResponse( LogicalResponseSharedPtr() );
+        }
+        ;
 
-_LogicOut :     PortList
-          |     PortRef
-          |     PortNameRef
+_LogicOut :     CommonPortData     
           |     _LogicOut LogicWave
           ;
 
@@ -3482,41 +5409,679 @@ LogicPort : LBKT LOGICPORT _LogicPort RBKT
 _LogicPort :    PortNameDef
            |    _LogicPort Property
            |    _LogicPort Comment
+                {
+                    delete $2;
+                }
            |    _LogicPort UserData
+                {
+                    delete $2;
+                }
            ;
 
-LogicRef : LBKT LOGICREF LogicNameRef _LogicRef RBKT
+LogicRef : LBKT LOGICREF LogicNameRefData _LogicRef RBKT
+            {
+                if( NULL == $4 )
+                {
+                    $$ = new LogicRefData();
+                }
+                else
+                {
+                    $$ = $4;
+                }
+                $$->mLogicName = $3;
+            }
          ;
 
 _LogicRef :
-          |     LibraryRef
+            {
+                $$ = NULL;
+            }
+          |     LibraryRefData
+            {
+                $$ = new LogicRefData();
+                $$->mLibraryName = $1;
+            }
           ;
 
-LogicValue : LBKT LOGICVALUE _LogicValue RBKT
+LogicValue : LBKT LOGICVALUE LogicNameDef
+            {
+                boost::scoped_ptr<NameData> nameData( $3 );
+                std::string name = nameData->mName;
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                LogicValueSharedPtr logicVal;
+                SimulationInfoSharedPtr simuInfo
+                            = ctx->getCurrentSimulationInfo();
+                logicVal = simuInfo->findLogicValue( name );
+                if( logicVal )
+                {
+                    log("Found existing logic value\n");
+                    std::string message = constructErrorMessage(
+                        "Logic value %s already exists in simulation info\n", 
+                            name.c_str() );
+                    log("%s\n", message.c_str());
+                    Error e( eMessageIdParserError,
+                        __FUNCTION__, __FILE__, __LINE__ );
+                    e.saveContextData( "Parser error message", message );
+                    e.saveContextData( "Filename", yyloc.begin.filename );
+                    e.saveContextData( "StartLine", yyloc.begin.line );
+                    e.saveContextData( "EndLine", yyloc.end.line );
+                    inDriver.setParserError( e );
+                    error( yyloc, message );
+                    YYABORT;
+                }
+                else
+                {
+                    try
+                    {
+                        ctx->getFactory()->create( logicVal );
+                    }
+                    catch( Error &e )
+                    {
+                        std::string message = constructErrorMessage(
+                            "Unable to create Logic Value : %s", name.c_str());
+                        log("%s\n", message.c_str());
+                        e.setCurrentLocation( __FUNCTION__,
+                                                __FILE__, __LINE__ );
+                        e.saveContextData( "Parser error message", message );
+                        e.saveContextData( "Filename", yyloc.begin.filename );
+                        e.saveContextData( "StartLine", yyloc.begin.line );
+                        e.saveContextData( "EndLine", yyloc.end.line );
+                        inDriver.setParserError( e );
+                        error( yyloc, message );
+                        YYABORT;
+                    }
+                    logicVal->setName( name );
+                    if( !nameData->mOriginalName.empty() )
+                    {
+                        logicVal->setOriginalName( nameData->mOriginalName );
+                    }
+                    logicVal->setParent( simuInfo );
+                    simuInfo->addLogicValue( logicVal );
+                    log( "Created Logic Value %s\n", logicVal->getName().c_str() );
+                } 
+                ctx->setCurrentLogicValue( logicVal );
+                ctx->pushPropertyContainer( logicVal ); 
+            } _LogicValue RBKT
+            {
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                LogicValueSharedPtr logicVal = ctx->getCurrentLogicValue();
+                if( $5 )
+                {
+                    boost::shared_ptr<LogicValueAttributes> attrib( $5 );
+                    logicVal->setAttributes( attrib );
+                }
+                ctx->setCurrentLogicValue( LogicValueSharedPtr() );
+                ctx->popPropertyContainer();
+            }
            ;
 
-_LogicValue :   LogicNameDef
+_LogicValue : 
+                {
+                    $$ = NULL;
+                }
             |   _LogicValue VoltageMap
+                {
+                    boost::scoped_ptr<ValueData> data($2);
+                    $$ = ($1) ? $1 : new LogicValueAttributes();
+                    $$->setVoltageMap( data->mValues[0].get<Value::MiNoMax>() );
+                }
             |   _LogicValue CurrentMap
+                {
+                    boost::scoped_ptr<ValueData> data($2);
+                    $$ = ($1) ? $1 : new LogicValueAttributes();
+                    $$->setCurrentMap( data->mValues[0].get<Value::MiNoMax>() );
+                }
             |   _LogicValue BooleanMap
+                {
+                    $$ = ($1) ? $1 : new LogicValueAttributes();
+                    Value::Boolean val = $2;
+                    $$->setBooleanMap( val );
+                }
             |   _LogicValue Compound
+                {
+                    $$ = ($1) ? $1 : new LogicValueAttributes();
+                    std::list< LogicValueSharedPtr > logicValues;
+                    boost::scoped_ptr<LogicListData> logicListData( $2 );
+                    if( NULL != $2 && !$2->mNameDataList.empty() )
+                    {
+                        for( std::list<NameData *>::iterator it
+                                = logicListData->mNameDataList.begin();
+                                it != logicListData->mNameDataList.end(); it++ )
+                        {
+                            NameData *pNameData = *it;
+                            std::string name = pNameData->mName;
+                            EdifContextSharedPtr ctx = inDriver.getContext();
+                            LogicValueSharedPtr logicVal;
+                            SimulationInfoSharedPtr simuInfo
+                                    = ctx->getCurrentSimulationInfo();
+                            logicVal = simuInfo->findLogicValue( name ); 
+                            if( !logicVal )
+                            {
+                                std::string message = constructErrorMessage(
+                                                    "Logic Value %s not found",
+                                                        name.c_str() );
+                                log("%s\n", message.c_str());
+                                Error e( eMessageIdParserError,
+                                    __FUNCTION__, __FILE__, __LINE__ );
+                                e.saveContextData( "Parser error message", message );
+                                e.saveContextData( "Filename", yyloc.begin.filename );
+                                e.saveContextData( "StartLine", yyloc.begin.line );
+                                e.saveContextData( "EndLine", yyloc.end.line );
+                                inDriver.setParserError( e );
+                                error( yyloc, message );
+                                YYABORT;
+                            }
+                            else
+                            {
+                                if( !logicValues.empty() )
+                                {
+                                    std::list< LogicValueSharedPtr >::iterator logicIt 
+                                        = std::find( logicValues.begin(), logicValues.end(), logicVal ); 
+                                    if( logicIt != logicValues.end() )
+                                    {
+                                        std::string message = constructErrorMessage(
+                                                "Logic value %s already exist in compound list",
+                                                     name.c_str());
+                                        log("%s\n", message.c_str());
+                                        Error e( eMessageIdParserError,
+                                            __FUNCTION__, __FILE__, __LINE__ );
+                                        e.saveContextData( "Parser error message", message );
+                                        e.saveContextData( "Filename", yyloc.begin.filename );
+                                        e.saveContextData( "StartLine", yyloc.begin.line );
+                                        e.saveContextData( "EndLine", yyloc.end.line );
+                                        inDriver.setParserError( e );
+                                        error( yyloc, message );
+                                        YYABORT;
+                                    }
+                                    else
+                                    {
+                                        logicValues.push_back( logicVal );
+                                    }
+                                }
+                                else
+                                {
+                                    logicValues.push_back( logicVal );
+                                }
+                            }
+                        }
+                        $$->setCompoundLogicValues( logicValues );
+                    }
+                }
             |   _LogicValue Weak
+                {
+                    boost::scoped_ptr<NameData> pNameData( $2 );
+                    std::string name = pNameData->mName;
+                    EdifContextSharedPtr ctx = inDriver.getContext();
+                    LogicValueSharedPtr logicVal;
+                    SimulationInfoSharedPtr simuInfo
+                                = ctx->getCurrentSimulationInfo();
+                    logicVal = simuInfo->findLogicValue( name );
+                    if( !logicVal )
+                    {
+                        std::string message = constructErrorMessage(
+                                            "Logic Value %s not found",
+                                                name.c_str() );
+                        log("%s\n", message.c_str());
+                        Error e( eMessageIdParserError,
+                            __FUNCTION__, __FILE__, __LINE__ );
+                        e.saveContextData( "Parser error message", message );
+                        e.saveContextData( "Filename", yyloc.begin.filename );
+                        e.saveContextData( "StartLine", yyloc.begin.line );
+                        e.saveContextData( "EndLine", yyloc.end.line );
+                        inDriver.setParserError( e );
+                        error( yyloc, message );
+                        YYABORT;
+                    }
+                    else
+                    {
+                        $$ = ($1) ? $1 : new LogicValueAttributes();
+                        $$->setWeakLogicValue( logicVal );
+                    }
+                }
             |   _LogicValue Strong
+                {
+                    boost::scoped_ptr<NameData> pNameData( $2 );
+                    std::string name = pNameData->mName;
+                    EdifContextSharedPtr ctx = inDriver.getContext();
+                    LogicValueSharedPtr logicVal;
+                    SimulationInfoSharedPtr simuInfo
+                                = ctx->getCurrentSimulationInfo();
+                    logicVal = simuInfo->findLogicValue( name );
+                    if( !logicVal )
+                    {
+                        std::string message = constructErrorMessage(
+                                            "Logic Value %s not found",
+                                                name.c_str() );
+                        log("%s\n", message.c_str());
+                        Error e( eMessageIdParserError,
+                            __FUNCTION__, __FILE__, __LINE__ );
+                        e.saveContextData( "Parser error message", message );
+                        e.saveContextData( "Filename", yyloc.begin.filename );
+                        e.saveContextData( "StartLine", yyloc.begin.line );
+                        e.saveContextData( "EndLine", yyloc.end.line );
+                        inDriver.setParserError( e );
+                        error( yyloc, message );
+                        YYABORT;
+                    }
+                    else
+                    {
+                        $$ = ($1) ? $1 : new LogicValueAttributes();
+                        $$->setStrongLogicValue( logicVal );
+                    }
+                }
             |   _LogicValue Dominates
+                {
+                    $$ = ($1) ? $1 : new LogicValueAttributes();
+                    std::list< LogicValueSharedPtr > logicValues;
+                    boost::scoped_ptr<LogicListData> logicListData( $2 );
+                    if( NULL != $2 && !$2->mNameDataList.empty() )
+                    {
+                        for( std::list<NameData *>::iterator it
+                                = logicListData->mNameDataList.begin();
+                                it != logicListData->mNameDataList.end(); it++ )
+                        {
+                            NameData *pNameData = *it;
+                            std::string name = pNameData->mName;
+                            EdifContextSharedPtr ctx = inDriver.getContext();
+                            LogicValueSharedPtr logicVal;
+                            SimulationInfoSharedPtr simuInfo
+                                    = ctx->getCurrentSimulationInfo();
+                            logicVal = simuInfo->findLogicValue( name ); 
+                            if( !logicVal )
+                            {
+                                std::string message = constructErrorMessage(
+                                                    "Logic Value %s not found",
+                                                        name.c_str() );
+                                log("%s\n", message.c_str());
+                                Error e( eMessageIdParserError,
+                                    __FUNCTION__, __FILE__, __LINE__ );
+                                e.saveContextData( "Parser error message", message );
+                                e.saveContextData( "Filename", yyloc.begin.filename );
+                                e.saveContextData( "StartLine", yyloc.begin.line );
+                                e.saveContextData( "EndLine", yyloc.end.line );
+                                inDriver.setParserError( e );
+                                error( yyloc, message );
+                                YYABORT;
+                            }
+                            else
+                            {
+                                if( !logicValues.empty() )
+                                {
+                                    std::list< LogicValueSharedPtr >::iterator logicIt 
+                                        = std::find( logicValues.begin(), logicValues.end(), logicVal ); 
+                                    if( logicIt != logicValues.end() )
+                                    {
+                                        std::string message = constructErrorMessage(
+                                                "Logic value %s already exist in dominates list",
+                                                     name.c_str());
+                                        log("%s\n", message.c_str());
+                                        Error e( eMessageIdParserError,
+                                            __FUNCTION__, __FILE__, __LINE__ );
+                                        e.saveContextData( "Parser error message", message );
+                                        e.saveContextData( "Filename", yyloc.begin.filename );
+                                        e.saveContextData( "StartLine", yyloc.begin.line );
+                                        e.saveContextData( "EndLine", yyloc.end.line );
+                                        inDriver.setParserError( e );
+                                        error( yyloc, message );
+                                        YYABORT;
+                                    }
+                                    else
+                                    {
+                                        logicValues.push_back( logicVal );
+                                    }
+                                }
+                                else
+                                {
+                                    logicValues.push_back( logicVal );
+                                }
+                            }
+                        }
+                        $$->setDominatedLogicValues( logicValues );
+                    }
+                }
             |   _LogicValue LogicMapOut
+                {
+                    EdifContextSharedPtr ctx = inDriver.getContext();
+                    boost::scoped_ptr<LogicRefData> logicRefData( $2 );
+                    std::string logicValName = logicRefData->mLogicName->mName;
+                    std::string libName;
+                    bool isLocalLib = ( NULL == logicRefData->mLibraryName );
+                    if( isLocalLib )
+                    {
+                        libName = ctx->getCurrentLibrary()->getName();     
+                    }
+                    else
+                    {
+                        libName = logicRefData->mLibraryName->mName;
+                    }    
+                    LibrarySharedPtr library 
+                                        = ctx->getRoot()->findLibrary( libName ) ;
+                    if( !library )
+                    {
+                        std::string message = constructErrorMessage(
+                                            "Library %s not found",
+                                                    libName.c_str() );
+                        log("%s\n", message.c_str());
+                        Error e( eMessageIdParserError,
+                            __FUNCTION__, __FILE__, __LINE__ );
+                        e.saveContextData( "Parser error message", message );
+                        e.saveContextData( "Filename", yyloc.begin.filename );
+                        e.saveContextData( "StartLine", yyloc.begin.line );
+                        e.saveContextData( "EndLine", yyloc.end.line );
+                        inDriver.setParserError( e );
+                        error( yyloc, message );
+                        YYABORT;
+                    }
+                    LogicValueSharedPtr logicVal;
+                    SimulationInfoSharedPtr simuInfo
+                                = library->getSimulationInfo();
+                    if( !simuInfo )
+                    {
+                        std::string message = constructErrorMessage(
+                                            "SimulatioInfo not found in %s library",
+                                                library->getName().c_str() );
+                        log("%s\n", message.c_str());
+                        Error e( eMessageIdParserError,
+                            __FUNCTION__, __FILE__, __LINE__ );
+                        e.saveContextData( "Parser error message", message );
+                        e.saveContextData( "Filename", yyloc.begin.filename );
+                        e.saveContextData( "StartLine", yyloc.begin.line );
+                        e.saveContextData( "EndLine", yyloc.end.line );
+                        inDriver.setParserError( e );
+                        error( yyloc, message );
+                        YYABORT;
+                    }
+                    logicVal = simuInfo->findLogicValue( logicValName );
+                    if( !logicVal )
+                    {
+                        std::string message = constructErrorMessage(
+                                            "Logic Value %s not found",
+                                                logicValName.c_str() );
+                        log("%s\n", message.c_str());
+                        Error e( eMessageIdParserError,
+                            __FUNCTION__, __FILE__, __LINE__ );
+                        e.saveContextData( "Parser error message", message );
+                        e.saveContextData( "Filename", yyloc.begin.filename );
+                        e.saveContextData( "StartLine", yyloc.begin.line );
+                        e.saveContextData( "EndLine", yyloc.end.line );
+                        inDriver.setParserError( e );
+                        error( yyloc, message );
+                        YYABORT;
+                    }
+                    else
+                    {
+                        $$ = ($1) ? $1 : new LogicValueAttributes();
+                        LogicValueAttributes::LogicMap *logicMap 
+                                = new LogicValueAttributes::LogicMap();
+                        logicMap->mLogicRef = logicValName;
+                        logicMap->mLibraryRef = libName;
+                        logicMap->mLogicMapType 
+                                = LogicValueAttributes::LogicMap::eLogicMapTypeOutput;
+                        $$->addLogicMap( logicMap );
+                    }
+                }
             |   _LogicValue LogicMapIn
+                {
+                    EdifContextSharedPtr ctx = inDriver.getContext();
+                    boost::scoped_ptr<LogicRefData> logicRefData( $2 );
+                    std::string logicValName = logicRefData->mLogicName->mName;
+                    std::string libName;
+                    bool isLocalLib = ( NULL == logicRefData->mLibraryName );
+                    if( isLocalLib )
+                    {
+                        libName = ctx->getCurrentLibrary()->getName();     
+                    }
+                    else
+                    {
+                        libName = logicRefData->mLibraryName->mName;
+                    }    
+                    LibrarySharedPtr library 
+                                        = ctx->getRoot()->findLibrary( libName ) ;
+                    if( !library )
+                    {
+                        std::string message = constructErrorMessage(
+                                            "Library %s not found",
+                                                    libName.c_str() );
+                        log("%s\n", message.c_str());
+                        Error e( eMessageIdParserError,
+                            __FUNCTION__, __FILE__, __LINE__ );
+                        e.saveContextData( "Parser error message", message );
+                        e.saveContextData( "Filename", yyloc.begin.filename );
+                        e.saveContextData( "StartLine", yyloc.begin.line );
+                        e.saveContextData( "EndLine", yyloc.end.line );
+                        inDriver.setParserError( e );
+                        error( yyloc, message );
+                        YYABORT;
+                    }
+                    LogicValueSharedPtr logicVal;
+                    SimulationInfoSharedPtr simuInfo
+                                = library->getSimulationInfo();
+                    if( !simuInfo )
+                    {
+                        std::string message = constructErrorMessage(
+                                            "SimulatioInfo not found in %s library",
+                                                library->getName().c_str() );
+                        log("%s\n", message.c_str());
+                        Error e( eMessageIdParserError,
+                            __FUNCTION__, __FILE__, __LINE__ );
+                        e.saveContextData( "Parser error message", message );
+                        e.saveContextData( "Filename", yyloc.begin.filename );
+                        e.saveContextData( "StartLine", yyloc.begin.line );
+                        e.saveContextData( "EndLine", yyloc.end.line );
+                        inDriver.setParserError( e );
+                        error( yyloc, message );
+                        YYABORT;
+                    }
+                    logicVal = simuInfo->findLogicValue( logicValName );
+                    if( !logicVal )
+                    {
+                        std::string message = constructErrorMessage(
+                                            "Logic Value %s not found",
+                                                logicValName.c_str() );
+                        log("%s\n", message.c_str());
+                        Error e( eMessageIdParserError,
+                            __FUNCTION__, __FILE__, __LINE__ );
+                        e.saveContextData( "Parser error message", message );
+                        e.saveContextData( "Filename", yyloc.begin.filename );
+                        e.saveContextData( "StartLine", yyloc.begin.line );
+                        e.saveContextData( "EndLine", yyloc.end.line );
+                        inDriver.setParserError( e );
+                        error( yyloc, message );
+                        YYABORT;
+                    }
+                    else
+                    {
+                        $$ = ($1) ? $1 : new LogicValueAttributes();
+                        LogicValueAttributes::LogicMap *logicMap 
+                                = new LogicValueAttributes::LogicMap();
+                        logicMap->mLogicRef = logicValName;
+                        logicMap->mLibraryRef = libName;
+                        logicMap->mLogicMapType 
+                                = LogicValueAttributes::LogicMap::eLogicMapTypeInput;
+                        $$->addLogicMap( logicMap );
+                    }
+                }
             |   _LogicValue Isolated
+                {
+                    $$ = ($1) ? $1 : new LogicValueAttributes();
+                    $$->setIsIsolated( true );
+                }
             |   _LogicValue Resolves
+                {
+                    $$ = ($1) ? $1 : new LogicValueAttributes();
+                    std::list< LogicValueSharedPtr > logicValues;
+                    boost::scoped_ptr<LogicListData> logicListData( $2 );
+                    if( NULL != $2 && !$2->mNameDataList.empty() )
+                    {
+                        for( std::list<NameData *>::iterator it
+                                = logicListData->mNameDataList.begin();
+                                it != logicListData->mNameDataList.end(); it++ )
+                        {
+                            NameData *pNameData = *it;
+                            std::string name = pNameData->mName;
+                            EdifContextSharedPtr ctx = inDriver.getContext();
+                            LogicValueSharedPtr logicVal;
+                            SimulationInfoSharedPtr simuInfo
+                                    = ctx->getCurrentSimulationInfo();
+                            logicVal = simuInfo->findLogicValue( name ); 
+                            if( !logicVal )
+                            {
+                                std::string message = constructErrorMessage(
+                                                    "Logic Value %s not found",
+                                                        name.c_str() );
+                                log("%s\n", message.c_str());
+                                Error e( eMessageIdParserError,
+                                    __FUNCTION__, __FILE__, __LINE__ );
+                                e.saveContextData( "Parser error message", message );
+                                e.saveContextData( "Filename", yyloc.begin.filename );
+                                e.saveContextData( "StartLine", yyloc.begin.line );
+                                e.saveContextData( "EndLine", yyloc.end.line );
+                                inDriver.setParserError( e );
+                                error( yyloc, message );
+                                YYABORT;
+                            }
+                            else
+                            {
+                                if( !logicValues.empty() )
+                                {
+                                    std::list< LogicValueSharedPtr >::iterator logicIt 
+                                        = std::find( logicValues.begin(), logicValues.end(), logicVal ); 
+                                    if( logicIt != logicValues.end() )
+                                    {
+                                        std::string message = constructErrorMessage(
+                                                "Logic value %s already exist in resolve list",
+                                                     name.c_str());
+                                        log("%s\n", message.c_str());
+                                        Error e( eMessageIdParserError,
+                                            __FUNCTION__, __FILE__, __LINE__ );
+                                        e.saveContextData( "Parser error message", message );
+                                        e.saveContextData( "Filename", yyloc.begin.filename );
+                                        e.saveContextData( "StartLine", yyloc.begin.line );
+                                        e.saveContextData( "EndLine", yyloc.end.line );
+                                        inDriver.setParserError( e );
+                                        error( yyloc, message );
+                                        YYABORT;
+                                    }
+                                    else
+                                    {
+                                        logicValues.push_back( logicVal );
+                                    }
+                                }
+                                else
+                                {
+                                    logicValues.push_back( logicVal );
+                                }
+                            }
+                        }
+                        $$->setResolvedLogicValues( logicValues );
+                    }
+                }
             |   _LogicValue Property
+                {   
+                    $$ = $1;
+                }
             |   _LogicValue Comment
+                {
+                    $$ = $1;
+                    EdifContextSharedPtr ctx = inDriver.getContext();
+                    LogicValueSharedPtr logicVal = ctx->getCurrentLogicValue();
+                    logicVal->addComment( *$2 );
+                    delete $2;
+                }
             |   _LogicValue UserData
+                {
+                    $$ = $1;
+                    EdifContextSharedPtr ctx = inDriver.getContext();
+                    LogicValueSharedPtr logicVal = ctx->getCurrentLogicValue();
+                    logicVal->addUserData( *$2 );
+                    delete $2;
+                }
             ;
 
-LogicWave : LBKT LOGICWAVEFORM _LogicWave RBKT
+LogicWave : LBKT LOGICWAVEFORM 
+            {
+                LogicElementSharedPtr logicElem;
+                EdifContextSharedPtr ctx
+                                    = inDriver.getContext();
+                try
+                {
+                    ctx->getFactory()->create( logicElem );
+                    logicElem->setType( LogicElement::eTypeWaveForm );
+                }
+                catch( Error &e )
+                {
+                    std::string message = constructErrorMessage(
+                            "Unable to create logicWaveForm" );
+                    log("%s\n", message.c_str());
+                    e.setCurrentLocation( __FUNCTION__,
+                                            __FILE__, __LINE__ );
+                    e.saveContextData( "Parser error message", message );
+                    e.saveContextData( "Filename", yyloc.begin.filename );
+                    e.saveContextData( "StartLine", yyloc.begin.line );
+                    e.saveContextData( "EndLine", yyloc.end.line );
+                    inDriver.setParserError( e );
+                    error( yyloc, message );
+                    YYABORT;
+                }
+                if(ctx->getLogicElementDepth() == 0 )
+                {
+                    LogicalResponseSharedPtr logicalResponse
+                            = ctx->getCurrentLogicalResponse();
+                    if( logicalResponse )
+                    {
+                        logicalResponse->setLogicWaveForm( logicElem );
+                    }
+
+                    WaveValueSharedPtr waveValue
+                            = ctx->getCurrentWaveValue();
+                    if( waveValue )
+                    {
+                        waveValue->setLogicWaveform( logicElem );
+                    }
+                }
+                ctx->pushLogicElement( logicElem );
+                ctx->incrementLogicElementDepth();
+            } _LogicWave RBKT
+            {
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                LogicElementSharedPtr currentLogicElem
+                            = ctx->getCurrentLogicElement();
+                ctx->popLogicElement();
+                LogicElementSharedPtr parentLogicElem;
+                if(ctx->getLogicElementDepth() > 1 )
+                {
+                    parentLogicElem = ctx->getCurrentLogicElement();
+                }
+                ctx->decrementLogicElementDepth();
+                if( parentLogicElem )
+                {                    
+                    parentLogicElem->setRelationType( 
+                            LogicElement::eRelationTypeParent );
+                    currentLogicElem->setRelationType( 
+                            LogicElement::eRelationTypeChild );
+                    //Check size
+                    //size_t parentLogicElemSize = parentLogicElem->getSize();
+                    //size_t currentLogicElemSize = currentLogicElem->getSize();
+
+                    //log("Parent LogicWaveForm Size :: %d\n",
+                    //        parentLogicElemSize); 
+                    //log("Current LogicWaveForm Size :: %d\n", 
+                    //        currentLogicElemSize);
+
+                    //std::cout << "Parent LogicWaveForm Size :: " << parentLogicElemSize << std::endl;
+                    //std::cout << "Current LogicWaveForm Size :: " << currentLogicElemSize << std::endl;
+                
+                    parentLogicElem->addChildLogicElement( currentLogicElem );
+                } 
+                else
+                {
+                  ctx->pushLogicElement( currentLogicElem );
+                }              
+            }
           ;
 
 _LogicWave :
-           |    _LogicWave LogicNameRef
+           |    _LogicWave LogicNameData
            |    _LogicWave LogicList
            |    _LogicWave LogicOneOf
            |    _LogicWave Ignore
@@ -3652,7 +6217,8 @@ MiNoMaValue :   Mnm
             |   ScaledInt
             {
                 Value::MiNoMax val;
-                val.setNominal( $1->mX );
+                Value::Number num( $1->mX, $1->mY );
+                val.setNominal( num );
                 $$ = new ValueData();
                 $$->mValues.push_back(
                         Value( Value::eValueTypeMiNoMax, val ) );
@@ -3665,15 +6231,18 @@ Mnm : LBKT MNM _Mnm _Mnm _Mnm RBKT
         Value::MiNoMax val;
         if( $3 )
         {
-            val.setMin( $3->mX );
+            Value::Number num( $3->mX, $3->mY );
+            val.setMin( num );
         }
         if( $4 )
         {
-            val.setNominal( $4->mX );
+            Value::Number num( $4->mX, $4->mY );
+            val.setNominal( num );
         }
         if( $5 )
         {
-            val.setMax( $5->mX );
+            Value::Number num( $5->mX, $5->mY );
+            val.setMax( num );
         }
         $$ = new ValueData();
         $$->mValues.push_back(
@@ -3684,13 +6253,16 @@ Mnm : LBKT MNM _Mnm _Mnm _Mnm RBKT
     }
     ;
 
-_Mnm :          ScaledInt
-     |          Undefined
-         {
+_Mnm :  ScaledInt
+        {
+            $$ = $1;
+        }
+     |  Undefined
+        {
             $$ = NULL;
         }
-     |          Unconstrained
-         {
+     |  Unconstrained
+        {
             $$ = NULL;
         }
      ;
@@ -3702,12 +6274,343 @@ _MultValSet :
             |   _MultValSet RangeVector
             ;
 
-MustJoin : LBKT MUSTJOIN _MustJoin RBKT
+MustJoin : LBKT MUSTJOIN 
+            {
+                InterfaceJoinedInfoSharedPtr joinedInfo;
+                EdifContextSharedPtr ctx
+                                    = inDriver.getContext();
+                try
+                {
+                    ctx->getFactory()->create( joinedInfo );
+                    joinedInfo->setJoinedType( 
+                            InterfaceJoinedInfo::eJoinedTypeMust );
+                }
+                catch( Error &e )
+                {
+                    std::string message = constructErrorMessage(
+                            "Unable to create must joined info" );
+                    log("%s\n", message.c_str());
+                    e.setCurrentLocation( __FUNCTION__,
+                                            __FILE__, __LINE__ );
+                    e.saveContextData( "Parser error message", message );
+                    e.saveContextData( "Filename", yyloc.begin.filename );
+                    e.saveContextData( "StartLine", yyloc.begin.line );
+                    e.saveContextData( "EndLine", yyloc.end.line );
+                    inDriver.setParserError( e );
+                    error( yyloc, message );
+                    YYABORT;
+                }
+                if(ctx->getInterfaceJoinedInfoDepth() == 0 )
+                {
+                    ctx->getCurrentView()->addInterfaceJoinedInfo( joinedInfo );
+                }
+                ctx->pushInterfaceJoinedInfo( joinedInfo );
+                ctx->incrementInterfaceJoinedInfoDepth();
+            } _MustJoin RBKT
+            {
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                InterfaceJoinedInfoSharedPtr currentJoinedInfo 
+                        = ctx->getCurrentInterfaceJoinedInfo();
+                ctx->popInterfaceJoinedInfo();
+                InterfaceJoinedInfoSharedPtr parentJoinedInfo; 
+                if(ctx->getInterfaceJoinedInfoDepth() > 1 )
+                {
+                    parentJoinedInfo = ctx->getCurrentInterfaceJoinedInfo();
+                }
+                ctx->decrementInterfaceJoinedInfoDepth();
+                if( parentJoinedInfo )
+                {
+                    parentJoinedInfo->setRelationType( 
+                            InterfaceJoinedInfo::eRelationTypeParent );
+                    currentJoinedInfo->setRelationType( 
+                            InterfaceJoinedInfo::eRelationTypeChild );
+                    //Check size
+                    size_t parentJoinedInfoSize = parentJoinedInfo->getSize();
+                    size_t currentJoinedInfoSize = currentJoinedInfo->getSize();
+
+                    log("Parent joined info Size :: %d\n",
+                            parentJoinedInfoSize ); 
+                    log("Current joined info Size :: %d\n", 
+                            currentJoinedInfoSize );
+
+                    //std::cout << "Parent joined info Size :: " << parentJoinedInfoSize << std::endl;
+                    //std::cout << "Current joined info Size :: " << currentJoinedInfoSize << std::endl;
+
+                    std::vector< InterfaceJoinedInfoSharedPtr > outJoinedInfos;
+                    parentJoinedInfo->getChildren( outJoinedInfos );
+
+                    std::list< PortSharedPtr > outPorts;
+                    parentJoinedInfo->getPorts( outPorts );
+                    
+                    std::list< PortListSharedPtr > outPortLists;
+                    parentJoinedInfo->getPortLists( outPortLists );
+                    
+                    if( parentJoinedInfoSize != 0 ) 
+                    {
+                        if( parentJoinedInfoSize
+                                == currentJoinedInfoSize )
+                        {
+                            parentJoinedInfo->addChildJoinedInfo(
+                                    currentJoinedInfo );
+                        }
+                        else
+                        {
+                            std::string message = constructErrorMessage(
+                                    "Child joined info can't be added, port size mismatch %d with %d",
+                                        parentJoinedInfoSize,
+                                        currentJoinedInfoSize);
+                            log("%s\n", message.c_str());
+                            Error e( eMessageIdParserError,
+                                __FUNCTION__, __FILE__, __LINE__ );
+                            e.saveContextData( "Parser error message", message );
+                            e.saveContextData( "Filename", yyloc.begin.filename );
+                            e.saveContextData( "StartLine", yyloc.begin.line );
+                            e.saveContextData( "EndLine", yyloc.end.line );
+                            inDriver.setParserError( e );
+                            error( yyloc, message );
+                            YYABORT;
+                        }
+                    }
+                    else
+                    {
+                        parentJoinedInfo->addChildJoinedInfo(
+                                currentJoinedInfo );
+                    }
+                } 
+                else
+                {
+                    ctx->pushInterfaceJoinedInfo( currentJoinedInfo );
+                }              
+            }
          ;
 
 _MustJoin :
-          |     _MustJoin PortRef
-          |     _MustJoin PortList
+          |     _MustJoin PortRefData
+            {
+                boost::scoped_ptr<PortRefData> portData( $2 );
+                NameData *portNameData = portData->mPortName;
+                std::string name = portNameData->mName;
+                EdifContextSharedPtr ctx
+                                    = inDriver.getContext();
+                ViewSharedPtr view = ctx->getCurrentView();
+
+                PortRefData *currPortRef = $2;
+                PortRefData *nextPortRef = portData->mParentPort;
+                std::vector< std::string > nestedNames;
+                nestedNames.push_back(currPortRef->mPortName->mName);
+                while( nextPortRef )
+                {
+                    currPortRef = nextPortRef;
+                    nestedNames.push_back( nextPortRef->mPortName->mName );
+                    nextPortRef = currPortRef->mParentPort;
+                }
+                bool isPort = ( NULL == currPortRef->mInstanceName );
+                std::string topName = *(nestedNames.rbegin());
+                if( isPort )
+                {
+                    PortSharedPtr port = view->findPort( topName );
+                    if( !port )
+                    {
+                        std::string message = constructErrorMessage(
+                                "No port %s found in view %s\n", 
+                                            name.c_str(),
+                                            view->getName().c_str());
+                        log("%s\n", message.c_str());
+                        Error e( eMessageIdParserError,
+                            __FUNCTION__, __FILE__, __LINE__ );
+                        e.saveContextData( "Parser error message", message );
+                        e.saveContextData( "Filename", yyloc.begin.filename );
+                        e.saveContextData( "StartLine", yyloc.begin.line );
+                        e.saveContextData( "EndLine", yyloc.end.line );
+                        inDriver.setParserError( e );
+                        error( yyloc, message );
+                        YYABORT;
+                    }
+
+                    InterfaceJoinedInfoSharedPtr currentJoinedInfo 
+                                        = ctx->getCurrentInterfaceJoinedInfo();
+                    try
+                    {             
+                        connectibleFinder( nestedNames, port );  
+                        if( !portData->mPortName->mIndices.empty() )
+                        {
+                            port = port->get( portData->mPortName->mIndices );
+                        }
+                        //Check port size
+                        std::list< PortSharedPtr > outPorts;
+                        currentJoinedInfo->getPorts( outPorts );
+                        
+                        if( !outPorts.empty() )
+                        {
+                            PortSharedPtr firstPort = outPorts.front();
+                            std::list< PortSharedPtr >::iterator it
+                                            = std::find( outPorts.begin(), outPorts.end(),
+                                                    port);
+                            if( it != outPorts.end() )
+                            {
+                                std::string message = constructErrorMessage(
+                                            "Port %s already exist in mustJoin info",
+                                                port->getName().c_str() );
+                                    log("%s\n", message.c_str());
+                                    Error e( eMessageIdParserError,
+                                        __FUNCTION__, __FILE__, __LINE__ );
+                                    e.saveContextData( "Parser error message", message );
+                                    e.saveContextData( "Filename", yyloc.begin.filename );
+                                    e.saveContextData( "StartLine", yyloc.begin.line );
+                                    e.saveContextData( "EndLine", yyloc.end.line );
+                                    inDriver.setParserError( e );
+                                    error( yyloc, message );
+                                    YYABORT;
+                            }
+                            else
+                            {
+                                if( firstPort->getSize() == port->getSize() )
+                                {
+                                    currentJoinedInfo->addPort( port );
+                                }
+                                else
+                                {
+                                    std::string message = constructErrorMessage(
+                                            "Port %s can't be added, port size mismatch %d with %d",
+                                                name.c_str(),
+                                                firstPort->getSize(),
+                                                port->getSize());
+                                    log("%s\n", message.c_str());
+                                    Error e( eMessageIdParserError,
+                                        __FUNCTION__, __FILE__, __LINE__ );
+                                    e.saveContextData( "Parser error message", message );
+                                    e.saveContextData( "Filename", yyloc.begin.filename );
+                                    e.saveContextData( "StartLine", yyloc.begin.line );
+                                    e.saveContextData( "EndLine", yyloc.end.line );
+                                    inDriver.setParserError( e );
+                                    error( yyloc, message );
+                                    YYABORT;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            currentJoinedInfo->addPort( port );
+                        }
+                    }
+                    catch( Error &e )
+                    {
+                        e.setCurrentLocation(
+                            __FUNCTION__, __FILE__, __LINE__ );
+                        throw;
+                    }
+                }
+                else
+                {
+                }
+            }
+          |     _MustJoin PortListData
+            {
+                if( NULL != $2 && !$2->mPortRefs.empty() )
+                {
+                    boost::scoped_ptr<PortListData> portListData( $2 );
+                    std::string message;
+
+                    EdifContextSharedPtr ctx = inDriver.getContext();
+                    PortListSharedPtr portList;
+                    ctx->getFactory()->create( portList );
+
+                    InterfaceJoinedInfoSharedPtr currentJoinedInfo 
+                                = ctx->getCurrentInterfaceJoinedInfo();
+
+                    for( std::vector<PortRefData *>::iterator it
+                            = portListData->mPortRefs.begin();
+                            it != portListData->mPortRefs.end(); ++it )
+                    {
+                        PortRefData *portData = *it;
+                        std::vector< std::string > nestedNames;
+                        PortRefData *currPortRef = *it;
+                        PortRefData *nextPortRef = portData->mParentPort;
+                        nestedNames.push_back(currPortRef->mPortName->mName);
+                        while( nextPortRef )
+                        {
+                            currPortRef = nextPortRef;
+                            nestedNames.push_back( nextPortRef->mPortName->mName );
+                            nextPortRef = currPortRef->mParentPort;
+                        }
+                        bool isPort = ( NULL == currPortRef->mInstanceName );
+                        NameData *portNameData = currPortRef->mPortName;
+                        std::string topName = *(nestedNames.rbegin());
+                        ViewSharedPtr view = ctx->getCurrentView();
+                        if( isPort )
+                        {
+                            PortSharedPtr port = view->findPort( topName );
+                            if( !port )
+                            {
+                                std::string message = constructErrorMessage(
+                                        "No port %s found in view %s\n", 
+                                            portNameData->mName.c_str(),
+                                            view->getName().c_str());
+                                log("%s\n", message.c_str());
+                                Error e( eMessageIdParserError,
+                                    __FUNCTION__, __FILE__, __LINE__ );
+                                e.saveContextData( "Parser error message", message );
+                                e.saveContextData( "Filename", yyloc.begin.filename );
+                                e.saveContextData( "StartLine", yyloc.begin.line );
+                                e.saveContextData( "EndLine", yyloc.end.line );
+                                inDriver.setParserError( e );
+                                error( yyloc, message );
+                                YYABORT;
+                            }
+
+                            try
+                            {
+                                connectibleFinder( nestedNames, port );
+                                if( !portData->mPortName->mIndices.empty() )
+                                {
+                                    port = port->get( portData->mPortName->mIndices );
+                                }
+                                portList->addChildPort( port );
+                            }
+                            catch( Error &e )
+                            {
+                                std::string message = constructErrorMessage(
+                                        "Unable to connect port : %s", 
+                                                port->getName().c_str());
+                                log("%s\n", message.c_str());
+                                e.setCurrentLocation( __FUNCTION__,
+                                                        __FILE__, __LINE__ );
+                                e.saveContextData( "Parser error message", message );
+                                e.saveContextData( "Filename", yyloc.begin.filename );
+                                e.saveContextData( "StartLine", yyloc.begin.line );
+                                e.saveContextData( "EndLine", yyloc.end.line );
+                                inDriver.setParserError( e );
+                                error( yyloc, message );
+                                YYABORT;
+                            }
+                        }
+                        else
+                        {
+                        }
+                    }
+                    if( currentJoinedInfo->getSize() == portList->getSize() )
+                    {
+                        currentJoinedInfo->addPortList( portList );
+                    }
+                    else
+                    {
+                        std::string message = constructErrorMessage(
+                                "Port size mismatch %d with %d",
+                                    currentJoinedInfo->getSize(),
+                                    portList->getSize());
+                        log("%s\n", message.c_str());
+                        Error e( eMessageIdParserError,
+                            __FUNCTION__, __FILE__, __LINE__ );
+                        e.saveContextData( "Parser error message", message );
+                        e.saveContextData( "Filename", yyloc.begin.filename );
+                        e.saveContextData( "StartLine", yyloc.begin.line );
+                        e.saveContextData( "EndLine", yyloc.end.line );
+                        inDriver.setParserError( e );
+                        error( yyloc, message );
+                        YYABORT;
+                    }
+                }
+            }
           |     _MustJoin WeakJoined
           |     _MustJoin Joined
           ;
@@ -3844,7 +6747,8 @@ Net : LBKT NET NetNameDef
                     catch( Error &e )
                     {
                         std::string message = constructErrorMessage(
-                                "Unable to create net : %s", net->getName().c_str());
+                                "Unable to create net : %s", 
+                                        net->getName().c_str());
                         log("%s\n", message.c_str());
                         e.setCurrentLocation( __FUNCTION__,
                                                 __FILE__, __LINE__ );
@@ -3869,7 +6773,8 @@ Net : LBKT NET NetNameDef
                     catch( Error &e )
                     {
                         std::string message = constructErrorMessage(
-                                "Unable to create net : %s", net->getName().c_str());
+                                "Unable to create net : %s", 
+                                        net->getName().c_str());
                         log("%s\n", message.c_str());
                         e.setCurrentLocation( __FUNCTION__,
                                                 __FILE__, __LINE__ );
@@ -3939,6 +6844,11 @@ Net : LBKT NET NetNameDef
             EdifContextSharedPtr ctx = inDriver.getContext();
             ViewSharedPtr view = ctx->getCurrentView();
             NetSharedPtr currentNet  = ctx->getCurrentNet();
+            if( $6 ) 
+            {
+                NetAttributesSharedPtr attrib( $6 );
+                currentNet->setAttributes( attrib );
+            }
             ctx->popCurrentNet();
             NetSharedPtr parentNet = ctx->getCurrentNet();
 
@@ -3973,16 +6883,57 @@ Net : LBKT NET NetNameDef
         }
         ;
 
-_Net :          
-     |          _Net Criticality
-     |          _Net NetDelay
-     |          _Net Figure
-     |          _Net Net
-     |          _Net Instance
-     |          _Net CommGraph
-     |          _Net Property
-     |          _Net Comment
-     |          _Net UserData
+_Net :
+        {
+            $$ = NULL;
+        }          
+     |  _Net Criticality
+        {
+            $$ = ($1)?$1:new NetAttributes();
+            $$->setCriticality( $2 );
+        }
+     |  _Net NetDelay
+        {
+            boost::scoped_ptr<NetDelay> netDelay( $2 );
+            $$ = ($1)?$1:new NetAttributes();
+            $$->setNetDelay( *netDelay );
+        }
+     |  _Net Figure
+        {
+            $$ = $1;
+        }
+     |  _Net Net
+        {
+            $$ = $1;
+        }
+     |  _Net Instance
+        {
+            $$ = $1;
+        }
+     |  _Net CommGraph
+        {
+            $$ = $1;
+        }
+     |  _Net Property
+        {
+            $$ = $1;
+        }
+     |  _Net Comment
+        {
+            $$ = $1;
+            EdifContextSharedPtr ctx = inDriver.getContext();
+            NetSharedPtr net = ctx->getCurrentNet();
+            net->addComment( *$2 );
+            delete $2;
+        }
+     |  _Net UserData
+        {
+            $$ = $1;
+            EdifContextSharedPtr ctx = inDriver.getContext();
+            NetSharedPtr net = ctx->getCurrentNet();
+            net->addUserData( *$2 );
+            delete $2;
+        }
      ;
 
 NetBackAn : LBKT NETBACKANNOTATE _NetBackAn RBKT
@@ -3990,14 +6941,24 @@ NetBackAn : LBKT NETBACKANNOTATE _NetBackAn RBKT
 
 _NetBackAn :    NetRef
            |    _NetBackAn NetDelay
+                {
+                    if( $2 );
+                }
            |    _NetBackAn Criticality
+                { 
+                    if( $2 ); 
+                }
            |    _NetBackAn Property
            |    _NetBackAn Comment
+                {
+                    delete $2;
+                }
            ;
 
 NetBundle : LBKT NETBUNDLE NetNameDef
             {
-                std::string name = $3->mName;
+                boost::scoped_ptr<NameData> pNameData( $3 );
+                std::string name = pNameData->mName;
                 EdifContextSharedPtr ctx
                                                 = inDriver.getContext();
                 NetSharedPtr net;
@@ -4051,7 +7012,8 @@ NetBundle : LBKT NETBUNDLE NetNameDef
                     catch( Error &e )
                     {
                         std::string message = constructErrorMessage(
-                                "Unable to create net bundle : %s", net->getName().c_str());
+                                "Unable to create net bundle : %s", 
+                                        net->getName().c_str());
                         log("%s\n", message.c_str());
                         e.setCurrentLocation( __FUNCTION__,
                                                 __FILE__, __LINE__ );
@@ -4065,9 +7027,9 @@ NetBundle : LBKT NETBUNDLE NetNameDef
                     }
                     net->setName( name );
                     net->setParent( view );
-                    if( !$3->mOriginalName.empty() )
+                    if( !pNameData->mOriginalName.empty() )
                     {
-                        net->setOriginalName( $3->mOriginalName );
+                        net->setOriginalName( pNameData->mOriginalName );
                     }
                     if( bundle )
                     {
@@ -4083,7 +7045,6 @@ NetBundle : LBKT NETBUNDLE NetNameDef
                                             net->getName().c_str() );
                 }
                 //ctx->pushCurrentNet( net );
-                delete $3;
             } _NetBundle RBKT
             {
                 EdifContextSharedPtr ctx
@@ -4098,16 +7059,123 @@ _NetBundle :    ListOfNets
            |    _NetBundle CommGraph
            |    _NetBundle Property
            |    _NetBundle Comment
+                {
+                    EdifContextSharedPtr ctx = inDriver.getContext();
+                    NetBundleSharedPtr bundle 
+                                = ctx->getCurrentNetBundleContext();
+                    bundle->addComment( *$2 );
+                    delete $2;
+                }
            |    _NetBundle UserData
+                {
+                    EdifContextSharedPtr ctx = inDriver.getContext();
+                    NetBundleSharedPtr bundle 
+                                = ctx->getCurrentNetBundleContext();
+                    bundle->addUserData( *$2 );
+                    delete $2;
+                }
            ;
 
 NetDelay : LBKT NETDELAY Derivation _NetDelay RBKT
-         ;
+            {
+                $$ = $4;
+                $$->setDerivation(
+                        static_cast<Derivation>( $3 ) );
+            }
+            ;
 
-_NetDelay :     Delay
-          |     _NetDelay Transition
-          |     _NetDelay Becomes
+
+_NetDelay : NetDelayData
+          {
+            $$ = $1;
+          }
+          | _NetDelay Transition
+          {
+            $$ = ( $1) ? $1 : new NetDelay();
+            EdifContextSharedPtr ctx
+                        = inDriver.getContext();
+            LogicElementSharedPtr logicElem
+                            = ctx->getCurrentLogicElement();
+            if( logicElem )
+            {
+                $$->setTransition( logicElem );
+            }
+          }  
+          | _NetDelay Becomes
+          {
+            $$ = ( $1) ? $1 : new NetDelay();
+            EdifContextSharedPtr ctx
+                        = inDriver.getContext();
+            LogicElementSharedPtr logicElem
+                            = ctx->getCurrentLogicElement();
+            if( logicElem )
+            {
+                $$->setTransition( logicElem );
+            }
+          }
           ;
+
+NetDelayData : LBKT DELAY _NetDelayData RBKT
+            {
+                $$ = $3;
+            }
+            ;
+
+_NetDelayData :  MiNoMaValue
+        {
+            boost::scoped_ptr<ValueData> data( $1 );
+            $$ = new NetDelay();
+            $$->setDelay( data->mValues[0].get<Value::MiNoMax>() );
+        }
+       |     MiNoMaDisp
+        {
+            boost::scoped_ptr<ValueData> data( $1 );
+            $$ = new NetDelay();
+            $$->setDelay( data->mValues[0].get<Value::MiNoMax>() );
+        }
+       ;
+
+EventNetGroup : LBKT NETGROUP _EventNetGroup RBKT
+              ;
+
+_EventNetGroup :
+                |     _EventNetGroup EventNetNameRef
+                |     _EventNetGroup EventNetRefData
+                ;
+
+EventNetNameRef : NetNameRefData
+                {
+                    boost::scoped_ptr<NameData> netData( $1 );
+                    std::string name = netData->mName;
+                    EdifContextSharedPtr ctx
+                                    = inDriver.getContext();
+                    ViewSharedPtr view = ctx->getCurrentView();
+                    NetSharedPtr net = view->findNet( name );
+                    if( !net )
+                    {
+                        std::string message = constructErrorMessage(
+                                "No Net %s found in view %s\n", 
+                                            name.c_str(),
+                                            view->getName().c_str());
+                        log("%s\n", message.c_str());
+                        Error e( eMessageIdParserError,
+                            __FUNCTION__, __FILE__, __LINE__ );
+                        e.saveContextData( "Parser error message", message );
+                        e.saveContextData( "Filename", yyloc.begin.filename );
+                        e.saveContextData( "StartLine", yyloc.begin.line );
+                        e.saveContextData( "EndLine", yyloc.end.line );
+                        inDriver.setParserError( e );
+                        error( yyloc, message );
+                        YYABORT;
+                    }
+                    else
+                    {
+                        EventSharedPtr event
+                                    = ctx->getCurrentEvent();
+                        event->addNet( net );
+                    }
+                }
+                ;
 
 NetGroup : LBKT NETGROUP _NetGroup RBKT
          ;
@@ -4124,7 +7192,13 @@ _NetMap :
         |       _NetMap NetRef
         |       _NetMap NetGroup
         |       _NetMap Comment
+                {
+                    delete $2;
+                }
         |       _NetMap UserData
+                {
+                    delete $2;
+                }
         ;
 
 NetNameDef :    NameDefData
@@ -4135,6 +7209,10 @@ NetNameRef :    NameRef
            |    Member
            ;
 
+NetNameRefData :    NameRefData
+               |    MemberData
+               ;
+
 NetRef : LBKT NETREF NetNameRef _NetRef RBKT
        ;
 
@@ -4144,14 +7222,282 @@ _NetRef :
         |       ViewRef
         ;
 
+NetRefData : LBKT NETREF NetNameRefData _NetRefData RBKT
+            {
+                NetRefData *nData = $4;
+                if( nData )
+                {
+                    if( nData->mNetName )
+                    {
+                        $$ = new NetRefData();
+                        $$->mParentNet = nData;
+                        $$->mView = nData->mView;
+                        nData->mView = NULL;
+                    }
+                    else
+                    {
+                        if( nData->mInstanceName
+                             || nData->mView )
+                        {
+                            $$ = nData;
+                        }
+                    }
+                }
+                else
+                {
+                    $$ = new NetRefData();
+                }
+                $$->mNetName = $3;
+            }
+            ;
+
+_NetRefData :
+            {
+                $$ = NULL;
+            }
+         |      NetRefData
+             {
+                $$ = $1;
+            }
+         |      InstanceRefData
+             {
+                $$ = new NetRefData();
+                $$->mInstanceName = $1->mName;
+                $$->mView = $1->mView;
+                delete $1;
+            }
+         |      ViewRefData
+            {
+                $$ = new NetRefData();
+                $$->mView = $1;
+            }
+         ;
+
 NoChange : LBKT NOCHANGE RBKT
          ;
 
-NonPermut : LBKT NONPERMUTABLE _NonPermut RBKT
+NonPermut : LBKT NONPERMUTABLE 
+            {
+                PermutableSharedPtr permutable;
+                EdifContextSharedPtr ctx
+                                    = inDriver.getContext();
+                try
+                {
+                    ctx->getFactory()->create( permutable );
+                    permutable->setIsNonPermutable( true );
+                }
+                catch( Error &e )
+                {
+                    std::string message = constructErrorMessage(
+                            "Unable to create Permutable" );
+                    log("%s\n", message.c_str());
+                    e.setCurrentLocation( __FUNCTION__,
+                                            __FILE__, __LINE__ );
+                    e.saveContextData( "Parser error message", message );
+                    e.saveContextData( "Filename", yyloc.begin.filename );
+                    e.saveContextData( "StartLine", yyloc.begin.line );
+                    e.saveContextData( "EndLine", yyloc.end.line );
+                    inDriver.setParserError( e );
+                    error( yyloc, message );
+                    YYABORT;
+                }
+                ctx->pushPermutable( permutable );
+                ctx->incrementPermutableDepth();
+            } _NonPermut RBKT
+            {
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                PermutableSharedPtr currentPermutable 
+                                    = ctx->getCurrentPermutable();
+                ctx->popPermutable();
+                PermutableSharedPtr parentPermutable; 
+                if(ctx->getPermutableDepth() > 1 )
+                {
+                    parentPermutable = ctx->getCurrentPermutable();
+                }
+                ctx->decrementPermutableDepth();
+                if( parentPermutable )
+                {
+                    parentPermutable->setPermutableType( 
+                            Permutable::ePermutableParent );
+                    currentPermutable->setPermutableType( 
+                            Permutable::ePermutableChild );
+                    //Check permutable port size
+                    size_t parentPermutableSize = parentPermutable->getSize();
+                    size_t currentPermutableSize = currentPermutable->getSize();
+
+                    log("Parent permutable Size :: %d\n",
+                            parentPermutableSize ); 
+                    log("Current permutable Size :: %d\n", 
+                            currentPermutableSize );
+                    std::vector< PermutableSharedPtr > outPermutables;
+                    parentPermutable->getChildren( outPermutables );
+                    std::vector< PortSharedPtr > outPorts;
+                    parentPermutable->getPorts( outPorts );
+            
+                    if( !outPermutables.empty() || !outPorts.empty() )
+                    {
+                        if( parentPermutableSize
+                                == currentPermutableSize )
+                        {
+                            parentPermutable->addChildPermutable(
+                                    currentPermutable );
+                        }
+                        else
+                        {
+                            std::string message = constructErrorMessage(
+                                    "Child permutable can't be added, port size mismatch %d with %d", 
+                                        parentPermutableSize,
+                                        currentPermutableSize);
+                            log("%s\n", message.c_str());
+                            Error e( eMessageIdParserError,
+                                __FUNCTION__, __FILE__, __LINE__ );
+                            e.saveContextData( "Parser error message", message );
+                            e.saveContextData( "Filename", yyloc.begin.filename );
+                            e.saveContextData( "StartLine", yyloc.begin.line );
+                            e.saveContextData( "EndLine", yyloc.end.line );
+                            inDriver.setParserError( e );
+                            error( yyloc, message );
+                            YYABORT;
+                        }
+                    }
+                    else
+                    {
+                        parentPermutable->addChildPermutable(
+                                currentPermutable );
+                    }
+                } 
+                else
+                {
+                    ctx->pushPermutable( currentPermutable );
+                }              
+            }
           ;
 
 _NonPermut :
-           |    _NonPermut PortRef
+           | _NonPermut PortRefData
+            {
+                boost::scoped_ptr<PortRefData> portData( $2 );
+                NameData *portNameData = portData->mPortName;
+                std::string name = portNameData->mName;
+                EdifContextSharedPtr ctx
+                                    = inDriver.getContext();
+                ViewSharedPtr view = ctx->getCurrentView();
+                if( view && ( View::eTypeGraphic == view->getType() || 
+                    View::eTypeDocument == view->getType() ) )
+                {
+                    std::string message = constructErrorMessage(
+                            "Permutable can not be used in this view type");
+                    log("%s\n", message.c_str());
+                    Error e( eMessageIdErrorNullPointer,
+                        __FUNCTION__, __FILE__, __LINE__ );
+                    throw e;
+                }    
+                PortRefData *currPortRef = $2;
+                PortRefData *nextPortRef = portData->mParentPort;
+                std::vector< std::string > nestedNames;
+                nestedNames.push_back(currPortRef->mPortName->mName);
+                while( nextPortRef )
+                {
+                    currPortRef = nextPortRef;
+                    nestedNames.push_back( nextPortRef->mPortName->mName );
+                    nextPortRef = currPortRef->mParentPort;
+                }
+                bool isPort = ( NULL == currPortRef->mInstanceName );
+                std::string topName = *(nestedNames.rbegin());
+                if( isPort )
+                {
+                    PortSharedPtr port = view->findPort( topName );
+                    if( !port )
+                    {
+                        std::string message = constructErrorMessage(
+                                "No port %s found in view %s\n", 
+                                            name.c_str(),
+                                            view->getName().c_str());
+                        log("%s\n", message.c_str());
+                        Error e( eMessageIdParserError,
+                            __FUNCTION__, __FILE__, __LINE__ );
+                        e.saveContextData( "Parser error message", message );
+                        e.saveContextData( "Filename", yyloc.begin.filename );
+                        e.saveContextData( "StartLine", yyloc.begin.line );
+                        e.saveContextData( "EndLine", yyloc.end.line );
+                        inDriver.setParserError( e );
+                        error( yyloc, message );
+                        YYABORT;
+                    }
+                    PermutableSharedPtr currentPermutable 
+                                        = ctx->getCurrentPermutable();
+                    try
+                    {             
+                        connectibleFinder( nestedNames, port );  
+                        if( !portData->mPortName->mIndices.empty() )
+                        {
+                            port = port->get( portData->mPortName->mIndices );
+                        }
+                        //Check permutable port size
+                        std::vector< PortSharedPtr > outPorts;
+                        currentPermutable->getPorts( outPorts );
+                        
+                        if( !outPorts.empty() )
+                        {
+                            PortSharedPtr firstPort = outPorts.front();
+                            std::vector< PortSharedPtr >::iterator it
+                                            = std::find( outPorts.begin(), outPorts.end(),
+                                                    port);
+                            if( it != outPorts.end() )
+                            {
+                                std::string message = constructErrorMessage(
+                                            "Port %s already exist in permutable",
+                                                port->getName().c_str() );
+                                    log("%s\n", message.c_str());
+                                    Error e( eMessageIdParserError,
+                                        __FUNCTION__, __FILE__, __LINE__ );
+                                    e.saveContextData( "Parser error message", message );
+                                    e.saveContextData( "Filename", yyloc.begin.filename );
+                                    e.saveContextData( "StartLine", yyloc.begin.line );
+                                    e.saveContextData( "EndLine", yyloc.end.line );
+                                    inDriver.setParserError( e );
+                                    error( yyloc, message );
+                                    YYABORT;
+                            }
+                            else
+                            {
+                                if( firstPort->getSize() == port->getSize() )
+                                {
+                                    currentPermutable->addPort( port );
+                                }
+                                else
+                                {
+                                    std::string message = constructErrorMessage(
+                                            "Port %s can't be added, port size mismatch %d with %d",
+                                                name.c_str(),
+                                                firstPort->getSize(),
+                                                port->getSize());
+                                    log("%s\n", message.c_str());
+                                    Error e( eMessageIdParserError,
+                                        __FUNCTION__, __FILE__, __LINE__ );
+                                    e.saveContextData( "Parser error message", message );
+                                    e.saveContextData( "Filename", yyloc.begin.filename );
+                                    e.saveContextData( "StartLine", yyloc.begin.line );
+                                    e.saveContextData( "EndLine", yyloc.end.line );
+                                    inDriver.setParserError( e );
+                                    error( yyloc, message );
+                                    YYABORT;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            currentPermutable->addPort( port );
+                        }
+                    }
+                    catch( Error &e )
+                    {
+                        e.setCurrentLocation(
+                            __FUNCTION__, __FILE__, __LINE__ );
+                        throw;
+                    }
+                }
+            }
            |    _NonPermut Permutable
            ;
 
@@ -4160,7 +7506,13 @@ NotAllowed : LBKT NOTALLOWED RuleNameDef _NotAllowed RBKT
 
 _NotAllowed :   FigGrpObj
             |   _NotAllowed Comment
+                {
+                    delete $2;
+                }
             |   _NotAllowed UserData
+                {
+                    delete $2;
+                }
             ;
 
 NotchSpace : LBKT NOTCHSPACING RuleNameDef FigGrpObj _NotchSpace RBKT
@@ -4169,7 +7521,13 @@ NotchSpace : LBKT NOTCHSPACING RuleNameDef FigGrpObj _NotchSpace RBKT
 _NotchSpace :   Range
             |   SingleValSet
             |   _NotchSpace Comment
+                {
+                    delete $2;
+                }
             |   _NotchSpace UserData
+                {
+                    delete $2;
+                }
             ;
 
 Number : LBKT NUMBER _Number RBKT
@@ -4241,6 +7599,9 @@ _NumberDefn :
             |   _NumberDefn Scale
             |   _NumberDefn GridMap
             |   _NumberDefn Comment
+                {
+                    delete $2;
+                }
             ;
 
 OffPageConn : LBKT OFFPAGECONNECTOR _OffPageConn RBKT
@@ -4250,12 +7611,18 @@ _OffPageConn :  PortNameDef
              |  _OffPageConn Unused
              |  _OffPageConn Property
              |  _OffPageConn Comment
+                {
+                    delete $2;
+                }
              |  _OffPageConn UserData
+                {
+                    delete $2;
+                }
              ;
 
 OffsetEvent : LBKT OFFSETEVENT Event ScaledInt RBKT
             {
-                delete $4;
+                $$ = $4;
             }
             ;
 
@@ -4291,7 +7658,13 @@ OverhngDist : LBKT  OVERHANGDISTANCE RuleNameDef FigGrpObj FigGrpObj _OverhngDis
 _OverhngDist :  Range
              |  SingleValSet
              |  _OverhngDist Comment
+                {
+                    delete $2;
+                }
              |  _OverhngDist UserData
+                {
+                    delete $2;
+                }
              ;
 
 OverlapDist : LBKT  OVERLAPDISTANCE RuleNameDef FigGrpObj FigGrpObj _OverlapDist RBKT
@@ -4300,7 +7673,13 @@ OverlapDist : LBKT  OVERLAPDISTANCE RuleNameDef FigGrpObj FigGrpObj _OverlapDist
 _OverlapDist :  Range
              |  SingleValSet
              |  _OverlapDist Comment
+                {
+                    delete $2;
+                }
              |  _OverlapDist UserData
+                {
+                    delete $2;
+                }
              ;
 
 Oversize : LBKT OVERSIZE Int _Oversize CornerType RBKT
@@ -4334,10 +7713,16 @@ _Page :         InstNameDef
       |         _Page PageSize
       |         _Page BoundBox
       |         _Page Comment
+                {
+                    delete $2;
+                }
       |         _Page UserData
+                {
+                    delete $2;
+                }
       ;
 
-PageSize : LBKT PAGESIZE_TORC Rectangle RBKT
+PageSize : LBKT PAGESIZE_EDIF Rectangle RBKT
          ;
 
 ParamDisp : LBKT PARAMETERDISPLAY _ParamDisp RBKT
@@ -4461,12 +7846,67 @@ _Path :         PointList
       |         _Path Property
       ;
 
-PathDelay : LBKT PATHDELAY _PathDelay RBKT
+PathDelayData : LBKT PATHDELAY 
+                {
+                    PathDelaySharedPtr pathDelay;
+                    EdifContextSharedPtr ctx
+                                = inDriver.getContext();
+                    try
+                    {
+                        ctx->getFactory()->create( pathDelay );
+                    }
+                    catch( Error &e )
+                    {
+                        std::string message = constructErrorMessage(
+                                "Unable to create pathDelay" );
+                        log("%s\n", message.c_str());
+                        e.setCurrentLocation( __FUNCTION__,
+                                                __FILE__, __LINE__ );
+                        e.saveContextData( "Parser error message", message );
+                        e.saveContextData( "Filename", yyloc.begin.filename );
+                        e.saveContextData( "StartLine", yyloc.begin.line );
+                        e.saveContextData( "EndLine", yyloc.end.line );
+                        inDriver.setParserError( e );
+                        error( yyloc, message );
+                        YYABORT;
+                    }
+                    ctx->setCurrentPathDelay( pathDelay );
+                    TimingSharedPtr timing = ctx->getCurrentTiming();
+                    timing->addPathDelay( pathDelay );
+                } _PathDelay RBKT
+                {
+                    EdifContextSharedPtr ctx = inDriver.getContext();
+                    ctx->setCurrentPathDelay( PathDelaySharedPtr() );
+                }
+                ;
+
+_PathDelay : PathDelay
+           | _PathDelay Event
+            {
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                PathDelaySharedPtr pathDelay 
+                            = ctx->getCurrentPathDelay();
+                EventSharedPtr event
+                        = ctx->getCurrentEvent();
+                event->setType( Event::eTypeEvent );
+                pathDelay->addEvent( event );
+                ctx->setCurrentEvent( EventSharedPtr() );
+            }
+           ;
+
+PathDelay : LBKT DELAY _PathDelayValue RBKT
+            {
+                boost::scoped_ptr<ValueData> data( $3 );
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                PathDelaySharedPtr pathDelay 
+                            = ctx->getCurrentPathDelay();
+                pathDelay->setDelay( data->mValues[0].get<Value::MiNoMax>() );
+            }
           ;
 
-_PathDelay :    Delay
-           |    _PathDelay Event
-           ;
+_PathDelayValue : MiNoMaValue
+                | MiNoMaDisp
+                ;
 
 PathWidth : LBKT PATHWIDTH Int RBKT
             {
@@ -4474,11 +7914,232 @@ PathWidth : LBKT PATHWIDTH Int RBKT
             }
           ;
 
-Permutable : LBKT PERMUTABLE _Permutable RBKT
+Permutable : LBKT PERMUTABLE 
+            {
+                PermutableSharedPtr permutable;
+                EdifContextSharedPtr ctx
+                                    = inDriver.getContext();
+                try
+                {
+                    ctx->getFactory()->create( permutable );
+                    permutable->setIsNonPermutable( false );
+                }
+                catch( Error &e )
+                {
+                    std::string message = constructErrorMessage(
+                            "Unable to create Permutable" );
+                    log("%s\n", message.c_str());
+                    e.setCurrentLocation( __FUNCTION__,
+                                            __FILE__, __LINE__ );
+                    e.saveContextData( "Parser error message", message );
+                    e.saveContextData( "Filename", yyloc.begin.filename );
+                    e.saveContextData( "StartLine", yyloc.begin.line );
+                    e.saveContextData( "EndLine", yyloc.end.line );
+                    inDriver.setParserError( e );
+                    error( yyloc, message );
+                    YYABORT;
+                }
+                if(ctx->getPermutableDepth() == 0 )
+                {
+                    ctx->getCurrentView()->addPermutable( permutable );
+                }
+                ctx->pushPermutable( permutable );
+                ctx->incrementPermutableDepth();
+            } _Permutable RBKT
+            {
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                PermutableSharedPtr currentPermutable 
+                                    = ctx->getCurrentPermutable();
+                ctx->popPermutable();
+                PermutableSharedPtr parentPermutable; 
+                if(ctx->getPermutableDepth() > 1 )
+                {
+                    parentPermutable = ctx->getCurrentPermutable();
+                }
+                ctx->decrementPermutableDepth();
+                if( parentPermutable )
+                {
+                    parentPermutable->setPermutableType( 
+                            Permutable::ePermutableParent );
+                    currentPermutable->setPermutableType( 
+                            Permutable::ePermutableChild );
+                    //Check permutable port size
+                    size_t parentPermutableSize = parentPermutable->getSize();
+                    size_t currentPermutableSize = currentPermutable->getSize();
+
+                    log("Parent permutable Size :: %d\n",
+                            parentPermutableSize ); 
+                    log("Current permutable Size :: %d\n", 
+                            currentPermutableSize );
+                    std::vector< PermutableSharedPtr > outPermutables;
+                    parentPermutable->getChildren( outPermutables );
+                    std::vector< PortSharedPtr > outPorts;
+                    parentPermutable->getPorts( outPorts );
+            
+                    if( !outPermutables.empty() || !outPorts.empty() )
+                    {
+                        if( parentPermutableSize
+                                == currentPermutableSize )
+                        {
+                            parentPermutable->addChildPermutable(
+                                    currentPermutable );
+                        }
+                        else
+                        {
+                            std::string message = constructErrorMessage(
+                                    "Child permutable can't be added, port size mismatch %d with %d",
+                                        parentPermutableSize,
+                                        currentPermutableSize);
+                            log("%s\n", message.c_str());
+                            Error e( eMessageIdParserError,
+                                __FUNCTION__, __FILE__, __LINE__ );
+                            e.saveContextData( "Parser error message", message );
+                            e.saveContextData( "Filename", yyloc.begin.filename );
+                            e.saveContextData( "StartLine", yyloc.begin.line );
+                            e.saveContextData( "EndLine", yyloc.end.line );
+                            inDriver.setParserError( e );
+                            error( yyloc, message );
+                            YYABORT;
+                        }
+                    }
+                    else
+                    {
+                        parentPermutable->addChildPermutable(
+                                currentPermutable );
+                    }
+                } 
+                else
+                {
+                    ctx->pushPermutable( currentPermutable );
+                }              
+            }
            ;
 
 _Permutable :
-            |   _Permutable PortRef
+            |   _Permutable PortRefData
+            {
+                boost::scoped_ptr<PortRefData> portData( $2 );
+                NameData *portNameData = portData->mPortName;
+                std::string name = portNameData->mName;
+                EdifContextSharedPtr ctx
+                                    = inDriver.getContext();
+                ViewSharedPtr view = ctx->getCurrentView();
+                if( view && ( View::eTypeGraphic == view->getType() || 
+                    View::eTypeDocument == view->getType() ) )
+                {
+                    std::string message = constructErrorMessage(
+                            "Permutable can not be used in this view type");
+                    log("%s\n", message.c_str());
+                    Error e( eMessageIdErrorNullPointer,
+                        __FUNCTION__, __FILE__, __LINE__ );
+                    throw e;
+                }    
+                PortRefData *currPortRef = $2;
+                PortRefData *nextPortRef = portData->mParentPort;
+                std::vector< std::string > nestedNames;
+                nestedNames.push_back(currPortRef->mPortName->mName);
+                while( nextPortRef )
+                {
+                    currPortRef = nextPortRef;
+                    nestedNames.push_back( nextPortRef->mPortName->mName );
+                    nextPortRef = currPortRef->mParentPort;
+                }
+                bool isPort = ( NULL == currPortRef->mInstanceName );
+                std::string topName = *(nestedNames.rbegin());
+                if( isPort )
+                {
+                    PortSharedPtr port = view->findPort( topName );
+                    if( !port )
+                    {
+                        std::string message = constructErrorMessage(
+                                "No port %s found in view %s\n", 
+                                            name.c_str(),
+                                            view->getName().c_str());
+                        log("%s\n", message.c_str());
+                        Error e( eMessageIdParserError,
+                            __FUNCTION__, __FILE__, __LINE__ );
+                        e.saveContextData( "Parser error message", message );
+                        e.saveContextData( "Filename", yyloc.begin.filename );
+                        e.saveContextData( "StartLine", yyloc.begin.line );
+                        e.saveContextData( "EndLine", yyloc.end.line );
+                        inDriver.setParserError( e );
+                        error( yyloc, message );
+                        YYABORT;
+                    }
+                    PermutableSharedPtr currentPermutable 
+                                        = ctx->getCurrentPermutable();
+                    try
+                    {             
+                        connectibleFinder( nestedNames, port );  
+                        if( !portData->mPortName->mIndices.empty() )
+                        {
+                            port = port->get( portData->mPortName->mIndices );
+                        }
+                        //Check permutable port size
+                        std::vector< PortSharedPtr > outPorts;
+                        currentPermutable->getPorts( outPorts );
+                        
+                        if( !outPorts.empty() )
+                        {
+                            PortSharedPtr firstPort = outPorts.front();
+                            std::vector< PortSharedPtr >::iterator it
+                                            = std::find( outPorts.begin(), outPorts.end(),
+                                                    port);
+                            if( it != outPorts.end() )
+                            {
+                                std::string message = constructErrorMessage(
+                                            "Port %s already exist in permutable",
+                                                port->getName().c_str() );
+                                    log("%s\n", message.c_str());
+                                    Error e( eMessageIdParserError,
+                                        __FUNCTION__, __FILE__, __LINE__ );
+                                    e.saveContextData( "Parser error message", message );
+                                    e.saveContextData( "Filename", yyloc.begin.filename );
+                                    e.saveContextData( "StartLine", yyloc.begin.line );
+                                    e.saveContextData( "EndLine", yyloc.end.line );
+                                    inDriver.setParserError( e );
+                                    error( yyloc, message );
+                                    YYABORT;
+                            }
+                            else
+                            {
+                                if( firstPort->getSize() == port->getSize() )
+                                {
+                                    currentPermutable->addPort( port );
+                                }
+                                else
+                                {
+                                    std::string message = constructErrorMessage(
+                                            "Port %s can't be added, port size mismatch %d with %d",
+                                                name.c_str(),
+                                                firstPort->getSize(),
+                                                port->getSize());
+                                    log("%s\n", message.c_str());
+                                    Error e( eMessageIdParserError,
+                                        __FUNCTION__, __FILE__, __LINE__ );
+                                    e.saveContextData( "Parser error message", message );
+                                    e.saveContextData( "Filename", yyloc.begin.filename );
+                                    e.saveContextData( "StartLine", yyloc.begin.line );
+                                    e.saveContextData( "EndLine", yyloc.end.line );
+                                    inDriver.setParserError( e );
+                                    error( yyloc, message );
+                                    YYABORT;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            currentPermutable->addPort( port );
+                        }
+                    }
+                    catch( Error &e )
+                    {
+                        e.setCurrentLocation(
+                            __FUNCTION__, __FILE__, __LINE__ );
+                        throw;
+                    }
+                }
+            }
             |   _Permutable Permutable
             |   _Permutable NonPermut
             ;
@@ -4582,7 +8243,7 @@ Port : LBKT PORT PortNameDefData
             boost::scoped_ptr<NameData> pNameData($3);
             std::string name = pNameData->mName;
             EdifContextSharedPtr ctx
-                                            = inDriver.getContext();
+                                = inDriver.getContext();
             PortSharedPtr port;
             ViewSharedPtr view = ctx->getCurrentView();
             PortBundleSharedPtr bundle
@@ -4648,7 +8309,8 @@ Port : LBKT PORT PortNameDefData
                     catch( Error &e )
                     {
                         std::string message = constructErrorMessage(
-                                "Unable to create vector port : %s", port->getName().c_str());
+                                "Unable to create vector port : %s", 
+                                        port->getName().c_str());
                         log("%s\n", message.c_str());
                         e.setCurrentLocation( __FUNCTION__,
                                                 __FILE__, __LINE__ );
@@ -4673,7 +8335,8 @@ Port : LBKT PORT PortNameDefData
                     catch( Error &e )
                     {
                         std::string message = constructErrorMessage(
-                                "Unable to create port : %s", port->getName().c_str());
+                                "Unable to create port : %s", 
+                                        port->getName().c_str());
                         log("%s\n", message.c_str());
                         e.setCurrentLocation( __FUNCTION__,
                                                 __FILE__, __LINE__ );
@@ -4736,83 +8399,91 @@ Port : LBKT PORT PortNameDefData
      ;
 
 _Port :
-                {
-                    $$ = NULL;
-                }
-      |         _Port Direction
-                {
-                    $$ = $1;
-                }
-      |         _Port UnusedData
-                {
-                    $$ = ($1)?$1:new PortAttributes();
-                    Value::Boolean unused = $2;
-                    Value val( Value::eValueTypeBoolean, unused );
-                    $$->setUnused( val );
-                }
-      |         _Port PortDelayData
-                {
-                    boost::scoped_ptr<PortDelay> delay( $2 );
-                    $$ = ($1)?$1:new PortAttributes();
-                    $$->setPortDelay( *delay );
-                }
-      |         _Port DesignatorData
-                {
-                    $$ = ($1)?$1:new PortAttributes();
-                    boost::scoped_ptr<std::string> data($2);
-                    Value val( Value::eValueTypeString, *data );
-                    $$->setDesignator( val );
-                }
-      |         _Port DcFanInLoad
-                  {
-                    boost::scoped_ptr<PairData> data($2);
-                    Value::Number num( data->mX, data->mY );
-                    Value val( Value::eValueTypeNumber, num );
-                    $$ = ($1)?$1:new PortAttributes();
-                    $$->setDcFaninLoad( val );
-                }
-      |         _Port DcFanOutLoad
-                  {
-                    boost::scoped_ptr<PairData> data($2);
-                    Value::Number num( data->mX, data->mY );
-                    Value val( Value::eValueTypeNumber, num );
-                    $$ = ($1)?$1:new PortAttributes();
-                    $$->setDcFanoutLoad( val );
-                }
-      |         _Port DcMaxFanIn
-                  {
-                    boost::scoped_ptr<PairData> data($2);
-                    Value::Number num( data->mX, data->mY );
-                    Value val( Value::eValueTypeNumber, num );
-                    $$ = ($1)?$1:new PortAttributes();
-                    $$->setDcMaxFanin( val );
-                }
-      |         _Port DcMaxFanOut
-                  {
-                    boost::scoped_ptr<PairData> data($2);
-                    Value::Number num( data->mX, data->mY );
-                    Value val( Value::eValueTypeNumber, num );
-                    $$ = ($1)?$1:new PortAttributes();
-                    $$->setDcMaxFanout( val );
-                }
-      |         _Port AcLoad
-                  {
-                    boost::scoped_ptr<ValueData> data($2);
-                    $$ = ($1)?$1:new PortAttributes();
-                    $$->setAcLoad( data->mValues[0] );
-                }
-      |         _Port Property
-                  {
-                    $$ = $1;
-                }
-      |         _Port Comment
-                  {
-                    $$ = $1;
-                }
-      |         _Port UserData
-                  {
-                    $$ = $1;
-                }
+        {
+            $$ = NULL;
+        }
+      | _Port Direction
+        {
+            $$ = $1;
+        }
+      | _Port UnusedData
+        {
+            $$ = ($1)?$1:new PortAttributes();
+            Value::Boolean unused = $2;
+            Value val( Value::eValueTypeBoolean, unused );
+            $$->setUnused( val );
+        }
+      | _Port PortDelayData
+        {
+            boost::scoped_ptr<PortDelay> delay( $2 );
+            $$ = ($1)?$1:new PortAttributes();
+            $$->setPortDelay( *delay );
+        }
+      | _Port DesignatorData
+        {
+            $$ = ($1)?$1:new PortAttributes();
+            boost::scoped_ptr<std::string> data($2);
+            Value val( Value::eValueTypeString, *data );
+            $$->setDesignator( val );
+        }
+      | _Port DcFanInLoad
+        {
+            boost::scoped_ptr<PairData> data($2);
+            Value::Number num( data->mX, data->mY );
+            Value val( Value::eValueTypeNumber, num );
+            $$ = ($1)?$1:new PortAttributes();
+            $$->setDcFaninLoad( val );
+        }
+      | _Port DcFanOutLoad
+        {
+            boost::scoped_ptr<PairData> data($2);
+            Value::Number num( data->mX, data->mY );
+            Value val( Value::eValueTypeNumber, num );
+            $$ = ($1)?$1:new PortAttributes();
+            $$->setDcFanoutLoad( val );
+        }
+      | _Port DcMaxFanIn
+        {
+            boost::scoped_ptr<PairData> data($2);
+            Value::Number num( data->mX, data->mY );
+            Value val( Value::eValueTypeNumber, num );
+            $$ = ($1)?$1:new PortAttributes();
+            $$->setDcMaxFanin( val );
+        }
+      | _Port DcMaxFanOut
+        {
+            boost::scoped_ptr<PairData> data($2);
+            Value::Number num( data->mX, data->mY );
+            Value val( Value::eValueTypeNumber, num );
+            $$ = ($1)?$1:new PortAttributes();
+            $$->setDcMaxFanout( val );
+        }
+      | _Port AcLoad
+        {
+            boost::scoped_ptr<ValueData> data($2);
+            $$ = ($1)?$1:new PortAttributes();
+            $$->setAcLoad( data->mValues[0] );
+        }
+      | _Port Property
+        {
+            $$ = $1;
+        }
+      | _Port Comment
+        {
+            $$ = $1;
+            EdifContextSharedPtr ctx = inDriver.getContext();
+            PortSharedPtr port = ctx->getCurrentPort();
+            port->addComment( *$2 );
+            delete $2;
+        }
+      | _Port UserData
+        {
+            $$ = $1;
+            EdifContextSharedPtr ctx = inDriver.getContext();
+            PortSharedPtr port = ctx->getCurrentPort();
+            port->addUserData( *$2 );
+            delete $2;
+        }
       ;
 
 PortBackAn : LBKT PORTBACKANNOTATE PortRefData
@@ -4948,7 +8619,8 @@ PortBackAn : LBKT PORTBACKANNOTATE PortRefData
                     catch( Error &e )
                     {
                         std::string message = constructErrorMessage(
-                                "Unable to connect port ref : %s", portRef->getName().c_str());
+                                "Unable to connect port ref : %s", 
+                                        portRef->getName().c_str());
                         log("%s\n", message.c_str());
                         e.setCurrentLocation( __FUNCTION__,
                                                 __FILE__, __LINE__ );
@@ -5057,6 +8729,7 @@ _PortBackAn :
        |   _PortBackAn Comment
                 {
                     $$ = $1;
+                    delete $2;
                 }
             ;
 
@@ -5121,7 +8794,8 @@ PortBundle : LBKT PORTBUNDLE NameDefData
                 catch( Error &e )
                 {
                     std::string message = constructErrorMessage(
-                            "Unable to create port bundle : %s", port->getName().c_str());
+                            "Unable to create port bundle : %s", 
+                                    port->getName().c_str());
                     log("%s\n", message.c_str());
                     e.setCurrentLocation( __FUNCTION__,
                                             __FILE__, __LINE__ );
@@ -5164,14 +8838,28 @@ PortBundle : LBKT PORTBUNDLE NameDefData
 _PortBundle :   ListOfPorts
             |   _PortBundle Property
             |   _PortBundle Comment
+                {
+                    EdifContextSharedPtr ctx = inDriver.getContext();
+                    PortBundleSharedPtr bundle 
+                                = ctx->getCurrentPortBundleContext();
+                    bundle->addComment( *$2 );
+                    delete $2;
+                }
             |   _PortBundle UserData
+                {
+                    EdifContextSharedPtr ctx = inDriver.getContext();
+                    PortBundleSharedPtr bundle 
+                                = ctx->getCurrentPortBundleContext();
+                    bundle->addUserData( *$2 );
+                    delete $2;
+                }
             ;
 
-PortDelayData : LBKT PORTDELAY DerivationData _PortDelayData RBKT
+PortDelayData : LBKT PORTDELAY Derivation _PortDelayData RBKT
             {
                 $$ = $4;
                 $$->setDerivation(
-                        static_cast<PortDelay::Derivation>( $3 ) );
+                        static_cast<Derivation>( $3 ) );
                 inDriver.getLexer()->setAppendToBuffer( false );
                 inDriver.getLexer()->resetBuffer();
             }
@@ -5192,16 +8880,70 @@ _PortDelayData :    DelayData
            |    _PortDelayData Transition
                 {
                     $$ = ( $1 ) ? $1 : new PortDelay();
-                    $$->setTransition( inDriver.getLexer()->getBuffer() );
-                    inDriver.getLexer()->resetBuffer();
+                    EdifContextSharedPtr ctx
+                                = inDriver.getContext();
+                    LogicElementSharedPtr logicElem
+                                    = ctx->getCurrentLogicElement();
+                    if( logicElem )
+                    {
+                        $$->setTransition( logicElem );
+                    }
                 }
            |    _PortDelayData Becomes
                 {
                     $$ = ( $1 ) ? $1 : new PortDelay();
-                    $$->setBecomes( inDriver.getLexer()->getBuffer() );
-                    inDriver.getLexer()->resetBuffer();
+                    EdifContextSharedPtr ctx
+                                = inDriver.getContext();
+                    LogicElementSharedPtr logicElem
+                                    = ctx->getCurrentLogicElement();
+                    if( logicElem )
+                    {
+                        $$->setTransition( logicElem );
+                    }
                 }
            ;
+
+EventPortGroup : LBKT PORTGROUP _EventPortGroup RBKT
+               ;
+
+_EventPortGroup :
+                |    _EventPortGroup EventPortNameRef
+                |    _EventPortGroup EventPortRefData
+                ;
+
+EventPortNameRef : PortNameRefData
+                {
+                    boost::scoped_ptr<NameData> portData( $1 );
+                    std::string name = portData->mName;
+                    EdifContextSharedPtr ctx
+                                    = inDriver.getContext();
+                    ViewSharedPtr view = ctx->getCurrentView();
+                    PortSharedPtr port = view->findPort( name );
+                    if( !port )
+                    {
+                        std::string message = constructErrorMessage(
+                                "No port %s found in view %s\n", 
+                                            name.c_str(),
+                                            view->getName().c_str());
+                        log("%s\n", message.c_str());
+                        Error e( eMessageIdParserError,
+                            __FUNCTION__, __FILE__, __LINE__ );
+                        e.saveContextData( "Parser error message", message );
+                        e.saveContextData( "Filename", yyloc.begin.filename );
+                        e.saveContextData( "StartLine", yyloc.begin.line );
+                        e.saveContextData( "EndLine", yyloc.end.line );
+                        inDriver.setParserError( e );
+                        error( yyloc, message );
+                        YYABORT;
+                    }
+                    else
+                    {
+                        EventSharedPtr event
+                                    = ctx->getCurrentEvent();
+                        event->addPort( port );
+                    }
+                }
+                ;
 
 PortGroup : LBKT PORTGROUP _PortGroup RBKT
           ;
@@ -5224,7 +8966,13 @@ _PortImpl :     PortRef
           |     _PortImpl KeywordDisp
           |     _PortImpl Property
           |     _PortImpl UserData
+                {
+                    delete $2;
+                }
           |     _PortImpl Comment
+                {
+                    delete $2;
+                }
           ;
 
 PortInst : LBKT PORTINSTANCE _PortInst RBKT
@@ -5333,10 +9081,12 @@ _PortInst : PortRefData
        |   _PortInst Comment
             {
                 $$ = $1;
+                delete $2;
             }
        |   _PortInst UserData
             {
                 $$ = $1;
+                delete $2;
             }
           ;
 
@@ -5372,7 +9122,122 @@ _PortListData :
             }
           ;
 
-PortListAls : LBKT PORTLISTALIAS PortNameDef PortList RBKT
+PortListAls : LBKT PORTLISTALIAS PortNameDefData PortListData RBKT
+            {
+                if( $3 )
+                {
+                    boost::scoped_ptr<NameData> nameData( $3 );
+                    std::string name = nameData->mName;
+                    EdifContextSharedPtr ctx = inDriver.getContext();
+                    PortListAliasSharedPtr portlistAlias;
+                    ctx->getFactory()->create( portlistAlias );
+                    portlistAlias->setName( name );
+
+                    if( NULL != $4 && !$4->mPortRefs.empty() )
+                    {
+                        boost::scoped_ptr<PortListData> portListData( $4 );
+                        std::string message;
+
+                        EdifContextSharedPtr ctx = inDriver.getContext();
+                        PortListSharedPtr portList;
+                        ctx->getFactory()->create( portList );
+
+                        for( std::vector<PortRefData *>::iterator it
+                                = portListData->mPortRefs.begin();
+                                it != portListData->mPortRefs.end(); ++it )
+                        {
+                            PortRefData *portData = *it;
+                            std::vector< std::string > nestedNames;
+                            PortRefData *currPortRef = *it;
+                            PortRefData *nextPortRef = portData->mParentPort;
+                            nestedNames.push_back(currPortRef->mPortName->mName);
+                            while( nextPortRef )
+                            {
+                                currPortRef = nextPortRef;
+                                nestedNames.push_back( nextPortRef->mPortName->mName );
+                                nextPortRef = currPortRef->mParentPort;
+                            }
+                            bool isPort = ( NULL == currPortRef->mInstanceName );
+                            NameData *portNameData = currPortRef->mPortName;
+                            std::string topName = *(nestedNames.rbegin());
+                            ViewSharedPtr view = ctx->getCurrentView();
+                            if( isPort )
+                            {
+                                PortSharedPtr port = view->findPort( topName );
+                                if( !port )
+                                {
+                                    std::string message = constructErrorMessage(
+                                            "No port %s found in view %s\n", 
+                                                portNameData->mName.c_str(),
+                                                view->getName().c_str());
+                                    log("%s\n", message.c_str());
+                                    Error e( eMessageIdParserError,
+                                        __FUNCTION__, __FILE__, __LINE__ );
+                                    e.saveContextData( "Parser error message", message );
+                                    e.saveContextData( "Filename", yyloc.begin.filename );
+                                    e.saveContextData( "StartLine", yyloc.begin.line );
+                                    e.saveContextData( "EndLine", yyloc.end.line );
+                                    inDriver.setParserError( e );
+                                    error( yyloc, message );
+                                    YYABORT;
+                                }
+
+                                try
+                                {
+                                    connectibleFinder( nestedNames, port );
+                                    if( !portData->mPortName->mIndices.empty() )
+                                    {
+                                        port = port->get( portData->mPortName->mIndices );
+                                    }
+                                    portList->addChildPort( port );
+                                }
+                                catch( Error &e )
+                                {
+                                    std::string message = constructErrorMessage(
+                                            "Unable to connect port : %s", 
+                                                    port->getName().c_str());
+                                    log("%s\n", message.c_str());
+                                    e.setCurrentLocation( __FUNCTION__,
+                                                            __FILE__, __LINE__ );
+                                    e.saveContextData( "Parser error message", message );
+                                    e.saveContextData( "Filename", yyloc.begin.filename );
+                                    e.saveContextData( "StartLine", yyloc.begin.line );
+                                    e.saveContextData( "EndLine", yyloc.end.line );
+                                    inDriver.setParserError( e );
+                                    error( yyloc, message );
+                                    YYABORT;
+                                }
+                            }
+                            else
+                            {
+                            }
+                        }
+                        portlistAlias->setPortList( portList );
+                    }
+                    SimulateSharedPtr simulate 
+                            = ctx->getCurrentSimulate();
+                    try
+                    {
+                        simulate->addPortListAlias( portlistAlias );
+                    }
+                    catch( Error &e )
+                    {
+                        std::string message = constructErrorMessage(
+                                "Unable to add port list alias : %s", 
+                                        portlistAlias->getName().c_str());
+                        log("%s\n", message.c_str());
+                        e.setCurrentLocation( __FUNCTION__,
+                                                __FILE__, __LINE__ );
+                        e.saveContextData( "Parser error message", message );
+                        e.saveContextData( "Filename", yyloc.begin.filename );
+                        e.saveContextData( "StartLine", yyloc.begin.line );
+                        e.saveContextData( "EndLine", yyloc.end.line );
+                        inDriver.setParserError( e );
+                        error( yyloc, message );
+                        YYABORT;
+                    }
+                }
+            }
             ;
 
 PortMap : LBKT PORTMAP _PortMap RBKT
@@ -5382,7 +9247,13 @@ _PortMap :
          |      _PortMap PortRef
          |      _PortMap PortGroup
          |      _PortMap Comment
+                {
+                    delete $2;
+                }
          |      _PortMap UserData
+                {
+                    delete $2;
+                }
          ;
 
 PortNameDef :   NameDef
@@ -5465,19 +9336,18 @@ _PortRefData :
 
 Program : LBKT PROGRAM Str _Program RBKT
         {
-            $$ = $3;
-            //delete $4; TBD::FIX
+            $$ = new PairStrData( *$3, *$4 );
         }
         ;
 
 _Program :
             {
-                //$$ = NULL;
+                $$ = new std::string();
             }
          |      Version
              {
-                //$$ = $1;
-                delete $1;
+                $$ = $1;
+                //delete $1;
             }
          ;
 
@@ -5602,19 +9472,24 @@ _Property :     TypedValue
                 inDriver.getContext()->getCurrentProperty()
                             ->setValue( value->mValues[0] );
             }
-          |     _Property Owner
+          | _Property Owner
             {
                 inDriver.getContext()->getCurrentProperty()
                                     ->setOwner( *$2 );
                 delete $2;
             }
-          |     _Property Unit
+          | _Property Unit
             {
                 inDriver.getContext()->getCurrentProperty()
                                 ->setUnit( static_cast<Unit>($2) );
             }
-          |     _Property Property
-          |     _Property Comment
+          | _Property Property
+          | _Property Comment
+            {
+                inDriver.getContext()->getCurrentProperty()
+                            ->addComment( *$2 );
+                delete $2;
+            }
           ;
 
 PropNameDef :   NameDefData
@@ -5637,15 +9512,21 @@ _ProtectFrame :
               | _ProtectFrame ParamDisp
               | _ProtectFrame Property
               | _ProtectFrame Comment
+                {
+                    delete $2;
+                }
               | _ProtectFrame UserData
+                {
+                    delete $2;
+                }
               ;
 
-Range :         LessThan
-      |         GreaterThan
-      |         AtMost
-      |         AtLeast
-      |         Exactly
-      |         Between
+Range : LessThan
+      | GreaterThan
+      | AtMost
+      | AtLeast
+      | Exactly
+      | Between
       ;
 
 RangeVector : LBKT RANGEVECTOR _RangeVector RBKT
@@ -5675,7 +9556,13 @@ RectSize : LBKT RECTANGLESIZE RuleNameDef FigGrpObj _RectSize RBKT
 _RectSize :     RangeVector
           |     MultValSet
           |     _RectSize Comment
+                {
+                    delete $2;
+                }
           |     _RectSize UserData
+                {
+                    delete $2;
+                }
           ;
 
 Rename : LBKT RENAME __Rename _Rename RBKT
@@ -5692,27 +9579,37 @@ __Rename :  Ident
                 $$->mName = *$1;
                 delete $1;
             }
-         |      Name
-             {
+         |  Name
+            {
                 $$ = $1;
             }
          ;
 
-_Rename :       Str
+_Rename :   Str
         {
             $$ = $1;
         }
-        |       StrDisplay
+        |   StrDisplay
         {
             $$ = $1;
         }
         ;
 
 Resolves : LBKT RESOLVES _Resolves RBKT
+            {
+                $$ = $3;
+            }
          ;
 
 _Resolves :
-          |     _Resolves LogicNameRef
+            {
+                $$ = NULL;
+            }
+          |     _Resolves LogicNameRefData
+            {
+                $$ = ($1)?$1:new LogicListData();
+                $$->mNameDataList.push_back( $2 );
+            }
           ;
 
 RuleNameDef :   NameDef
@@ -5753,16 +9650,16 @@ ScaleY : LBKT SCALEY Int Int RBKT
 Section : LBKT SECTION _Section RBKT
         ;
 
-_Section :      Str
+_Section :  Str
             {
                 delete $1;
             }
-         |      _Section Section
-         |      _Section Str
-             {
+         |  _Section Section
+         |  _Section Str
+            {
                 delete $2;
             }
-         |      _Section Instance
+         |  _Section Instance
          ;
 
 Shape : LBKT SHAPE _Shape RBKT
@@ -5772,43 +9669,136 @@ _Shape :        Curve
        |        _Shape Property
        ;
 
-SimNameDef :    NameDef
+SimNameDef :    NameDefData
            ;
 
-Simulate : LBKT SIMULATE
-        {
-            boost::shared_ptr<View> currV = inDriver.getContext()->getCurrentView();
-            if( currV && View::eTypeNetlist == currV->getType() )
+Simulate : LBKT SIMULATE 
             {
-                inDriver.getLexer()->setAppendToBuffer( true );
-                inDriver.getLexer()->resetBuffer();
-            }
-        } _Simulate RBKT
-        {
-            boost::shared_ptr<View> currV = inDriver.getContext()->getCurrentView();
-            if( currV && View::eTypeNetlist == currV->getType() )
+                SimulateSharedPtr simulate;
+                EdifContextSharedPtr ctx
+                            = inDriver.getContext();
+                try
+                {
+                    ctx->getFactory()->create( simulate );
+                }
+                catch( Error &e )
+                {
+                    std::string message = constructErrorMessage(
+                            "Unable to create simulate" );
+                    log("%s\n", message.c_str());
+                    e.setCurrentLocation( __FUNCTION__,
+                                            __FILE__, __LINE__ );
+                    e.saveContextData( "Parser error message", message );
+                    e.saveContextData( "Filename", yyloc.begin.filename );
+                    e.saveContextData( "StartLine", yyloc.begin.line );
+                    e.saveContextData( "EndLine", yyloc.end.line );
+                    inDriver.setParserError( e );
+                    error( yyloc, message );
+                    YYABORT;
+                }
+                ctx->setCurrentSimulate( simulate );
+            } _Simulate RBKT
             {
-                inDriver.getLexer()->setAppendToBuffer( false );
-                log("%s\n", inDriver.getLexer()->getBuffer().c_str());
-                inDriver.getLexer()->resetBuffer();
+                // Note : Need to do the followings, from where Simulate called
+                //EdifContextSharedPtr ctx = inDriver.getContext();
+                //ctx->setCurrentSimulate( SimulateSharedPtr() );
             }
-        };
+            ;
 
-_Simulate :     SimNameDef
-          |     _Simulate PortListAls
-          |     _Simulate WaveValue
-          |     _Simulate Apply
-          |     _Simulate Comment
-          |     _Simulate UserData
+_Simulate : SimNameDef
+            {
+                if( $1 )
+                {
+                    EdifContextSharedPtr ctx
+                                = inDriver.getContext();
+                    SimulateSharedPtr simulate
+                                = ctx->getCurrentSimulate();
+                    simulate->setName( $1->mName );
+                    if( !$1->mOriginalName.empty() )
+                    {
+                        simulate->setOriginalName( $1->mOriginalName );
+                    }
+                    delete $1;
+                }
+                else
+                {
+                    //TBD::POSSIBLE?
+                }
+            }
+          | _Simulate PortListAls
+          | _Simulate WaveValue
+          | _Simulate Apply
+          | _Simulate Comment
+            {
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                SimulateSharedPtr simulate 
+                        = ctx->getCurrentSimulate();
+                simulate->addComment( *$2 );
+                delete $2;
+            }
+          | _Simulate UserData
+            {
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                SimulateSharedPtr simulate 
+                        = ctx->getCurrentSimulate();
+                simulate->addUserData( *$2 );
+                delete $2;
+            }
           ;
 
-SimulInfo : LBKT SIMULATIONINFO _SimulInfo RBKT
+SimulInfo : LBKT SIMULATIONINFO 
+            {
+                SimulationInfoSharedPtr simuInfo;
+                EdifContextSharedPtr ctx
+                            = inDriver.getContext();
+                try
+                {
+                    ctx->getFactory()->create( simuInfo );
+                }
+                catch( Error &e )
+                {
+                    std::string message = constructErrorMessage(
+                            "Unable to create simulation info" );
+                    log("%s\n", message.c_str());
+                    e.setCurrentLocation( __FUNCTION__,
+                                            __FILE__, __LINE__ );
+                    e.saveContextData( "Parser error message", message );
+                    e.saveContextData( "Filename", yyloc.begin.filename );
+                    e.saveContextData( "StartLine", yyloc.begin.line );
+                    e.saveContextData( "EndLine", yyloc.end.line );
+                    inDriver.setParserError( e );
+                    error( yyloc, message );
+                    YYABORT;
+                }
+                ctx->setCurrentSimulationInfo( simuInfo );
+                LibrarySharedPtr lib = ctx->getCurrentLibrary();
+                lib->setSimulationInfo( simuInfo );
+            } _SimulInfo RBKT
+            {
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                ctx->setCurrentSimulationInfo(
+                        SimulationInfoSharedPtr() );
+            }
           ;
 
 _SimulInfo :
            |    _SimulInfo LogicValue
            |    _SimulInfo Comment
+                {
+                    EdifContextSharedPtr ctx = inDriver.getContext();
+                    SimulationInfoSharedPtr simuInfo 
+                                    = ctx->getCurrentSimulationInfo();
+                    simuInfo->addComment( *$2 );
+                    delete $2;
+                }
            |    _SimulInfo UserData
+                {
+                    EdifContextSharedPtr ctx = inDriver.getContext();
+                    SimulationInfoSharedPtr simuInfo 
+                                    = ctx->getCurrentSimulationInfo();
+                    simuInfo->addUserData( *$2 );
+                    delete $2;
+                }
            ;
 
 SingleValSet : LBKT SINGLEVALUESET _SingleValSet RBKT
@@ -5839,13 +9829,66 @@ _SocketSet :    Symmetry
            |    _SocketSet Site
            ;
 
-Status : LBKT STATUS _Status RBKT
+Status : LBKT STATUS 
+        {
+            StatusSharedPtr status;
+            EdifContextSharedPtr ctx
+                                = inDriver.getContext();
+            try
+            {
+                ctx->getFactory()->create( status );
+            }
+            catch( Error &e )
+            {
+                std::string message = constructErrorMessage(
+                        "Unable to create Status" );
+                log("%s\n", message.c_str());
+                e.setCurrentLocation( __FUNCTION__,
+                                        __FILE__, __LINE__ );
+                e.saveContextData( "Parser error message", message );
+                e.saveContextData( "Filename", yyloc.begin.filename );
+                e.saveContextData( "StartLine", yyloc.begin.line );
+                e.saveContextData( "EndLine", yyloc.end.line );
+                inDriver.setParserError( e );
+                error( yyloc, message );
+                YYABORT;
+            }
+            ctx->setCurrentStatus( status );
+        } _Status RBKT
+        {
+            EdifContextSharedPtr ctx = inDriver.getContext();
+            StatusSharedPtr currentStatus 
+                                = ctx->getCurrentStatus(); 
+                                    
+            StatusContainerSharedPtr container
+                                    = ctx->getCurrentStatusContainer();
+            if( container ) 
+            {
+                container->addStatus( currentStatus );
+            }
+            else
+            {
+                log( "Status is being discarded\n" );
+            }
+        }
        ;
 
 _Status :
-        |       _Status Written
-        |       _Status Comment
-        |       _Status UserData
+        |   _Status Written
+        |   _Status Comment
+            {
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                StatusSharedPtr status = ctx->getCurrentStatus();
+                status->addComment( *$2 );
+                delete $2;
+            }
+        |   _Status UserData
+            {
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                StatusSharedPtr status = ctx->getCurrentStatus();
+                status->addUserData( *$2 );
+                delete $2;
+            }
         ;
 
 Steady : LBKT STEADY __Steady _Steady RBKT
@@ -5857,6 +9900,9 @@ __Steady :      PortNameRef
          ;
 
 _Steady :       Duration
+                {
+                    delete $1;
+                }
         |       _Steady Transition
         |       _Steady Becomes
         ;
@@ -5924,7 +9970,10 @@ _StrDisplay :   Str
             }
             ;
 
-Strong : LBKT STRONG LogicNameRef RBKT
+Strong : LBKT STRONG LogicNameRefData RBKT
+        {
+            $$ = $3;
+        }
        ;
 
 Symbol : LBKT SYMBOL _Symbol RBKT
@@ -5943,7 +9992,13 @@ _Symbol :
         |       _Symbol ParamDisp
         |       _Symbol Property
         |       _Symbol Comment
+                {
+                    delete $2;
+                }
         |       _Symbol UserData
+                {
+                    delete $2;
+                }
         ;
 
 Symmetry : LBKT SYMMETRY _Symmetry RBKT
@@ -5965,6 +10020,9 @@ TableDeflt : LBKT TABLEDEFAULT __TableDeflt _TableDeflt RBKT
            ;
 
 __TableDeflt :  LogicRef
+                {
+                    delete $1;
+                }
              |  PortRef
              |  NoChange
              |  Table
@@ -5987,7 +10045,13 @@ _Technology :   NumberDefn
             |   _Technology SimulInfo
             |   _Technology DesignRule
             |   _Technology Comment
+                {
+                    delete $2;
+                }
             |   _Technology UserData
+                {
+                    delete $2;
+                }
             ;
 
 TextHeight : LBKT TEXTHEIGHT Int RBKT
@@ -5996,17 +10060,77 @@ TextHeight : LBKT TEXTHEIGHT Int RBKT
             }
            ;
 
-TimeIntval : LBKT TIMEINTERVAL __TimeIntval _TimeIntval RBKT
+TimeIntval : LBKT TIMEINTERVAL StartTimeIntval EndTimeIntval RBKT
            ;
 
-__TimeIntval :  Event
-             |  OffsetEvent
-             ;
+StartTimeIntval :  Event
+                {
+                    EdifContextSharedPtr ctx = inDriver.getContext();
+                    ForbiddenEventSharedPtr forbiddenEvent 
+                                = ctx->getCurrentForbiddenEvent();
+                    EventSharedPtr event
+                            = ctx->getCurrentEvent();
+                    event->setType( Event::eTypeEvent );
+                    forbiddenEvent->setStartTimeInterval( event );
+                    ctx->setCurrentEvent( EventSharedPtr() );
+                }
+                |  OffsetEvent
+                {
+                    boost::scoped_ptr<PairData> data( $1 );
+                    Value::Number num( data->mX, data->mY );
+                    Value val( Value::eValueTypeNumber, num );
 
-_TimeIntval :   Event
-            |   OffsetEvent
-            |   Duration
-            ;
+                    EdifContextSharedPtr ctx = inDriver.getContext();
+                    ForbiddenEventSharedPtr forbiddenEvent 
+                                = ctx->getCurrentForbiddenEvent();
+                    EventSharedPtr event
+                            = ctx->getCurrentEvent();
+                    event->setType( Event::eTypeOffsetEvent );
+                    event->setOffsetTime( val );
+                    forbiddenEvent->setStartTimeInterval( event );
+                    ctx->setCurrentEvent( EventSharedPtr() );
+                }
+                ;
+
+EndTimeIntval :  Event
+                {
+                    EdifContextSharedPtr ctx = inDriver.getContext();
+                    ForbiddenEventSharedPtr forbiddenEvent 
+                                = ctx->getCurrentForbiddenEvent();
+                    EventSharedPtr event
+                            = ctx->getCurrentEvent();
+                    event->setType( Event::eTypeEvent );
+                    forbiddenEvent->setEndTimeInterval( event );
+                    ctx->setCurrentEvent( EventSharedPtr() );
+                }
+              |  OffsetEvent
+                {
+                    boost::scoped_ptr<PairData> data( $1 );
+                    Value::Number num( data->mX, data->mY );
+                    Value val( Value::eValueTypeNumber, num );
+                    
+                    EdifContextSharedPtr ctx = inDriver.getContext();
+                    ForbiddenEventSharedPtr forbiddenEvent 
+                                = ctx->getCurrentForbiddenEvent();
+                    EventSharedPtr event
+                            = ctx->getCurrentEvent();
+                    event->setType( Event::eTypeOffsetEvent );
+                    event->setOffsetTime( val );
+                    forbiddenEvent->setEndTimeInterval( event );
+                    ctx->setCurrentEvent( EventSharedPtr() );
+                }
+              |  Duration
+                {
+                    EdifContextSharedPtr ctx = inDriver.getContext();
+                    ForbiddenEventSharedPtr forbiddenEvent 
+                                = ctx->getCurrentForbiddenEvent();
+
+                    boost::scoped_ptr<PairData> data( $1 );
+                    Value::Number num( data->mX, data->mY );
+                    Value val( Value::eValueTypeNumber, num );
+                    forbiddenEvent->setDuration( val );
+                }
+              ;
 
 TimeStamp : LBKT TIMESTAMP Int Int Int Int Int Int RBKT
         {
@@ -6016,34 +10140,78 @@ TimeStamp : LBKT TIMESTAMP Int Int Int Int Int Int RBKT
             if( $6 );
             if( $7 );
             if( $8 );
+            $$ = new TimeStamp(); 
+            $$->setYear( $3 );
+            $$->setMonth( $4 );
+            $$->setDay( $5 );
+            $$->setHour( $6 );
+            $$->setMinute( $7 );
+            $$->setSecond( $8 ); 
         }
           ;
 
 Timing : LBKT TIMING
         {
-            boost::shared_ptr<View> currV = inDriver.getContext()->getCurrentView();
-            if( currV && View::eTypeNetlist == currV->getType() )
+            TimingSharedPtr timing;
+            EdifContextSharedPtr ctx
+                        = inDriver.getContext();
+            try
             {
-                inDriver.getLexer()->setAppendToBuffer( true );
-                inDriver.getLexer()->resetBuffer();
+                ctx->getFactory()->create( timing );
             }
+            catch( Error &e )
+            {
+                std::string message = constructErrorMessage(
+                        "Unable to create timing" );
+                log("%s\n", message.c_str());
+                e.setCurrentLocation( __FUNCTION__,
+                                        __FILE__, __LINE__ );
+                e.saveContextData( "Parser error message", message );
+                e.saveContextData( "Filename", yyloc.begin.filename );
+                e.saveContextData( "StartLine", yyloc.begin.line );
+                e.saveContextData( "EndLine", yyloc.end.line );
+                inDriver.setParserError( e );
+                error( yyloc, message );
+                YYABORT;
+            }
+            ctx->setCurrentTiming( timing );
         } _Timing RBKT
         {
-            boost::shared_ptr<View> currV = inDriver.getContext()->getCurrentView();
-            if( currV && View::eTypeNetlist == currV->getType() )
-            {
-                inDriver.getLexer()->setAppendToBuffer( false );
-                log("%s\n", inDriver.getLexer()->getBuffer().c_str());
-                inDriver.getLexer()->resetBuffer();
-            }
+            // Note : Need to do the followings, from where Timing called
+            //EdifContextSharedPtr ctx = inDriver.getContext();
+            //ctx->setCurrentTiming( TimingSharedPtr() );
         }
        ;
 
-_Timing :       Derivation
-        |       _Timing PathDelay
-        |       _Timing Forbidden
-        |       _Timing Comment
-        |       _Timing UserData
+_Timing :   Derivation
+            {
+                EdifContextSharedPtr ctx
+                        = inDriver.getContext();
+                TimingSharedPtr timing
+                        = ctx->getCurrentTiming();
+                timing->setDerivation( 
+                          static_cast<Derivation>( $1 ) );    
+            }
+        |   _Timing PathDelayData
+        |   _Timing Forbidden
+        |   _Timing Comment
+            {
+                EdifContextSharedPtr ctx
+                        = inDriver.getContext();
+                TimingSharedPtr timing
+                        = ctx->getCurrentTiming();
+                timing->addComment( *$2 );
+                delete $2;
+            }
+        |   _Timing UserData
+            {
+                EdifContextSharedPtr ctx
+                        = inDriver.getContext();
+                TimingSharedPtr timing
+                        = ctx->getCurrentTiming();
+                timing->addUserData( *$2 );
+                delete $2;
+            }
         ;
 
 Transform : LBKT TRANSFORM _TransformExt RBKT
@@ -6057,13 +10225,40 @@ _TransformExt:
             | _TransformExt Origin
             ;
 
-Transition : LBKT TRANSITION _Transition _Transition RBKT
+Transition : LBKT TRANSITION 
+            {
+                EdifContextSharedPtr ctx
+                                = inDriver.getContext();
+                LogicElementSharedPtr logicElem;
+                try
+                {
+                    ctx->getFactory()->create( logicElem );
+                    logicElem->setType( LogicElement::eTypeTransition );
+                }
+                catch( Error &e )
+                {
+                    std::string message = constructErrorMessage(
+                            "Unable to create transition" );
+                    log("%s\n", message.c_str());
+                    e.setCurrentLocation( __FUNCTION__,
+                                            __FILE__, __LINE__ );
+                    e.saveContextData( "Parser error message", message );
+                    e.saveContextData( "Filename", yyloc.begin.filename );
+                    e.saveContextData( "StartLine", yyloc.begin.line );
+                    e.saveContextData( "EndLine", yyloc.end.line );
+                    inDriver.setParserError( e );
+                    error( yyloc, message );
+                    YYABORT;
+                }
+                ctx->pushLogicElement( logicElem );
+                ctx->incrementLogicElementDepth();
+            } _PreviousValue _PresentValue RBKT
            ;
 
-_Transition :   LogicNameRef
-            |   LogicList
-            |   LogicOneOf
-            ;
+_PreviousValue :   LogicNameData
+               |   LogicList
+               |   LogicOneOf
+               ;
 
 Trigger : LBKT TRIGGER _Trigger RBKT
         ;
@@ -6181,26 +10376,36 @@ UnusedData : LBKT UNUSED RBKT
         }
        ;
 
-UserData : LBKT USERDATA _UserData RBKT
+UserData : LBKT USERDATA 
+            {
+                inDriver.getLexer()->setAppendToUserDataBuffer( true );
+                inDriver.getLexer()->resetUserDataBuffer();
+            } _UserData RBKT
+            {
+                std::string val = inDriver.getLexer()->getUserDataBuffer();
+                $$ = new std::string( val );
+                inDriver.getLexer()->setAppendToUserDataBuffer( false );
+                inDriver.getLexer()->resetUserDataBuffer();
+            }
          ;
 
-_UserData :     Ident
+_UserData : Ident
             {
                 delete $1;
             }
-          |     _UserData Int
-                {
-                    if( $2 );
-                }
-          |     _UserData Str
-                  {
-                    delete $2;
-                }
-          |     _UserData Ident
-                  {
-                    delete $2;
-                }
-          |     _UserData Form
+          | _UserData Int
+            {
+                if( $2 );
+            }
+          | _UserData Str
+            {
+                delete $2;
+            }
+          | _UserData Ident
+            {
+                delete $2;
+            }
+          | _UserData Form
           ;
 
 ValueNameDefData :  NameDefData
@@ -6301,7 +10506,8 @@ View : LBKT VIEW ViewNameDef
                 catch( Error &e )
                 {
                     std::string message = constructErrorMessage(
-                            "Unable to create View : %s", view->getName().c_str());
+                            "Unable to create View : %s", 
+                                    view->getName().c_str());
                     log("%s\n", message.c_str());
                     e.setCurrentLocation( __FUNCTION__,
                                             __FILE__, __LINE__ );
@@ -6341,6 +10547,7 @@ View : LBKT VIEW ViewNameDef
             log("View %s added\n",
                     view->getName().c_str());
             ctx->pushPropertyContainer( view );
+            ctx->pushStatusContainer( view );
         } ViewType _View RBKT
         {
             ViewSharedPtr view = inDriver.getContext()->getCurrentView();
@@ -6352,6 +10559,8 @@ View : LBKT VIEW ViewNameDef
                             ViewSharedPtr() );
             inDriver.getContext()->setIsViewBeingLinked( false );
             inDriver.getContext()->popPropertyContainer();
+            inDriver.getContext()->popStatusContainer();
+
             inDriver.getLexer()->setAppendToBuffer( false );
             log("%s\n", inDriver.getLexer()->getBuffer().c_str());
 
@@ -6359,12 +10568,36 @@ View : LBKT VIEW ViewNameDef
         }
      ;
 
-_View :         Interface
-      |         _View Status
-      |         _View Contents
-      |         _View Comment
-      |         _View Property
-      |         _View UserData
+_View : Interface
+        {
+            EdifContextSharedPtr ctx = inDriver.getContext();
+            ViewSharedPtr view = ctx->getCurrentView();
+            if( $1 )
+            {
+                InterfaceAttributesSharedPtr attrib( $1 );
+                view->setInterfaceAttributes( attrib );
+            }
+        }
+      | _View Status
+      | _View Contents
+      | _View Comment
+        {
+            EdifContextSharedPtr ctx = inDriver.getContext();
+            ViewSharedPtr view = ctx->getCurrentView();
+            view->addComment( *$2 );
+            delete $2;
+        }
+      | _View Property
+      | _View UserData
+        {
+            EdifContextSharedPtr ctx = inDriver.getContext();
+            ViewSharedPtr view = ctx->getCurrentView();
+            if( View::eTypeNetlist == view->getType() )
+            {
+                view->addUserData( *$2 );
+                delete $2;
+            }
+        }
       ;
 
 ViewList : LBKT VIEWLIST _ViewList RBKT
@@ -6386,7 +10619,13 @@ _ViewMap :
          |      _ViewMap NetMap
          |      _ViewMap NetBackAn
          |      _ViewMap Comment
+                {
+                    delete $2;
+                }
          |      _ViewMap UserData
+                {
+                    delete $2;
+                }
          ;
 
 ViewNameDef :   NameDefData
@@ -6504,26 +10743,418 @@ Visible : LBKT VISIBLE BooleanValue RBKT
         ;
 
 VoltageMap : LBKT VOLTAGEMAP MiNoMaValue RBKT
-        {
-            delete $3;
-        }
-        ;
-
-WaveValue : LBKT WAVEVALUE LogicNameDef ScaledInt LogicWave RBKT
             {
-                delete $4;
+                $$ = $3;
+            }
+            ;
+
+WaveValue : LBKT WAVEVALUE LogicNameDef ScaledInt 
+            {
+                if( $3 )
+                {
+                    boost::scoped_ptr<NameData> nameData( $3 );
+                    std::string name = nameData->mName;
+                    EdifContextSharedPtr ctx = inDriver.getContext();
+                    WaveValueSharedPtr waveValue;
+                    try
+                    {
+                        ctx->getFactory()->create( waveValue );
+                        waveValue->setName( name );
+                    }
+                    catch( Error &e )
+                    {
+                        std::string message = constructErrorMessage(
+                                "Unable to create WaveValue" );
+                        log("%s\n", message.c_str());
+                        e.setCurrentLocation( __FUNCTION__,
+                                                __FILE__, __LINE__ );
+                        e.saveContextData( "Parser error message", message );
+                        e.saveContextData( "Filename", yyloc.begin.filename );
+                        e.saveContextData( "StartLine", yyloc.begin.line );
+                        e.saveContextData( "EndLine", yyloc.end.line );
+                        inDriver.setParserError( e );
+                        error( yyloc, message );
+                        YYABORT;
+                    }
+                    boost::scoped_ptr<PairData> data($4);
+                    Value::Number num( data->mX, data->mY );
+                    Value val( Value::eValueTypeNumber, num );
+                    waveValue->setDeltaTimeDuration( val );
+
+                    SimulateSharedPtr simulate 
+                            = ctx->getCurrentSimulate();
+                    try
+                    {
+                        simulate->addWaveValue( waveValue );
+                    }
+                    catch( Error &e )
+                    {
+                        std::string message = constructErrorMessage(
+                                "Unable to add wave value : %s", 
+                                        waveValue->getName().c_str());
+                        log("%s\n", message.c_str());
+                        e.setCurrentLocation( __FUNCTION__,
+                                                __FILE__, __LINE__ );
+                        e.saveContextData( "Parser error message", message );
+                        e.saveContextData( "Filename", yyloc.begin.filename );
+                        e.saveContextData( "StartLine", yyloc.begin.line );
+                        e.saveContextData( "EndLine", yyloc.end.line );
+                        inDriver.setParserError( e );
+                        error( yyloc, message );
+                        YYABORT;
+                    }
+                    ctx->setCurrentWaveValue( waveValue );
+                }
+            } LogicWave RBKT
+            {
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                ctx->setCurrentWaveValue( WaveValueSharedPtr() ); 
             }
           ;
 
-Weak : LBKT WEAK LogicNameRef RBKT
+Weak : LBKT WEAK LogicNameRefData RBKT
+        {
+            $$ = $3;
+        }
      ;
 
-WeakJoined : LBKT WEAKJOINED _WeakJoined RBKT
+WeakJoined : LBKT WEAKJOINED 
+            {
+                InterfaceJoinedInfoSharedPtr joinedInfo;
+                EdifContextSharedPtr ctx
+                                    = inDriver.getContext();
+                try
+                {
+                    ctx->getFactory()->create( joinedInfo );
+                    joinedInfo->setJoinedType( 
+                            InterfaceJoinedInfo::eJoinedTypeWeak );
+                }
+                catch( Error &e )
+                {
+                    std::string message = constructErrorMessage(
+                            "Unable to create weak joined info" );
+                    log("%s\n", message.c_str());
+                    e.setCurrentLocation( __FUNCTION__,
+                                            __FILE__, __LINE__ );
+                    e.saveContextData( "Parser error message", message );
+                    e.saveContextData( "Filename", yyloc.begin.filename );
+                    e.saveContextData( "StartLine", yyloc.begin.line );
+                    e.saveContextData( "EndLine", yyloc.end.line );
+                    inDriver.setParserError( e );
+                    error( yyloc, message );
+                    YYABORT;
+                }
+                if(ctx->getInterfaceJoinedInfoDepth() == 0 )
+                {
+                    ctx->getCurrentView()->addInterfaceJoinedInfo( joinedInfo );
+                }
+                ctx->pushInterfaceJoinedInfo( joinedInfo );
+                ctx->incrementInterfaceJoinedInfoDepth();
+            } _WeakJoined RBKT
+            {
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                InterfaceJoinedInfoSharedPtr currentJoinedInfo 
+                        = ctx->getCurrentInterfaceJoinedInfo();
+                ctx->popInterfaceJoinedInfo();
+                InterfaceJoinedInfoSharedPtr parentJoinedInfo; 
+                if(ctx->getInterfaceJoinedInfoDepth() > 1 )
+                {
+                    parentJoinedInfo = ctx->getCurrentInterfaceJoinedInfo();
+                }
+                ctx->decrementInterfaceJoinedInfoDepth();
+                if( parentJoinedInfo )
+                {                    
+                    parentJoinedInfo->setRelationType( 
+                            InterfaceJoinedInfo::eRelationTypeParent );
+                    currentJoinedInfo->setRelationType( 
+                            InterfaceJoinedInfo::eRelationTypeChild );
+                    //Check size
+                    size_t parentJoinedInfoSize = parentJoinedInfo->getSize();
+                    size_t currentJoinedInfoSize = currentJoinedInfo->getSize();
+
+                    log("Parent joined info Size :: %d\n",
+                            parentJoinedInfoSize ); 
+                    log("Current joined info Size :: %d\n", 
+                            currentJoinedInfoSize );
+
+                    //std::cout << "Parent joined info Size :: " << parentJoinedInfoSize << std::endl;
+                    //std::cout << "Current joined info Size :: " << currentJoinedInfoSize << std::endl;
+
+                    std::vector< InterfaceJoinedInfoSharedPtr > outJoinedInfos;
+                    parentJoinedInfo->getChildren( outJoinedInfos );
+
+                    std::list< PortSharedPtr > outPorts;
+                    parentJoinedInfo->getPorts( outPorts );
+                    
+                    std::list< PortListSharedPtr > outPortLists;
+                    parentJoinedInfo->getPortLists( outPortLists );
+                    
+                    if( parentJoinedInfoSize != 0 ) 
+                    {
+                        if( parentJoinedInfoSize
+                                == currentJoinedInfoSize )
+                        {
+                            parentJoinedInfo->addChildJoinedInfo(
+                                    currentJoinedInfo );
+                        }
+                        else
+                        {
+                            std::string message = constructErrorMessage(
+                                    "Child joined info can't be added, port size mismatch %d with %d",
+                                        parentJoinedInfoSize,
+                                        currentJoinedInfoSize);
+                            log("%s\n", message.c_str());
+                            Error e( eMessageIdParserError,
+                                __FUNCTION__, __FILE__, __LINE__ );
+                            e.saveContextData( "Parser error message", message );
+                            e.saveContextData( "Filename", yyloc.begin.filename );
+                            e.saveContextData( "StartLine", yyloc.begin.line );
+                            e.saveContextData( "EndLine", yyloc.end.line );
+                            inDriver.setParserError( e );
+                            error( yyloc, message );
+                            YYABORT;
+                        }
+                    }
+                    else
+                    {
+                        parentJoinedInfo->addChildJoinedInfo(
+                                currentJoinedInfo );
+                    }
+                } 
+                else
+                {
+                    ctx->pushInterfaceJoinedInfo( currentJoinedInfo );
+                }              
+            }
            ;
 
 _WeakJoined :
-            |   _WeakJoined PortRef
-            |   _WeakJoined PortList
+            |   _WeakJoined PortRefData
+            {
+                boost::scoped_ptr<PortRefData> portData( $2 );
+                NameData *portNameData = portData->mPortName;
+                std::string name = portNameData->mName;
+                EdifContextSharedPtr ctx
+                                    = inDriver.getContext();
+                ViewSharedPtr view = ctx->getCurrentView();
+
+                PortRefData *currPortRef = $2;
+                PortRefData *nextPortRef = portData->mParentPort;
+                std::vector< std::string > nestedNames;
+                nestedNames.push_back(currPortRef->mPortName->mName);
+                while( nextPortRef )
+                {
+                    currPortRef = nextPortRef;
+                    nestedNames.push_back( nextPortRef->mPortName->mName );
+                    nextPortRef = currPortRef->mParentPort;
+                }
+                bool isPort = ( NULL == currPortRef->mInstanceName );
+                std::string topName = *(nestedNames.rbegin());
+                if( isPort )
+                {
+                    PortSharedPtr port = view->findPort( topName );
+                    if( !port )
+                    {
+                        std::string message = constructErrorMessage(
+                                "No port %s found in view %s\n", 
+                                            name.c_str(),
+                                            view->getName().c_str());
+                        log("%s\n", message.c_str());
+                        Error e( eMessageIdParserError,
+                            __FUNCTION__, __FILE__, __LINE__ );
+                        e.saveContextData( "Parser error message", message );
+                        e.saveContextData( "Filename", yyloc.begin.filename );
+                        e.saveContextData( "StartLine", yyloc.begin.line );
+                        e.saveContextData( "EndLine", yyloc.end.line );
+                        inDriver.setParserError( e );
+                        error( yyloc, message );
+                        YYABORT;
+                    }
+
+                    InterfaceJoinedInfoSharedPtr currentJoinedInfo 
+                                        = ctx->getCurrentInterfaceJoinedInfo();
+                    try
+                    {             
+                        connectibleFinder( nestedNames, port );  
+                        if( !portData->mPortName->mIndices.empty() )
+                        {
+                            port = port->get( portData->mPortName->mIndices );
+                        }
+                        //Check port size
+                        std::list< PortSharedPtr > outPorts;
+                        currentJoinedInfo->getPorts( outPorts );
+                        
+                        if( !outPorts.empty() )
+                        {
+                            PortSharedPtr firstPort = outPorts.front();
+                            std::list< PortSharedPtr >::iterator it
+                                            = std::find( outPorts.begin(), outPorts.end(),
+                                                    port);
+                            if( it != outPorts.end() )
+                            {
+                                std::string message = constructErrorMessage(
+                                            "Port %s already exist in weakJoined info",
+                                                port->getName().c_str() );
+                                    log("%s\n", message.c_str());
+                                    Error e( eMessageIdParserError,
+                                        __FUNCTION__, __FILE__, __LINE__ );
+                                    e.saveContextData( "Parser error message", message );
+                                    e.saveContextData( "Filename", yyloc.begin.filename );
+                                    e.saveContextData( "StartLine", yyloc.begin.line );
+                                    e.saveContextData( "EndLine", yyloc.end.line );
+                                    inDriver.setParserError( e );
+                                    error( yyloc, message );
+                                    YYABORT;
+                            }
+                            else
+                            {
+                                if( firstPort->getSize() == port->getSize() )
+                                {
+                                    currentJoinedInfo->addPort( port );
+                                }
+                                else
+                                {
+                                    std::string message = constructErrorMessage(
+                                            "Port %s can't be added, port size mismatch %d with %d",
+                                                name.c_str(),
+                                                firstPort->getSize(),
+                                                port->getSize());
+                                    log("%s\n", message.c_str());
+                                    Error e( eMessageIdParserError,
+                                        __FUNCTION__, __FILE__, __LINE__ );
+                                    e.saveContextData( "Parser error message", message );
+                                    e.saveContextData( "Filename", yyloc.begin.filename );
+                                    e.saveContextData( "StartLine", yyloc.begin.line );
+                                    e.saveContextData( "EndLine", yyloc.end.line );
+                                    inDriver.setParserError( e );
+                                    error( yyloc, message );
+                                    YYABORT;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            currentJoinedInfo->addPort( port );
+                        }
+                    }
+                    catch( Error &e )
+                    {
+                        e.setCurrentLocation(
+                            __FUNCTION__, __FILE__, __LINE__ );
+                        throw;
+                    }
+                }
+                else
+                {
+                }
+            }
+            |   _WeakJoined PortListData
+            {
+                if( NULL != $2 && !$2->mPortRefs.empty() )
+                {
+                    boost::scoped_ptr<PortListData> portListData( $2 );
+                    std::string message;
+
+                    EdifContextSharedPtr ctx = inDriver.getContext();
+                    PortListSharedPtr portList;
+                    ctx->getFactory()->create( portList );
+
+                    InterfaceJoinedInfoSharedPtr currentJoinedInfo 
+                                = ctx->getCurrentInterfaceJoinedInfo();
+
+                    for( std::vector<PortRefData *>::iterator it
+                            = portListData->mPortRefs.begin();
+                            it != portListData->mPortRefs.end(); ++it )
+                    {
+                        PortRefData *portData = *it;
+                        std::vector< std::string > nestedNames;
+                        PortRefData *currPortRef = *it;
+                        PortRefData *nextPortRef = portData->mParentPort;
+                        nestedNames.push_back(currPortRef->mPortName->mName);
+                        while( nextPortRef )
+                        {
+                            currPortRef = nextPortRef;
+                            nestedNames.push_back( nextPortRef->mPortName->mName );
+                            nextPortRef = currPortRef->mParentPort;
+                        }
+                        bool isPort = ( NULL == currPortRef->mInstanceName );
+                        NameData *portNameData = currPortRef->mPortName;
+                        std::string topName = *(nestedNames.rbegin());
+                        ViewSharedPtr view = ctx->getCurrentView();
+                        if( isPort )
+                        {
+                            PortSharedPtr port = view->findPort( topName );
+                            if( !port )
+                            {
+                                std::string message = constructErrorMessage(
+                                        "No port %s found in view %s\n", 
+                                            portNameData->mName.c_str(),
+                                            view->getName().c_str());
+                                log("%s\n", message.c_str());
+                                Error e( eMessageIdParserError,
+                                    __FUNCTION__, __FILE__, __LINE__ );
+                                e.saveContextData( "Parser error message", message );
+                                e.saveContextData( "Filename", yyloc.begin.filename );
+                                e.saveContextData( "StartLine", yyloc.begin.line );
+                                e.saveContextData( "EndLine", yyloc.end.line );
+                                inDriver.setParserError( e );
+                                error( yyloc, message );
+                                YYABORT;
+                            }
+
+                            try
+                            {
+                                connectibleFinder( nestedNames, port );
+                                if( !portData->mPortName->mIndices.empty() )
+                                {
+                                    port = port->get( portData->mPortName->mIndices );
+                                }
+                                portList->addChildPort( port );
+                            }
+                            catch( Error &e )
+                            {
+                                std::string message = constructErrorMessage(
+                                        "Unable to connect port : %s", 
+                                                port->getName().c_str());
+                                log("%s\n", message.c_str());
+                                e.setCurrentLocation( __FUNCTION__,
+                                                        __FILE__, __LINE__ );
+                                e.saveContextData( "Parser error message", message );
+                                e.saveContextData( "Filename", yyloc.begin.filename );
+                                e.saveContextData( "StartLine", yyloc.begin.line );
+                                e.saveContextData( "EndLine", yyloc.end.line );
+                                inDriver.setParserError( e );
+                                error( yyloc, message );
+                                YYABORT;
+                            }
+                        }
+                        else
+                        {
+                        }
+                    }
+                    if( currentJoinedInfo->getSize() == portList->getSize() )
+                    {
+                        currentJoinedInfo->addPortList( portList );
+                    }
+                    else
+                    {
+                        std::string message = constructErrorMessage(
+                                "Port size mismatch %d with %d",
+                                    currentJoinedInfo->getSize(),
+                                    portList->getSize());
+                        log("%s\n", message.c_str());
+                        Error e( eMessageIdParserError,
+                            __FUNCTION__, __FILE__, __LINE__ );
+                        e.saveContextData( "Parser error message", message );
+                        e.saveContextData( "Filename", yyloc.begin.filename );
+                        e.saveContextData( "StartLine", yyloc.begin.line );
+                        e.saveContextData( "EndLine", yyloc.end.line );
+                        inDriver.setParserError( e );
+                        error( yyloc, message );
+                        YYABORT;
+                    }
+                }
+            }
             |   _WeakJoined Joined
             ;
 
@@ -6536,25 +11167,97 @@ _When :         Trigger
       |         _When Maintain
       |         _When LogicAssn
       |         _When Comment
+                {
+                    delete $2;
+                }
       |         _When UserData
+                {
+                    delete $2;
+                }
       ;
 
-Written :  LBKT WRITTEN _Written RBKT
+Written :  LBKT WRITTEN 
+            {
+                WrittenSharedPtr written;
+                EdifContextSharedPtr ctx
+                                    = inDriver.getContext();
+                try
+                {
+                    ctx->getFactory()->create( written );
+                }            
+                catch( Error &e )
+                {
+                    std::string message = constructErrorMessage(
+                            "Unable to create Written" );
+                    log("%s\n", message.c_str());
+                    e.setCurrentLocation( __FUNCTION__,
+                                            __FILE__, __LINE__ );
+                    e.saveContextData( "Parser error message", message );
+                    e.saveContextData( "Filename", yyloc.begin.filename );
+                    e.saveContextData( "StartLine", yyloc.begin.line );
+                    e.saveContextData( "EndLine", yyloc.end.line );
+                    inDriver.setParserError( e );
+                    error( yyloc, message );
+                    YYABORT;
+                }
+                ctx->setCurrentWritten( written );
+                ctx->pushPropertyContainer( written );
+            } _Written RBKT
+            {
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                StatusSharedPtr status = ctx->getCurrentStatus();
+                WrittenSharedPtr written = ctx->getCurrentWritten();
+                status->addWritten( written );
+                ctx->setCurrentWritten( WrittenSharedPtr() );
+                ctx->popPropertyContainer();
+            }
         ;
 
-_Written :      TimeStamp
-         |      _Written Author
-                 {
-                    delete $2;
-                }
-         |      _Written Program
-                 {
-                    delete $2;
-                }
-         |      _Written DataOrigin
-         |      _Written Property
-         |      _Written Comment
-         |      _Written UserData
+_Written :  TimeStamp
+            {
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                WrittenSharedPtr written = ctx->getCurrentWritten();
+                written->setTimeStamp( *$1 );
+                delete $1;
+            }
+         |  _Written Author
+            {
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                WrittenSharedPtr written = ctx->getCurrentWritten();
+                written->setAuthorName( *$2 );
+                delete $2;
+            }
+         |  _Written Program
+            {
+                boost::scoped_ptr<PairStrData> data($2);
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                WrittenSharedPtr written = ctx->getCurrentWritten();
+                written->setProgramName( data->mFirst );
+                written->setProgramVersion( data->mSecond );
+            }
+         |  _Written DataOrigin
+            {
+                boost::scoped_ptr<PairStrData> data($2);
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                WrittenSharedPtr written = ctx->getCurrentWritten();
+                written->setDataOriginLocationName( data->mFirst );
+                written->setDataOriginVersion( data->mSecond );
+            }
+         |  _Written Property
+         |  _Written Comment
+            {
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                WrittenSharedPtr written = ctx->getCurrentWritten();
+                written->addComment( *$2 );
+                delete $2;
+            }
+         |  _Written UserData
+            {
+                EdifContextSharedPtr ctx = inDriver.getContext();
+                WrittenSharedPtr written = ctx->getCurrentWritten();
+                written->addUserData( *$2 );
+                delete $2;
+            }
          ;
 
 Ident : IDENTIFIER
@@ -6577,6 +11280,7 @@ Int : INTEGER
 
 Keyword : Ident
         {
+            inDriver.getLexer()->setIsIdContext( true );
             delete $1;
         }
         ;

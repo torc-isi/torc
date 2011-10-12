@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_SCALAR_HPP
-#define TORC_GENERIC_SCALAR_HPP
+#ifndef TORC_GENERIC_OM_SCALAR_HPP
+#define TORC_GENERIC_OM_SCALAR_HPP
 
 #include "torc/generic/om/DumpRestoreConfig.hpp"
 
@@ -167,4 +167,4 @@ Scalar<_Type>::serialize( Archive &ar, unsigned int ) {
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_OM_SCALAR_HPP

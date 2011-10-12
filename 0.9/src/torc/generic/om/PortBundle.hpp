@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_PORT_BUNDLE_HPP
-#define TORC_GENERIC_PORT_BUNDLE_HPP
+#ifndef TORC_GENERIC_OM_PORTBUNDLE_HPP
+#define TORC_GENERIC_OM_PORTBUNDLE_HPP
 
 #include "torc/generic/om/PointerTypes.hpp"
 #include "torc/generic/om/DumpRestoreConfig.hpp"
@@ -67,7 +67,6 @@ class PortBundle
          * Create a port bundle.
          *
          * @param[in] inName Name of the port bundle to be created.
-         * @param[in] inDirection Direction of port.
          * @param[in] inViewPtr Pointer to parented(View) object.
          * @param[in] inParentCollection Pointer to parent bundle.
          * @param[in] inOriginalName Original name of the port bundle [optional].
@@ -125,7 +124,7 @@ class PortBundle
     * Disconnect a Net from this object.
     * @note This metod can be overridden by derived classes. However, the method must call the on_connected() method after this. The sigConnected_ signal must also be invoked in the overriding method.
     
-    * @param[in] connection A connection as returned by the connect() method
+    * @param[in] inConnection A connection as returned by the connect() method
     * @exception Error Provided connection is invalid, because pointer to the Net does not exist
     *       <ul>
     *         <li>
@@ -165,4 +164,4 @@ class PortBundle
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_OM_PORTBUNDLE_HPP

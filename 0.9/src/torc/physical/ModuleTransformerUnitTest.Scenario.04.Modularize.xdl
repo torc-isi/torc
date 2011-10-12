@@ -1,0 +1,197 @@
+
+# =======================================================
+# XDL NCD CONVERSION MODE $Revision: 1.01$
+# time: Wed Jul 27 13:27:02 2011
+
+# =======================================================
+
+
+# =======================================================
+# The syntax for the design statement is:                
+# design <design_name> <part> <ncd version>;             
+# or                                                     
+# design <design_name> <device> <package> <speed> <ncd_version>
+# =======================================================
+design "C:\Users\Tony\Desktop\testCases\moduleTransformerExample.ncd" xc5vlx110tff1136-1 v3.2 ;
+
+
+# =======================================================
+# The syntax for modules is:
+#     module <name> <inst_name> ;
+#     port <name> <inst_name> <inst_pin> ;
+#     .
+#     .
+#     instance ... ;
+#     .
+#     .
+#     net ... ;
+#     .
+#     .
+#     endmodule <name> ;
+# =======================================================
+
+# =======================================================
+# MODULE of "hm"
+# =======================================================
+module "hm" "$COMP_0" , cfg "_SYSTEM_MACRO::FALSE" ; 
+  inst "$COMP_0" "SLICEL",placed CLBLL_X2Y1 SLICE_X2Y1  ,
+    cfg " A5LUT::#OFF A6LUT::#OFF ACY0::#OFF AFF::#OFF AFFINIT::#OFF AFFMUX::#OFF
+         AFFSR::#OFF AOUTMUX::#OFF AUSED::#OFF B5LUT::#OFF B6LUT::#OFF BCY0::#OFF
+         BFF::#OFF BFFINIT::#OFF BFFMUX::#OFF BFFSR::#OFF BOUTMUX::#OFF
+         BUSED::#OFF C5LUT::#OFF C6LUT::#OFF CCY0::#OFF CEUSED::#OFF CFF::#OFF
+         CFFINIT::#OFF CFFMUX::#OFF CFFSR::#OFF CLKINV::#OFF COUTMUX::#OFF
+         COUTUSED::#OFF CUSED::#OFF D5LUT::#OFF D6LUT::#OFF DCY0::#OFF DFF::#OFF
+         DFFINIT::#OFF DFFMUX::#OFF DFFSR::#OFF DOUTMUX::#OFF DUSED::#OFF
+         PRECYINIT::#OFF REVUSED::#OFF SRUSED::#OFF SYNC_ATTR::#OFF "
+    ;
+endmodule "hm" ;
+
+
+#  =======================================================
+#  The syntax for instances is:
+#      instance <name> <sitedef>, placed <tile> <site>, cfg <string> ;
+#  or
+#      instance <name> <sitedef>, unplaced, cfg <string> ;
+# 
+#  For typing convenience you can abbreviate instance to inst.
+# 
+#  For IOs there are two special keywords: bonded and unbonded
+#  that can be used to designate whether the PAD of an unplaced IO is
+#  bonded out. If neither keyword is specified, bonded is assumed.
+# 
+#  The bonding of placed IOs is determined by the site they are placed in.
+# 
+#  If you specify bonded or unbonded for an instance that is not an
+#  IOB it is ignored.
+# 
+#  Shown below are three examples for IOs. 
+#     instance IO1 IOB, unplaced ;          # This will be bonded
+#     instance IO1 IOB, unplaced bonded ;   # This will be bonded
+#     instance IO1 IOB, unplaced unbonded ; # This will be unbonded
+#  =======================================================
+inst "c1" "SLICEL",placed CLBLL_X9Y7 SLICE_X14Y7  ,
+  cfg " A5LUT::#OFF A6LUT::#OFF ACY0::#OFF AFF::#OFF AFFINIT::#OFF AFFMUX::#OFF
+       AFFSR::#OFF AOUTMUX::#OFF AUSED::#OFF B5LUT::#OFF B6LUT::#OFF BCY0::#OFF
+       BFF::#OFF BFFINIT::#OFF BFFMUX::#OFF BFFSR::#OFF BOUTMUX::#OFF BUSED::#OFF
+       C5LUT::#OFF C6LUT::#OFF CCY0::#OFF CEUSED::#OFF CFF::#OFF CFFINIT::#OFF
+       CFFMUX::#OFF CFFSR::#OFF CLKINV::#OFF COUTMUX::#OFF COUTUSED::#OFF
+       CUSED::#OFF D5LUT::#OFF D6LUT::#OFF DCY0::#OFF DFF::#OFF DFFINIT::#OFF
+       DFFMUX::#OFF DFFSR::#OFF DOUTMUX::#OFF DUSED::#OFF PRECYINIT::#OFF
+       REVUSED::#OFF SRUSED::#OFF SYNC_ATTR::#OFF "
+  ;
+inst "c2" "SLICEL",placed CLBLL_X9Y8 SLICE_X15Y8  ,
+  cfg " A5LUT::#OFF A6LUT::#OFF ACY0::#OFF AFF::#OFF AFFINIT::#OFF AFFMUX::#OFF
+       AFFSR::#OFF AOUTMUX::#OFF AUSED::#OFF B5LUT::#OFF B6LUT::#OFF BCY0::#OFF
+       BFF::#OFF BFFINIT::#OFF BFFMUX::#OFF BFFSR::#OFF BOUTMUX::#OFF BUSED::#OFF
+       C5LUT::#OFF C6LUT::#OFF CCY0::#OFF CEUSED::#OFF CFF::#OFF CFFINIT::#OFF
+       CFFMUX::#OFF CFFSR::#OFF CLKINV::#OFF COUTMUX::#OFF COUTUSED::#OFF
+       CUSED::#OFF D5LUT::#OFF D6LUT::#OFF DCY0::#OFF DFF::#OFF DFFINIT::#OFF
+       DFFMUX::#OFF DFFSR::#OFF DOUTMUX::#OFF DUSED::#OFF PRECYINIT::#OFF
+       REVUSED::#OFF SRUSED::#OFF SYNC_ATTR::#OFF "
+  ;
+inst "e1" "SLICEL",placed CLBLL_X7Y7 SLICE_X10Y7  ,
+  cfg " A5LUT::#OFF A6LUT::#OFF ACY0::#OFF AFF::#OFF AFFINIT::#OFF AFFMUX::#OFF
+       AFFSR::#OFF AOUTMUX::#OFF AUSED::#OFF B5LUT::#OFF B6LUT::#OFF BCY0::#OFF
+       BFF::#OFF BFFINIT::#OFF BFFMUX::#OFF BFFSR::#OFF BOUTMUX::#OFF BUSED::#OFF
+       C5LUT::#OFF C6LUT::#OFF CCY0::#OFF CEUSED::#OFF CFF::#OFF CFFINIT::#OFF
+       CFFMUX::#OFF CFFSR::#OFF CLKINV::#OFF COUTMUX::#OFF COUTUSED::#OFF
+       CUSED::#OFF D5LUT::#OFF D6LUT::#OFF DCY0::#OFF DFF::#OFF DFFINIT::#OFF
+       DFFMUX::#OFF DFFSR::#OFF DOUTMUX::#OFF DUSED::#OFF PRECYINIT::#OFF
+       REVUSED::#OFF SRUSED::#OFF SYNC_ATTR::#OFF  _ROUTETHROUGH:B:BMUX
+       "
+  ;
+inst "e2" "SLICEL",placed CLBLL_X9Y5 SLICE_X14Y5  ,
+  cfg " A5LUT::#OFF A6LUT::#OFF ACY0::#OFF AFF::#OFF AFFINIT::#OFF AFFMUX::#OFF
+       AFFSR::#OFF AOUTMUX::#OFF AUSED::#OFF B5LUT::#OFF B6LUT::#OFF BCY0::#OFF
+       BFF::#OFF BFFINIT::#OFF BFFMUX::#OFF BFFSR::#OFF BOUTMUX::#OFF BUSED::#OFF
+       C5LUT::#OFF C6LUT::#OFF CCY0::#OFF CEUSED::#OFF CFF::#OFF CFFINIT::#OFF
+       CFFMUX::#OFF CFFSR::#OFF CLKINV::#OFF COUTMUX::#OFF COUTUSED::#OFF
+       CUSED::#OFF D5LUT::#OFF D6LUT::#OFF DCY0::#OFF DFF::#OFF DFFINIT::#OFF
+       DFFMUX::#OFF DFFSR::#OFF DOUTMUX::#OFF DUSED::#OFF PRECYINIT::#OFF
+       REVUSED::#OFF SRUSED::#OFF SYNC_ATTR::#OFF "
+  ;
+inst "e3" "SLICEM",placed CLBLM_X10Y5 SLICE_X16Y5  ,
+  cfg " A5LUT::#OFF A5RAMMODE::#OFF A6LUT::#OFF A6RAMMODE::#OFF ACY0::#OFF
+       ADI1MUX::#OFF AFF::#OFF AFFINIT::#OFF AFFMUX::#OFF AFFSR::#OFF AOUTMUX::#OFF
+       AUSED::#OFF B5LUT::#OFF B5RAMMODE::#OFF B6LUT::#OFF B6RAMMODE::#OFF
+       BCY0::#OFF BDI1MUX::#OFF BFF::#OFF BFFINIT::#OFF BFFMUX::#OFF BFFSR::#OFF
+       BOUTMUX::#OFF BUSED::#OFF C5LUT::#OFF C5RAMMODE::#OFF C6LUT::#OFF
+       C6RAMMODE::#OFF CCY0::#OFF CDI1MUX::#OFF CEUSED::#OFF CFF::#OFF CFFINIT::#OFF
+       CFFMUX::#OFF CFFSR::#OFF CLKINV::#OFF COUTMUX::#OFF COUTUSED::#OFF
+       CUSED::#OFF D5LUT::#OFF D5RAMMODE::#OFF D6LUT::#OFF D6RAMMODE::#OFF
+       DCY0::#OFF DFF::#OFF DFFINIT::#OFF DFFMUX::#OFF DFFSR::#OFF DOUTMUX::#OFF
+       DUSED::#OFF PRECYINIT::#OFF REVUSED::#OFF SRUSED::#OFF SYNC_ATTR::#OFF
+       WA7USED::#OFF WA8USED::#OFF WEMUX::#OFF "
+  ;
+
+#  ================================================
+#  The syntax for nets is:
+#     net <name> <type>,
+#       outpin <inst_name> <inst_pin>,
+#       .
+#       .
+#       inpin <inst_name> <inst_pin>,
+#       .
+#       .
+#       pip <tile> <wire0> <dir> <wire1> , # [<rt>]
+#       .
+#       .
+#       ;
+# 
+#  There are three available wire types: wire, power and ground.
+#  If no type is specified, wire is assumed.
+# 
+#  Wire indicates that this a normal wire.
+#  Power indicates that this net is tied to a DC power source.
+#  You can use "power", "vcc" or "vdd" to specify a power net.
+# 
+#  Ground indicates that this net is tied to ground.
+#  You can use "ground", or "gnd" to specify a ground net.
+# 
+#  The <dir> token will be one of the following:
+# 
+#     Symbol Description
+#     ====== ==========================================
+#       ==   Bidirectional, unbuffered.
+#       =>   Bidirectional, buffered in one direction.
+#       =-   Bidirectional, buffered in both directions.
+#       ->   Directional, buffered.
+# 
+#  No pips exist for unrouted nets.
+#  ================================================
+net "$NET_0" , 
+  outpin "e1" B ,
+  inpin "e2" B1 ,
+  pip CLBLL_X7Y7 M_B -> M_BMUX ,  #  _ROUTETHROUGH:B:BMUX "e1" B -> BMUX
+  pip CLBLL_X7Y7 M_BMUX -> SITE_LOGIC_OUTS21 , 
+  pip CLBLL_X9Y5 SITE_IMUX_B17 -> M_B1 , 
+  pip INT_X7Y7 LOGIC_OUTS21 -> SE2BEG2 , 
+  pip INT_X8Y6 SE2END2 -> SE2BEG2 , 
+  pip INT_X9Y5 SE2END2 -> IMUX_B17 , 
+  ;
+net "$NET_1" , 
+  outpin "c1" A ,
+  inpin "e2" A1 ,
+  pip CLBLL_X9Y5 SITE_IMUX_B29 -> M_A1 , 
+  pip CLBLL_X9Y7 M_A -> SITE_LOGIC_OUTS12 , 
+  pip INT_X9Y5 EL2BEG2 -> IMUX_B29 , 
+  pip INT_X9Y5 SR2MID2 -> EL2BEG2 , 
+  pip INT_X9Y6 LOGIC_OUTS_S12 -> SR2BEG2 , 
+  ;
+net "$NET_2" , 
+  outpin "c1" B ,
+  inpin "c2" B1 ,
+  pip CLBLL_X9Y7 M_B -> SITE_LOGIC_OUTS13 , 
+  pip CLBLL_X9Y8 SITE_IMUX_B41 -> L_B1 , 
+  pip INT_X9Y7 LOGIC_OUTS13 -> NL2BEG2 , 
+  pip INT_X9Y8 NL2MID2 -> IMUX_B41 , 
+  ;
+
+# =======================================================
+# SUMMARY
+# Number of Module Defs: 1
+# Number of Module Insts: 0
+# Number of Primitive Insts: 5
+# Number of Nets: 3
+# =======================================================
+

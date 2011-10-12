@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the Sites unit test.
+/// \brief Unit test for the Sites class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/architecture/Sites.hpp"

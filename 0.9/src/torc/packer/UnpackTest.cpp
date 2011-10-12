@@ -18,7 +18,7 @@
 #include "torc/Physical.hpp"
 #include "torc/physical/XdlImporter.hpp"
 #include "torc/physical/XdlExporter.hpp"
-#include "XdlUnpack.hpp"
+#include "torc/packer/XdlUnpack.hpp"
 #include "torc/packer/CombinationalPath.hpp"
 #include "torc/packer/RcFactory.hpp"
 

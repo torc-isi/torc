@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the Segments regression test.
+/// \brief Regression test for the Segments class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/architecture/Segments.hpp"
@@ -183,6 +183,7 @@ public:
 		const SegmentReference& segmentReference = tilewireSegments[wireIndex];
 		CompactSegmentIndex compactSegmentIndex = segmentReference.getCompactSegmentIndex();
 		TileIndex anchorTileIndex = segmentReference.getAnchorTileIndex();
+        (void) anchorTileIndex;
 		// look up the current tilewire membership
 		CompactSegmentIndex usageCompactSegmentIndex = mUsage[inTilewire];
 		if(compactSegmentIndex == usageCompactSegmentIndex) {
@@ -230,7 +231,6 @@ BOOST_AUTO_TEST_CASE(SegmentsRegressionTest) {
 		std::cerr << ddb;
 		segments_regression_test_helper segmentTester(ddb);
 		segmentTester();
-break;
 	}
 	segments_regression_test_helper::statistics();
 

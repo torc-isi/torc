@@ -29,6 +29,10 @@ CCFLAGS = \
 
 # object files
 OBJS = \
+				Annotated.o \
+				AnnotatedUnitTest.o \
+				DeviceDesignator.o \
+				DeviceDesignatorUnitTest.o \
 				Devices.o \
 				DevicesUnitTest.o \
 				DirectoryTree.o \

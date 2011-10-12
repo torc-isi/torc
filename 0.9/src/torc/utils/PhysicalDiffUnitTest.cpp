@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the PhysicalDiff unit test.
+/// \brief Unit test for the PhysicalDiff class.
 
 #include <sstream>
 #include <boost/test/unit_test.hpp>

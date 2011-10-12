@@ -1,4 +1,3 @@
-#include <cstdio>
 #line 2 "XdlScanner.cpp"
 
 #line 4 "XdlScanner.cpp"
@@ -585,21 +584,6 @@ goto find_rule; \
 // ------------------------------------------------------------------------------------------------
 
 
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
-// $HeadURL$
-// $Id$
-
-// This program is free software: you can redistribute it and/or modify it under the terms of the 
-// GNU General Public License as published by the Free Software Foundation, either version 3 of the 
-// License, or (at your option) any later version.
-// 
-// This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See 
-// the GNU General Public License for more details.
-// 
-// You should have received a copy of the GNU General Public License along with this program.  If 
-// not, see <http://www.gnu.org/licenses/>.
-
 // disable GCC warnings that Bison gives us little control over
 //#pragma GCC diagnostic ignored "-Wshorten-64-to-32"
 //#pragma GCC diagnostic ignored "-Werror"
@@ -639,7 +623,7 @@ typedef torc::XdlParser::token_type token_type;
 /** \brief We anticipate no included XDL files. **/
 /** \brief Enable the use of start condition stacks. **/
 /** \brief Track location information.  Each time yylex is invoked, begin is moved to end. **/
-#line 98 "scanner.ll"
+#line 83 "scanner.ll"
 #define YY_USER_ACTION  yylloc->columns(yyleng);
 /** \brief Special lexing state for config strings. **/
 
@@ -647,7 +631,7 @@ typedef torc::XdlParser::token_type token_type;
 
 /** \brief Special lexing state for double-quoted strings. **/
 
-#line 650 "XdlScanner.cpp"
+#line 635 "XdlScanner.cpp"
 
 #define INITIAL 0
 #define CONFIGSTRING 1
@@ -750,7 +734,7 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 109 "scanner.ll"
+#line 94 "scanner.ll"
 
 
 
@@ -776,7 +760,7 @@ YY_DECL
 						//   =>   Bidirectional, buffered in one direction
 						//   =-   Bidirectional, buffered in both directions
 						//   ->   Directional, buffered
-#line 779 "XdlScanner.cpp"
+#line 764 "XdlScanner.cpp"
 
 	if ( !(yy_init) )
 		{
@@ -870,78 +854,78 @@ do_action:	/* This label is used only to access EOF actions. */
 	{ /* beginning of action switch */
 case 1:
 YY_RULE_SETUP
-#line 134 "scanner.ll"
+#line 119 "scanner.ll"
 { return token::BIDIRUNBUF; }	// == Bidirectional, unbuffered
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 135 "scanner.ll"
+#line 120 "scanner.ll"
 { return token::BIDIRUNIBUF; }	// => Bidirectional, buffered in one direction
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 136 "scanner.ll"
+#line 121 "scanner.ll"
 { return token::BIDIRBIBUF; }	// =- Bidirectional, buffered in both directions
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 137 "scanner.ll"
+#line 122 "scanner.ll"
 { return token::UNIDIRBUF; }	// -> Directional, buffered
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 139 "scanner.ll"
+#line 124 "scanner.ll"
 { return token::DESIGN; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 140 "scanner.ll"
+#line 125 "scanner.ll"
 { return token::MODULE; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 141 "scanner.ll"
+#line 126 "scanner.ll"
 { return token::ENDMODULE; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 142 "scanner.ll"
+#line 127 "scanner.ll"
 { return token::PORT; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 143 "scanner.ll"
+#line 128 "scanner.ll"
 { return token::INST; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 144 "scanner.ll"
+#line 129 "scanner.ll"
 { return token::NET; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 146 "scanner.ll"
+#line 131 "scanner.ll"
 { BEGIN CONFIGSTRING; colon = 0; yyless(yyleng-1); return token::CFG; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 147 "scanner.ll"
+#line 132 "scanner.ll"
 { return static_cast<token_type>('"'); }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 148 "scanner.ll"
+#line 133 "scanner.ll"
 { /* discard whitespace */ }
 	YY_BREAK
 case 14:
 /* rule 14 can match eol */
 YY_RULE_SETUP
-#line 149 "scanner.ll"
+#line 134 "scanner.ll"
 { yylloc->lines(); /* discard whitespace */ }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 150 "scanner.ll"
+#line 135 "scanner.ll"
 { 
 ;						  colon++; if(colon == 2) BEGIN CONFIGSTRING2; 
 ;						  return static_cast<token_type>(':'); 
@@ -949,20 +933,20 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 154 "scanner.ll"
+#line 139 "scanner.ll"
 { 
 ;						  *yylval = yytext; return colon == 0 ? token::CFGSETTING : token::CFGNAME; 
 ;						}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 157 "scanner.ll"
+#line 142 "scanner.ll"
 { *yylval = yytext; return token::CFGVALUE; }
 	YY_BREAK
 case 18:
 /* rule 18 can match eol */
 YY_RULE_SETUP
-#line 158 "scanner.ll"
+#line 143 "scanner.ll"
 { 
 ;						  /* account for newlines embedded within trailing whitespace */
 ;						  for(char* ptr = yytext; *ptr != 0; ptr++) { 
@@ -974,89 +958,89 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 166 "scanner.ll"
+#line 151 "scanner.ll"
 { colon = 0; BEGIN CONFIGSTRING; }
 	YY_BREAK
 case 20:
 /* rule 20 can match eol */
 YY_RULE_SETUP
-#line 167 "scanner.ll"
+#line 152 "scanner.ll"
 { yylloc->lines(); /* discard whitespace */ }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 169 "scanner.ll"
+#line 154 "scanner.ll"
 { return token::PLACED; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 170 "scanner.ll"
+#line 155 "scanner.ll"
 { return token::UNPLACED; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 171 "scanner.ll"
+#line 156 "scanner.ll"
 { return token::BONDED; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 172 "scanner.ll"
+#line 157 "scanner.ll"
 { return token::UNBONDED; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 173 "scanner.ll"
+#line 158 "scanner.ll"
 { return token::POWER; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 174 "scanner.ll"
+#line 159 "scanner.ll"
 { return token::GROUND; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 175 "scanner.ll"
+#line 160 "scanner.ll"
 { return token::INPIN; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 176 "scanner.ll"
+#line 161 "scanner.ll"
 { return token::OUTPIN; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 177 "scanner.ll"
+#line 162 "scanner.ll"
 { return token::PIP; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 178 "scanner.ll"
+#line 163 "scanner.ll"
 { *yylval = yytext; return token::SPEEDGRADE; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 179 "scanner.ll"
+#line 164 "scanner.ll"
 { *yylval = yytext; return token::XDLVERSION; 
 							/** \todo Need to avoid obscuring IDENTIFIER. */ }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 181 "scanner.ll"
+#line 166 "scanner.ll"
 { *yylval = yytext; return token::IDENTIFIER; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 182 "scanner.ll"
+#line 167 "scanner.ll"
 { return token::OBRACE; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 183 "scanner.ll"
+#line 168 "scanner.ll"
 { return token::EBRACE; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 185 "scanner.ll"
+#line 170 "scanner.ll"
 { 
 ;						  DEBUG(("ROUTETHROUGH "));
 ;						  // be sure to strip the leading hash and spaces from the token
@@ -1069,7 +1053,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 194 "scanner.ll"
+#line 179 "scanner.ll"
 { // we have to be careful not to let _ROUTETHROUGH expressions pass for comments
 ;						  char* ptr = yytext + 1;
 ;						  char* end = ptr + yyleng;
@@ -1081,28 +1065,28 @@ YY_RULE_SETUP
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 203 "scanner.ll"
+#line 188 "scanner.ll"
 { BEGIN DOUBLEQUOTE; in_double_quote = true; last_string = ""; return static_cast<token_type>(yytext[0]); /* enter exclusive quoted string state */ }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 204 "scanner.ll"
+#line 189 "scanner.ll"
 { last_string += yytext; return token::STRING; /* append escaped characters to the input */ }
 	YY_BREAK
 case 39:
 /* rule 39 can match eol */
 YY_RULE_SETUP
-#line 205 "scanner.ll"
+#line 190 "scanner.ll"
 { yylloc->lines(); /* ignore unescaped line breaks */ }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 206 "scanner.ll"
+#line 191 "scanner.ll"
 { last_string += yytext; return token::STRING; /* append characters other than \, ", \n, \r */ }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 207 "scanner.ll"
+#line 192 "scanner.ll"
 { if(!in_double_quote) {
 ;							BEGIN INITIAL; /* exit the exclusive quoted string state */
 ;							DEBUG(("\" "));
@@ -1117,17 +1101,17 @@ YY_RULE_SETUP
 case 42:
 /* rule 42 can match eol */
 YY_RULE_SETUP
-#line 218 "scanner.ll"
+#line 203 "scanner.ll"
 { yylloc->lines(); }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 219 "scanner.ll"
+#line 204 "scanner.ll"
 { }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 220 "scanner.ll"
+#line 205 "scanner.ll"
 { return static_cast<token_type>(*yytext); }
 	YY_BREAK
 /* ---------------------------------------------------------------------------------------------- */
@@ -1135,10 +1119,10 @@ YY_RULE_SETUP
 /* ---------------------------------------------------------------------------------------------- */
 case 45:
 YY_RULE_SETUP
-#line 229 "scanner.ll"
+#line 214 "scanner.ll"
 ECHO;
 	YY_BREAK
-#line 1141 "XdlScanner.cpp"
+#line 1126 "XdlScanner.cpp"
 			case YY_STATE_EOF(INITIAL):
 			case YY_STATE_EOF(CONFIGSTRING):
 			case YY_STATE_EOF(CONFIGSTRING2):
@@ -2007,7 +1991,7 @@ void Xdlfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 229 "scanner.ll"
+#line 214 "scanner.ll"
 
 
 

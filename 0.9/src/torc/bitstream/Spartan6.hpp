@@ -19,17 +19,17 @@
 #ifndef TORC_BITSTREAM_SPARTAN6_HPP
 #define TORC_BITSTREAM_SPARTAN6_HPP
 
-#include <boost/integer.hpp>
+#include <boost/cstdint.hpp>
 #include "torc/bitstream/Spartan6Bitstream.hpp"
 
 namespace torc {
 namespace bitstream {
 
-namespace bitstream { class bitstream_spartan6; }
+namespace bitstream { class Spartan6UnitTest; }
 
 	/// \brief Spartan6 bitstream.
 	class Spartan6 : public Spartan6Bitstream {
-		friend class torc::bitstream::bitstream::bitstream_spartan6;
+		friend class torc::bitstream::bitstream::Spartan6UnitTest;
 	protected:
 	// typedefs
 		/// \brief Imported type name.

@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_DESIGN_HPP
-#define TORC_GENERIC_DESIGN_HPP
+#ifndef TORC_GENERIC_OM_DESIGN_HPP
+#define TORC_GENERIC_OM_DESIGN_HPP
 
 #include "torc/generic/om/Nameable.hpp"
 #include "torc/generic/om/Commentable.hpp"
@@ -28,6 +28,8 @@
 #include "torc/generic/om/VisitorType.hpp"
 #include "torc/generic/util/Error.hpp"
 #include "torc/generic/om/FactoryType.hpp"
+#include "torc/generic/om/UserDataContainer.hpp"
+#include "torc/generic/om/StatusContainer.hpp"
 
 namespace torc { namespace generic { class BaseVisitor; }  }
 
@@ -47,7 +49,9 @@ class Design :
     public Renamable,
     public Visitable,
     public ParentedObject<Root>,
-    public SelfReferencing<Design> {
+    public SelfReferencing<Design>,
+    public UserDataContainer,
+    public StatusContainer {
 
     friend class FactoryType<Design>;
 
@@ -161,4 +165,4 @@ Design::getLibraryRefName() const throw() {
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_OM_DESIGN_HPP

@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_COMPOSITE_HPP
-#define TORC_GENERIC_COMPOSITE_HPP
+#ifndef TORC_GENERIC_OM_COMPOSITE_HPP
+#define TORC_GENERIC_OM_COMPOSITE_HPP
 
 #include "torc/generic/om/DumpRestoreConfig.hpp"
 
@@ -188,4 +188,4 @@ Composite<_Type>::serialize( Archive &ar, unsigned int ) {
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_OM_COMPOSITE_HPP

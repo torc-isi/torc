@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the WireUsage class.
 
-#ifndef TORC_ARCHITECTURE_WIRE_USAGE_HPP
-#define TORC_ARCHITECTURE_WIRE_USAGE_HPP
+#ifndef TORC_ARCHITECTURE_WIREUSAGE_HPP
+#define TORC_ARCHITECTURE_WIREUSAGE_HPP
 
 #include "torc/architecture/Array.hpp"
 #include "torc/architecture/Tiles.hpp"
@@ -174,4 +174,4 @@ namespace architecture {
 } // namespace architecture
 } // namespace torc
 
-#endif // TORC_ARCHITECTURE_WIRE_USAGE_HPP
+#endif // TORC_ARCHITECTURE_WIREUSAGE_HPP

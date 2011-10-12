@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the Tiles unit test.
+/// \brief Unit test for the Tiles class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/architecture/Tiles.hpp"
@@ -33,7 +33,7 @@ void testDeviceTiles(DDB& inDDB);
 BOOST_AUTO_TEST_CASE(TilesUnitTest) {
 
 	// iterate over the devices
-	const torc::common::DeviceVector& devices = torc::common::Devices::getSupportedDevices();
+	const torc::common::DeviceVector& devices = torc::common::Devices::getUnitTestDevices();
 	torc::common::DeviceVector::const_iterator dp = devices.begin();
 	torc::common::DeviceVector::const_iterator de = devices.end();
 	while(dp < de) {

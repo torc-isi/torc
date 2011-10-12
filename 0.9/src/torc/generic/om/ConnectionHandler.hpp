@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_CONNECTIONHANDLER_HPP
-#define TORC_GENERIC_CONNECTIONHANDLER_HPP
+#ifndef TORC_GENERIC_OM_CONNECTIONHANDLER_HPP
+#define TORC_GENERIC_OM_CONNECTIONHANDLER_HPP
 
 #include "torc/generic/om/PointerTypes.hpp"
 #include "torc/generic/util/Error.hpp"
@@ -58,4 +58,4 @@ class ConnectionHandler {
 } //namespace generic
 } //namespace torc
 
-#endif //TORC_GENERIC_CONNECTIONHANDLER_HPP
+#endif // TORC_GENERIC_OM_CONNECTIONHANDLER_HPP

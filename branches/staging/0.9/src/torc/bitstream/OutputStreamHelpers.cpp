@@ -19,7 +19,9 @@
 #include "torc/bitstream/OutputStreamHelpers.hpp"
 #include "torc/bitstream/Bitstream.hpp"
 #include "torc/bitstream/Virtex.hpp"
+#include "torc/bitstream/VirtexE.hpp"
 #include "torc/bitstream/Virtex2.hpp"
+#include "torc/bitstream/Virtex2P.hpp"
 #include "torc/bitstream/Virtex4.hpp"
 #include "torc/bitstream/Virtex5.hpp"
 #include "torc/bitstream/Virtex6.hpp"
@@ -45,9 +47,35 @@ namespace bitstream {
 	}
 
 	std::ostream& operator <<(std::ostream& os, const Bitstream& rhs) {
-		return os << "Design " << rhs.mDesignName << " (" << rhs.mDeviceName << ") @ " 
+		// dispatch the various architectures
+		if(typeid(rhs) == typeid(Virtex)) {
+			os << dynamic_cast<const Virtex&>(rhs);
+		} else if(typeid(rhs) == typeid(VirtexE)) {
+			os << dynamic_cast<const VirtexE&>(rhs);
+		} else if(typeid(rhs) == typeid(Virtex2)) {
+			os << dynamic_cast<const Virtex2&>(rhs);
+		} else if(typeid(rhs) == typeid(Virtex2P)) {
+			os << dynamic_cast<const Virtex2P&>(rhs);
+		} else if(typeid(rhs) == typeid(Virtex4)) {
+			os << dynamic_cast<const Virtex4&>(rhs);
+		} else if(typeid(rhs) == typeid(Virtex5)) {
+			os << dynamic_cast<const Virtex5&>(rhs);
+		} else if(typeid(rhs) == typeid(Virtex6)) {
+			os << dynamic_cast<const Virtex6&>(rhs);
+		} else if(typeid(rhs) == typeid(Virtex7)) {
+			os << dynamic_cast<const Virtex7&>(rhs);
+		} else if(typeid(rhs) == typeid(Spartan3E)) {
+			os << dynamic_cast<const Spartan3E&>(rhs);
+		} else if(typeid(rhs) == typeid(Spartan6)) {
+			os << dynamic_cast<const Spartan6&>(rhs);
+
+		// handle the generic bitstream header
+		} else {
+			os << "Design " << rhs.mDesignName << " (" << rhs.mDeviceName << ") @ " 
 			<< rhs.mDesignDate << " " << rhs.mDesignTime << ": " << rhs.mBitstreamByteLength 
 			<< " bytes (" << (rhs.mBitstreamByteLength >> 2) << " words)";
+		}
+		return os;
 	}
 
 	std::ostream& operator <<(std::ostream& os, const Spartan6Bitstream& rhs) {

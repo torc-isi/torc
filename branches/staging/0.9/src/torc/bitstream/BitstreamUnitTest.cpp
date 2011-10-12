@@ -14,11 +14,11 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the Bitstream unit test.
+/// \brief Unit test for the Bitstream class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/bitstream/Bitstream.hpp"
-#include "torc/architecture/DeviceDesignator.hpp"
+#include "torc/common/DeviceDesignator.hpp"
 #include "torc/common/DirectoryTree.hpp"
 #include <fstream>
 #include <iostream>
@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_SUITE(bitstream)
 
 
 /// \brief Unit test for the Bitstream class.
-BOOST_AUTO_TEST_CASE(bitstream_bitstream) {
+BOOST_AUTO_TEST_CASE(BitstreamUnitTest) {
 
 	// build the file paths
 	boost::filesystem::path regressionPath 
@@ -48,7 +48,7 @@ BOOST_AUTO_TEST_CASE(bitstream_bitstream) {
 	// write the bitstream header to the console
 	std::cout << bitstream << std::endl;
 	std::string deviceName = bitstream.getDeviceName();
-	torc::architecture::DeviceDesignator deviceDesignator(deviceName);
+	torc::common::DeviceDesignator deviceDesignator(deviceName);
 	std::cout << "family is " << deviceDesignator.getFamily() << std::endl;
 
 }

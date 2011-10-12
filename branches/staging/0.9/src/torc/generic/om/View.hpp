@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_VIEW_HPP
-#define TORC_GENERIC_VIEW_HPP
+#ifndef TORC_GENERIC_OM_VIEW_HPP
+#define TORC_GENERIC_OM_VIEW_HPP
 
 #include "torc/generic/om/PointerTypes.hpp"
 #include "torc/generic/om/DumpRestoreConfig.hpp"
@@ -38,12 +38,17 @@
 #include "torc/generic/om/SymTab.hpp"
 #include "torc/generic/om/Visitable.hpp"
 #include "torc/generic/om/VisitorType.hpp"
+#include "torc/generic/om/UserDataContainer.hpp"
+#include "torc/generic/om/StatusContainer.hpp"
 
 namespace torc { namespace generic { class BaseVisitor; }  }
 namespace torc { namespace generic { class Cell; }  }
 namespace torc { namespace generic { class Instance; }  }
 namespace torc { namespace generic { class Net; }  }
 namespace torc { namespace generic { class Port; }  }
+namespace torc { namespace generic { class Permutable; }  }
+namespace torc { namespace generic { class InterfaceAttributes; }  }
+namespace torc { namespace generic { class InterfaceJoinedInfo; }  }
 
 namespace torc {
 
@@ -64,7 +69,9 @@ class View :
     public PropertyContainer,
     public Renamable,
     public SelfReferencing<View>,
-    public Visitable {
+    public Visitable,
+    public UserDataContainer,
+    public StatusContainer {
 
 #ifdef GENOM_SERIALIZATION
     friend class boost::serialization::access;
@@ -522,13 +529,143 @@ class View :
     template<typename _Action>
     inline void
     applyOnAllPorts( const _Action &action ) throw(Error); 
-    virtual ~View() throw();
+
+    /**
+     * Get the vector of permutables for this view.
+     *
+     * @param[out] outPermutables Vector of permutable to be appended to
+     */
+    inline void
+    getPermutables(
+        std::vector< PermutableSharedPtr > & outPermutables
+        ) const throw();
+
+    /**
+     * Set the vector of permutables to this view. It will lead to a linear traversal on the list. 
+     *
+     * @param[in] inSource Vector of permutables to this view.
+     * @exception Error Could not add permutable because pointer to the permutable does not exist
+     */
+    void
+    setPermutables( const std::vector< PermutableSharedPtr >
+         & inSource ) throw(Error);
+    /**
+     * Add a permutable to this view.
+     *
+     * @param[in] inPermutable Pointer to permutable to be added.
+     * @exception Error Could not add permutable because pointer to the permutable does not exist
+     */
+    bool
+    addPermutable(
+        const PermutableSharedPtr & inPermutable) throw(Error);
+
+   /**
+    * Apply action on all Permutables.
+    * @param[in] action Action to be applied
+    *
+    */
+    template<typename _Action>
+    inline void
+    applyOnAllPermutables( const _Action &action ) throw(Error); 
+
+    /**
+     * Get the vector of joined info for this view.
+     *
+     * @param[out] outJoinedInfos Vector of joined info to be appended to
+     */
+    inline void
+    getInterfaceJoinedInfos(
+        std::vector< InterfaceJoinedInfoSharedPtr > & outJoinedInfos
+        ) const throw();
+
+    /**
+     * Set the vector of joined info for this view.
+     *
+     * @param[in] inSource Vector of joined info to this view.
+     * @exception Error Could not add joined info because pointer to the joined info does not exist
+     */
+    void
+    setInterfaceJoinedInfos( const std::vector< InterfaceJoinedInfoSharedPtr >
+         & inSource ) throw(Error);
+    /**
+     * Add a joined info to this view.
+     *
+     * @param[in] inJoinedInfo Pointer to joined info to be added.
+     * @exception Error Could not add joined info because pointer to the joined info does not exist
+     */
+    bool
+    addInterfaceJoinedInfo(
+        const InterfaceJoinedInfoSharedPtr & inJoinedInfo ) throw(Error);
+
+   /**
+    * Apply action on all joined info.
+    * @param[in] action Action to be applied
+    *
+    */
+    template<typename _Action>
+    inline void
+    applyOnAllInterfaceJoinedInfos( const _Action &action ) throw(Error); 
+
+    /**
+     * Get the attributes of a view interface. 
+     * Attributes include designator, simulate, timing, comments, userdata etc.
+     * This will decompile within (contents ...) construct.
+     *
+     * @return Pointer to InterfaceAttributes object.
+     */
+    inline const InterfaceAttributesSharedPtr
+    getInterfaceAttributes() const throw();
+
+    /**
+     * Set the attributes of a view interface. 
+     * Attributes include designator, simulate, timing, comments, userdata etc.
+     * This will decompile within (contents ...) construct.
+     *
+     * @param[in] inSource Pointer to InterfaceAttributes object.
+     */
+    void
+    setInterfaceAttributes(const InterfaceAttributesSharedPtr & inSource) throw();
 
     inline const std::string &
     getNonNetlistViewData() const throw();
 
     void
     setNonNetlistViewData( const std::string &inData) throw();
+
+    /**
+     * Get the pointer to the simulate.
+     *
+     * @return Pointer to the simulatie
+     */
+    inline const SimulateSharedPtr
+    getSimulate() const throw();
+
+    /**
+     * Set the pointer to the simulate.
+     *
+     * @param[in] inSource Pointer to the simulate
+     */
+    void
+    setSimulate(const SimulateSharedPtr & inSource ) throw();
+
+    /**
+     * Get the pointer to the timing object
+     *
+     * @return Pointer to the timing object
+     */
+    inline const TimingSharedPtr
+    getTiming() const throw();
+
+    /**
+     * Set the pointer to the timing object
+     *
+     * @param[in] inSource Pointer to the timing object
+     */
+    void
+    setTiming(const TimingSharedPtr & inSource ) throw();
+
+    virtual 
+    ~View() throw();
 
   protected:  
     View();
@@ -554,6 +691,11 @@ class View :
     SymTab< std::string, PortSharedPtr > mPortSymTab;
     std::string mNonNetlistViewData;
     Type mType;
+    std::vector< PermutableSharedPtr > mPermutables;
+    std::vector< InterfaceJoinedInfoSharedPtr > mInterfaceJoinedInfos;
+    InterfaceAttributesSharedPtr mAttributes;
+    SimulateSharedPtr mSimulate;
+    TimingSharedPtr mTiming; 
 };
 
 inline ParameterContext
@@ -642,7 +784,113 @@ inline const std::string &
 View::getNonNetlistViewData() const throw() {
     return mNonNetlistViewData;
 }
+
+/**
+ * Get the vector of permutables for this view.
+ *
+ * @param[out] outPermutables Vector of permutable to be appended to
+ */
+
+inline void
+View::getPermutables(
+        std::vector< PermutableSharedPtr > & outPermutables ) const throw() {
+    outPermutables.insert( outPermutables.end(),
+                mPermutables.begin(), mPermutables.end() );
+}
+
+/**
+ * Apply action on all children.
+ * @param[in] action Action to be applied
+ *
+ */
+template<typename _Action>
+inline void
+View::applyOnAllPermutables( const _Action &action ) throw(Error) {
+    try
+    {
+        std::vector< PermutableSharedPtr >::iterator it = mPermutables.begin();
+        for(; it != mPermutables.end(); ++ it )
+        {
+            action( *it );
+        }
+    }
+    catch(Error &e)
+    {
+        e.setCurrentLocation( __FUNCTION__, __FILE__, __LINE__ );
+        throw;
+    }
+}
+
+/**
+ * Get the vector of joined info for this view.
+ *
+ * @param[out] outJoinedInfos Vector of joined info to be appended to
+ */
+inline void
+View::getInterfaceJoinedInfos(
+    std::vector< InterfaceJoinedInfoSharedPtr > & outJoinedInfos
+    ) const throw() {
+    outJoinedInfos.insert( outJoinedInfos.end(),
+                mInterfaceJoinedInfos.begin(), mInterfaceJoinedInfos.end() );
+}
+
+
+/**
+ * Apply action on all joined info.
+ * @param[in] action Action to be applied
+ *
+ */
+template<typename _Action>
+inline void
+View::applyOnAllInterfaceJoinedInfos( const _Action &action ) throw(Error) {
+    try
+    {
+        std::vector< InterfaceJoinedInfoSharedPtr >::iterator it 
+                = mInterfaceJoinedInfos.begin();
+        for(; it != mInterfaceJoinedInfos.end(); ++ it )
+        {
+            action( *it );
+        }
+    }
+    catch(Error &e)
+    {
+        e.setCurrentLocation( __FUNCTION__, __FILE__, __LINE__ );
+        throw;
+    }
+}
+
+/**
+ * Get the attributes of a view interface. Attributes include designator, comments, userdata etc.
+ *
+ * @return Pointer to InterfaceAttributes object.
+ */
+inline const InterfaceAttributesSharedPtr
+View::getInterfaceAttributes() const throw() {
+    return mAttributes;
+}
+
+/**
+ * Get the pointer to the simulate.
+ *
+ * @return Pointer to the simulatie
+ */
+inline const SimulateSharedPtr
+View::getSimulate() const throw() {
+    return mSimulate;
+}
+
+/**
+ * Get the pointer to the timing object
+ *
+ * @return Pointer to the timing object
+ */
+inline const TimingSharedPtr
+View::getTiming() const throw() {
+    return mTiming;
+}
+
+
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_OM_VIEW_HPP

@@ -342,6 +342,8 @@ Root::Root()
     Renamable(),
     Visitable(),
     SelfReferencing<Root>(),
+    UserDataContainer(),
+    StatusContainer(),
     mLevel(),
     mLibraries(),
     mVersion()

@@ -33,7 +33,7 @@
 #include "torc/architecture/Array.hpp"
 #include "torc/architecture/DDB.hpp"
 #include "torc/architecture/DDBStreamHelper.hpp"
-#include "torc/architecture/DeviceDesignator.hpp"
+#include "torc/common/DeviceDesignator.hpp"
 #include "torc/architecture/DigestStream.hpp"
 #include "torc/architecture/ExtendedWireInfo.hpp"
 #include "torc/architecture/InstancePin.hpp"

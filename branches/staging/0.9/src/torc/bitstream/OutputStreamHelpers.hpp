@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for torc::bitstream output stream helpers.
 
-#ifndef TORC_BITSTREAM_OUTPUT_STREAM_HELPERS_HPP
-#define TORC_BITSTREAM_OUTPUT_STREAM_HELPERS_HPP
+#ifndef TORC_BITSTREAM_OUTPUTSTREAMHELPERS_HPP
+#define TORC_BITSTREAM_OUTPUTSTREAMHELPERS_HPP
 
 #include <boost/cstdint.hpp>
 #include <iosfwd>
@@ -82,4 +82,4 @@ namespace bitstream {
 } // namespace bitstream
 } // namespace torc
 
-#endif // TORC_BITSTREAM_OUTPUT_STREAM_HELPERS_HPP
+#endif // TORC_BITSTREAM_OUTPUTSTREAMHELPERS_HPP

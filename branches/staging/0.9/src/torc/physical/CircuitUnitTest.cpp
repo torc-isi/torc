@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the Circuit unit test.
+/// \brief Unit test for the Circuit class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/physical/Factory.hpp"
@@ -33,10 +33,6 @@ public:
 		return reinterpret_cast<RenamableInstanceSharedPtr&>(inInstancePtr);
 	}
 };
-//RenamableInstanceSharedPtr& please_cast_me(InstanceSharedPtr& inInstancePtr);
-//RenamableInstanceSharedPtr& please_cast_me(InstanceSharedPtr& inInstancePtr) {
-//	return reinterpret_cast<RenamableInstanceSharedPtr&>(inInstancePtr);
-//}
 
 /// \brief Unit test for the Circuit class.
 BOOST_AUTO_TEST_CASE(CircuitUnitTest) {
@@ -68,10 +64,8 @@ BOOST_AUTO_TEST_CASE(CircuitUnitTest) {
 	NetSharedPtr net2aPtr = Factory::newNetPtr("net2");
 	NetSharedPtr net2bPtr = Factory::newNetPtr("net2");	// deliberate reuse of net name
 	NetSharedPtr net3Ptr = Factory::newNetPtr("net3");
-//RenamableInstanceSharedPtr& ri = RenamableInstance::recast(instance1aPtr);
-//ri->setName("hello");
-//(void) ri;
-RenamableInstance::recast(instance1aPtr)->setName("goodbye");
+	//RenamableInstance::recast(instance1aPtr)->setName("goodbye");
+
 	// functions tested:
 	//		bool addInstance(InstanceSharedPtr& inInstancePtr);
 	//		bool addNet(NetSharedPtr& inNetPtr);

@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the InstancePin class.
 
-#ifndef TORC_ARCHITECTURE_INSTANCE_PIN_HPP
-#define TORC_ARCHITECTURE_INSTANCE_PIN_HPP
+#ifndef TORC_ARCHITECTURE_INSTANCEPIN_HPP
+#define TORC_ARCHITECTURE_INSTANCEPIN_HPP
 
 #include "torc/physical/InstancePin.hpp"
 #include "torc/architecture/Tilewire.hpp"
@@ -84,4 +84,4 @@ namespace architecture {
 } // namespace architecture
 } // namespace torc
 
-#endif // TORC_ARCHITECTURE_INSTANCE_PIN_HPP
+#endif // TORC_ARCHITECTURE_INSTANCEPIN_HPP

@@ -14,14 +14,14 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the Virtex7 unit test.
+/// \brief Unit test for the Virtex7 class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/bitstream/Virtex7.hpp"
 #include "torc/common/DirectoryTree.hpp"
 #include "torc/common/Devices.hpp"
 #include "torc/architecture/DDB.hpp"
-#include "torc/architecture/DeviceDesignator.hpp"
+#include "torc/common/DeviceDesignator.hpp"
 #include "torc/bitstream/OutputStreamHelpers.hpp"
 #include "torc/bitstream/build/DeviceInfoHelper.hpp"
 #include "torc/common/TestHelpers.hpp"
@@ -35,7 +35,7 @@ namespace bitstream{
 BOOST_AUTO_TEST_SUITE(bitstream)
 
 /// \brief Unit test for the Virtex7 CRC
-BOOST_AUTO_TEST_CASE(crc_virtex7){
+BOOST_AUTO_TEST_CASE(Virtex7CrcUnitTest){
 	std::fstream fileStream("Virtex7UnitTest.reference.bit", std::ios::binary | std::ios::in);
 	Virtex7 bitstream;
 	bitstream.read(fileStream, false);
@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE(crc_virtex7){
 }
   
 /// \brief Unit test for the Virtex7 class
-BOOST_AUTO_TEST_CASE(bitstream_virtex7){
+BOOST_AUTO_TEST_CASE(Virtex7UnitTest){
 	//enums tested:
 	//             Epacket
 	//             Efar
@@ -145,7 +145,7 @@ BOOST_AUTO_TEST_CASE(bitstream_virtex7){
 	std::string deviceName = bitstream.getDeviceName();
 	std::string designDate = bitstream.getDesignDate();
 	std::string designTime = bitstream.getDesignTime();
-	torc::architecture::DeviceDesignator deviceDesignator(deviceName);
+	torc::common::DeviceDesignator deviceDesignator(deviceName);
 	std::cout << "family of " << deviceName << " is " << deviceDesignator.getFamily() << std::endl;
 
 	// write the bitstream back out
@@ -176,7 +176,7 @@ BOOST_AUTO_TEST_CASE(bitstream_virtex7){
 void testVirtex7Device(const std::string& inDeviceName, const boost::filesystem::path& inWorkingPath);
 
 /// \brief Unit test for the Virtex7 class Frame Address Register mapping.
-BOOST_AUTO_TEST_CASE(bitstream_virtex7_far) {
+BOOST_AUTO_TEST_CASE(Virtex7FarUnitTest) {
 
 	// look up the command line arguments
 	int& argc = boost::unit_test::framework::master_test_suite().argc;
@@ -348,8 +348,9 @@ return;
   	}	
 }
 
+/*
 /// \brief Unit test for the Virtex7 static device info generation.
-BOOST_AUTO_TEST_CASE(bitstream_virtex7_generate) {
+BOOST_AUTO_TEST_CASE(Virtex7GenerateUnitTest) {
 
 	Virtex7 bitstream;
 	const torc::common::DeviceVector& virtex7Devices = torc::common::Devices::getVirtex7Devices();
@@ -361,7 +362,7 @@ BOOST_AUTO_TEST_CASE(bitstream_virtex7_generate) {
 	DeviceInfoHelper::buildFamilyDeviceInfo("Virtex7", "Virtex7DeviceInfo.template", 
 		"Virtex7DeviceInfo.cpp", devices, bitstream);
 }
-
+*/
 
 BOOST_AUTO_TEST_SUITE_END()
 

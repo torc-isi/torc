@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_PORT_HPP
-#define TORC_GENERIC_PORT_HPP
+#ifndef TORC_GENERIC_OM_PORT_HPP
+#define TORC_GENERIC_OM_PORT_HPP
 
 #include "torc/generic/om/PointerTypes.hpp"
 #include "torc/generic/om/DumpRestoreConfig.hpp"
@@ -35,6 +35,7 @@
 #include "torc/generic/om/ParentedObject.hpp"
 #include "torc/generic/om/PortDirection.hpp"
 #include "torc/generic/om/View.hpp"
+#include "torc/generic/om/UserDataContainer.hpp"
 
 namespace torc { namespace generic { class PortAttributes; }  } 
 
@@ -56,7 +57,8 @@ class Port :
 	public Renamable,
 	public Visitable,
 	virtual public Composite<Port>,
-	public ParentedObject<View>
+	public ParentedObject<View>,
+    public UserDataContainer
 {
 #ifdef GENOM_SERIALIZATION
     friend class boost::serialization::access;
@@ -142,4 +144,4 @@ Port::getAttributes() const throw() {
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_OM_PORT_HPP

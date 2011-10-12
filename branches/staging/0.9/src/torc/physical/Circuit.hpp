@@ -25,7 +25,7 @@
 #include "torc/physical/ConfigMap.hpp"
 #include "torc/physical/Instance.hpp"
 #include "torc/physical/Net.hpp"
-#include "torc/physical/Annotated.hpp"
+#include "torc/common/Annotated.hpp"
 #include <map>
 
 namespace torc {
@@ -44,7 +44,7 @@ namespace physical {
 	/// \todo May want to replace the instance and net vector and map combinations with a Boost 
 	///		multi-index.
 	class Circuit : public Named, public Progeny<class Circuit>, public ConfigMap, 
-		public Annotated, protected Progenitor<class Circuit> {
+		public common::Annotated, protected Progenitor<class Circuit> {
 	protected:
 	// types
 		/// \brief Imported type name.

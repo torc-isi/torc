@@ -19,6 +19,8 @@
 #ifndef TORC_COMMON_HPP
 #define TORC_COMMON_HPP
 
+#include "torc/common/Annotated.hpp"
+#include "torc/common/DeviceDesignator.hpp"
 #include "torc/common/Devices.hpp"
 #include "torc/common/DirectoryTree.hpp"
 #include "torc/common/DottedVersion.hpp"

@@ -14,14 +14,14 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the VirtexE unit test.
+/// \brief Unit test for the VirtexE class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/bitstream/VirtexE.hpp"
 #include "torc/common/DirectoryTree.hpp"
 #include "torc/common/Devices.hpp"
 #include "torc/architecture/DDB.hpp"
-#include "torc/architecture/DeviceDesignator.hpp"
+#include "torc/common/DeviceDesignator.hpp"
 #include "torc/bitstream/OutputStreamHelpers.hpp"
 #include "torc/bitstream/build/DeviceInfoHelper.hpp"
 #include "torc/common/TestHelpers.hpp"
@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_SUITE(bitstream)
 
 
 /// \brief Unit test for the VirtexE class.
-BOOST_AUTO_TEST_CASE(bitstream_virtexe) {
+BOOST_AUTO_TEST_CASE(VirtexEUnitTest) {
 
 	// enums tested:
 	//		EPacket
@@ -115,7 +115,7 @@ BOOST_AUTO_TEST_CASE(bitstream_virtexe) {
 	std::string deviceName = bitstream.getDeviceName();
 	std::string designDate = bitstream.getDesignDate();
 	std::string designTime = bitstream.getDesignTime();
-	torc::architecture::DeviceDesignator deviceDesignator(deviceName);
+	torc::common::DeviceDesignator deviceDesignator(deviceName);
 	std::cout << "family of " << deviceName << " is " << deviceDesignator.getFamily() << std::endl;
 
 	// write the bitstream back out
@@ -170,7 +170,7 @@ BOOST_AUTO_TEST_CASE(bitstream_virtexe) {
 void testVirtexEDevice(const std::string& inDeviceName, const boost::filesystem::path& inWorkingPath);
 
 /// \brief Unit test for the VirtexE class Frame Address Register mapping.
-BOOST_AUTO_TEST_CASE(bitstream_virtexe_far) {
+BOOST_AUTO_TEST_CASE(VirtexEFarUnitTest) {
 
 	// look up the command line arguments
 	int& argc = boost::unit_test::framework::master_test_suite().argc;
@@ -270,20 +270,85 @@ std::cerr << "TRYING TO FIND " << referencePath << std::endl;
 return;
 }
 
+void testVirtexEFullMapping(const boost::filesystem::path& inWorkingPath);
+
+/// \brief Unit test for the VirtexE bitstream to bitmap conversion.
+BOOST_AUTO_TEST_CASE(VirtexEMapUnitTest) {
+	// look up the command line arguments
+	int& argc = boost::unit_test::framework::master_test_suite().argc;
+	char**& argv = boost::unit_test::framework::master_test_suite().argv;
+	// make sure that we at least have the name under which we were invoked
+	BOOST_REQUIRE(argc >= 1);
+	// resolve symbolic links if applicable
+	torc::common::DirectoryTree directoryTree(argv[0]);
+	testVirtexEFullMapping(torc::common::DirectoryTree::getWorkingPath());
+}
+
+
+void testVirtexEFullMapping(const boost::filesystem::path& inWorkingPath) {
+	// build the file paths
+	boost::filesystem::path regressionPath 
+		= torc::common::DirectoryTree::getExecutablePath() / "regression";
+	boost::filesystem::path generatedPath = regressionPath / "VirtexEUnitTest.generatedFull.bit";
+	boost::filesystem::path referencePath = regressionPath / "VirtexEUnitTest.reference.bit";
+
+	// read the bitstream
+	std::fstream fileStream(referencePath.string().c_str(), std::ios::binary | std::ios::in);
+	BOOST_REQUIRE(fileStream.good());
+	// read and gather bitstream frames
+	VirtexE bitstream;
+	bitstream.read(fileStream, false);
+
+	// initialize frame map
+	bitstream.initializeDeviceInfo("xcv50e");
+	bitstream.initializeFrameMaps();
+
+	// load bitstream frames in data structure
+	bitstream.initializeFullFrameBlocks();
+
+	// write full bitstream from frame blocks data structure
+	uint32_t frameLength = bitstream.getFrameLength();
+	typedef boost::shared_array<uint32_t> WordSharedArray;
+	VirtexE::iterator p = bitstream.begin();
+	VirtexE::iterator e = bitstream.end();
+	while (p < e) {
+		const VirtexPacket& packet = *p++;
+		if (packet.isType2()) {
+			WordSharedArray words = packet.getWords();
+			uint32_t* ptr = words.get();
+			for (uint32_t block = 0; block < 8; block++) {
+				for (uint32_t frame = 0; frame < bitstream.mBlockFrameIndexBounds[block]; frame++) {
+					VirtexFrameBlocks::word_t* words = const_cast<VirtexFrameBlocks::word_t*>(bitstream.mFrameBlocks.mBlock[block][frame]->getWords());
+					for (uint32_t index = 0; index < frameLength; index++) {
+						*ptr++ = words[index];
+					}
+				}
+			}
+		}
+	}
+	// write the test bitstream back out
+	std::fstream outputStream(generatedPath.string().c_str(), std::ios::binary | std::ios::out);
+	BOOST_REQUIRE(outputStream.good());
+	bitstream.write(outputStream);
+	outputStream.flush();
+	BOOST_REQUIRE(torc::common::fileContentsAreEqual(referencePath, generatedPath));
+
+	return;
+}
 
 
 
 
-
+/*
 /// \brief Unit test for the VirtexE static device info generation.
-BOOST_AUTO_TEST_CASE(bitstream_virtexe_generate) {
+BOOST_AUTO_TEST_CASE(VirtexEGenerateUnitTest) {
 
 	VirtexE bitstream;
 	DeviceInfoHelper::buildFamilyDeviceInfo("VirtexE", "VirtexEDeviceInfo.template", 
 		"VirtexEDeviceInfo.cpp", torc::common::Devices::getVirtexEDevices(), bitstream);
 
 }
-
+*/
 
 BOOST_AUTO_TEST_SUITE_END()
 

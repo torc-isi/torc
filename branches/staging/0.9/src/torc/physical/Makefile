@@ -29,8 +29,6 @@ CCFLAGS = \
 
 # object files
 OBJS = \
-				Annotated.o \
-				AnnotatedUnitTest.o \
 				Circuit.o \
 				CircuitUnitTest.o \
 				Config.o \
@@ -49,6 +47,8 @@ OBJS = \
 				InstanceReference.o \
 				InstanceReferenceUnitTest.o \
 				Module.o \
+				ModuleTransformer.o \
+				ModuleTransformerUnitTest.o \
 				ModuleUnitTest.o \
 				Named.o \
 				NamedUnitTest.o \

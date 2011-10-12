@@ -356,7 +356,6 @@ namespace physical {
 				// change the sources
 				
 				Net::InstancePinSharedPtrIterator sop = netPtr->sourcesBegin();
-				Net::InstancePinSharedPtrIterator soe = netPtr->sourcesEnd();
 				while(sop < netPtr->sourcesEnd()){
 					
 					if((*sop)->getInstancePtr().lock()->getName()==instance.getName()){
@@ -401,7 +400,6 @@ namespace physical {
 				// change the sinks
 				
 				Net::InstancePinSharedPtrIterator sip = netPtr->sinksBegin();
-				Net::InstancePinSharedPtrIterator sie = netPtr->sinksEnd();
 				while(sip != netPtr->sinksEnd()){	
 					if((*sip)->getInstancePtr().lock()->getName()==instance.getName()){
 						string pinName = (*sip)->getPinName();

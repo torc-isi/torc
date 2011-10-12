@@ -13,18 +13,24 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_PARSER_HELPERS_HPP
-#define TORC_GENERIC_PARSER_HELPERS_HPP
+#ifndef TORC_GENERIC_PARSER_PARSERHELPERS_HPP
+#define TORC_GENERIC_PARSER_PARSERHELPERS_HPP
 
 #include <string>
 #include <vector>
+#include <list>
 
 #include <boost/shared_ptr.hpp>
 
+#include "torc/generic/om/PointerTypes.hpp"
 #include "torc/generic/om/Value.hpp"
 
 namespace torc { namespace generic { class Parameter; } }
 namespace torc { namespace generic { class PortAttributes; } }
+namespace torc { namespace generic { class TimeStamp; } }
+namespace torc { namespace generic { class Written; } }
+namespace torc { namespace generic { class InterfaceAttributes; } }
+namespace torc { namespace generic { class LogicValueAttributes; } }
 
 namespace torc {
 namespace generic {
@@ -77,6 +83,21 @@ struct CellRefData {
     }
 };
 
+struct LogicRefData {
+    NameData *mLogicName;
+    NameData *mLibraryName;
+
+    LogicRefData()
+        :mLogicName( NULL ),
+        mLibraryName( NULL ) {
+    }
+
+    ~LogicRefData() {
+        delete mLogicName;
+        delete mLibraryName;
+    }
+};
+
 struct InstanceRefData {
     NameData *mName;
     ViewRefData *mView;
@@ -96,13 +117,35 @@ struct PortRefData {
         :mParentPort( NULL ),
         mPortName( NULL ),
         mInstanceName( NULL ),
-           mView( NULL ) {
+        mView( NULL ) {
     }
 
     ~PortRefData()
     {
         delete mParentPort;
         delete mPortName;
+        delete mInstanceName;
+        delete mView;
+    }
+};
+
+struct NetRefData {
+    NetRefData *mParentNet;
+    NameData *mNetName;
+    NameData *mInstanceName;
+    ViewRefData *mView;
+
+    NetRefData()
+        :mParentNet( NULL ),
+        mNetName( NULL ),
+        mInstanceName( NULL ),
+        mView( NULL ) {
+    }
+
+    ~NetRefData()
+    {
+        delete mParentNet;
+        delete mNetName;
         delete mInstanceName;
         delete mView;
     }
@@ -162,6 +205,17 @@ struct PairData
     }
 };
 
+struct PairStrData {
+    std::string mFirst;
+    std::string mSecond;
+    
+    PairStrData( std::string inFirst = std::string(), 
+                    std::string inSecond = std::string())
+        :mFirst( inFirst ), 
+        mSecond( inSecond ) { 
+    }
+};
+
 struct ParamAssignInfo
 {
     NameData *mNameData;
@@ -182,11 +236,19 @@ struct InstanceInfo {
     ViewRefData *mViewRefData;
     std::vector<ParamAssignInfo *> mParamAssign;
     std::vector<PortInstData *> mPortInst;
+    std::vector< std::string > mUserData;
+    std::vector< std::string > mComment;
+    std::string mDesignator;
+    TimingSharedPtr mTiming;
 
     InstanceInfo()
         :mViewRefData(NULL),
          mParamAssign(),
-         mPortInst() {
+         mPortInst(),
+         mUserData(),
+         mComment(),
+         mDesignator(),
+         mTiming() {
     }
 
     ~InstanceInfo() {
@@ -202,6 +264,25 @@ struct InstanceInfo {
                 it != mPortInst.end(); it++ )
         {
             delete (*it);
+        } 
+        mUserData.clear(); 
+        mComment.clear();
+   }
+};
+
+struct LogicListData {
+    std::list<NameData *> mNameDataList;
+
+    LogicListData()
+        :mNameDataList() {
+    }
+
+    ~LogicListData() {
+        for( std::list<NameData *>::iterator it
+                                            = mNameDataList.begin();
+                it != mNameDataList.end(); ++it )
+        {
+            delete *it;
         }
     }
 };
@@ -209,4 +290,4 @@ struct InstanceInfo {
 } //namespace generic 
 } //namespace torc
 
-#endif //TORC_GENERIC_PARSER_HELPERS_HPP
+#endif // TORC_GENERIC_PARSER_PARSERHELPERS_HPP

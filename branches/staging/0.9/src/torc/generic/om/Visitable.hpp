@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_VISITABLE_HPP
-#define TORC_GENERIC_VISITABLE_HPP
+#ifndef TORC_GENERIC_OM_VISITABLE_HPP
+#define TORC_GENERIC_OM_VISITABLE_HPP
 
 #include "torc/generic/om/DumpRestoreConfig.hpp"
 
@@ -82,4 +82,4 @@ class Visitable
 BOOST_IS_ABSTRACT( torc::generic::Visitable )
 #endif //GENOM_SERIALIZATION
 
-#endif
+#endif // TORC_GENERIC_OM_VISITABLE_HPP

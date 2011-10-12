@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the XdlScanner class.
 
-#ifndef TORC_XDL_SCANNER_H
-#define TORC_XDL_SCANNER_H
+#ifndef TORC_PHYSICAL_XDL_XDLSCANNER_HPP
+#define TORC_PHYSICAL_XDL_XDLSCANNER_HPP
 
 // Flex expects the signature of yylex to be defined in the macro YY_DECL, and
 // the C++ parser expects it to be declared. We can factor both as follows.
@@ -74,4 +74,4 @@ namespace torc {
 
 } // namespace torc
 
-#endif // TORC_XDL_SCANNER_H
+#endif // TORC_PHYSICAL_XDL_XDLSCANNER_HPP

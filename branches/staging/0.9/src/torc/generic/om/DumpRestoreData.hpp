@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_DUMP_RESTORE_DATA_HPP
-#define TORC_GENERIC_DUMP_RESTORE_DATA_HPP
+#ifndef TORC_GENERIC_OM_DUMPRESTOREDATA_HPP
+#define TORC_GENERIC_OM_DUMPRESTOREDATA_HPP
 
 #include "torc/generic/om/PointerTypes.hpp"
 #include "torc/generic/om/DumpRestoreConfig.hpp"
@@ -78,4 +78,4 @@ DumpRestoreData::getRestoreAllComponents() const throw() {
 } // namespace generic
 #endif //GENOM_SERIALIZATION
 
-#endif //TORC_GENERIC_DUMP_RESTORE_DATA_HPP
+#endif // TORC_GENERIC_OM_DUMPRESTOREDATA_HPP

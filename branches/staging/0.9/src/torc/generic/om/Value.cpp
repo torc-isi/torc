@@ -33,15 +33,15 @@ namespace torc {
 namespace generic {
 
 Value::MiNoMax::MiNoMax()
-    :mMin(0),
+    :mMin(),
     mMinUndefined(true),
-    mNominal(0),
-    mMax(0),
+    mNominal(),
+    mMax(),
     mMaxUndefined(true) {
 }
 
-Value::MiNoMax::MiNoMax(int32_t inMin,
-                int32_t inNominal, int32_t inMax)
+Value::MiNoMax::MiNoMax(Value::Number inMin,
+                Value::Number inNominal, Value::Number inMax)
     :mMin(inMin),
     mMinUndefined(false),
     mNominal(inNominal),
@@ -76,31 +76,31 @@ Value::MiNoMax & Value::MiNoMax::operator=(
 bool
 Value::MiNoMax::operator <(
             const Value::MiNoMax & inRhs) const throw() {
-    return mNominal < inRhs.mNominal;
+    return mNominal.eval() < inRhs.mNominal.eval();
 }
 
 bool
 Value::MiNoMax::operator ==(
             const Value::MiNoMax & inRhs) const throw() {
-    return mNominal == inRhs.mNominal;
+    return mNominal.eval() == inRhs.mNominal.eval();
 }
 
 bool
 Value::MiNoMax::operator >(
             const Value::MiNoMax & inRhs) const throw() {
-    return mNominal > inRhs.mNominal;
+    return mNominal.eval() > inRhs.mNominal.eval();
 }
 
 bool
 Value::MiNoMax::operator >=(
             const Value::MiNoMax & inRhs) const throw() {
-    return mNominal >= inRhs.mNominal;
+    return mNominal.eval() >= inRhs.mNominal.eval();
 }
 
 bool
 Value::MiNoMax::operator <=(
             const Value::MiNoMax & inRhs) const throw() {
-    return mNominal <= inRhs.mNominal;
+    return mNominal.eval() <= inRhs.mNominal.eval();
 }
 
 bool
@@ -110,17 +110,19 @@ Value::MiNoMax::operator !=(
 }
 
 void
-Value::MiNoMax::setMax(const int32_t & inSource) throw() {
+Value::MiNoMax::setMax(const Value::Number & inSource) throw() {
   mMax = inSource;
+  mMaxUndefined = false;  
 }
 
 void
-Value::MiNoMax::setMin(const int32_t & inSource) throw() {
+Value::MiNoMax::setMin(const Value::Number & inSource) throw() {
   mMin = inSource;
+  mMinUndefined = false; 
 }
 
 void
-Value::MiNoMax::setNominal(const int32_t & inSource) throw() {
+Value::MiNoMax::setNominal(const Value::Number & inSource) throw() {
   mNominal = inSource;
 }
 

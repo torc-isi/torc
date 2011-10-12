@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_PORT_DELAY_HPP
-#define TORC_GENERIC_PORT_DELAY_HPP
+#ifndef TORC_GENERIC_OM_PORTDELAY_HPP
+#define TORC_GENERIC_OM_PORTDELAY_HPP
 
 #include "torc/generic/om/DumpRestoreConfig.hpp"
 
@@ -22,6 +22,8 @@
 #include <boost/serialization/access.hpp>
 #endif //GENOM_SERIALIZATION
 
+#include "torc/generic/om/PointerTypes.hpp"
+#include "torc/generic/om/Derivation.hpp"
 #include "torc/generic/om/Value.hpp"
 
 namespace torc {
@@ -37,18 +39,10 @@ class PortDelay
 {
   public:
     /**
-     * @enum Derivation
+     * @enum DelayType
      *
-     * Types of possible derivation
+     * Types of possible delay
      */
-    enum Derivation
-    {
-      eDerivationUndefined,
-      eDerivationCalculated,
-      eDerivationMeasured,
-      eDerivationRequired
-    };
-
 	enum Type
 	{
 		eTypeDelay,
@@ -64,7 +58,7 @@ class PortDelay
 	 *
 	 * @return Derivation value
 	 */
-	inline const PortDelay::Derivation
+	inline const Derivation
 	getDerivation() const throw();
 
     /**
@@ -123,37 +117,21 @@ class PortDelay
     void
     setAcLoad(const Value::MiNoMax & inSource) throw();
 
-	/**
-	 * Get transition data as written in EDIF
-	 *
-	 * @return string
-	 */
-	inline const std::string
-	getTransition() const throw();
+    /**
+     * Get the pointer to logic state value( transition/becomes ).
+     *
+     * @return Pointer to logic state value( transition/becomes ).
+     */
+    inline const LogicElementSharedPtr
+    getTransition() const throw();
 
     /**
-     * Set EDIF string corresponding to <i>transition</i> statement.
+     * Set the pointer to logic state value( transition/becomes ).
      *
-     * @param[in] inSource String containing EDIF (transition ...)
+     * @param[in] inSource Pointer to logic state value( transition/becomes ).
      */
     void
-    setTransition(const std::string &inSource) throw();
-
-	/**
-	 * Get becomes data as written in EDIF
-	 *
-	 * @return string
-	 */
-	inline const std::string
-	getBecomes() const throw();
-
-    /**
-     * Set EDIF string corresponding to <i>becomes</i> statement.
-     *
-     * @param[in] inSource String containing EDIF (becomes ...)
-     */
-    void
-    setBecomes(const std::string &inSource) throw();
+    setTransition(const LogicElementSharedPtr & inSource) throw();
 
     PortDelay();
 
@@ -174,11 +152,10 @@ class PortDelay
 	Type mType;
     Value::MiNoMax mDelay;
     Value::MiNoMax mAcLoad;
-	std::string mTransition;
-	std::string mBecomes;
+    LogicElementSharedPtr mTransition;
 };
 
-inline const PortDelay::Derivation
+inline const Derivation
 PortDelay::getDerivation() const throw() {
   return mDerivation;
 }
@@ -198,18 +175,18 @@ PortDelay::getAcLoad() const throw() {
   return mAcLoad;
 }
 
-inline const std::string
+/**
+ * Get the pointer to logic state value( transition/becomes ).
+ *
+ * @return Pointer to logic state value( transition/becomes ).
+ */
+inline const LogicElementSharedPtr
 PortDelay::getTransition() const throw() {
-  return mTransition;
-}
-
-inline const std::string
-PortDelay::getBecomes() const throw() {
-  return mBecomes;
+    return mTransition;
 }
 
 
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_OM_PORTDELAY_HPP

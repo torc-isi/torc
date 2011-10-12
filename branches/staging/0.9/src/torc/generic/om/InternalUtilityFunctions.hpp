@@ -13,9 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_INTERNAL_UTILITY_FUNCTIONS_HPP
-#define TORC_GENERIC_INTERNAL_UTILITY_FUNCTIONS_HPP
-
+#ifndef TORC_GENERIC_OM_INTERNALUTILITYFUNCTIONS_HPP
+#define TORC_GENERIC_OM_INTERNALUTILITYFUNCTIONS_HPP
 
 namespace torc {
 namespace generic {
@@ -136,4 +135,4 @@ struct IndexFinder
 
 } //namespace generic
 } //namespace torc
-#endif //TORC_GENERIC_INTERNAL_UTILITY_FUNCTIONS_HPP
+#endif // TORC_GENERIC_OM_INTERNALUTILITYFUNCTIONS_HPP

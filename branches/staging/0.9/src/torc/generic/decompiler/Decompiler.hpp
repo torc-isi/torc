@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_DECOMPILER_HPP
-#define TORC_GENERIC_DECOMPILER_HPP
+#ifndef TORC_GENERIC_DECOMPILER_DECOMPILER_HPP
+#define TORC_GENERIC_DECOMPILER_DECOMPILER_HPP
 
 #include <iostream>
 
@@ -22,6 +22,7 @@
 #include "torc/generic/util/Error.hpp"
 #include "torc/generic/decompiler/ObjectVisitor.hpp"
 #include "torc/generic/om/VisitorApplier.hpp"
+#include "torc/generic/om/Derivation.hpp"
 
 namespace torc {
 
@@ -107,7 +108,49 @@ class Decompiler : public ObjectVisitor
 
     void
     visit(PortList &inPortList) throw(Error);
+
+    void
+    visit(PortListAlias &inPortListAlias) throw(Error);
     
+    void
+    visit(Status &inStatus) throw(Error);
+    
+    void
+    visit(Permutable &inPermutable) throw(Error);
+
+    void
+    visit(InterfaceJoinedInfo & inInterfaceJoinedInfo) throw(Error);
+
+    void
+    visit(SimulationInfo &simuInfo) throw(Error);
+
+    void
+    visit(Simulate &simulate) throw(Error);
+
+    void
+    visit( Apply & apply ) throw(Error);
+
+    void
+    visit( LogicalResponse & logicalResponse ) throw(Error);
+
+    void
+    visit(LogicValue &logicVal) throw(Error);
+
+    void
+    visit(LogicElement &logicElement) throw(Error);
+
+    void
+    visit(WaveValue & waveValue) throw(Error);
+
+    void
+    visit(Timing & timing) throw(Error);
+
+    void
+    visit(Event & event) throw(Error);
+
+    void
+    visit(ForbiddenEvent & forbiddenevent) throw(Error);
+
     void
     printValueType( const Value &value ) throw(Error);
 
@@ -118,14 +161,34 @@ class Decompiler : public ObjectVisitor
     printUnit( const Unit unit ) throw(Error);
     
     void
+    printDerivation( const Derivation derivation ) throw(Error);
+
+    void
     printArray(const std::vector<size_t> &outVector, size_t depth, 
                 std::vector< ParameterSharedPtr >::iterator &itStart,
                 std::vector< ParameterSharedPtr >::iterator &itEnd) throw(Error);
 
     void
     printPortAttributes(
-        const boost::shared_ptr<PortAttributes> &inAttrib
-                                                    ) throw(Error);
+        const PortAttributesSharedPtr &inAttrib ) throw(Error);
+
+    void
+    printNetAttributes(
+        const NetAttributesSharedPtr &inAttrib ) throw(Error);
+    
+    void
+    printViewInterfaceAttributes(
+        const InterfaceAttributesSharedPtr &inAttrib ) throw(Error);
+
+    void
+    printLogicValueAttributes(
+        const LogicValueAttributesSharedPtr &inAttrib ) throw(Error);
+
+    void
+    printUserData( std::list< std::string > inElements) throw(Error);
+
+    void
+    printComments( std::vector< std::string > & inElements) throw(Error);
     /**
      * Convenience wrapper function to call decompile()
      */
@@ -159,6 +222,7 @@ class Decompiler : public ObjectVisitor
     RootSharedPtr mRoot;
     std::ostream &mOut;
     bool mIsJoiningContext;
+    bool mIsPermutableContext;
     bool mIsExternContext;
     bool mParamAssignContext;
     bool mIsPortInstanceContext;
@@ -175,4 +239,4 @@ Decompiler::getIndentation() const throw()
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_DECOMPILER_DECOMPILER_HPP

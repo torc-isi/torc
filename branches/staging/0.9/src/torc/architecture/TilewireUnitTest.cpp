@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the Tilewire unit test.
+/// \brief Unit test for the Tilewire class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/architecture/Tilewire.hpp"

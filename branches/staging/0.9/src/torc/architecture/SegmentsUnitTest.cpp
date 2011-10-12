@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the Segments unit test.
+/// \brief Unit test for the Segments class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/architecture/Segments.hpp"
@@ -192,6 +192,7 @@ public:
 		const SegmentReference& segmentReference = tilewireSegments[wireIndex];
 		CompactSegmentIndex compactSegmentIndex = segmentReference.getCompactSegmentIndex();
 		TileIndex anchorTileIndex = segmentReference.getAnchorTileIndex();
+        (void) anchorTileIndex;
 		// look up the current tilewire membership
 		CompactSegmentIndex usageCompactSegmentIndex = mUsage[inTilewire];
 		if(compactSegmentIndex == usageCompactSegmentIndex) {
@@ -222,11 +223,14 @@ uint64_t segments_unit_test_helper::sTotalTilewiresPruned = 0;
 /// \brief Total number of tilewires never defined (sanity check).
 uint64_t segments_unit_test_helper::sTotalTilewiresUndefined = 0;
 
+// this test is disabled because of its length and because it adds nothing to SegmentsRegressionTest 
+#if 0
 /// \brief Unit test for the Segments class.
+/// \todo Combine and separate SegmentsUnitTest, SegmentsRegressionTest, and DDBUnitTest
 BOOST_AUTO_TEST_CASE(SegmentsUnitTest) {
 
 	// iterate over the devices
-	const torc::common::DeviceVector& devices = torc::common::Devices::getSupportedDevices();
+	const torc::common::DeviceVector& devices = torc::common::Devices::getUnitTestDevices();
 	torc::common::DeviceVector::const_iterator dp = devices.begin();
 	torc::common::DeviceVector::const_iterator de = devices.end();
 	// defer to regression test for now
@@ -241,6 +245,7 @@ BOOST_AUTO_TEST_CASE(SegmentsUnitTest) {
 	}
 
 }
+#endif
 
 BOOST_AUTO_TEST_SUITE_END()
 

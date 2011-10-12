@@ -45,7 +45,7 @@
 
 
 /* Line 35 of lalr1.cc  */
-#line 53 "Parser.yy"
+#line 58 "Parser.yy"
 namespace torc { namespace generic {
 
 /* Line 35 of lalr1.cc  */
@@ -54,7 +54,7 @@ namespace torc { namespace generic {
   class location;
 
 /* Line 35 of lalr1.cc  */
-#line 53 "Parser.yy"
+#line 58 "Parser.yy"
 } } // torc::generic
 
 /* Line 35 of lalr1.cc  */
@@ -101,7 +101,7 @@ do {							\
 
 
 /* Line 35 of lalr1.cc  */
-#line 53 "Parser.yy"
+#line 58 "Parser.yy"
 namespace torc { namespace generic {
 
 /* Line 35 of lalr1.cc  */
@@ -117,31 +117,40 @@ namespace torc { namespace generic {
     {
 
 /* Line 35 of lalr1.cc  */
-#line 76 "Parser.yy"
+#line 81 "Parser.yy"
 
-    int                                 integerVal;
-    double                              doubleVal;
-    std::string                        *stringVal;
-    torc::generic::NameData            *nameData;
-    torc::generic::ViewRefData         *viewRefData;
-    torc::generic::CellRefData         *cellRefData;
-    torc::generic::PortRefData         *portRefData;
-    torc::generic::InstanceRefData     *instanceRef;
-    torc::generic::PortListData        *portListData;
-    torc::generic::InstanceInfo        *instanceInfo;
-    std::vector<size_t>                *arrayDimensions;
-    torc::generic::VersionData         *edifVersion;
-    torc::generic::ValueData           *valueData;
-    torc::generic::PairData            *pairData;
-    torc::generic::ParamAssignInfo     *paramAssignInfo;
-    torc::generic::PortAttributes      *portAttributes;
-    torc::generic::PortDelay           *portDelay;
-    torc::generic::PortInstData        *portInst;
+    int                                   integerVal;
+    double                                doubleVal;
+    std::string                          *stringVal;
+    torc::generic::NameData              *nameData;
+    torc::generic::ViewRefData           *viewRefData;
+    torc::generic::CellRefData           *cellRefData;
+    torc::generic::PortRefData           *portRefData;
+    torc::generic::InstanceRefData       *instanceRef;
+    torc::generic::PortListData          *portListData;
+    torc::generic::InstanceInfo          *instanceInfo;
+    std::vector<size_t>                  *arrayDimensions;
+    torc::generic::VersionData           *edifVersion;
+    torc::generic::ValueData             *valueData;
+    torc::generic::PairData              *pairData;
+    torc::generic::ParamAssignInfo       *paramAssignInfo;
+    torc::generic::PortAttributes        *portAttributes;
+    torc::generic::NetAttributes         *netAttributes;
+    torc::generic::PortDelay             *portDelay;
+    torc::generic::NetDelay              *netDelay;
+    torc::generic::PortInstData          *portInst;
+    torc::generic::TimeStamp             *timeStamp;
+    torc::generic::PairStrData           *pairStrData;  
+    torc::generic::InterfaceAttributes   *interfaceAttributes;
+    torc::generic::LogicValueAttributes  *logicValueAttributes;
+    torc::generic::LogicListData         *logicListData;
+    torc::generic::LogicRefData          *logicRefData;
+    torc::generic::NetRefData            *netRefData;
 
 
 
 /* Line 35 of lalr1.cc  */
-#line 145 "Parser.h"
+#line 154 "Parser.h"
     };
 #else
     typedef YYSTYPE semantic_type;
@@ -363,7 +372,7 @@ namespace torc { namespace generic {
      OVERSIZE = 464,
      OWNER = 465,
      PAGE = 466,
-     PAGESIZE_TORC = 467,
+     PAGESIZE_EDIF = 467,
      PARAMETER = 468,
      PARAMETERASSIGN = 469,
      PARAMETERDISPLAY = 470,
@@ -618,11 +627,11 @@ namespace torc { namespace generic {
   };
 
 /* Line 35 of lalr1.cc  */
-#line 53 "Parser.yy"
+#line 58 "Parser.yy"
 } } // torc::generic
 
 /* Line 35 of lalr1.cc  */
-#line 626 "Parser.h"
+#line 635 "Parser.h"
 
 
 

@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the Primitive class.
 
-#ifndef TORC_PHYSICAL_PRIMITIVE_HPP
-#define TORC_PHYSICAL_PRIMITIVE_HPP
+#ifndef TORC_PACKER_PRIMITIVE_HPP
+#define TORC_PACKER_PRIMITIVE_HPP
 
 #include "torc/packer/Component.hpp"
 #include "torc/packer/Element.hpp"
@@ -178,4 +178,4 @@ typedef std::vector<PrimitiveSharedPtr> PrimitiveSharedPtrVector;
 } // namespace physical
 } // namespace torc
 
-#endif // TORC_PHYSICAL_PRIMITIVE_HPP
+#endif // TORC_PACKER_PRIMITIVE_HPP

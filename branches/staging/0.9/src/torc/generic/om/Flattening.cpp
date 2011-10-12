@@ -45,10 +45,23 @@ using namespace torc::generic;
 template<typename _Pointer>
 std::string
 getModifiedName( const std::string &inInstName,
-        const _Pointer &inNameable )
+        const _Pointer &inNameable, 
+        const std::vector<size_t> &inIndicesVector = std::vector<size_t>() )
 {
-    std::string name = inInstName + "_";
-    name += inNameable->getName();
+    std::string name;
+    name = inInstName + "_";
+    if( inIndicesVector.empty() )
+    {
+        name += inNameable->getName();
+    }
+    else
+    {
+        std::ostringstream indices;
+        copy( inIndicesVector.begin(), inIndicesVector.end(),
+            std::ostream_iterator<size_t>( indices,"_" ) );
+        name += indices.str();
+        name += inNameable->getName();
+    }
     return name;
 }
 
@@ -56,7 +69,7 @@ void
 replicatePortRefConnections( const NetSharedPtr &inOrigNet,
         const NetSharedPtr &outTargetNet,
         const ViewSharedPtr &inCurrentView,
-        const std::string &inInstName ) {
+        const InstanceSharedPtr &inInstance ) {
     log("Replicating portRef connections for %s to %s\n",
             inOrigNet->getName().c_str(),
             outTargetNet->getName().c_str());
@@ -90,8 +103,16 @@ replicatePortRefConnections( const NetSharedPtr &inOrigNet,
                                                     instance );
             instance = instance->getParentCollection();
         }
+        std::vector<size_t> originalInstanceIndex;
+        if( eCompositionTypeVectorBit
+                == inInstance->getCompositionType() )
+        {
+            originalInstanceIndex
+                = IndexFinder<Instance, InstanceArrayMember>()(
+                                                    inInstance );
+        }
         std::string newInstName
-                    = getModifiedName( inInstName, instance );
+                    = getModifiedName( inInstance->getName(), instance, originalInstanceIndex);
         InstanceSharedPtr targetInst
                 = inCurrentView->findInstance( newInstName );
         if( !indices.empty() )
@@ -116,8 +137,6 @@ replicatePortRefConnections( const NetSharedPtr &inOrigNet,
                             = IndexFinder<PortReference,
                     VectorPortBitReference>()(actualPortRef);
             targetPortRef = targetPortRef->get( portRefIndices );
-            //copy( portRefIndices.begin(), portRefIndices.end(),
-            //        std::ostream_iterator<size_t>(std::cout, " "));
         }
         log("\tConnecting %s to net %s\n",
             targetPortRef->getName().c_str(),
@@ -142,7 +161,7 @@ class PortRefConnectionReplicator
     {
         replicatePortRefConnections(
             inScalarNet.getSharedThis(), mTargetNet,
-            mCurrentView, mInstName );
+            mCurrentView, mOriginalInstance );
     }
     catch( Error &e )
     {
@@ -157,7 +176,7 @@ class PortRefConnectionReplicator
     {
         replicatePortRefConnections(
             inVectorNet.getSharedThis(), mTargetNet,
-            mCurrentView, mInstName );
+            mCurrentView, mOriginalInstance );
 #if 0
         std::vector< NetSharedPtr > children;
         inVectorNet.getCreatedChildren( children );
@@ -186,7 +205,7 @@ class PortRefConnectionReplicator
     {
         replicatePortRefConnections(
             inVectorNetBit.getSharedThis(), mTargetNet,
-            mCurrentView, mInstName );
+                mCurrentView, mOriginalInstance );
     }
     catch( Error &e )
     {
@@ -201,7 +220,7 @@ class PortRefConnectionReplicator
     {
         replicatePortRefConnections(
             inNetBundle.getSharedThis(), mTargetNet,
-            mCurrentView, mInstName );
+            mCurrentView, mOriginalInstance );
 #if 0
         std::vector< NetSharedPtr > children;
         inNetBundle.getChildren( children );
@@ -229,12 +248,13 @@ class PortRefConnectionReplicator
     operator ()( const NetSharedPtr &inOrigNet,
             const NetSharedPtr &outTargetNet,
             const ViewSharedPtr &inCurrentView,
-            const std::string &inInstName ) throw(Error)
+            const InstanceSharedPtr &inOriginalInstance
+            ) throw(Error)
     try
     {
         mTargetNet = outTargetNet;
         mCurrentView = inCurrentView;
-        mInstName = inInstName;
+        mOriginalInstance = inOriginalInstance;
         inOrigNet->accept( *this );
     }
     catch( Error &e )
@@ -250,8 +270,7 @@ class PortRefConnectionReplicator
   private:
     NetSharedPtr mTargetNet;
     ViewSharedPtr mCurrentView;
-    std::string mInstName;
-
+    InstanceSharedPtr mOriginalInstance;
 };
 
 void
@@ -278,14 +297,20 @@ try
         {
             NetSharedPtr clonedNet
                         = clone( inOrigNet, inFactory );
+            std::vector<size_t> indices;
+            if( eCompositionTypeVectorBit
+                        == inInstance->getCompositionType() )
+            {
+                indices = IndexFinder<Instance, InstanceArrayMember>()( inInstance);
+            }
             clonedNet->setName( getModifiedName(
-                                inInstName, inOrigNet) );
+                                inInstName, inOrigNet, indices) );
             inCurrentView->addNet( clonedNet );
             outClonedNet = clonedNet;
             targetNet = clonedNet;
         }
         PortRefConnectionReplicator()( inOrigNet, targetNet,
-            inCurrentView, inInstName);
+            inCurrentView, inInstance);
     }
     else
     {
@@ -313,6 +338,13 @@ try
                 findLeafConnectable(
                             nestedNames, origPortRef );
             }
+            if( eCompositionTypeVectorBit
+                    == actualPortRef->getCompositionType() )
+            {
+                origPortRef = origPortRef->get(
+                        IndexFinder<Port,VectorPortBit>()(
+                                        actualPortRef ));
+            }
             std::vector<NetSharedPtr> nets;
             origPortRef->getConnectedNets( nets );
             for( std::vector<NetSharedPtr>::iterator
@@ -322,7 +354,7 @@ try
                 NetSharedPtr connectedNet = *myNet;
                 PortRefConnectionReplicator()(
                     inOrigNet, connectedNet, inCurrentView,
-                    inInstName);
+                    inInstance);
                 origPortRef->disconnect( connectedNet );
             }
         }
@@ -411,7 +443,7 @@ class NetConnectionReplicator
         newScalarNet->setName( sout.str() );
         mCurrentView->addNet( newScalarNet );
         PortRefConnectionReplicator()(
-            origNet, newScalarNet, mCurrentView, mInstName);
+            origNet, newScalarNet, mCurrentView, mInstance);
 
         for( std::vector<PortSharedPtr>::iterator port
                 = ports.begin(); port != ports.end(); ++port )
@@ -473,7 +505,6 @@ class NetConnectionReplicator
                         continue;
                     (*it)->connect( newScalarNet );
                 }
-                bool toDisconnect = true;
                 if( eCompositionTypeVectorBit == (*myNet)->getCompositionType()
                     && eCompositionTypeVectorBit == origPortRef->getCompositionType() )
                 {
@@ -481,7 +512,6 @@ class NetConnectionReplicator
                             = IndexFinder<Net, VectorNetBit>()( *myNet );
                     std::vector<size_t> portIdx
                             = IndexFinder<PortReference, VectorPortBitReference>()( origPortRef );
-                    toDisconnect = !( netIdx == portIdx );
                 }
             }
         }
@@ -562,6 +592,51 @@ class NetConnectionReplicator
     NetSharedPtr mTargetNet;
 };
 
+// Add all flatten instances of a target instance
+bool
+addFlattenInstances(const ViewSharedPtr &inParentView,
+        const InstanceSharedPtr &inInstance,
+        const ObjectFactorySharedPtr &inFactory,
+        std::list<InstanceSharedPtr> &outAddedInstances ) throw(Error)
+{
+    std::string name = inInstance->getName();
+    ViewSharedPtr masterView = inInstance->getMaster();
+    log( "Flattening instance with name %s\n", name.c_str());
+
+    log("Copying instantiations... ");
+    std::vector<InstanceSharedPtr> childInstances;
+    masterView->getInstances( childInstances );
+    if( childInstances.empty() )
+    {
+        log("Leaf node.. cannot flatten\n");
+        return false;
+    }
+    std::vector<PortReferenceSharedPtr> portRefs;
+    inInstance->getPortReferences( portRefs );
+    std::string flatInstName;
+    std::vector<size_t> indices;
+    if( eCompositionTypeVectorBit 
+            == inInstance->getCompositionType() ) 
+    {
+        indices = IndexFinder<Instance, InstanceArrayMember>()( inInstance );
+    }
+
+    for( std::vector<InstanceSharedPtr>::iterator it
+            = childInstances.begin(); it != childInstances.end();
+            ++it)
+    {
+        InstanceSharedPtr inst = clone( *it, inFactory );
+        std::string instName;
+        instName = getModifiedName(name, inst, indices);
+        log( "Added Instance Name :: %s\n", instName.c_str());
+        inst->setName( instName );
+        inParentView->addInstance( inst );
+        outAddedInstances.push_back( inst );
+    }
+    log("Done\n");
+    return true;
+}
+
 void
 flattenInstance(const ViewSharedPtr &inParentView,
         const InstanceSharedPtr &inInstance,
@@ -572,23 +647,11 @@ flattenInstance(const ViewSharedPtr &inParentView,
                         ? inName
                         : inInstance->getName();
     ViewSharedPtr masterView = inInstance->getMaster();
-    log( "Flattining instance with name %s\n", name.c_str());
-
-    log("Copying instantiations... ");
     std::vector<InstanceSharedPtr> childInstances;
     masterView->getInstances( childInstances );
     std::vector<PortReferenceSharedPtr> portRefs;
     inInstance->getPortReferences( portRefs );
-    for( std::vector<InstanceSharedPtr>::iterator it
-            = childInstances.begin(); it != childInstances.end();
-            ++it)
-    {
-        InstanceSharedPtr inst = clone( *it, inFactory );
-        std::string instName = getModifiedName(name,inst);
-        inst->setName( instName );
-        inParentView->addInstance( inst );
-    }
-    log("Done\n");
+
     //First we copy nets in the instance that are not connected
     //to it's ports
     log("Copying internal nets... ");
@@ -607,20 +670,22 @@ flattenInstance(const ViewSharedPtr &inParentView,
     log("Done\n");
 }
 
-}
-
-namespace torc {
-namespace generic {
-
-void
-flatten( const ViewSharedPtr &inParentView,
-        const InstanceSharedPtr &inInstance,
-        const ObjectFactorySharedPtr &inFactory ) throw(Error)
+bool
+flatten_impl( const InstanceSharedPtr &inInstance,
+        const ObjectFactorySharedPtr &inFactory,
+        std::list<InstanceSharedPtr> &outAddedInstances ) throw(Error)
 {
-    if( !inParentView || !inInstance
-            || !inParentView->findInstance( inInstance->getName() ))
+    if( !inInstance )
     {
         //TBD::ERROR
+        return false;
+    }
+    ViewSharedPtr parentView = inInstance->getParent();
+    if( !parentView
+            || !parentView->findInstance( inInstance->getName() ))
+    {
+        //TBD::ERROR
+        return false;
     }
     switch( inInstance->getCompositionType() )
     {
@@ -628,10 +693,19 @@ flatten( const ViewSharedPtr &inParentView,
         {
             try
             {
-                flattenInstance(
-                    inParentView, inInstance, inFactory );
-                inParentView->removeInstance(
-                                inInstance->getName());
+                bool added = addFlattenInstances(
+                    parentView, inInstance, inFactory, outAddedInstances );
+                if( added )
+                {
+                    flattenInstance(
+                        parentView, inInstance, inFactory );
+                    parentView->removeInstance(
+                                    inInstance->getName());
+                }
+                else
+                {
+                    return false;
+                }
                 break;
             }
             catch( Error &e )
@@ -648,14 +722,32 @@ flatten( const ViewSharedPtr &inParentView,
             {
                 std::vector<InstanceSharedPtr> children;
                 inInstance->getChildren( children );
+                bool added = false;
                 for( std::vector<InstanceSharedPtr>::iterator it
                         = children.begin(); it != children.end(); ++it )
                 {
-                    flattenInstance(
-                        inParentView, (*it), inFactory );
+                     added = addFlattenInstances(
+                        parentView, (*it), inFactory, outAddedInstances );
+                     if( !added )
+                     {
+                        break;
+                     }
                 }
-                inParentView->removeInstance(
+                if( added )
+                {
+                    for( std::vector<InstanceSharedPtr>::iterator it
+                            = children.begin(); it != children.end(); ++it )
+                    {
+                        flattenInstance(
+                            parentView, (*it), inFactory );
+                    }
+                    parentView->removeInstance(
                                 inInstance->getName());
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch( Error &e )
             {
@@ -670,6 +762,37 @@ flatten( const ViewSharedPtr &inParentView,
             throw Error( eMessageIdErrorUnsupoortedOperation,
                     __FUNCTION__, __FILE__, __LINE__ );
         }
+    }
+    return true;
+}
+
+}
+
+namespace torc {
+namespace generic {
+
+void
+flatten( const InstanceSharedPtr &inInstance,
+        const ObjectFactorySharedPtr &inFactory) throw(Error) {
+    std::list<InstanceSharedPtr> dummy;
+    flatten_impl( inInstance, inFactory, dummy );
+    return;
+}
+
+void
+flatten_hierarchy( const InstanceSharedPtr &inInstance,
+        const ObjectFactorySharedPtr &inFactory) throw(Error) {
+    std::list<InstanceSharedPtr> newInstances;
+    if( !flatten_impl( inInstance, inFactory, newInstances ) )
+    {
+        return;
+    }
+    while( !newInstances.empty() )
+    {
+        std::list<InstanceSharedPtr>::iterator top = newInstances.begin();
+        InstanceSharedPtr inst = *top;
+        newInstances.erase( top );
+        flatten_impl( inst, inFactory, newInstances );
     }
 }
 

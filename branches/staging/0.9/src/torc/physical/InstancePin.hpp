@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the InstancePin class.
 
-#ifndef TORC_PHYSICAL_INSTANCE_PIN_HPP
-#define TORC_PHYSICAL_INSTANCE_PIN_HPP
+#ifndef TORC_PHYSICAL_INSTANCEPIN_HPP
+#define TORC_PHYSICAL_INSTANCEPIN_HPP
 
 #include "torc/physical/Progeny.hpp"
 #include "torc/physical/Instance.hpp"
@@ -118,4 +118,4 @@ namespace physical {
 } // namespace physical
 } // namespace torc
 
-#endif // TORC_PHYSICAL_INSTANCE_PIN_HPP
+#endif // TORC_PHYSICAL_INSTANCEPIN_HPP

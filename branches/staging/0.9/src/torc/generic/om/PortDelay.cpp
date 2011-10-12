@@ -33,7 +33,7 @@ namespace generic {
 
 void
 PortDelay::setDerivation(
-    const PortDelay::Derivation & inSource) throw() {
+    const Derivation & inSource) throw() {
     mDerivation = inSource;
 }
 
@@ -54,23 +54,16 @@ PortDelay::setAcLoad(const Value::MiNoMax & inSource) throw() {
 }
 
 void
-PortDelay::setTransition(const std::string &inSource) throw() {
+PortDelay::setTransition( const LogicElementSharedPtr & inSource ) throw() {
     mTransition = inSource;
 }
-
-void
-PortDelay::setBecomes(const std::string &inSource) throw() {
-    mBecomes = inSource;
-}
-
 
 PortDelay::PortDelay()
     :mDerivation( eDerivationUndefined ),
     mType( eTypeDelay ),
     mDelay(),
     mAcLoad(),
-    mTransition(),
-    mBecomes() {
+    mTransition() {
 }
 
 PortDelay::~PortDelay() throw() {
@@ -81,8 +74,7 @@ PortDelay::PortDelay(const PortDelay & source)
     mType( source.mType ),
     mDelay( source.mDelay ),
     mAcLoad( source.mAcLoad ),
-    mTransition( source.mTransition ),
-    mBecomes( source.mBecomes ) {
+    mTransition( source.mTransition ) {
 }
 
 PortDelay &
@@ -94,7 +86,6 @@ PortDelay::operator=(const PortDelay & source) throw() {
         mDelay = source.mDelay;
         mAcLoad = source.mAcLoad;
         mTransition = source.mTransition;
-        mBecomes = source.mBecomes;
     }
     return *this;
 }
@@ -107,7 +98,6 @@ PortDelay::serialize( Archive &ar, unsigned int ) {
     ar & mDelay;
     ar & mAcLoad;
     ar & mTransition;
-    ar & mBecomes;
 }
 
 //TO SATISFY THE LINKER

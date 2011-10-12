@@ -19,20 +19,18 @@
 #ifndef TORC_ROUTER_HPP
 #define TORC_ROUTER_HPP
 
-#include "torc/router/NetRouter.hpp"
 #include "torc/router/NetRouterBase.hpp"
-#include "torc/router/NetRouterHeuristic.hpp"
 #include "torc/router/NetRouterHeuristicBase.hpp"
 #include "torc/router/NetVectorRouterBase.hpp"
 #include "torc/router/NetVectorRouterHeuristicBase.hpp"
-#include "torc/router/PathFinder.hpp"
-#include "torc/router/PathFinderHeuristic.hpp"
-#include "torc/router/PathFinderNetRouterHeuristic.hpp"
-#include "torc/router/RouteNet.hpp"
+#include "torc/router/RouterHeuristicBase.hpp"
+
+#include "torc/router/AStarRouter.hpp"
+#include "torc/router/PathFinderRouter.hpp"
+
 #include "torc/router/RouteNode.hpp"
 #include "torc/router/RouteTreeNode.hpp"
 #include "torc/router/RouteUtilities.hpp"
-#include "torc/router/RouterHeuristicBase.hpp"
 #include "torc/router/RouterStatistics.hpp"
 #include "torc/router/Trace.hpp"
 #include "torc/router/TraceNode.hpp"

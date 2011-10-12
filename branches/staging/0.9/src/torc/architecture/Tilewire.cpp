@@ -22,8 +22,7 @@
 namespace torc {
 namespace architecture {
 
-	const Tilewire Tilewire::sInvalid = Tilewire(TileIndex(TileIndex::undefined()), 
-		WireIndex(WireIndex::undefined()));
+	const Tilewire Tilewire::sInvalid = Tilewire(TileIndex(-1), WireIndex(-1));
 
 	std::size_t hash_value(const Tilewire& inTilewire) {
 		std::size_t seed = 0;

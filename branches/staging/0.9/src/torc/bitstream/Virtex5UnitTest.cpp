@@ -14,14 +14,14 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the Virtex5 unit test.
+/// \brief Unit test for the Virtex5 class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/bitstream/Virtex5.hpp"
 #include "torc/common/DirectoryTree.hpp"
 #include "torc/common/Devices.hpp"
 #include "torc/architecture/DDB.hpp"
-#include "torc/architecture/DeviceDesignator.hpp"
+#include "torc/common/DeviceDesignator.hpp"
 #include "torc/bitstream/OutputStreamHelpers.hpp"
 #include "torc/bitstream/build/DeviceInfoHelper.hpp"
 #include "torc/common/TestHelpers.hpp"
@@ -35,7 +35,7 @@ namespace bitstream {
 BOOST_AUTO_TEST_SUITE(bitstream)
 
 /// \brief Unit test for the Virtex5 CRC
-BOOST_AUTO_TEST_CASE(crc_virtex5) {
+BOOST_AUTO_TEST_CASE(Virtex5CrcUnitTest) {
 	std::fstream fileStream("Virtex5UnitTest.reference.bit", std::ios::binary | std::ios::in);
 	Virtex5 bitstream;
 	bitstream.read(fileStream, false);
@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE(crc_virtex5) {
 }
 
 /// \brief Unit test for the Virtex5 class.
-BOOST_AUTO_TEST_CASE(bitstream_virtex5) {
+BOOST_AUTO_TEST_CASE(Virtex5UnitTest) {
 
 	// enums tested:
 	//		EPacket
@@ -126,9 +126,22 @@ BOOST_AUTO_TEST_CASE(bitstream_virtex5) {
 	BOOST_CHECK_EQUAL(Virtex5::sCommandName[Virtex5::eCommandIPROG],		"IPROG");
 	BOOST_CHECK_EQUAL(Virtex5::sCommandName[Virtex5::eCommandLTIMER],		"LTIMER");
 
+	uint32_t u1 = 0xffffffff & mask;
+	BOOST_CHECK_EQUAL(uint32_t(Virtex5::FrameAddress(u1)), u1);
+	uint32_t u2 = 0xffff0000 & mask;
+	BOOST_CHECK_EQUAL(uint32_t(Virtex5::FrameAddress(u2)), u2);
+	uint32_t u3 = 0xff00ff00 & mask;
+	BOOST_CHECK_EQUAL(uint32_t(Virtex5::FrameAddress(u3)), u3);
+	uint32_t u4 = 0xf0f0f0f0 & mask;
+	BOOST_CHECK_EQUAL(uint32_t(Virtex5::FrameAddress(u4)), u4);
+	uint32_t u5 = 0xcccccccc & mask;
+	BOOST_CHECK_EQUAL(uint32_t(Virtex5::FrameAddress(u5)), u5);
+	uint32_t u6 = 0xaaaaaaaa & mask;
+	BOOST_CHECK_EQUAL(uint32_t(Virtex5::FrameAddress(u6)), u6);
+
 	// build the file paths
 	boost::filesystem::path regressionPath 
-		= torc::common::DirectoryTree::getExecutablePath() / "torc" / "bitstream" / "regression";
+		= torc::common::DirectoryTree::getExecutablePath() / "regression";
 	boost::filesystem::path generatedPath = regressionPath / "Virtex5UnitTest.generated.bit";
 	boost::filesystem::path referencePath = regressionPath / "Virtex5UnitTest.reference.bit";
 
@@ -144,7 +157,7 @@ BOOST_AUTO_TEST_CASE(bitstream_virtex5) {
 	std::string deviceName = bitstream.getDeviceName();
 	std::string designDate = bitstream.getDesignDate();
 	std::string designTime = bitstream.getDesignTime();
-	torc::architecture::DeviceDesignator deviceDesignator(deviceName);
+	torc::common::DeviceDesignator deviceDesignator(deviceName);
 	std::cout << "family of " << deviceName << " is " << deviceDesignator.getFamily() << std::endl;
 
 	// write the bitstream back out
@@ -196,7 +209,7 @@ BOOST_AUTO_TEST_CASE(bitstream_virtex5) {
 void testVirtex5Device(const std::string& inDeviceName, const boost::filesystem::path& inWorkingPath);
 
 /// \brief Unit test for the Virtex5 class Frame Address Register mapping.
-BOOST_AUTO_TEST_CASE(bitstream_virtex5_far) {
+BOOST_AUTO_TEST_CASE(Virtex5FarUnitTest) {
 
 	// look up the command line arguments
 	int& argc = boost::unit_test::framework::master_test_suite().argc;
@@ -218,26 +231,12 @@ BOOST_AUTO_TEST_CASE(bitstream_virtex5_far) {
 	}
 }
 
-/*
-	class TileTypeWidths {
-	public:
-		uint32_t mWidth[8];
-		TileTypeWidths(uint32_t in0 = 0, uint32_t in1 = 0, uint32_t in2 = 0, uint32_t in3 = 0, 
-			uint32_t in4 = 0, uint32_t in5 = 0, uint32_t in6 = 0, uint32_t in7 = 0) {
-			int i = 0;
-			mWidth[i++] = in0; mWidth[i++] = in1; mWidth[i++] = in2; mWidth[i++] = in3;
-			mWidth[i++] = in4; mWidth[i++] = in5; mWidth[i++] = in6; mWidth[i++] = in7;
-		}
-		void clear(void) { for(int i = 0; i < 8; i++) mWidth[i] = 0; }
-		uint32_t operator[] (int inIndex) const { return mWidth[inIndex]; }
-	};
-*/
 
-	std::ostream& operator<< (std::ostream& os, const Virtex5::FrameAddress& rhs);
-	std::ostream& operator<< (std::ostream& os, const Virtex5::FrameAddress& rhs) {
-		return os << (rhs.mTopBottom == Virtex5::eFarTop ? 'T' : 'B') << "" << rhs.mBlockType 
-				<< "(" << rhs.mRow << "," << rhs.mMajor << "." << rhs.mMinor << ")";
-	}
+	//std::ostream& operator<< (std::ostream& os, const Virtex5::FrameAddress& rhs);
+	//std::ostream& operator<< (std::ostream& os, const Virtex5::FrameAddress& rhs) {
+	//	return os << (rhs.mTopBottom == Virtex5::eFarTop ? 'T' : 'B') << "" << rhs.mBlockType 
+	//			<< "(" << rhs.mRow << "," << rhs.mMajor << "." << rhs.mMinor << ")";
+	//}
 
 void testVirtex5Device(const std::string& inDeviceName, const boost::filesystem::path& inWorkingPath) {
 
@@ -339,78 +338,128 @@ return;
 
 }
 
+void testVirtex5FullMapping(const boost::filesystem::path& inWorkingPath);
+void testVirtex5PartialMapping(const boost::filesystem::path& inWorkingPath);
+
 /// \brief Unit test for the Virtex5 bitstream to bitmap conversion.
-BOOST_AUTO_TEST_CASE(Virtex5BitmapConversion) {
-	// read the bitstream
-	boost::filesystem::path referencePath = torc::common::DirectoryTree::getExecutablePath() 
-		/ "regression" / "Virtex5UnitTest.reference.bit";
-	std::fstream fileStream(referencePath.string().c_str(), std::ios::binary | std::ios::in);
-	BOOST_REQUIRE(fileStream.good());
-	Virtex5 bitstream;
-	bitstream.read(fileStream, false);
-
-	// initialize the bitstream frame maps
-	bitstream.initializeDeviceInfo(bitstream.getDeviceName());
-	bitstream.initializeFrameMaps();
-
-	// walk the bitstream and process all FAR and FDRI writes
-	Virtex5::const_iterator p = bitstream.begin();
-	Virtex5::const_iterator e = bitstream.end();
-/*
-	uint32_t farHeader = VirtexPacket::makeHeader(VirtexPacket::ePacketType1, 
-		VirtexPacket::eOpcodeWrite, Virtex5::eRegisterFAR, 1);
-	uint32_t fdriHeader = VirtexPacket::makeHeader(VirtexPacket::ePacketType1, 
-		VirtexPacket::eOpcodeWrite, Virtex5::eRegisterFAR, 1);
-*/
-	while(p < e) {
-		const VirtexPacket& packet = *p++;
-		if(!packet.isWrite()) continue;
-		switch(packet.getAddress()) {
-		}
-/*
-		EPacketType getType(void) const { return mType; }
-		EOpcode getOpcode(void) const { return mOpcode; }
-		int getAddress(void) const { return mAddress; }
-		uint32_t getHeader(void) const { return mHeader; }
-		/// \brief Returns the number of payload words in the packet, excluding the header word.
-		uint32_t getWordCount(void) const { return mCount; }
-		/// \brief Returns the total number of words in the packet, including the header word.
-		uint32_t getWordSize(void) const { return mCount + 1; }
-//		const uint32_t* getWords(void) const { return mWords; }
-// tests
-bool isType1(void) const { return mType == ePacketType1; }
-bool isType2(void) const { return mType == ePacketType2; }
-bool isNop(void) const { return mOpcode == eOpcodeNOP; }
-bool isReserved(void) const { return mOpcode == eOpcodeReserved; }
-bool isRead(void) const { return mOpcode == eOpcodeRead; }
-bool isWrite(void) const { return mOpcode == eOpcodeWrite; }
-bool isDummyWord(void) const { return mHeader == eSynchronizationDummy; }
-bool isSyncWord(void) const { return mHeader == eSynchronizationSync; }
-bool isBusWidthSyncWord(void) const { return mHeader == eSynchronizationBusWidthSync; }
-bool isBusWidthDetectWord(void) const { return mHeader == eSynchronizationBusWidthDetect; }
-*/
-		Virtex5::FrameAddress far = packet[1];
-	}
-
+BOOST_AUTO_TEST_CASE(Virtex5MapUnitTest) {
+	// look up the command line arguments
+	int& argc = boost::unit_test::framework::master_test_suite().argc;
+	char**& argv = boost::unit_test::framework::master_test_suite().argv;
+	// make sure that we at least have the name under which we were invoked
+	BOOST_REQUIRE(argc >= 1);
+	// resolve symbolic links if applicable
+	torc::common::DirectoryTree directoryTree(argv[0]);
+	testVirtex5FullMapping(torc::common::DirectoryTree::getWorkingPath());
+	//testVirtex5PartialMapping(torc::common::DirectoryTree::getWorkingPath());
 }
 
 
+void testVirtex5FullMapping(const boost::filesystem::path& inWorkingPath) {
+	// build the file paths
+	boost::filesystem::path regressionPath 
+		= torc::common::DirectoryTree::getExecutablePath() / "regression";
+	boost::filesystem::path generatedPath = regressionPath / "Virtex5UnitTest.generatedFull.bit";
+	boost::filesystem::path referencePath = regressionPath / "Virtex5UnitTest.reference.bit";
+
+	// read the bitstream
+	std::fstream fileStream(referencePath.string().c_str(), std::ios::binary | std::ios::in);
+	BOOST_REQUIRE(fileStream.good());
+	// read and gather bitstream frames
+	Virtex5 bitstream;
+	bitstream.read(fileStream, false);
+
+	// initialize frame map
+	bitstream.initializeDeviceInfo("xc5vlx20t");
+	bitstream.initializeFrameMaps();
+
+	// load bitstream frames in data structure
+	bitstream.initializeFullFrameBlocks();
+
+	// write full bitstream from frame blocks data structure
+	uint32_t frameLength = bitstream.getFrameLength();
+	typedef boost::shared_array<uint32_t> WordSharedArray;
+	Virtex5::iterator p = bitstream.begin();
+	Virtex5::iterator e = bitstream.end();
+	while (p < e) {
+		const VirtexPacket& packet = *p++;
+		if (packet.isType2()) {
+			WordSharedArray words = packet.getWords();
+			uint32_t* ptr = words.get();
+			for (uint32_t block = 0; block < 8; block++) {
+				for (uint32_t frame = 0; frame < bitstream.mBlockFrameIndexBounds[block]; frame++) {
+					VirtexFrameBlocks::word_t* words = const_cast<VirtexFrameBlocks::word_t*>(bitstream.mFrameBlocks.mBlock[block][frame]->getWords());
+					for (uint32_t index = 0; index < frameLength; index++) {
+						*ptr++ = words[index];
+					}
+				}
+			}
+		}
+	}
+	// write the test bitstream back out
+	std::fstream outputStream(generatedPath.string().c_str(), std::ios::binary | std::ios::out);
+	BOOST_REQUIRE(outputStream.good());
+	bitstream.write(outputStream);
+	outputStream.flush();
+	BOOST_REQUIRE(torc::common::fileContentsAreEqual(referencePath, generatedPath));
+
+	return;
+}
+
+/*
+void testVirtex5PartialMapping(const boost::filesystem::path& inWorkingPath) {
+	// build the file paths
+	boost::filesystem::path regressionPath 
+		= torc::common::DirectoryTree::getExecutablePath() / "regression";
+	boost::filesystem::path generatedPath = regressionPath / "Virtex5UnitTest.generatedPartial.bit";
+	boost::filesystem::path referencePath = regressionPath / "Virtex5UnitTest.reference.bit";
+
+	// read the bitstream
+	std::fstream fileStream("partial.bit", std::ios::binary | std::ios::in);
+	BOOST_REQUIRE(fileStream.good());
+	// read and gather bitstream frames
+	Virtex5 bitstream;
+	bitstream.read(fileStream, false);
+
+	// initialize frame map
+	bitstream.initializeDeviceInfo("xc5vlx110t");
+	bitstream.initializeFrameMaps();
+
+	// load bitstream frames in data structure
+	bitstream.initializePartialFrameBlocks();
+
+	uint32_t frameLength = bitstream.getFrameLength();
+	typedef boost::shared_array<uint32_t> WordSharedArray;
+	Virtex5::iterator p = bitstream.begin();
+	Virtex5::iterator e = bitstream.end();
+	while (p < e) {
+		const VirtexPacket& packet = *p++;
+		if (packet.isType2()) {
+			WordSharedArray words = packet.getWords();
+			uint32_t* ptr = words.get();
+		}
+	}
+	// write the test bitstream back out
+	std::fstream outputStream(generatedPath.string().c_str(), std::ios::binary | std::ios::out);
+	BOOST_REQUIRE(outputStream.good());
+	bitstream.write(outputStream);
+	outputStream.flush();
+
+	return;
+}
+*/
 
 
 /*
 /// \brief Unit test for the Virtex5 static device info generation.
-BOOST_AUTO_TEST_CASE(bitstream_virtex5_generate) {
+BOOST_AUTO_TEST_CASE(Virtex5GenerateUnitTest) {
 
 	Virtex5 bitstream;
 	DeviceInfoHelper::buildFamilyDeviceInfo("Virtex5", "Virtex5DeviceInfo.template", 
-		"Virtex5DeviceInfo.cpp", torc::Devices::getVirtex5Devices(), bitstream);
+		"Virtex5DeviceInfo.cpp", torc::common::Devices::getVirtex5Devices(), bitstream);
 
 }
 */
-
-
-
-
 
 BOOST_AUTO_TEST_SUITE_END()
 

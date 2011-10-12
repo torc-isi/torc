@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the ArcUsage class.
 
-#ifndef TORC_ARCHITECTURE_ARC_USAGE_HPP
-#define TORC_ARCHITECTURE_ARC_USAGE_HPP
+#ifndef TORC_ARCHITECTURE_ARCUSAGE_HPP
+#define TORC_ARCHITECTURE_ARCUSAGE_HPP
 
 #include "torc/architecture/Array.hpp"
 #include "torc/architecture/Arc.hpp"
@@ -28,12 +28,16 @@
 namespace torc {
 namespace architecture {
 
+namespace architecture { class ArcUsageUnitTest; }
+
 	/// \brief Encapsulation the design arc usage.
 	/// \details This class uses a compact bitset representation to very efficiently track the arc 
 	///		usage of a design in an entire device.  Internal bitset objects are maintained on a 
 	///		per-tile basis, and are not allocated until at least one arc in the tile has been 
 	///		marked used.
 	class ArcUsage {
+		/// \brief Our unit test class has access to our internals.
+		friend class torc::architecture::architecture::ArcUsageUnitTest;
 	protected:
 	// types
 		typedef boost::dynamic_bitset<> dynamic_bitset;		///< \brief Imported type name.
@@ -54,11 +58,18 @@ namespace architecture {
 		dynamic_bitset mTileDirty;
 	// functions
 		/// \brief Returns the offset into the bitset for the specified arc.
-		uint32_t getArcOffset(const Tilewire& inTilewire1, const Tilewire& inTilewire2) const	{
+		/// \note The ordering of regular, irregular, routethrough, and tied sinks does not matter 
+		///		as long as it is consistent.  The only impact comes from the likelihood of access 
+		///		for the different types, where more common ones ought to be visited first.
+		uint32_t getArcOffset(const Tilewire& inTilewire1, const Tilewire& inTilewire2) const {
+			// first make sure the arc is defined
+			if(inTilewire1.isUndefined() || inTilewire2.isUndefined()) 
+				throw InvalidArcException(Arc(inTilewire1, inTilewire2));
+			// look up the relevant tile and wire indexes
 			TileIndex tile1 = inTilewire1.getTileIndex();
 			WireIndex wire1 = inTilewire1.getWireIndex();
 			WireIndex wire2 = inTilewire2.getWireIndex();
-			// begin by figuring out the tile type
+			// determine the tile type
 			const TileInfo& tileInfo = mTiles.getTileInfo(tile1);
 			TileTypeIndex type = tileInfo.getTypeIndex();
 			// next get the wire's base arc offset
@@ -74,6 +85,18 @@ namespace architecture {
 			const WireArray& irregularSinks = wireInfo.getIrregularSinks();
 			for(WireIndex i; i < irregularSinks.getSize(); i++) {
 				if(irregularSinks[i] == wire2) return offset;
+				offset++;
+			}
+			// look for a routethrough sink
+			const WireArray& routethroughSinks = wireInfo.getRoutethroughSinks();
+			for(WireIndex i; i < routethroughSinks.getSize(); i++) {
+				if(routethroughSinks[i] == wire2) return offset;
+				offset++;
+			}
+			// look for a tied sink
+			const WireArray& tiedSinks = wireInfo.getTiedSinks();
+			for(WireIndex i; i < tiedSinks.getSize(); i++) {
+				if(tiedSinks[i] == wire2) return offset;
 				offset++;
 			}
 			// if we didn't find the sink in the regular or irregular arcs, the call failed
@@ -129,7 +152,9 @@ namespace architecture {
 				const WireInfo& wireInfo = mTiles.getWireInfo(type, WireIndex(wires.getSize() - 1));
 				// caution: we have to add the regular and irregular sink count from the last wire
 				size_t size = wireInfo.getArcOffset() + wireInfo.getSinks().getSize() 
-					+ wireInfo.getIrregularSinks().getSize();
+					+ wireInfo.getIrregularSinks().getSize() 
+					+ wireInfo.getRoutethroughSinks().getSize()
+					+ wireInfo.getTiedSinks().getSize();
 				bitset = mBitsets[tileIndex1] = new dynamic_bitset(size);
 				// track the statistics
 				mTileUsageCount++;
@@ -226,4 +251,4 @@ namespace architecture {
 } // namespace architecture
 } // namespace torc
 
-#endif // TORC_ARCHITECTURE_ARC_USAGE_HPP
+#endif // TORC_ARCHITECTURE_ARCUSAGE_HPP

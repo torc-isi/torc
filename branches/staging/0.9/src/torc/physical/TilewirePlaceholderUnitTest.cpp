@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the TilewirePlaceholder unit test.
+/// \brief Unit test for the TilewirePlaceholder class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/physical/TilewirePlaceholder.hpp"

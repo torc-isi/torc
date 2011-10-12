@@ -18,8 +18,8 @@
 /// \details Credit for this code goes to Dietmar Kuehl for a July 22, 2005 response to a post on
 ///		http://bytes.com/topic/c/answers/127843-null-output-stream#post444998.
 
-#ifndef TORC_NULL_OUTPUT_STREAM_HPP
-#define TORC_NULL_OUTPUT_STREAM_HPP
+#ifndef TORC_COMMON_NULLOUTPUTSTREAM_HPP
+#define TORC_COMMON_NULLOUTPUTSTREAM_HPP
 
 #include <ostream>
 
@@ -53,4 +53,4 @@ namespace common {
 } // namespace common
 } // namespace torc
 
-#endif // TORC_NULL_OUTPUT_STREAM_HPP
+#endif // TORC_COMMON_NULLOUTPUTSTREAM_HPP

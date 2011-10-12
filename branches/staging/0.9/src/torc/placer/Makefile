@@ -29,8 +29,9 @@ CCFLAGS = \
 
 # object files
 OBJS = \
-				Placer.o \
 				Placement.o \
+				Placer.o \
+				PlacerHelpers.o \
 				PlacementSiteTypeMapping.o \
 				PlacementSiteTypeMappingVirtex5.o \
 				$

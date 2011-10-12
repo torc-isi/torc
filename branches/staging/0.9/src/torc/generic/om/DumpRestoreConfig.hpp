@@ -13,6 +13,7 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_DUMP_RESTORE_CONFIG_HPP
-#define TORC_GENERIC_DUMP_RESTORE_CONFIG_HPP
-#endif //TORC_GENERIC_DUMP_RESTORE_CONFIG_HPP
+#ifndef TORC_GENERIC_OM_DUMPRESTORECONFIG_HPP
+#define TORC_GENERIC_OM_DUMPRESTORECONFIG_HPP
+
+#endif // TORC_GENERIC_OM_DUMPRESTORECONFIG_HPP

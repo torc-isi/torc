@@ -13,24 +13,15 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-/*******************************************************************************
-* TORC - Copyright 2010 University of Southern California. All Rights Reserved.
-*
-* FILE : scanner.hpp
-*
-* DATE : 08-July-2010
-*
-* DESCRIPTION : Declaration of torc::generic::Scanner class 
-*
-* REVISION HISTORY:
-*
-* SI        REVISION        AUTHOR               CHANGES          PRs
-*[0]    Initial Version    Niladri
-*
-*******************************************************************************/
+// FILE : scanner.hpp
+// DATE : 08-July-2010
+// DESCRIPTION : Declaration of torc::generic::Scanner class 
+// REVISION HISTORY:
+// SI        REVISION        AUTHOR               CHANGES          PRs
+// [0]    Initial Version    Niladri
 
-#ifndef TORC__EDIF_SCANNER_HPP
-#define TORC__EDIF_SCANNER_HPP
+#ifndef TORC_GENERIC_PARSER_SCANNER_HPP
+#define TORC_GENERIC_PARSER_SCANNER_HPP
 
 // Flex expects the signature of yylex to be defined in the macro YY_DECL, and
 // the C++ parser expects it to be declared. We can factor both as follows.
@@ -108,10 +99,28 @@ class Scanner : public EdifFlexLexer
 	inline std::string
 	getBuffer() throw(); 
 
+	inline bool
+	getAppendToUserDataBuffer() throw();
+
+	void
+	setAppendToUserDataBuffer( bool inAppendToBuffer ) throw();
+
+	void
+	addToUserDataBuffer( const char *str ) throw();
+
+	void
+	resetUserDataBuffer() throw();
+
+	inline std::string
+	getUserDataBuffer() throw(); 
+
   private:
     bool mIsIdContext;
 	bool mAppendToBuffer;
+	bool mAppendToUserDataBuffer;
 	std::string mBuffer;
+	std::string mUserDataBuffer;
+    bool mIsIdAlreadyAdded;
 };
 
 inline bool
@@ -128,11 +137,23 @@ inline bool
 Scanner::getAppendToBuffer() throw() {
 	return mAppendToBuffer;
 }
+
 inline std::string
 Scanner::getBuffer() throw() {
 	return mBuffer;
 }
+
+inline bool
+Scanner::getAppendToUserDataBuffer() throw() {
+	return mAppendToUserDataBuffer;
+}
+
+inline std::string
+Scanner::getUserDataBuffer() throw() {
+	return mUserDataBuffer;
+}
+
 } // namespace generic
 } // namespace torc
 
-#endif // TORC__EDIF_SCANNER_HPP
+#endif // TORC_GENERIC_PARSER_SCANNER_HPP

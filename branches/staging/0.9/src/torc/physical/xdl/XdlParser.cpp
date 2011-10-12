@@ -272,7 +272,7 @@ namespace torc
 
 
     /* User initialization code.  */
-    #line 92 "/Volumes/project/dev/torc/branches/nsteiner/src/torc/physical/xdl/parser.yy"
+    #line 93 "/project/dev/torc/trunk/src/torc/physical/xdl/parser.yy"
 {
     // initialize the initial location object
     yylloc.begin.filename = yylloc.end.filename = &xdl.mStreamName;
@@ -394,7 +394,7 @@ namespace torc
     switch (yyn)
       {
 	  case 3:
-#line 176 "parser.yy"
+#line 177 "parser.yy"
     { 
 							std::clog << "INFO: Parsed " << xdl.mInstanceCount << " instances, " 
 								<< xdl.mNetCount << " nets, " << xdl.mConfigCount << " settings" 
@@ -403,17 +403,17 @@ namespace torc
     break;
 
   case 9:
-#line 191 "parser.yy"
+#line 192 "parser.yy"
     { /*std::clog << "ERROR at " << yylval << std::endl;*/ }
     break;
 
   case 11:
-#line 200 "parser.yy"
+#line 201 "parser.yy"
     { xdl.mConfigMap.clearConfig(); }
     break;
 
   case 12:
-#line 201 "parser.yy"
+#line 202 "parser.yy"
     {
 							if(true) std::clog << "INFO: design \"" << xdl.mDesignName << "\" " 
 								<< xdl.mDesignDevice << xdl.mDesignPackage << xdl.mDesignSpeedGrade 
@@ -432,7 +432,7 @@ namespace torc
     break;
 
   case 13:
-#line 219 "parser.yy"
+#line 220 "parser.yy"
     { 
 							xdl.mDesignName = xdl.lexer->last_string; 
 							xdl.lexer->last_string.clear(); 
@@ -440,50 +440,52 @@ namespace torc
     break;
 
   case 16:
-#line 231 "parser.yy"
+#line 232 "parser.yy"
     {
-							xdl.mDesignDevice = (yysemantic_stack_[(2) - (1)]);
+							torc::common::DeviceDesignator designator((yysemantic_stack_[(2) - (1)]));
+							xdl.mDesignDevice = designator.getDeviceName();
+							xdl.mDesignPackage = designator.getDevicePackage();
 							xdl.mDesignSpeedGrade = (yysemantic_stack_[(2) - (2)]);
 						}
     break;
 
   case 17:
-#line 237 "parser.yy"
+#line 240 "parser.yy"
     { xdl.mDesignDevice = (yysemantic_stack_[(1) - (1)]); }
     break;
 
   case 18:
-#line 240 "parser.yy"
+#line 243 "parser.yy"
     { xdl.mDesignPackage = (yysemantic_stack_[(1) - (1)]); }
     break;
 
   case 19:
-#line 243 "parser.yy"
+#line 246 "parser.yy"
     { xdl.mDesignSpeedGrade = (yysemantic_stack_[(1) - (1)]); }
     break;
 
   case 21:
-#line 248 "parser.yy"
+#line 251 "parser.yy"
     { xdl.mDesignXdlVersion = (yysemantic_stack_[(1) - (1)]); }
     break;
 
   case 28:
-#line 281 "parser.yy"
+#line 284 "parser.yy"
     { xdl.mConfigMap.clearConfig(); xdl.mPortTempVector.clear(); }
     break;
 
   case 29:
-#line 282 "parser.yy"
+#line 285 "parser.yy"
     { xdl.mModuleName = xdl.lexer->last_string; }
     break;
 
   case 30:
-#line 283 "parser.yy"
+#line 286 "parser.yy"
     { xdl.mModuleAnchor = xdl.lexer->last_string; }
     break;
 
   case 31:
-#line 284 "parser.yy"
+#line 287 "parser.yy"
     {
 							xdl.mModuleCount++;
 							if(false) std::clog << "INFO: module \"" << xdl.mModuleName 
@@ -502,7 +504,7 @@ namespace torc
     break;
 
   case 32:
-#line 302 "parser.yy"
+#line 305 "parser.yy"
     {
 							if(false) std::clog << "INFO: endmodule" << std::endl;
 							// iterate through the ports and instantiate them
@@ -546,22 +548,22 @@ namespace torc
     break;
 
   case 33:
-#line 348 "parser.yy"
+#line 351 "parser.yy"
     { xdl.mPortName = xdl.lexer->last_string; }
     break;
 
   case 34:
-#line 349 "parser.yy"
+#line 352 "parser.yy"
     { xdl.mPortInstance = xdl.lexer->last_string; }
     break;
 
   case 35:
-#line 350 "parser.yy"
+#line 353 "parser.yy"
     { xdl.mPortPin = xdl.lexer->last_string; }
     break;
 
   case 36:
-#line 350 "parser.yy"
+#line 353 "parser.yy"
     {
 							xdl.mPortTempVector.push_back(PortTemp(xdl.mPortName, xdl.mPortInstance, 
 								xdl.mPortPin));
@@ -569,22 +571,22 @@ namespace torc
     break;
 
   case 37:
-#line 362 "parser.yy"
+#line 367 "parser.yy"
     { xdl.mConfigMap.clearConfig(); xdl.mInstanceReferencePtr.reset(); }
     break;
 
   case 38:
-#line 363 "parser.yy"
+#line 368 "parser.yy"
     { xdl.mInstanceName = xdl.lexer->last_string; }
     break;
 
   case 39:
-#line 364 "parser.yy"
+#line 369 "parser.yy"
     { xdl.mInstanceType = xdl.lexer->last_string; }
     break;
 
   case 40:
-#line 367 "parser.yy"
+#line 372 "parser.yy"
     {
 							xdl.mInstanceCount++;
 							if(false) std::clog << "INFO: inst " << xdl.mInstanceType << " \"" 
@@ -603,7 +605,7 @@ namespace torc
     break;
 
   case 41:
-#line 385 "parser.yy"
+#line 390 "parser.yy"
     { 
 							xdl.mInstanceSite.clear(); xdl.mInstanceTile.clear(); 
 							xdl.mInstanceBonding = eInstanceBondingUnknown; 
@@ -611,7 +613,7 @@ namespace torc
     break;
 
   case 42:
-#line 389 "parser.yy"
+#line 394 "parser.yy"
     { 
 							xdl.mInstanceTile = (yysemantic_stack_[(4) - (2)]); xdl.mInstanceSite = (yysemantic_stack_[(4) - (3)]); 
 							if(false) std::clog << "INFO:     " << xdl.mInstanceTile << " " << 
@@ -620,33 +622,33 @@ namespace torc
     break;
 
   case 43:
-#line 397 "parser.yy"
+#line 402 "parser.yy"
     { xdl.mInstanceBonding = eInstanceBondingUnknown; }
     break;
 
   case 44:
-#line 398 "parser.yy"
+#line 403 "parser.yy"
     { xdl.mInstanceBonding = eInstanceBondingBonded; }
     break;
 
   case 45:
-#line 399 "parser.yy"
+#line 404 "parser.yy"
     { xdl.mInstanceBonding = eInstanceBondingUnbonded; }
     break;
 
-  case 48:
-#line 408 "parser.yy"
+  case 50:
+#line 415 "parser.yy"
     { xdl.mReferenceModulePtr.reset(); xdl.mReferenceInstancePtr.reset(); }
     break;
 
-  case 49:
-#line 409 "parser.yy"
+  case 51:
+#line 416 "parser.yy"
     { xdl.mReferenceInstantiation 
 							= xdl.lexer->last_string; }
     break;
 
-  case 50:
-#line 411 "parser.yy"
+  case 52:
+#line 418 "parser.yy"
     { 
 							xdl.mReferenceModule = xdl.lexer->last_string; 
 							// look up the module
@@ -663,8 +665,8 @@ namespace torc
 						}
     break;
 
-  case 51:
-#line 425 "parser.yy"
+  case 53:
+#line 432 "parser.yy"
     { 
 							xdl.mReferenceInstance = xdl.lexer->last_string;
 							// look up the instance
@@ -688,18 +690,18 @@ namespace torc
 						}
     break;
 
-  case 52:
-#line 463 "parser.yy"
+  case 54:
+#line 470 "parser.yy"
     { xdl.mConfigMap.clearConfig(); }
     break;
 
-  case 53:
-#line 464 "parser.yy"
+  case 55:
+#line 471 "parser.yy"
     { xdl.mNetName = xdl.lexer->last_string; }
     break;
 
-  case 54:
-#line 465 "parser.yy"
+  case 56:
+#line 472 "parser.yy"
     {
 							xdl.mNetCount++;
 							// create the net
@@ -707,8 +709,8 @@ namespace torc
 						}
     break;
 
-  case 55:
-#line 469 "parser.yy"
+  case 57:
+#line 476 "parser.yy"
     {
 							// add the net to the current circuit
 							CircuitSharedPtr circuitPtr = xdl.mCircuitPtr.lock();
@@ -719,23 +721,23 @@ namespace torc
 						}
     break;
 
-  case 56:
-#line 480 "parser.yy"
+  case 58:
+#line 487 "parser.yy"
     { xdl.mNetType = eNetTypeNormal; }
     break;
 
-  case 57:
-#line 481 "parser.yy"
+  case 59:
+#line 488 "parser.yy"
     { xdl.mNetType = eNetTypePower; }
     break;
 
-  case 58:
-#line 482 "parser.yy"
+  case 60:
+#line 489 "parser.yy"
     { xdl.mNetType = eNetTypeGround; }
     break;
 
-  case 68:
-#line 506 "parser.yy"
+  case 70:
+#line 513 "parser.yy"
     {
 							xdl.mInstanceName = xdl.lexer->last_string;
 							xdl.mPinName = yylval;
@@ -769,53 +771,53 @@ namespace torc
 						}
     break;
 
-  case 69:
-#line 540 "parser.yy"
-    { xdl.mPinDirection = ePinDirectionInpin; }
-    break;
-
-  case 70:
-#line 541 "parser.yy"
-    { xdl.mPinDirection = ePinDirectionOutpin; }
-    break;
-
   case 71:
 #line 547 "parser.yy"
-    { xdl.mPipTile = yylval; }
+    { xdl.mPinDirection = ePinDirectionInpin; }
     break;
 
   case 72:
 #line 548 "parser.yy"
-    { xdl.mPipSource = yylval; }
+    { xdl.mPinDirection = ePinDirectionOutpin; }
     break;
 
   case 73:
-#line 550 "parser.yy"
-    { xdl.mPipSink = yylval; }
+#line 554 "parser.yy"
+    { xdl.mPipTile = yylval; }
     break;
 
   case 74:
 #line 555 "parser.yy"
-    { xdl.mPipDirection = ePipBidirectionalUnbuffered; }
+    { xdl.mPipSource = yylval; }
     break;
 
   case 75:
 #line 557 "parser.yy"
-    { xdl.mPipDirection = ePipBidirectionalUnidirectionallyBuffered; }
+    { xdl.mPipSink = yylval; }
     break;
 
   case 76:
-#line 559 "parser.yy"
-    { xdl.mPipDirection = ePipBidirectionalBidirectionallyBuffered; }
+#line 562 "parser.yy"
+    { xdl.mPipDirection = ePipBidirectionalUnbuffered; }
     break;
 
   case 77:
-#line 561 "parser.yy"
-    { xdl.mPipDirection = ePipUnidirectionalBuffered; }
+#line 564 "parser.yy"
+    { xdl.mPipDirection = ePipBidirectionalUnidirectionallyBuffered; }
     break;
 
   case 78:
-#line 565 "parser.yy"
+#line 566 "parser.yy"
+    { xdl.mPipDirection = ePipBidirectionalBidirectionallyBuffered; }
+    break;
+
+  case 79:
+#line 568 "parser.yy"
+    { xdl.mPipDirection = ePipUnidirectionalBuffered; }
+    break;
+
+  case 80:
+#line 572 "parser.yy"
     {
 							Pip pip = Factory::newPip(xdl.mPipTile, xdl.mPipSource, xdl.mPipSink, 
 								xdl.mPipDirection);
@@ -824,33 +826,33 @@ namespace torc
 						}
     break;
 
-  case 79:
-#line 571 "parser.yy"
+  case 81:
+#line 578 "parser.yy"
     { xdl.mRoutethroughConfigSetting = yylval; }
     break;
 
-  case 80:
-#line 572 "parser.yy"
+  case 82:
+#line 579 "parser.yy"
     { xdl.mRoutethroughConfigName = yylval; }
     break;
 
-  case 81:
-#line 573 "parser.yy"
+  case 83:
+#line 580 "parser.yy"
     { xdl.mRoutethroughConfigValue = yylval; }
     break;
 
-  case 82:
-#line 574 "parser.yy"
+  case 84:
+#line 581 "parser.yy"
     { xdl.mRoutethroughInstance = xdl.lexer->last_string; }
     break;
 
-  case 83:
-#line 575 "parser.yy"
+  case 85:
+#line 582 "parser.yy"
     { xdl.mRoutethroughSource = yylval; }
     break;
 
-  case 84:
-#line 576 "parser.yy"
+  case 86:
+#line 583 "parser.yy"
     {
 							xdl.mRoutethroughSink = yylval;
 							// look up the routethrough instance
@@ -882,13 +884,13 @@ namespace torc
 						}
     break;
 
-  case 87:
-#line 615 "parser.yy"
+  case 89:
+#line 622 "parser.yy"
     { xdl.mConfigMap.clearConfig(); }
     break;
 
-  case 91:
-#line 624 "parser.yy"
+  case 93:
+#line 631 "parser.yy"
     {
 							if(xdl.mConfigValue.compare("#OFF")) {
 								xdl.mConfigMap.setConfig(xdl.mConfigSetting, xdl.mConfigName, 
@@ -900,33 +902,33 @@ namespace torc
 						}
     break;
 
-  case 92:
-#line 636 "parser.yy"
+  case 94:
+#line 643 "parser.yy"
     { xdl.mConfigSetting = (yysemantic_stack_[(1) - (1)]); }
     break;
 
-  case 93:
-#line 640 "parser.yy"
+  case 95:
+#line 647 "parser.yy"
     { xdl.mConfigName.clear(); }
     break;
 
-  case 94:
-#line 641 "parser.yy"
-    { xdl.mConfigName = (yysemantic_stack_[(1) - (1)]); }
-    break;
-
-  case 95:
-#line 645 "parser.yy"
-    { xdl.mConfigValue.clear(); }
-    break;
-
   case 96:
-#line 646 "parser.yy"
-    { xdl.mConfigValue = (yysemantic_stack_[(1) - (1)]); }
+#line 648 "parser.yy"
+    { xdl.mConfigName = (yysemantic_stack_[(1) - (1)]); }
     break;
 
   case 97:
 #line 652 "parser.yy"
+    { xdl.mConfigValue.clear(); }
+    break;
+
+  case 98:
+#line 653 "parser.yy"
+    { xdl.mConfigValue = (yysemantic_stack_[(1) - (1)]); }
+    break;
+
+  case 99:
+#line 659 "parser.yy"
     { 
 							if(false) std::clog << "STRING: \"" << xdl.lexer->last_string << "\"" 
 							<< std::endl; 
@@ -935,7 +937,7 @@ namespace torc
 
 
     /* Line 675 of lalr1.cc.  */
-#line 939 "XdlParser.cpp"
+#line 941 "XdlParser.cpp"
 	default: break;
       }
     YY_SYMBOL_PRINT ("-> $$ =", yyr1_[yyn], &yyval, &yyloc);
@@ -1171,21 +1173,21 @@ namespace torc
   XdlParser::yydefact_[] =
   {
          0,    11,     0,     2,     4,     0,     1,     0,     0,     0,
-      13,     9,    28,    37,    52,     5,     6,    23,     7,     8,
-      98,     0,    17,    20,    14,     0,     0,     0,     0,     0,
-       0,    99,    97,    19,    16,    21,    85,    18,     0,    10,
-      29,    38,    53,     0,     0,    24,    22,    25,    26,    27,
-       0,     0,    15,     0,     0,    56,     0,    33,    87,    86,
-      12,    30,    39,    57,    58,     0,    32,     0,     0,    85,
-       0,    54,    34,    89,     0,     0,    59,     0,     0,    31,
-       0,    43,     0,     0,    35,    92,    88,    90,     0,    44,
-      45,    41,     0,     0,    69,    70,     0,    55,    60,    66,
-      62,     0,    78,    67,     0,    93,    43,    48,     0,    46,
-      40,    71,    65,    61,     0,    79,    78,    64,    36,    94,
-       0,    42,     0,     0,     0,    68,     0,    63,    95,    49,
-      47,    72,     0,    96,    91,     0,     0,    80,    50,    74,
-      75,    76,    77,     0,     0,     0,    73,     0,    51,    81,
-       0,    82,     0,    83,     0,     0,    84
+      13,     9,    28,    37,    54,     5,     6,    23,     7,     8,
+     100,     0,    17,    20,    14,     0,     0,     0,     0,     0,
+       0,   101,    99,    19,    16,    21,    87,    18,     0,    10,
+      29,    38,    55,     0,     0,    24,    22,    25,    26,    27,
+       0,     0,    15,     0,     0,    58,     0,    33,    89,    88,
+      12,    30,    39,    59,    60,     0,    32,     0,     0,    87,
+       0,    56,    34,    91,     0,     0,    61,     0,     0,    31,
+       0,    43,    46,     0,    35,    94,    90,    92,     0,    44,
+      45,    41,     0,     0,    71,    72,     0,    57,    62,    68,
+      64,     0,    80,    69,     0,    95,    43,    50,    48,    47,
+      40,    73,    67,    63,     0,    81,    80,    66,    36,    96,
+       0,    42,     0,     0,     0,    70,     0,    65,    97,    51,
+      49,    74,     0,    98,    93,     0,     0,    82,    52,    76,
+      77,    78,    79,     0,     0,     0,    75,     0,    53,    83,
+       0,    84,     0,    85,     0,     0,    86
   };
 
   /* YYPGOTO[NTERM-NUM].  */
@@ -1300,12 +1302,13 @@ namespace torc
       45,    48,    47,    49,    50,    50,    51,    52,    53,    54,
       55,    55,    56,    57,    57,    58,    58,    58,    60,    61,
       62,    59,    63,    65,    66,    67,    64,    69,    70,    71,
-      68,    72,    72,    73,    73,    73,    74,    74,    76,    77,
-      78,    75,    80,    81,    82,    79,    83,    83,    83,    84,
-      84,    85,    85,    85,    85,    85,    85,    86,    87,    88,
-      88,    90,    91,    89,    92,    92,    92,    92,    93,    94,
-      95,    96,    97,    98,    93,    99,    99,   101,   100,   102,
-     102,   103,   103,   104,   104,   105,   105,   106,   107,   107
+      68,    72,    72,    73,    73,    73,    74,    74,    74,    74,
+      76,    77,    78,    75,    80,    81,    82,    79,    83,    83,
+      83,    84,    84,    85,    85,    85,    85,    85,    85,    86,
+      87,    88,    88,    90,    91,    89,    92,    92,    92,    92,
+      93,    94,    95,    96,    97,    98,    93,    99,    99,   101,
+     100,   102,   102,   103,   103,   104,   104,   105,   105,   106,
+     107,   107
   };
 
   /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
@@ -1316,12 +1319,13 @@ namespace torc
        3,     0,     7,     1,     1,     3,     2,     1,     1,     1,
        0,     1,     3,     0,     2,     1,     1,     1,     0,     0,
        0,     8,     3,     0,     0,     0,     8,     0,     0,     0,
-      10,     2,     4,     0,     1,     1,     2,     4,     0,     0,
-       0,     7,     0,     0,     0,     9,     0,     1,     1,     0,
-       2,     2,     1,     3,     2,     2,     1,     1,     3,     1,
-       1,     0,     0,     7,     1,     1,     1,     1,     0,     0,
-       0,     0,     0,     0,    14,     0,     2,     0,     5,     0,
-       2,     5,     1,     0,     1,     0,     1,     3,     1,     2
+      10,     2,     4,     0,     1,     1,     0,     2,     2,     4,
+       0,     0,     0,     7,     0,     0,     0,     9,     0,     1,
+       1,     0,     2,     2,     1,     3,     2,     2,     1,     1,
+       3,     1,     1,     0,     0,     7,     1,     1,     1,     1,
+       0,     0,     0,     0,     0,     0,    14,     0,     2,     0,
+       5,     0,     2,     5,     1,     0,     1,     0,     1,     3,
+       1,     2
   };
 
 #if YYDEBUG || YYERROR_VERBOSE || YYTOKEN_TABLE
@@ -1369,21 +1373,21 @@ namespace torc
      106,    67,    37,    -1,    -1,    -1,    -1,     8,    69,   106,
       70,   106,    71,    38,    72,    74,    37,    -1,    12,    73,
       -1,    11,    25,    25,    73,    -1,    -1,    13,    -1,    14,
-      -1,    38,   100,    -1,    38,    75,    38,   100,    -1,    -1,
-      -1,    -1,     5,    76,   106,    77,   106,    78,   106,    -1,
-      -1,    -1,    -1,     9,    80,   106,    81,    83,    38,    82,
-      84,    37,    -1,    -1,    15,    -1,    16,    -1,    -1,    84,
-      85,    -1,    87,    38,    -1,    87,    -1,    89,    38,    93,
-      -1,    89,    93,    -1,    86,    38,    -1,    86,    -1,   100,
-      -1,    88,   106,    25,    -1,    17,    -1,    18,    -1,    -1,
-      -1,    19,    25,    90,    25,    91,    92,    25,    -1,    28,
-      -1,    29,    -1,    30,    -1,    31,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    20,    94,    39,    25,    95,    39,    25,
-      96,   106,    97,    25,    98,    92,    25,    -1,    -1,    38,
-     100,    -1,    -1,    10,   101,    40,   102,    40,    -1,    -1,
-     102,   103,    -1,   103,    39,   104,    39,   105,    -1,    22,
-      -1,    -1,    23,    -1,    -1,    24,    -1,    40,   107,    40,
-      -1,    21,    -1,   107,    21,    -1
+      -1,    -1,    38,   100,    -1,    38,    75,    -1,    38,    75,
+      38,   100,    -1,    -1,    -1,    -1,     5,    76,   106,    77,
+     106,    78,   106,    -1,    -1,    -1,    -1,     9,    80,   106,
+      81,    83,    38,    82,    84,    37,    -1,    -1,    15,    -1,
+      16,    -1,    -1,    84,    85,    -1,    87,    38,    -1,    87,
+      -1,    89,    38,    93,    -1,    89,    93,    -1,    86,    38,
+      -1,    86,    -1,   100,    -1,    88,   106,    25,    -1,    17,
+      -1,    18,    -1,    -1,    -1,    19,    25,    90,    25,    91,
+      92,    25,    -1,    28,    -1,    29,    -1,    30,    -1,    31,
+      -1,    -1,    -1,    -1,    -1,    -1,    -1,    20,    94,    39,
+      25,    95,    39,    25,    96,   106,    97,    25,    98,    92,
+      25,    -1,    -1,    38,   100,    -1,    -1,    10,   101,    40,
+     102,    40,    -1,    -1,   102,   103,    -1,   103,    39,   104,
+      39,   105,    -1,    22,    -1,    -1,    23,    -1,    -1,    24,
+      -1,    40,   107,    40,    -1,    21,    -1,   107,    21,    -1
   };
 
   /* YYPRHS[YYN] -- Index of the first RHS symbol of rule number YYN in
@@ -1395,28 +1399,30 @@ namespace torc
       19,    23,    24,    32,    34,    36,    40,    43,    45,    47,
       49,    50,    52,    56,    57,    60,    62,    64,    66,    67,
       68,    69,    78,    82,    83,    84,    85,    94,    95,    96,
-      97,   108,   111,   116,   117,   119,   121,   124,   129,   130,
-     131,   132,   140,   141,   142,   143,   153,   154,   156,   158,
-     159,   162,   165,   167,   171,   174,   177,   179,   181,   185,
-     187,   189,   190,   191,   199,   201,   203,   205,   207,   208,
-     209,   210,   211,   212,   213,   228,   229,   232,   233,   239,
-     240,   243,   249,   251,   252,   254,   255,   257,   261,   263
+      97,   108,   111,   116,   117,   119,   121,   122,   125,   128,
+     133,   134,   135,   136,   144,   145,   146,   147,   157,   158,
+     160,   162,   163,   166,   169,   171,   175,   178,   181,   183,
+     185,   189,   191,   193,   194,   195,   203,   205,   207,   209,
+     211,   212,   213,   214,   215,   216,   217,   232,   233,   236,
+     237,   243,   244,   247,   253,   255,   256,   258,   259,   261,
+     265,   267
   };
 
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
   const unsigned short int
   XdlParser::yyrline_[] =
   {
-         0,   170,   170,   176,   183,   184,   188,   189,   190,   191,
-     191,   200,   200,   219,   226,   227,   231,   237,   240,   243,
-     246,   248,   266,   269,   271,   275,   276,   277,   281,   282,
-     283,   281,   302,   348,   349,   350,   347,   362,   363,   364,
-     362,   385,   389,   397,   398,   399,   403,   404,   408,   409,
-     411,   408,   463,   464,   465,   463,   480,   481,   482,   485,
-     487,   491,   492,   493,   494,   495,   496,   500,   506,   540,
-     541,   547,   548,   547,   554,   556,   558,   560,   565,   571,
-     572,   573,   574,   575,   571,   609,   611,   615,   615,   618,
-     620,   624,   636,   640,   641,   645,   646,   652,   659,   660
+         0,   171,   171,   177,   184,   185,   189,   190,   191,   192,
+     192,   201,   201,   220,   227,   228,   232,   240,   243,   246,
+     249,   251,   269,   272,   274,   278,   279,   280,   284,   285,
+     286,   284,   305,   351,   352,   353,   350,   367,   368,   369,
+     367,   390,   394,   402,   403,   404,   407,   409,   410,   411,
+     415,   416,   418,   415,   470,   471,   472,   470,   487,   488,
+     489,   492,   494,   498,   499,   500,   501,   502,   503,   507,
+     513,   547,   548,   554,   555,   554,   561,   563,   565,   567,
+     572,   578,   579,   580,   581,   582,   578,   616,   618,   622,
+     622,   625,   627,   631,   643,   647,   648,   652,   653,   659,
+     666,   667
   };
 
   // Print the state stack on the debug stream.
@@ -1507,7 +1513,7 @@ namespace torc
 
 } // namespace torc
 
-#line 669 "parser.yy"
+#line 676 "parser.yy"
 
 
 

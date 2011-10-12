@@ -75,6 +75,7 @@ namespace bitstream {
 		while(dp < de) {
 			const std::string& device = *dp++;
 			if(device.empty()) break;
+			inBitstream.setDevice(device);
 			inBitstream.initializeDeviceInfo(device);
 			inBitstream.writeDeviceInfo(allDeviceInfo, device);
 			if(dp < de) allDeviceInfo << std::endl;

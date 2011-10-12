@@ -16,10 +16,10 @@
 /// \file
 /// \brief Header for the Devices class.
 
-#ifndef TORC_DEVICES_HPP
-#define TORC_DEVICES_HPP
+#ifndef TORC_COMMON_DEVICES_HPP
+#define TORC_COMMON_DEVICES_HPP
 
-#include "torc/architecture/DeviceDesignator.hpp"
+#include "torc/common/DeviceDesignator.hpp"
 #include <boost/algorithm/string.hpp>    
 #include <string>
 #include <vector>
@@ -161,6 +161,8 @@ namespace common {
 		DeviceVector mSpartan6LDevices;
 		/// \brief All supported devices.
 		DeviceVector mSupportedDevices;
+		/// \brief Unit test device subset.
+		DeviceVector mUnitTestDevices;
 		/// \brief Device names.
 		DeviceVector mDeviceNames;
 		/// \brief Device name to enum map.
@@ -210,6 +212,8 @@ namespace common {
 		static const DeviceVector& getSpartan6LDevices(void) { return sDevices.mSpartan6LDevices; }
 		/// \brief Returns all devices.
 		static const DeviceVector& getSupportedDevices(void) { return sDevices.mSupportedDevices; }
+		/// \brief Returns a subset of devices for unit tests.
+		static const DeviceVector& getUnitTestDevices(void) { return sDevices.mUnitTestDevices; }
 		/// \brief Returns all devices.
 		static const DeviceVector& getDeviceNames(void) { return sDevices.mDeviceNames; }
 		/// \brief Returns the device map.
@@ -217,7 +221,7 @@ namespace common {
 	// accessors
 		/// \brief Returns the device enumeration corresponding to the given device name.
 		static EDevice getDeviceEnum(const string& inName) {
-			torc::architecture::DeviceDesignator designator(inName);
+			DeviceDesignator designator(inName);
 			std::string name = designator.getDeviceName();
 			const DeviceNameMap& deviceNameMap = getDeviceNameMap();
 			DeviceNameMap::const_iterator p = deviceNameMap.find(name);
@@ -235,4 +239,4 @@ namespace common {
 } // namespace common
 } // namespace torc
 
-#endif // TORC_DEVICES_HPP
+#endif // TORC_COMMON_DEVICES_HPP

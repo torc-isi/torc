@@ -36,7 +36,10 @@
 #include "torc/generic/parser/Driver.hpp"
 #include "torc/generic/parser/ParserHelpers.hpp"
 #include "torc/generic/om/PortAttributes.hpp"
+#include "torc/generic/om/NetAttributes.hpp"
 #include "torc/generic/parser/Scanner.hpp"
+#include "torc/generic/om/InterfaceAttributes.hpp"
+#include "torc/generic/om/LogicValueAttributes.hpp"
 
 namespace torc {
 namespace generic {

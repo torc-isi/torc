@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_BUNDLE_HPP
-#define TORC_GENERIC_BUNDLE_HPP
+#ifndef TORC_GENERIC_OM_BUNDLE_HPP
+#define TORC_GENERIC_OM_BUNDLE_HPP
 
 #include "torc/generic/om/DumpRestoreConfig.hpp"
 
@@ -252,4 +252,4 @@ Bundle<_Type>::save( Archive &ar, unsigned int ) const {
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_OM_BUNDLE_HPP

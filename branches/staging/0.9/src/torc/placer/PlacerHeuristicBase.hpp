@@ -20,6 +20,7 @@
 #define TORC_PLACER_PLACERHEURISTICBASE_HPP
 
 #include "torc/physical/Design.hpp"
+#include "torc/placer/DeviceWrapper.hpp"
 #include <boost/timer.hpp>
 
 namespace torc {
@@ -33,7 +34,7 @@ namespace placer {
 		typedef boost::uint32_t uint32;
 		typedef torc::physical::DesignSharedPtr DesignSharedPtr;
 		
-		DDB& mDB;
+		DeviceWrapper& mDevice;
 		DesignSharedPtr mDesign;
 		
 		uint32 mMovesPerTemperature;
@@ -46,14 +47,21 @@ namespace placer {
 		// heuristic should contain most of the numeric constants here
 		// probably functions for cooling schedule and such as well
 		// in fact, the heuristic may wrap the placement entirely... as we do in routing
-		PlacerHeuristicBase(DDB& inDB, DesignSharedPtr inDesign) : mDB(inDB), mDesign(inDesign),
-			mMovesPerTemperature(1), mInitialTemperature(1) {
+		PlacerHeuristicBase(DeviceWrapper& inDevice, DesignSharedPtr inDesign)
+			: mDevice(inDevice), mDesign(inDesign),
+			mMovesPerTemperature(1000), mInitialTemperature(10000) {
 			
-			
-			
-			// 
-			
-			
+			// crawl the design to extract RPMS and create corresponding site types.
+			/*InstanceSharedPtrVector::iterator p = mDesign->instancesBegin();
+			InstanceSharedPtrVector::iterator e = mDesign->instancesEnd();
+			for ( ; p != e; p++) {
+				InstanceSharedPtr instance = *p;
+				uint32 typeIndex = mDevice.mTypeMapping.getTypeIndex(instance->getType());
+				instance->setAnnotation(ePlacerInstanceTypeIndex, typeIndex);
+				
+				mAllInstances.push_back(instance);
+				mAllInstancesByType[typeIndex].push_back(instance);
+			}*/
 			
 			
 			
@@ -69,7 +77,6 @@ namespace placer {
 		void updateCostRemovePair() {} // remove a pair of instance from cost
 		void updateCostAddPair() {} // add a pair of instances from cost
 		
-
 	}; // class PlacerHeuristicBase
 } // namespace placer
 } // namespace torc

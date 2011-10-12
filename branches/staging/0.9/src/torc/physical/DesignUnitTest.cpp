@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the Design unit test.
+/// \brief Unit test for the Design class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/physical/Factory.hpp"

@@ -14,14 +14,14 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the Virtex2P unit test.
+/// \brief Unit test for the Virtex2P class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/bitstream/Virtex2P.hpp"
 #include "torc/common/DirectoryTree.hpp"
 #include "torc/common/Devices.hpp"
 #include "torc/architecture/DDB.hpp"
-#include "torc/architecture/DeviceDesignator.hpp"
+#include "torc/common/DeviceDesignator.hpp"
 #include "torc/bitstream/OutputStreamHelpers.hpp"
 #include "torc/bitstream/build/DeviceInfoHelper.hpp"
 #include "torc/common/TestHelpers.hpp"
@@ -35,7 +35,7 @@ namespace bitstream {
 BOOST_AUTO_TEST_SUITE(bitstream)
 
 /// \brief Unit test for the Virtex2 CRC
-BOOST_AUTO_TEST_CASE(crc_virtex2p) {
+BOOST_AUTO_TEST_CASE(Virtex2PCrcUnitTest) {
 	std::fstream fileStream("Virtex2PUnitTest.reference.bit", std::ios::binary | std::ios::in);
 	Virtex2P bitstream;
 	bitstream.read(fileStream, false);
@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE(crc_virtex2p) {
 }
 
 /// \brief Unit test for the Virtex2p class.
-BOOST_AUTO_TEST_CASE(bitstream_virtex2p) {
+BOOST_AUTO_TEST_CASE(Virtex2PUnitTest) {
 
 	// enums tested:
 	//		EPacket
@@ -134,7 +134,7 @@ BOOST_AUTO_TEST_CASE(bitstream_virtex2p) {
 	std::string deviceName = bitstream.getDeviceName();
 	std::string designDate = bitstream.getDesignDate();
 	std::string designTime = bitstream.getDesignTime();
-	torc::architecture::DeviceDesignator deviceDesignator(deviceName);
+	torc::common::DeviceDesignator deviceDesignator(deviceName);
 	std::cout << "family of " << deviceName << " is " << deviceDesignator.getFamily() << std::endl;
 
 	// write the bitstream back out
@@ -189,7 +189,7 @@ BOOST_AUTO_TEST_CASE(bitstream_virtex2p) {
 void testVirtex2PDevice(const std::string& inDeviceName, const boost::filesystem::path& inWorkingPath);
 
 /// \brief Unit test for the Virtex2P class Frame Address Register mapping.
-BOOST_AUTO_TEST_CASE(bitstream_virtex2p_far) {
+BOOST_AUTO_TEST_CASE(Virtex2PFarUnitTest) {
 
 	// look up the command line arguments
 	int& argc = boost::unit_test::framework::master_test_suite().argc;
@@ -210,11 +210,6 @@ BOOST_AUTO_TEST_CASE(bitstream_virtex2p_far) {
 		testVirtex2PDevice(device, torc::common::DirectoryTree::getWorkingPath());
 	}
 }
-
-	extern std::ostream& operator<< (std::ostream& os, const Virtex2::FrameAddress& rhs);
-	//std::ostream& operator<< (std::ostream& os, const Virtex2::FrameAddress& rhs) {
-	//	return os << rhs.mBlockType	<< "(" << rhs.mMajor << "." << rhs.mMinor << ")";
-	//}
 
 void testVirtex2PDevice(const std::string& inDeviceName, const boost::filesystem::path& inWorkingPath) {
 
@@ -244,7 +239,7 @@ std::cerr << "TRYING TO FIND " << referencePath << std::endl;
 	Virtex2P::FrameAddressToIndex farRemaining = bitstream.mFrameAddressToIndex;
 	Virtex2P::FrameAddressToIndex farVisited;
 	{
-		//bool first = true;
+		bool first = true;
 		Virtex2P::const_iterator p = bitstream.begin();
 		Virtex2P::const_iterator e = bitstream.end();
 		uint32_t header = VirtexPacket::makeHeader(VirtexPacket::ePacketType1, 
@@ -252,7 +247,7 @@ std::cerr << "TRYING TO FIND " << referencePath << std::endl;
 		while(p < e) {
 			const VirtexPacket& packet = *p++;
 			if(packet.getHeader() != header) continue;
-			//if(first) { first = false; continue; }
+			if(first) { first = false; continue; }
 			Virtex2P::FrameAddress far = packet[1];
 			//std::cout << std::endl << "Debug Far Address: " << Hex32(packet[1]) << std::endl;
 			farVisited[far] = 0;
@@ -275,14 +270,83 @@ return;
 
 }
 
+void testVirtex2PFullMapping(const boost::filesystem::path& inWorkingPath);
+
+/// \brief Unit test for the Virtex2P bitstream to bitmap conversion.
+BOOST_AUTO_TEST_CASE(Virtex2PMapUnitTest) {
+	// look up the command line arguments
+	int& argc = boost::unit_test::framework::master_test_suite().argc;
+	char**& argv = boost::unit_test::framework::master_test_suite().argv;
+	// make sure that we at least have the name under which we were invoked
+	BOOST_REQUIRE(argc >= 1);
+	// resolve symbolic links if applicable
+	torc::common::DirectoryTree directoryTree(argv[0]);
+	testVirtex2PFullMapping(torc::common::DirectoryTree::getWorkingPath());
+}
+
+
+void testVirtex2PFullMapping(const boost::filesystem::path& inWorkingPath) {
+	// build the file paths
+	boost::filesystem::path regressionPath 
+		= torc::common::DirectoryTree::getExecutablePath() / "regression";
+	boost::filesystem::path generatedPath = regressionPath / "Virtex2PUnitTest.generatedFull.bit";
+	boost::filesystem::path referencePath = regressionPath / "Virtex2PUnitTest.reference.bit";
+
+	// read the bitstream
+	std::fstream fileStream(referencePath.string().c_str(), std::ios::binary | std::ios::in);
+	BOOST_REQUIRE(fileStream.good());
+	// read and gather bitstream frames
+	Virtex2P bitstream;
+	bitstream.read(fileStream, false);
+
+	// initialize frame map
+	bitstream.initializeDeviceInfo("xc2vp20");
+	bitstream.initializeFrameMaps();
+
+	// load bitstream frames in data structure
+	bitstream.initializeFullFrameBlocks();
+
+	// write full bitstream from frame blocks data structure
+	uint32_t frameLength = bitstream.getFrameLength();
+	typedef boost::shared_array<uint32_t> WordSharedArray;
+	Virtex2P::iterator p = bitstream.begin();
+	Virtex2P::iterator e = bitstream.end();
+	while (p < e) {
+		const VirtexPacket& packet = *p++;
+		if (packet.isType2()) {
+			WordSharedArray words = packet.getWords();
+			uint32_t* ptr = words.get();
+			for (uint32_t block = 0; block < 8; block++) {
+				for (uint32_t frame = 0; frame < bitstream.mBlockFrameIndexBounds[block]; frame++) {
+					VirtexFrameBlocks::word_t* words = const_cast<VirtexFrameBlocks::word_t*>(bitstream.mFrameBlocks.mBlock[block][frame]->getWords());
+					for (uint32_t index = 0; index < frameLength; index++) {
+						*ptr++ = words[index];
+					}
+				}
+			}
+		}
+	}
+	// write the test bitstream back out
+	std::fstream outputStream(generatedPath.string().c_str(), std::ios::binary | std::ios::out);
+	BOOST_REQUIRE(outputStream.good());
+	bitstream.write(outputStream);
+	outputStream.flush();
+	BOOST_REQUIRE(torc::common::fileContentsAreEqual(referencePath, generatedPath));
+
+	return;
+}
+
+
+/*
 /// \brief Unit test for the Virtex2P static device info generation.
-BOOST_AUTO_TEST_CASE(bitstream_virtex2p_generate) {
+BOOST_AUTO_TEST_CASE(Virtex2PGenerateUnitTest) {
 
 	Virtex2P bitstream;
 	DeviceInfoHelper::buildFamilyDeviceInfo("Virtex2P", "Virtex2PDeviceInfo.template", 
 		"Virtex2PDeviceInfo.cpp", torc::common::Devices::getVirtex2PDevices(), bitstream);
 
 }
+*/
 
 BOOST_AUTO_TEST_SUITE_END()
 

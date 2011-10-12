@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the Versions unit test.
+/// \brief Unit test for the Versions class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/architecture/Versions.hpp"

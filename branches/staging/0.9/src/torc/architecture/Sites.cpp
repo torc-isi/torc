@@ -87,7 +87,7 @@ namespace architecture {
 		return inStream.getBytesRead() - bytesReadOffset;
 	}
 
-	size_t Sites::readSiteTypes(DigestStream& inStream) {
+	size_t Sites::readPrimitiveTypes(DigestStream& inStream) {
 		// prepare to read from the stream
 		size_t bytesReadOffset = inStream.getBytesRead();
 		char scratch[1 << 10];			// scratch read buffer
@@ -129,7 +129,7 @@ namespace architecture {
 			// loop through each pin
 			for(PinCount j; j < pinCount; j++) {
 				// look up the current pin
-				SitePin& sitePin = const_cast<SitePin&>(primitiveDef.mPins[j]);
+				PrimitivePin& primitivePin = const_cast<PrimitivePin&>(primitiveDef.mPins[j]);
 				// read the pin flags
 				inStream.read(pinFlags);
 				// read the pin name
@@ -139,8 +139,8 @@ namespace architecture {
 				inStream.read(scratch, nameLength);
 				scratch[nameLength] = 0;
 				// update the site pin
-				sitePin.mFlags = pinFlags;
-				sitePin.mName = scratch;
+				primitivePin.mFlags = pinFlags;
+				primitivePin.mName = scratch;
 				primitiveDef.mPinNameToPinIndex[scratch] = xilinx::PinIndex(j);
 			}
 			// read the number of site elements
@@ -173,7 +173,8 @@ namespace architecture {
 				// loop through each pin
 				for(PinCount k; k < pinCount; k++) {
 					// look up the current pin
-					ElementPin& elementPin = const_cast<ElementPin&>(element.mPins[k]);
+					PrimitiveElementPin& elementPin = 
+						const_cast<PrimitiveElementPin&>(element.mPins[k]);
 					// read the pin flags
 					inStream.read(pinFlags);
 					// read the pin name
@@ -209,7 +210,7 @@ namespace architecture {
 					scratch[nameLength] = 0;
 //if(debug) std::cout << scratch << " ";
 					// update the cfg values
-					element.mCfg.insert(scratch);
+					element.mCfgs.insert(scratch);
 				}
 //if(debug) std::cout << std::endl;
 			}
@@ -220,10 +221,12 @@ namespace architecture {
 			// update the site definition
 			primitiveDef.mConnections.setSize(connCount);
 			// loop through each conn
-			const Sites::PrimitiveDef::PrimitiveElementArray& elements = primitiveDef.getElements();
+			const PrimitiveElementArray& elements = primitiveDef.getElements();
 			for(uint32_t j = 0; j < connCount; j++) {
 				// look up the current connection
-				PrimitiveConn& connection = const_cast<PrimitiveConn&>(primitiveDef.mConnections[j]);
+				PrimitiveConnSharedPtr& connectionPtr = primitiveDef.mConnections[j];
+				connectionPtr = boost::shared_ptr<PrimitiveConn>(new PrimitiveConn());
+				PrimitiveConn& connection = const_cast<PrimitiveConn&>(*connectionPtr);
 				// read the source count
 				uint16_t sourceCount;
 				inStream.read(sourceCount);
@@ -234,9 +237,10 @@ namespace architecture {
 				inStream.read(pinIndex);
 				const PrimitiveElement* elementPtr = elements.begin() + elementIndex;
 				PrimitiveElement& element = const_cast<PrimitiveElement&>(*elementPtr);
-				const Sites::PrimitiveElement::ElementPinArray& pins = element.getPins();
-				const Sites::ElementPin& pin = pins[pinIndex];
+				const PrimitiveElementPinArray& pins = element.getPins();
+				PrimitiveElementPin& pin = const_cast<PrimitiveElementPin&>(pins[pinIndex]);
 				connection.mSourcePtr = &pin;
+				const_cast<PrimitiveConnSharedPtr&>(pin.mPrimitiveConn) = connectionPtr;
 				// read the sink count
 				uint16_t sinkCount;
 				inStream.read(sinkCount);
@@ -247,9 +251,10 @@ namespace architecture {
 					inStream.read(pinIndex);
 					elementPtr = elements.begin() + elementIndex;
 					PrimitiveElement& element = const_cast<PrimitiveElement&>(*elementPtr);
-					const Sites::PrimitiveElement::ElementPinArray& pins = element.getPins();
-					const Sites::ElementPin& pin = pins[pinIndex];
+					const PrimitiveElementPinArray& pins = element.getPins();
+					PrimitiveElementPin& pin = const_cast<PrimitiveElementPin&>(pins[pinIndex]);
 					connection.mSinks.push_back(&pin);
+					const_cast<PrimitiveConnSharedPtr&>(pin.mPrimitiveConn) = connectionPtr;
 				}
 			}
 //std::cout << primitiveDef.getName() << " - " << element.getName() << ":" << std::endl;
@@ -259,10 +264,10 @@ namespace architecture {
 		return inStream.getBytesRead() - bytesReadOffset;
 	}
 
-	size_t Sites::readSitePinMaps(DigestStream& inStream) {
+	size_t Sites::readPrimitivePinMaps(DigestStream& inStream) {
 		// prepare to read from the stream
 		size_t bytesReadOffset = inStream.getBytesRead();
-		uint16_t sitePinMapCount = 0;	// number of pin maps
+		uint16_t primitivePinMapCount = 0;	// number of pin maps
 		PinCount pinCount;				// number of pins
 		WireIndex wireIndex;			// pin index
 
@@ -273,16 +278,16 @@ namespace architecture {
 		if(sectionName != ">>>>Pin Maps>>>>") throw -1;
 
 		// initialize the site pin map array
-		inStream.read(sitePinMapCount);
-		mSitePinMaps.setSize(sitePinMapCount);
-		std::cout << "\tReading " << sitePinMapCount << " site pin maps..." << std::endl;
+		inStream.read(primitivePinMapCount);
+		mPrimitivePinMaps.setSize(primitivePinMapCount);
+		std::cout << "\tReading " << primitivePinMapCount << " primitive pin maps..." << std::endl;
 		// loop through each pin map
-		for(uint16_t i = 0; i < sitePinMapCount; i++) {
+		for(uint16_t i = 0; i < primitivePinMapCount; i++) {
 			// read the pin count
 			inStream.read(pinCount);
-			mSitePinMaps[i].setSize(pinCount);
+			mPrimitivePinMaps[i].setSize(pinCount);
 			// get a reference to this map's pin array
-			Array<const WireIndex>& pins = mSitePinMaps[i];
+			Array<const WireIndex>& pins = mPrimitivePinMaps[i];
 			// loop through each pin
 			for(PinCount j; j < pinCount; j++) {
 				// look up a reference to the pin and discard the const trait
@@ -333,7 +338,8 @@ namespace architecture {
 			inStream.read(pinMap);
 			// look up a reference for the site, and discard the const trait
 			Site& site = const_cast<Site&>(mSites[i]);
-			site = Site(scratch, mSiteTypes[siteTypeIndex], tileIndex, flags, mSitePinMaps[pinMap]);
+			site = Site(scratch, mSiteTypes[siteTypeIndex], tileIndex, flags, 
+				mPrimitivePinMaps[pinMap]);
 			mSiteNameToSiteIndex[scratch] = i;
 		}
 

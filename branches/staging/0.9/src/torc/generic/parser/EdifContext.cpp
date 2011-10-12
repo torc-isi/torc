@@ -60,6 +60,12 @@ EdifContext::setCurrentView(
 }
 
 void
+EdifContext::setCurrentInstance(
+        const  InstanceSharedPtr &inInstance ) throw() {
+    mCurrentInstance = inInstance;
+}
+
+void
 EdifContext::setCurrentPort(
         const  PortSharedPtr &inPort ) throw() {
     mCurrentPort = inPort;
@@ -92,6 +98,98 @@ NetSharedPtr
 EdifContext::getCurrentNet() throw() {
     return ( !mNet.empty() )
                 ? mNet.top() : NetSharedPtr();
+}
+
+void
+EdifContext::setCurrentStatus(
+        const  StatusSharedPtr &inStatus ) throw() {
+    mCurrentStatus = inStatus;
+}
+
+void
+EdifContext::setCurrentWritten(
+        const  WrittenSharedPtr &inWritten ) throw() {
+    mCurrentWritten = inWritten;
+}
+
+void
+EdifContext::setCurrentSimulationInfo(
+        const  SimulationInfoSharedPtr &inSimulationInfo ) throw() {
+    mCurrentSimulationInfo = inSimulationInfo;
+}
+
+void
+EdifContext::setCurrentSimulate(
+        const  SimulateSharedPtr &inSimulate ) throw() {
+    mCurrentSimulate = inSimulate;
+}
+
+void
+EdifContext::setCurrentApply(
+        const  ApplySharedPtr &inApply ) throw() {
+    mCurrentApply = inApply;
+}
+
+void
+EdifContext::setCurrentLogicalResponse(
+        const  LogicalResponseSharedPtr &inLogicalResponse ) throw() {
+    mCurrentLogicalResponse = inLogicalResponse;
+}
+
+void
+EdifContext::setCurrentWaveValue(
+        const  WaveValueSharedPtr &inWaveValue ) throw() {
+    mCurrentWaveValue = inWaveValue;
+}
+
+void
+EdifContext::setCurrentLogicValue(
+        const  LogicValueSharedPtr &inLogicValue ) throw() {
+    mCurrentLogicValue = inLogicValue;
+}
+
+void
+EdifContext::setCurrentTiming(
+        const  TimingSharedPtr &inTiming ) throw() {
+    mCurrentTiming = inTiming;
+}
+
+void
+EdifContext::setCurrentPathDelay(
+        const  PathDelaySharedPtr &inPathDelay ) throw() {
+    mCurrentPathDelay = inPathDelay;
+}
+
+void
+EdifContext::setCurrentEvent(
+        const  EventSharedPtr &inEvent ) throw() {
+    mCurrentEvent = inEvent;
+}
+
+void
+EdifContext::setCurrentForbiddenEvent(
+        const  ForbiddenEventSharedPtr &inForbiddenEvent ) throw() {
+    mCurrentForbiddenEvent = inForbiddenEvent;
+}
+
+void
+EdifContext::pushStatusContainer(
+    const StatusContainerSharedPtr &inStatusContainer
+                                    ) throw() {
+    mStatusContainer.push( inStatusContainer );
+}
+
+void
+EdifContext::popStatusContainer() throw() {
+    assert( !mStatusContainer.empty() );
+    mStatusContainer.pop();
+}
+
+StatusContainerSharedPtr
+EdifContext::getCurrentStatusContainer() const throw() {
+    return ( !mStatusContainer.empty() )
+                ? mStatusContainer.top()
+                : StatusContainerSharedPtr();
 }
 
 PortBundleSharedPtr
@@ -190,13 +288,98 @@ EdifContext::decrementPropertyDepth() throw() {
     mPropertyDepth--;
 }
 
-
-
 PropertyContainerSharedPtr
 EdifContext::getCurrentPropertyContainer() const throw() {
     return ( !mPropertyContainer.empty() )
                 ? mPropertyContainer.top()
                 : PropertyContainerSharedPtr();
+}
+
+//For Permutable
+void
+EdifContext::pushPermutable(
+        const PermutableSharedPtr &inPermutable) throw() {
+    mPermutable.push( inPermutable );
+}
+
+void
+EdifContext::popPermutable() throw() {
+    assert( !mPermutable.empty() );
+    mPermutable.pop();
+}
+
+PermutableSharedPtr
+EdifContext::getCurrentPermutable() throw() {
+    return ( !mPermutable.empty() )
+                ? mPermutable.top() : PermutableSharedPtr();
+}
+
+void
+EdifContext::incrementPermutableDepth() throw() {
+    mPermutableDepth++;
+}
+
+void
+EdifContext::decrementPermutableDepth() throw() {
+    mPermutableDepth--;
+}
+
+//For Interface joined info
+void
+EdifContext::pushInterfaceJoinedInfo(
+        const InterfaceJoinedInfoSharedPtr &inInterfaceJoinedInfo) throw() {
+    mInterfaceJoinedInfo.push( inInterfaceJoinedInfo );
+}
+
+void
+EdifContext::popInterfaceJoinedInfo() throw() {
+    assert( !mInterfaceJoinedInfo.empty() );
+    mInterfaceJoinedInfo.pop();
+}
+
+InterfaceJoinedInfoSharedPtr
+EdifContext::getCurrentInterfaceJoinedInfo() throw() {
+    return ( !mInterfaceJoinedInfo.empty() )
+                ? mInterfaceJoinedInfo.top() : InterfaceJoinedInfoSharedPtr();
+}
+
+void
+EdifContext::incrementInterfaceJoinedInfoDepth() throw() {
+    mInterfaceJoinedInfoDepth++;
+}
+
+void
+EdifContext::decrementInterfaceJoinedInfoDepth() throw() {
+    mInterfaceJoinedInfoDepth--;
+}
+
+//For LogicElement
+void
+EdifContext::pushLogicElement(
+        const LogicElementSharedPtr &inLogicElement) throw() {
+    mLogicElement.push( inLogicElement );
+}
+
+void
+EdifContext::popLogicElement() throw() {
+    assert( !mLogicElement.empty() );
+    mLogicElement.pop();
+}
+
+LogicElementSharedPtr
+EdifContext::getCurrentLogicElement() throw() {
+    return ( !mLogicElement.empty() )
+                ? mLogicElement.top() : LogicElementSharedPtr();
+}
+
+void
+EdifContext::incrementLogicElementDepth() throw() {
+    mLogicElementDepth++;
+}
+
+void
+EdifContext::decrementLogicElementDepth() throw() {
+    mLogicElementDepth--;
 }
 
 EdifContext::EdifContext( const RootSharedPtr &inRoot,
@@ -208,17 +391,37 @@ EdifContext::EdifContext( const RootSharedPtr &inRoot,
     mFactory( inFactory ),
     mOptions( inOptions ),
     mCurrentLibrary(),
+    mCurrentDesign(),
     mCurrentCell(),
     mCurrentView(),
+    mCurrentInstance(),
     mCurrentPort(),
     mCurrentNet(),
+    mCurrentStatus(),
+    mCurrentWritten(),
+    mStatusContainer(),
     mPortBundleContext(),
     mNetBundleContext(),
     mIsInInstance(),
     mIsViewBeingLinked( false ),
     mProperty(),
     mPropertyContainer(),
-	mPropertyDepth(0) {
+	mPropertyDepth(0),
+    mPermutable(),
+    mPermutableDepth(0),
+    mInterfaceJoinedInfo(),
+    mInterfaceJoinedInfoDepth(0),
+    mCurrentSimulationInfo(),
+    mCurrentSimulate(),
+    mCurrentApply(),
+    mCurrentLogicalResponse(),
+    mCurrentWaveValue(),
+    mCurrentLogicValue(),
+    mCurrentTiming(),
+    mCurrentEvent(),
+    mCurrentForbiddenEvent(),
+    mLogicElement(),
+    mLogicElementDepth(0) {
     log("Context created\n");
 }
 

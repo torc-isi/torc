@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the XdlImporter class.
 
-#ifndef TORC_PHYSICAL_XDL_IMPORTER_HPP
-#define TORC_PHYSICAL_XDL_IMPORTER_HPP
+#ifndef TORC_PHYSICAL_XDLIMPORTER_HPP
+#define TORC_PHYSICAL_XDLIMPORTER_HPP
 
 // The foundation of this code comes from Timo Bingmann's Flex Bison C++ Template/Example, 
 // available at http://idlebox.net/2007/flex-bison-cpp-example.
@@ -38,12 +38,18 @@ namespace torc {
 namespace torc {
 namespace physical {
 
+namespace physical { class XdlImporterUnitTest; }
+
 	/// \brief Importer from XDL format into a physical design.
 	/// \details The XdlImporter creates the XdlParser and XdlScanner classes and connects them.  
 	///		The input stream is then fed into the scanner object, which delivers a sequence of 
 	///		tokens to the parser.  The importer is also available as a parameter to the grammar 
 	///		rules.
 	class XdlImporter {
+
+	// friends
+		/// \brief The unit test class has access to our internals.
+		friend class torc::physical::physical::XdlImporterUnitTest;
 
 	// types
 		/// \brief Imported type name.
@@ -235,4 +241,4 @@ namespace physical {
 } // namespace physical
 } // namespace torc
 
-#endif // TORC_PHYSICAL_XDL_IMPORTER_HPP
+#endif // TORC_PHYSICAL_XDLIMPORTER_HPP

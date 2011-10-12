@@ -112,7 +112,7 @@ namespace router {
 			for (unsigned int i = 0; i < numNets; i++) {
 				RouteNet& net = nets[i];
 			
-				double routetime;
+				//double routetime;
 				if (!(net.hasOneSource() && net.hasAnySinks())) {
 					std::cout << "BAD NET: " << net.getName() << std::endl;
 					continue;
@@ -126,7 +126,7 @@ namespace router {
 					mNetRouter->route(net);
 					markSourcesAndSinks(net);
 					updateSharing(net.routeNodes());
-					routetime = routetimer.elapsed();
+					//routetime = routetimer.elapsed();
 				}
 				catch (...) {
 						std::cout << "Failed routing net " << i << ": " << std::endl;

@@ -237,6 +237,19 @@ Instance::findPortReference(
 }
 
 /**
+ * Find a Net reference.
+ *
+ * @param[in] inName String containing the name of the Net.
+ */
+NetReferenceSharedPtr
+Instance::findNetReference(
+            const std::string &inName) throw(Error) {
+    NetReferenceSharedPtr netRef;
+    mNetReferences.get( inName, netRef );
+    return netRef;
+}
+
+/**
  * Remove a given port reference.
  *
  * @param inName Name of the object to be delete
@@ -304,6 +317,21 @@ Instance::setPortReferences(
 }
 
 void
+Instance::setDesignator(const std::string & inSource) throw() {
+    mDesignator = inSource;
+}
+
+/**
+ * Set the pointer to the timing object
+ *
+ * @param[in] inSource Pointer to the timing object
+ */
+void
+Instance::setTiming(const TimingSharedPtr & inSource ) throw() {
+    mTiming = inSource;
+}
+
+void
 Instance::flatten() throw(Error) {
 }
 
@@ -315,12 +343,14 @@ Instance::Instance()
     Renamable(),
     Visitable(),
     ParentedObject<View>(),
+    UserDataContainer(),
 #ifdef GENOM_SERIALIZATION
     mMasterData( NULL ),
 #endif //GENOM_SERIALIZATION
     mMaster(),
     mPortReferences(),
-    mMyContext() {
+    mMyContext(),
+    mDesignator() {
 
 }
 

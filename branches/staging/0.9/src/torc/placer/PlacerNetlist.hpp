@@ -262,4 +262,3 @@ namespace placer {
 } // namespace placer
 } // namespace torc
 #endif // TORC_PLACER_PLACERNETLIST_HPP
-

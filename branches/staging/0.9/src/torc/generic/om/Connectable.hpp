@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_CONNECTIBLE_HPP
-#define TORC_GENERIC_CONNECTIBLE_HPP
+#ifndef TORC_GENERIC_OM_CONNECTABLE_HPP
+#define TORC_GENERIC_OM_CONNECTABLE_HPP
 
 #include "torc/generic/om/DumpRestoreConfig.hpp"
 
@@ -62,7 +62,7 @@ class Connectable
     /**
      * A signal to indicate that a connection has been removed
      */
-    typedef boost::signal<void (const NetSharedPtr &)> DisConnected;
+    typedef boost::signal<void (const NetSharedPtr &)> Disconnected;
 
   public:
     /**
@@ -74,7 +74,7 @@ class Connectable
     /**
      * A signal to indicate that a new connection has been made
      */
-    inline DisConnected &
+    inline Disconnected &
     signalNetDisconnected() throw();
 
     /**
@@ -112,7 +112,7 @@ class Connectable
     * Disconnect the named Net from this object.
     @note This metod can be overridden by derived classes. However, the method must call the on_connected() method after this. The sigConnected_ signal must also be invoked in the overriding method.
 
-    * @param[in] inName Name of the net to be DisConnected
+    * @param[in] inName Name of the net to be Disconnected
     * @exception Error Provided net was not found
     */
     void
@@ -143,7 +143,7 @@ class Connectable
     onConnect() throw(Error);
 
     /**
-     * A polymorphic function that is called after a net is DisConnected from this object
+     * A polymorphic function that is called after a net is Disconnected from this object
      */
     virtual void
     onDisconnect() throw(Error);
@@ -167,7 +167,7 @@ class Connectable
   private:
     std::list< NetSharedPtr > mConnectedNets;
     Connected mSigNetConnected;
-    DisConnected mSigNetDisconnected;
+    Disconnected mSigNetDisconnected;
 };
 
 /**
@@ -181,7 +181,7 @@ Connectable::signalNetConnected() throw() {
 /**
  * A signal to indicate that a new connection has been made
  */
-inline Connectable::DisConnected &
+inline Connectable::Disconnected &
 Connectable::signalNetDisconnected() throw() {
     return mSigNetDisconnected;
 }
@@ -194,4 +194,4 @@ Connectable::signalNetDisconnected() throw() {
 BOOST_IS_ABSTRACT( torc::generic::Connectable )
 #endif //GENOM_SERIALIZATION
 
-#endif
+#endif // TORC_GENERIC_OM_CONNECTABLE_HPP

@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the VirtexPacket class.
 
-#ifndef TORC_BITSTREAM_VIRTEX_PACKET_HPP
-#define TORC_BITSTREAM_VIRTEX_PACKET_HPP
+#ifndef TORC_BITSTREAM_VIRTEXPACKET_HPP
+#define TORC_BITSTREAM_VIRTEXPACKET_HPP
 
 #include "torc/common/Endian.hpp"
 #include <boost/smart_ptr.hpp>
@@ -29,7 +29,7 @@
 namespace torc {
 namespace bitstream {
 
-namespace bitstream { class bitstream_virtex_packet; }
+namespace bitstream { class VirtexPacketUnitTest; }
 
 	/// \brief Bitstream packet constants for Virtex class architectures.
 	class VirtexPacketConstants {
@@ -74,7 +74,7 @@ namespace bitstream { class bitstream_virtex_packet; }
 
 	/// \brief Bitstream packet for Virtex class architectures.
 	class VirtexPacket : public VirtexPacketConstants {
-		friend class torc::bitstream::bitstream::bitstream_virtex_packet;
+		friend class torc::bitstream::bitstream::VirtexPacketUnitTest;
 	protected:
 	// typedefs
 		/// \brief Imported type name.
@@ -261,4 +261,4 @@ namespace bitstream { class bitstream_virtex_packet; }
 } // namespace bitstream
 } // namespace torc
 
-#endif // TORC_BITSTREAM_VIRTEX_PACKET_HPP
+#endif // TORC_BITSTREAM_VIRTEXPACKET_HPP

@@ -19,7 +19,7 @@
 #ifndef TORC_BITSTREAM_SPARTAN3E_HPP
 #define TORC_BITSTREAM_SPARTAN3E_HPP
 
-#include <boost/integer.hpp>
+#include <boost/cstdint.hpp>
 #include <boost/filesystem.hpp>
 #include "torc/bitstream/SpartanBitstream.hpp"
 #include <map>
@@ -29,15 +29,15 @@ namespace torc { namespace architecture { class DDB; } }
 namespace torc {
 namespace bitstream {
 
-namespace bitstream { class bitstream_spartan3e; }
-namespace bitstream { class bitstream_spartan3e_far; }
+namespace bitstream { class Spartan3EUnitTest; }
+namespace bitstream { class Spartan3EFarUnitTest; }
 namespace bitstream { void testSpartan3EDevice(const std::string& inDeviceName, 
 	const boost::filesystem::path& inWorkingPath); }
 
 	/// \brief Spartan3E bitstream.
 	class Spartan3E : public SpartanBitstream {
-		friend class torc::bitstream::bitstream::bitstream_spartan3e;
-		friend class torc::bitstream::bitstream::bitstream_spartan3e_far;
+		friend class torc::bitstream::bitstream::Spartan3EUnitTest;
+		friend class torc::bitstream::bitstream::Spartan3EFarUnitTest;
 		friend void torc::bitstream::bitstream::testSpartan3EDevice(const std::string& inDeviceName, 
 			const boost::filesystem::path& inWorkingPath);
 	protected:

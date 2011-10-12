@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the CombinationalPath class.
 
-#ifndef TORC_PHYSICAL_COMBINATIONAL_PATH_HPP
-#define TORC_PHYSICAL_COMBINATIONAL_PATH_HPP
+#ifndef TORC_PACKER_COMBINATIONALPATH_HPP
+#define TORC_PACKER_COMBINATIONALPATH_HPP
 
 #include "torc/physical/Net.hpp"
 #include "torc/packer/PrimitivePin.hpp"
@@ -308,6 +308,4 @@ namespace physical {
 } // namespace physical
 } // namespace torc
 
-#endif // TORC_PHYSICAL_COMBINATIONAL_PATH_HPP
-
-
+#endif // TORC_PACKER_COMBINATIONALPATH_HPP

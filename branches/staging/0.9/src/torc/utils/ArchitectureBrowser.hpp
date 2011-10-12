@@ -16,8 +16,8 @@
 /// \file
 /// \brief ArchitectureBrowser class for exploring database contents.
 
-#ifndef TORC_ARCHITECTURE_BROWSER_HPP
-#define TORC_ARCHITECTURE_BROWSER_HPP
+#ifndef TORC_UTILS_ARCHITECTUREBROWSER_HPP
+#define TORC_UTILS_ARCHITECTUREBROWSER_HPP
 
 #include <iostream>
 #include <iomanip>
@@ -41,6 +41,8 @@ protected:
 	typedef std::string string;
 	/// \brief Imported type name.
 	typedef architecture::DDB DDB;
+	/// \brief Imported type name.
+	typedef architecture::PrimitiveDef PrimitiveDef;
 	/// \brief Imported type name.
 	typedef architecture::Segments Segments;
 	/// \brief Imported type name.
@@ -145,7 +147,7 @@ public:
 					break;
 				case eTiles:
 					//cout << "Tile List." << endl;
-					functionPrompt("Enter regexp filter (\".*\" to match all sites), q to quit",
+					functionPrompt("Enter regexp filter (\".*\" to match all tiles), q to quit",
 						getFilteredTileListRef);
 					break;
 				case eWires:
@@ -328,7 +330,7 @@ public:
 		std::ios_base::fmtflags saveflags = cout.flags();
 		
 		for (SiteIndex i(0); i < mSites.getSiteCount(); i++) {
-			const architecture::Sites::Site& site = mSites.getSite(i);
+			const architecture::Site& site = mSites.getSite(i);
 			cout << std::setw(7) << i << " " << site.getName() << endl;
 		}
 		cout.flags(saveflags);
@@ -355,7 +357,7 @@ public:
 		boost::smatch smatches;
 		int matchCount = 0;
 		for (SiteIndex i(0); i < mSites.getSiteCount(); i++) {
-			const architecture::Sites::Site& site = mSites.getSite(i);
+			const architecture::Site& site = mSites.getSite(i);
 			if (regex_match(site.getName(), smatches, sSiteNameRegEx)) {
 				matchCount++;
 				cout << std::setw(7) << i << " " << site.getName() << endl;
@@ -392,7 +394,7 @@ public:
 			cout << "Input invalid: " << inString << endl;
 			return;
 		}
-		const Sites::Site& site = mSites.getSite(siteIndex);
+		const architecture::Site& site = mSites.getSite(siteIndex);
 		cout << "Site: " << site.getName() << endl;
 		cout << "\tTile: " << mTiles.getTileInfo(site.getTileIndex()).getName()
 			<< " (" << site.getTileIndex() << ") " << endl;
@@ -402,7 +404,7 @@ public:
 			cout << " " << (*site.getPinMapPtr())[i];
 		}
 		cout << endl;
-		const Sites::PrimitiveDef& primDef = *site.getPrimitiveDefPtr();
+		const PrimitiveDef& primDef = *site.getPrimitiveDefPtr();
 		cout << "\tPrimitive Definition: " << primDef.getName() << endl;
 		cout.flags(saveflags);
 		
@@ -414,8 +416,8 @@ public:
 		std::ios_base::fmtflags saveflags = cout.flags();
 		
 		for (SiteIndex i(0); i < mSites.getSiteCount(); i++) {
-			const architecture::Sites::Site& site = mSites.getSite(i);
-			const Sites::PrimitiveDef* siteTypePtr = site.getPrimitiveDefPtr();
+			const architecture::Site& site = mSites.getSite(i);
+			const PrimitiveDef* siteTypePtr = site.getPrimitiveDefPtr();
 			if (siteTypePtr->getName() == inString)
 				cout << std::setw(7) << i << " " << site.getName() << endl;
 		}
@@ -769,7 +771,7 @@ public:
 		using std::endl;
 		cout << "Device Site Types:" << endl;
 		
-		const architecture::Array<const Sites::PrimitiveDef>& siteTypes = mSites.getSiteTypes();
+		const architecture::Array<const PrimitiveDef>& siteTypes = mSites.getSiteTypes();
 		for (uint32_t i = 0; i < siteTypes.getSize(); i++) {
 			cout << siteTypes[i].getName() << endl;
 		}
@@ -820,4 +822,4 @@ public:
 
 } // namespace torc
 
-#endif // TORC_ARCHITECTURE_BROWSER_HPP
+#endif // TORC_UTILS_ARCHITECTUREBROWSER_HPP

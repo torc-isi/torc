@@ -13,9 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_PARSER_OPTIONS_HPP
-#define TORC_GENERIC_PARSER_OPTIONS_HPP
-
+#ifndef TORC_GENERIC_PARSER_PARSEROPTIONS_HPP
+#define TORC_GENERIC_PARSER_PARSEROPTIONS_HPP
 
 namespace torc {
 
@@ -32,4 +31,4 @@ class ParserOptions
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_PARSER_PARSEROPTIONS_HPP

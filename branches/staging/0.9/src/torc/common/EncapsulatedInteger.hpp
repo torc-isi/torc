@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the EncapsulatedInteger template.
 
-#ifndef TORC_ENCAPSULATED_INTEGER_HPP
-#define TORC_ENCAPSULATED_INTEGER_HPP
+#ifndef TORC_COMMON_ENCAPSULATEDINTEGER_HPP
+#define TORC_COMMON_ENCAPSULATEDINTEGER_HPP
 
 namespace torc {
 namespace common {
@@ -62,4 +62,4 @@ namespace common {
 } // namespace common
 } // namespace torc
 
-#endif // TORC_ENCAPSULATED_INTEGER_HPP
+#endif // TORC_COMMON_ENCAPSULATEDINTEGER_HPP

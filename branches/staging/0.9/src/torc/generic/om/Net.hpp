@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_NET_HPP
-#define TORC_GENERIC_NET_HPP
+#ifndef TORC_GENERIC_OM_NET_HPP
+#define TORC_GENERIC_OM_NET_HPP
 
 #include "torc/generic/om/PointerTypes.hpp"
 #include "torc/generic/om/DumpRestoreConfig.hpp"
@@ -37,10 +37,12 @@
 #include "torc/generic/om/SymTab.hpp"
 #include "torc/generic/om/Visitable.hpp"
 #include "torc/generic/om/View.hpp"
+#include "torc/generic/om/UserDataContainer.hpp"
 
 namespace torc { namespace generic { class ConnectionHandler; }  }
 namespace torc { namespace generic { class Port; }  }
 namespace torc { namespace generic { class PortReference; }  }
+namespace torc { namespace generic { class NetAttributes; }  }
 
 namespace torc {
 
@@ -59,7 +61,8 @@ class Net :
     public Renamable,
     public Visitable,
     virtual public Composite<Net>,
-    public ParentedObject<View>
+    public ParentedObject<View>,
+    public UserDataContainer
 {
 #ifdef GENOM_SERIALIZATION
     friend class boost::serialization::access;
@@ -164,6 +167,22 @@ class Net :
 
     void
     setParentNet( const NetSharedPtr &inParent ) throw();
+
+    /**
+     * Get the attributes of the net. Attributes include criticality, netDelay etc.
+     *
+     * @return Pointer to NetAttributes object.
+     */
+    inline const NetAttributesSharedPtr
+    getAttributes() const throw();
+
+    /**
+     * Set the attributes of the net. Attributes include criticality, netDelay etc.
+     *
+     * @param[in] inSource Pointer to NetAttributes object.
+     */
+    void
+    setAttributes(const NetAttributesSharedPtr & inSource) throw();
 
   protected:
     void
@@ -308,6 +327,7 @@ class Net :
     std::list< PortListSharedPtr > mConnectedPortLists;
     std::list< PortReferenceSharedPtr > mConnectedPortRefs;
     NetSharedPtr mParentNet;
+    NetAttributesSharedPtr mAttributes;
 };
 
 inline void
@@ -337,6 +357,15 @@ Net::getParentNet() const throw() {
     return mParentNet;
 }
 
+/**
+ * Get the attributes of the net. Attributes include criticality, netDelay etc.
+ *
+ * @return Pointer to NetAttributes object.
+ */
+inline const NetAttributesSharedPtr
+Net::getAttributes() const throw() {
+    return mAttributes;
+}
 
 template<typename _Action>
 inline void
@@ -389,4 +418,4 @@ Net::applyOnAllConnectedPortRefs( const _Action &action ) throw(Error)
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_OM_NET_HPP

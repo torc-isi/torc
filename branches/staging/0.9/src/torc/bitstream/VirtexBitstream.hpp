@@ -16,31 +16,36 @@
 /// \file
 /// \brief Header for the VirtexBitstream class.
 
-#ifndef TORC_BITSTREAM_VIRTEX_BITSTREAM_HPP
-#define TORC_BITSTREAM_VIRTEX_BITSTREAM_HPP
+#ifndef TORC_BITSTREAM_VIRTEXBITSTREAM_HPP
+#define TORC_BITSTREAM_VIRTEXBITSTREAM_HPP
 
-#include <boost/integer.hpp>
+#include <boost/cstdint.hpp>
 #include "torc/bitstream/Bitstream.hpp"
 #include "torc/bitstream/VirtexPacket.hpp"
+#include "torc/bitstream/FrameSet.hpp"
+#include <fstream>
 
 namespace torc {
 namespace bitstream {
 
-namespace bitstream { class bitstream_virtex_bitstream; }
+namespace bitstream { class VirtexBitstreamUnitTest; }
 
 	/// \brief Virtex-class bitstream.
-	class VirtexBitstream : public Bitstream, public VirtexPacketVector, 
-		public VirtexPacketConstants {
-		friend class torc::bitstream::bitstream::bitstream_virtex_bitstream;
+	class VirtexBitstream : public Bitstream, public VirtexPacketVector, public VirtexPacketConstants,
+  		public VirtexFrameBlocks {
+		friend class torc::bitstream::bitstream::VirtexBitstreamUnitTest;
 	protected:
 	// typedefs
 		/// \brief Imported type name.
 		typedef boost::uint32_t uint32_t;
 	// members
+		/// \brief Input Frame blocks.
+		VirtexFrameBlocks mFrameBlocks;
 	public:
 	// constructors
 		/// \brief Basic constructor.
-		VirtexBitstream(void) : Bitstream(), VirtexPacketVector(), VirtexPacketConstants() {}
+		VirtexBitstream(void) : Bitstream(), VirtexPacketVector(), VirtexPacketConstants(), 
+								VirtexFrameBlocks() {}
 	// functions
 		/// \brief Read bitstream packets from a stream.
 		/// \note This function should be called after the bitstream header has been read.
@@ -56,4 +61,4 @@ namespace bitstream { class bitstream_virtex_bitstream; }
 } // namespace bitstream
 } // namespace torc
 
-#endif // TORC_BITSTREAM_VIRTEX_BITSTREAM_HPP
+#endif // TORC_BITSTREAM_VIRTEXBITSTREAM_HPP

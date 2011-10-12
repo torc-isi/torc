@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_EDIF_VERSION_HPP
-#define TORC_GENERIC_EDIF_VERSION_HPP
+#ifndef TORC_GENERIC_OM_EDIFVERSION_HPP
+#define TORC_GENERIC_OM_EDIFVERSION_HPP
 
 #include "torc/generic/om/DumpRestoreConfig.hpp"
 
@@ -64,4 +64,4 @@ struct EdifVersion {
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_OM_EDIFVERSION_HPP

@@ -68,13 +68,27 @@ Design::Design()
     Commentable(),
     PropertyContainer(),
     Renamable(),
+    Visitable(),
+    ParentedObject<Root>(),
+    SelfReferencing<Design>(),
+    UserDataContainer(),
+    StatusContainer(),
     mCellRefName(),
     mLibraryRefName() {
 }
 
 Design::Design( const std::string & inCellRefName,
                     const std::string &inLibraryRefName )
-    :mCellRefName( inCellRefName ),
+    :Nameable(),
+    Commentable(),
+    PropertyContainer(),
+    Renamable(),
+    Visitable(),
+    ParentedObject<Root>(),
+    SelfReferencing<Design>(),
+    UserDataContainer(),
+    StatusContainer(),
+    mCellRefName( inCellRefName ),
     mLibraryRefName( inLibraryRefName ) {
 }
 

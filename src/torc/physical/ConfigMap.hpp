@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the ConfigMap class.
 
-#ifndef TORC_PHYSICAL_CONFIG_MAP_HPP
-#define TORC_PHYSICAL_CONFIG_MAP_HPP
+#ifndef TORC_PHYSICAL_CONFIGMAP_HPP
+#define TORC_PHYSICAL_CONFIGMAP_HPP
 
 #include "torc/physical/Config.hpp"
 #include <map>
@@ -135,8 +135,7 @@ namespace physical {
 				if(range.first != range.second) erase(range.first, range.second);
 			}
 			// insert the config entry
-			iterator result 
-				= insert(make_pair(inSetting, Config(inName, inValue, mNextSequenceIndex++)));
+			insert(make_pair(inSetting, Config(inName, inValue, mNextSequenceIndex++)));
 			/// \todo Release mutex.
 		}
 		/// \brief Merges the configurations from the given ConfigMap into this one.
@@ -177,4 +176,4 @@ namespace physical {
 } // namespace physical
 } // namespace torc
 
-#endif // TORC_PHYSICAL_CONFIG_MAP_HPP
+#endif // TORC_PHYSICAL_CONFIGMAP_HPP

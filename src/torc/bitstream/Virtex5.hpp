@@ -19,9 +19,10 @@
 #ifndef TORC_BITSTREAM_VIRTEX5_HPP
 #define TORC_BITSTREAM_VIRTEX5_HPP
 
-#include <boost/integer.hpp>
+#include <boost/cstdint.hpp>
 #include <boost/filesystem.hpp>
 #include "torc/bitstream/VirtexBitstream.hpp"
+#include "torc/bitstream/VirtexFrameAddress.hpp"
 #include <map>
 
 namespace torc { namespace architecture { class DDB; } }
@@ -29,17 +30,21 @@ namespace torc { namespace architecture { class DDB; } }
 namespace torc {
 namespace bitstream {
 
-namespace bitstream { class bitstream_virtex5; }
-namespace bitstream { class bitstream_virtex5_far; }
+namespace bitstream { class Virtex5UnitTest; }
+namespace bitstream { class Virtex5FarUnitTest; }
 namespace bitstream { void testVirtex5Device(const std::string& inDeviceName, 
 	const boost::filesystem::path& inWorkingPath); }
+namespace bitstream { void testVirtex5FullMapping(const boost::filesystem::path& inWorkingPath); }
+namespace bitstream { void testVirtex5PartialMapping(const boost::filesystem::path& inWorkingPath); }
 
 	/// \brief Virtex5 bitstream.
 	class Virtex5 : public VirtexBitstream {
-		friend class torc::bitstream::bitstream::bitstream_virtex5;
-		friend class torc::bitstream::bitstream::bitstream_virtex5_far;
+		friend class torc::bitstream::bitstream::Virtex5UnitTest;
+		friend class torc::bitstream::bitstream::Virtex5FarUnitTest;
 		friend void torc::bitstream::bitstream::testVirtex5Device(const std::string& inDeviceName, 
 			const boost::filesystem::path& inWorkingPath);
+		friend void torc::bitstream::bitstream::testVirtex5FullMapping(const boost::filesystem::path& inWorkingPath);
+		friend void torc::bitstream::bitstream::testVirtex5PartialMapping(const boost::filesystem::path& inWorkingPath);
 	protected:
 	// typedefs
 		/// \brief Imported type name.
@@ -167,16 +172,25 @@ namespace bitstream { void testVirtex5Device(const std::string& inDeviceName,
 		/// \brief Initialize the maps between frame indexes and frame addresses.
 		/// \detail This is generally only useful for internal purposes.
 		virtual void initializeFrameMaps(void);
+		/// \brief Loads full bitstream frames into block data structure.
+		void initializeFullFrameBlocks(void);
+		/// \brief Loads partial bitstream frames into block data structure.
+		//void initializePartialFrameBlocks(void);
+		/// \brief Returns frames for queried bitstream co-ordinates
+		VirtexFrameBlocks getBitstreamFrames(uint32_t inBlockCount, uint32_t inBitCol);
+		/// \brief Returns frames for queried xdl co-ordinates
+		VirtexFrameBlocks getXdlFrames(uint32_t inBlockCount, uint32_t inXdlCol);
 	// accessors
 		/// \brief Return the frame length for the current device.
 		virtual uint32_t getFrameLength(void) const { return eFrameLength; }
 	// inserters
 		/// \brief Insert the bitstream header into an output stream.
 		friend std::ostream& operator<< (std::ostream& os, const Virtex5& rhs);
+
 	// inner classes
-		class FrameAddress {
+		class FrameAddress : public VirtexFrameAddress {
 		protected:
-			void assign(uint32_t inAddress) {
+			virtual void assign(uint32_t inAddress) {
 				mTopBottom = EFarTopBottom((inAddress & eFarMaskTopBottom) >> eFarShiftTopBottom);
 				mBlockType = EFarBlockType((inAddress & eFarMaskBlockType) >> eFarShiftBlockType);
 				mRow = (inAddress & eFarMaskRow) >> eFarShiftRow;
@@ -195,11 +209,13 @@ namespace bitstream { void testVirtex5Device(const std::string& inDeviceName,
 			uint32_t mRow;
 			uint32_t mMajor;
 			uint32_t mMinor;
-			bool operator== (const FrameAddress& rhs) const {
+			virtual bool operator== (const VirtexFrameAddress& vrhs) const {
+			    const FrameAddress& rhs = reinterpret_cast<const FrameAddress&>(vrhs);
 				return mTopBottom == rhs.mTopBottom && mBlockType == rhs.mBlockType 
 					&& mRow == rhs.mRow && mMajor == rhs.mMajor && mMinor == rhs.mMinor;
 			}
-			bool operator< (const FrameAddress& rhs) const {
+			virtual bool operator< (const VirtexFrameAddress& vrhs) const {
+			    const FrameAddress& rhs = reinterpret_cast<const FrameAddress&>(vrhs);
 				int diffBlockType = mBlockType - rhs.mBlockType;
 				if(diffBlockType) return diffBlockType < 0;
 				int diffTopBottom = mTopBottom - rhs.mTopBottom;
@@ -210,15 +226,20 @@ namespace bitstream { void testVirtex5Device(const std::string& inDeviceName,
 				if(diffMajor) return diffMajor < 0;
 				return mMinor < rhs.mMinor;
 			}
+			operator uint32_t (void) const {
+				return uint32_t(((mTopBottom << eFarShiftTopBottom) & eFarMaskTopBottom) 
+					| ((mBlockType << eFarShiftBlockType) & eFarMaskBlockType)
+					| ((mRow << eFarShiftRow) & eFarMaskRow) 
+					| ((mMajor << eFarShiftMajor) & eFarMaskMajor)
+					| ((mMinor << eFarShiftMinor) & eFarMaskMinor));
+			}
+			friend std::ostream& operator<< (std::ostream& os, const Virtex5::FrameAddress& rhs) {
+				return os << (rhs.mTopBottom == Virtex5::eFarTop ? 'T' : 'B')
+					<< "" << rhs.mBlockType << "(" << rhs.mRow << "," << rhs.mMajor << "." 
+					<< rhs.mMinor << ")";
+			}
 		private:
-			//operator uint32_t (void) const {
-			//	return 
-			//		((mTopBottom << eFarShiftTopBottom) & eFarMaskTopBottom) | 
-			//		((mBlockType << eFarShiftBlockType) & eFarMaskBlockType) |
-			//		((mRow << eFarShiftRow) & eFarMaskRow) | 
-			//		((mMajor << eFarShiftMajor) & eFarMaskMajor) | 
-			//		((mMinor << eFarShiftMinor) & eFarMaskMinor);
-			//}
+			//
 		};
 	protected:
 	// typedefs
@@ -227,7 +248,7 @@ namespace bitstream { void testVirtex5Device(const std::string& inDeviceName,
 		/// \brief Map from frame address to frame index.
 		typedef std::map<Virtex5::FrameAddress, uint32_t> FrameAddressToIndex;
 		/// \brief Array of vectors to store frame indexes of each block type
-		typedef std::vector<uint32_t> ColumnIndexVector;
+		typedef std::vector<uint32_t> IndexVector;
 
 	// members
 		/// \brief Map of frame indexes to frame addresses.
@@ -235,9 +256,13 @@ namespace bitstream { void testVirtex5Device(const std::string& inDeviceName,
 		/// \brief Map of frame addressee to frame indexes.
 		FrameAddressToIndex mFrameAddressToIndex;
 		/// \brief Vector to store frame indexes of XDL columns.
-		ColumnIndexVector mBitColumnIndexes [Virtex5::eFarBlockTypeCount];
+		IndexVector mBitColumnIndexes [Virtex5::eFarBlockTypeCount];
 		/// \brief Vector to store frame indexes of Bitstream columns.
-		ColumnIndexVector mXdlColumnIndexes [Virtex5::eFarBlockTypeCount];
+		IndexVector mXdlColumnIndexes [Virtex5::eFarBlockTypeCount];
+		/// \brief Array to hold frame index boundaries for blocks.
+		uint32_t mBlockFrameIndexBounds [Virtex5::eFarBlockTypeCount];
+		/// \brief Map of xdl columns to bit columns.
+		std::map<uint32_t, uint32_t> mXdlIndexToBitIndex;
 	};
 
 } // namespace bitstream

@@ -16,8 +16,8 @@
 /// \file
 /// \brief PhysicalDiff class for comparing physical netlists.
 
-#ifndef TORC_PHYSICAL_DIFF_HPP
-#define TORC_PHYSICAL_DIFF_HPP
+#ifndef TORC_UTILS_PHYSICALDIFF_HPP
+#define TORC_UTILS_PHYSICALDIFF_HPP
 
 #include <iostream>
 #include "torc/Physical.hpp"
@@ -565,4 +565,4 @@ protected:
 
 } // namespace torc
 
-#endif // TORC_PHYSICAL_DIFF_HPP
+#endif // TORC_UTILS_PHYSICALDIFF_HPP

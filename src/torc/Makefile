@@ -29,6 +29,7 @@ CCFLAGS = \
 
 # object files
 OBJS = \
+				Version.o \
 				$
 
 # dependencies
@@ -46,8 +47,8 @@ TEST_OBJS = $(filter %UnitTest.o %RegressionTest.o, $(OBJS))
 all: code
 
 # build the code
-code: architecture bitstream common examples externals generic physical packer placer \
-	router utils $(OBJS) RealObjectFileList TestObjectFileList
+code: $(OBJS) architecture bitstream common examples externals generic physical packer placer \
+	router utils RealObjectFileList TestObjectFileList
 
 # build the subdirectories
 architecture:

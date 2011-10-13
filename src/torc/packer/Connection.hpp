@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_PHYSICAL_CONNECTION_HPP
-#define TORC_PHYSICAL_CONNECTION_HPP
+#ifndef TORC_PACKER_CONNECTION_HPP
+#define TORC_PACKER_CONNECTION_HPP
 
 #include "torc/physical/Named.hpp"
 #include "torc/physical/Progeny.hpp"
@@ -90,4 +90,4 @@ namespace physical {
 } // namespace physical
 } // namespace torc
 
-#endif // TORC_PHYSICAL_CONNECTION_HPP
+#endif // TORC_PACKER_CONNECTION_HPP

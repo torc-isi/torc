@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_INSTANCE_HPP
-#define TORC_GENERIC_INSTANCE_HPP
+#ifndef TORC_GENERIC_OM_INSTANCE_HPP
+#define TORC_GENERIC_OM_INSTANCE_HPP
 
 #include "torc/generic/om/PointerTypes.hpp"
 #include "torc/generic/om/DumpRestoreConfig.hpp"
@@ -38,6 +38,7 @@
 #include "torc/generic/om/SymTab.hpp"
 #include "torc/generic/om/Visitable.hpp"
 #include "torc/generic/om/View.hpp"
+#include "torc/generic/om/UserDataContainer.hpp"
 
 namespace torc { namespace generic { class ObjectFactory; }  }
 namespace torc { namespace generic { class PortReference; }  }
@@ -59,7 +60,8 @@ class Instance :
     public PropertyContainer,
     public Renamable,
     public Visitable,
-    public ParentedObject<View> {
+    public ParentedObject<View>,
+    public UserDataContainer {
 #ifdef GENOM_SERIALIZATION
     friend class boost::serialization::access;
     friend class RestoredInstanceUpdater;
@@ -168,6 +170,14 @@ class Instance :
     findPortReference(const std::string &inPortRef) throw(Error);
 
     /**
+     * Find a Net reference.
+     *
+     * @param[in] inName String containing the name of the Net.
+     */
+    virtual NetReferenceSharedPtr
+    findNetReference(const std::string &inNetRef) throw(Error);
+
+    /**
      * Remove a given port reference.
      *
      * @param inName Name of the object to be delete
@@ -226,6 +236,38 @@ class Instance :
     applyOnAllPortReferences( const _Action &action ) throw(Error); 
 
     /**
+     * Get the designated number.
+     *
+     * @return std::string Value representing designated number of a view interface.
+    */
+    inline const std::string
+    getDesignator() const throw();
+
+    /**
+     * Set the designated number.
+     *
+     * @param[in] inSource std::string representing designated number of a view interface.
+    */
+    void
+    setDesignator(const std::string & inSource) throw();
+
+    /**
+     * Get the pointer to the timing object
+     *
+     * @return Pointer to the timing object
+     */
+    inline const TimingSharedPtr
+    getTiming() const throw();
+
+    /**
+     * Set the pointer to the timing object
+     *
+     * @param[in] inSource Pointer to the timing object
+     */
+    void
+    setTiming(const TimingSharedPtr & inSource ) throw();    
+
+    /**
      * Flatten an instance so that internal references
      */
     virtual void
@@ -261,6 +303,10 @@ class Instance :
      SymTab< std::string,
         PortReferenceSharedPtr > mPortReferences;
      mutable ParameterContext mMyContext;
+     std::string mDesignator;  
+     TimingSharedPtr mTiming; 
+     SymTab< std::string,
+        NetReferenceSharedPtr > mNetReferences;
 };
 
 /**
@@ -293,7 +339,23 @@ Instance::applyOnAllPortReferences( const _Action &action ) throw(Error)
     }
 }
 
+inline const std::string
+Instance::getDesignator() const throw() {
+    return mDesignator;
+}
+
+/**
+ * Get the pointer to the timing object
+ *
+ * @return Pointer to the timing object
+ */
+inline const TimingSharedPtr
+Instance::getTiming() const throw() {
+    return mTiming;
+}
+
+
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_OM_INSTANCE_HPP

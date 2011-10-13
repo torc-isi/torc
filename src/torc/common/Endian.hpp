@@ -16,10 +16,10 @@
 /// \file
 /// \brief Header for endian conversion.
 
-#ifndef TORC_ENDIAN_HPP
-#define TORC_ENDIAN_HPP
+#ifndef TORC_COMMON_ENDIAN_HPP
+#define TORC_COMMON_ENDIAN_HPP
 
-#include <boost/integer.hpp>
+#include <boost/cstdint.hpp>
 #include <boost/detail/endian.hpp>
 
 // pull in ntohs(), ntohl(), htons(), and ntonl()
@@ -77,4 +77,4 @@ boost::uint64_t inline htonll(const boost::uint64_t& x) {
 } // namespace common
 } // namespace torc
 
-#endif // TORC_ENDIAN_HPP
+#endif // TORC_COMMON_ENDIAN_HPP

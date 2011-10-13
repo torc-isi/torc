@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_PHYSICAL_ELEMENT_HPP
-#define TORC_PHYSICAL_ELEMENT_HPP
+#ifndef TORC_PACKER_ELEMENT_HPP
+#define TORC_PACKER_ELEMENT_HPP
 
 #include <string>
 #include <map>
@@ -128,4 +128,4 @@ namespace physical {
 } // namespace physical
 } // namespace torc
 
-#endif // TORC_PHYSICAL_ELEMENT_HPP
+#endif // TORC_PACKER_ELEMENT_HPP

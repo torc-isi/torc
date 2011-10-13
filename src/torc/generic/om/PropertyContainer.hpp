@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_PROPERTY_CONTAINER_HPP
-#define TORC_GENERIC_PROPERTY_CONTAINER_HPP
+#ifndef TORC_GENERIC_OM_PROPERTYCONTAINER_HPP
+#define TORC_GENERIC_OM_PROPERTYCONTAINER_HPP
 
 #include "torc/generic/om/PointerTypes.hpp"
 #include "torc/generic/om/DumpRestoreConfig.hpp"
@@ -141,4 +141,4 @@ PropertyContainer::applyOnAllProperties( const _Action &action ) throw(Error)
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_OM_PROPERTYCONTAINER_HPP

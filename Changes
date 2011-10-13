@@ -1,0 +1,37 @@
+Version 0.9 (released October 12, 2011, from branches/staging/0.9.x)
+https://torc-isi.svn.sourceforge.net/svnroot/torc-isi/tags/0.9
+	* Added device packages to databases.
+	* Added device logic definitions to databases.
+	* Added Virtex/2/2P/4/6 and Spartan3E bitstream frame mapping.
+	* Added Virtex7/Kintex7 device databases and updated DDB to 32-bit segment anchor tile counts.
+	* Added family DeviceInfo files to initialize bitstreams without opening device databases.
+	* Added Annotated class and functionality for routing, placement, and user operations.
+	* Added "Development" architecture to the database build scripts.
+	* Added tile and site regular expression searching to device browser.
+	* Added PrimitiveStructure analysis code for unpacking.
+	* Added frame to tile mapping capability for XDL and bitstream coordinates.
+	* Added ModuleTransformer class to modularize or flatten XDL modules.
+	* Added simulated annealing placer.
+	* Added bitstream frame data access.
+	* Added support for writing full bitstreams from frame data.
+	* Added exhaustive EDIF 2.0.0 support for NETLIST view types.
+	* Added a sample sandbox for new users.
+	* Added a bitstream factory to create an object of the correct type for arbitrary bitstreams.
+	* Added device database routethrough support.
+	* Added ArcUsage support for routethrough and tied arcs.
+	* Added Eclipse directory and project files.
+	* Added build instructions.
+	* Removed automatic copying of device databases and debug bitstreams.
+	* Removed dependency upon GCC, Flex, and Bison.
+	* Changed unit test naming for standardization.
+	* Changed Sites.hpp by splitting it into constituent classes.
+	* Changed license and copyright blurbs.
+	* Changed Torc coding style guidelines.
+	* Fixed bug with DeviceDesignator not recognizing Virtex5 "t" devices.
+	* Fixed code that generated warnings with newer version of GCC, including 4.6.1.
+	* Fixed bug in XDL parser to allow instances with no cfg strings.
+	* Fixed usage of Boost.Filesystem replace_extension() to accomodate V3 semantics.
+
+Version 0.8 (released February 25, 2011)
+https://torc-isi.svn.sourceforge.net/svnroot/torc-isi/tags/0.8.0
+	* Initial release.

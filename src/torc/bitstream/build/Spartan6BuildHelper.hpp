@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the Spartan6BuildHelper class.
 
-#ifndef TORC_BITSTREAM_SPARTAN6_BUILD_HELPER_HPP
-#define TORC_BITSTREAM_SPARTAN6_BUILD_HELPER_HPP
+#ifndef TORC_BITSTREAM_BUILD_SPARTAN6BUILDHELPER_HPP
+#define TORC_BITSTREAM_BUILD_SPARTAN6BUILDHELPER_HPP
 
 #include "torc/bitstream/Bitstream.hpp"
 #include "torc/common/Devices.hpp"
@@ -38,4 +38,4 @@ namespace bitstream {
 } // namespace bitstream
 } // namespace torc
 
-#endif // TORC_BITSTREAM_SPARTAN6_BUILD_HELPER_HPP
+#endif // TORC_BITSTREAM_BUILD_SPARTAN6BUILDHELPER_HPP

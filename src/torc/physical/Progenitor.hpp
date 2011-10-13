@@ -32,8 +32,7 @@ namespace physical { class ProgenyUnitTest; }
 
 	/// \brief Concept for any object that may have children.
 	/// \todo Rename Progenitor to SelfReferent, since some childless objects need to refer to 
-	///		themselves.
-	///		even if they have no children.  c.f. InstancePin.
+	///		themselves.  c.f. InstancePin.
 	template <class T> class Progenitor {
 	// friends
 		/// \brief The Factory class has direct access to our internals.

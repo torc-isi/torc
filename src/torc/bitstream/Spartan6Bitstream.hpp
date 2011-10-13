@@ -16,22 +16,22 @@
 /// \file
 /// \brief Header for the Spartan6Bitstream class.
 
-#ifndef TORC_BITSTREAM_SPARTAN16_BITSTREAM_HPP
-#define TORC_BITSTREAM_SPARTAN16_BITSTREAM_HPP
+#ifndef TORC_BITSTREAM_SPARTAN6BITSTREAM_HPP
+#define TORC_BITSTREAM_SPARTAN6BITSTREAM_HPP
 
-#include <boost/integer.hpp>
+#include <boost/cstdint.hpp>
 #include "torc/bitstream/Bitstream.hpp"
 #include "torc/bitstream/Spartan6Packet.hpp"
 
 namespace torc {
 namespace bitstream {
 
-namespace bitstream { class bitstream_spartan16_bitstream; }
+namespace bitstream { class Spartan6BitstreamUnitTest; }
 
 	/// \brief Spartan-class bitstream.
 	class Spartan6Bitstream : public Bitstream, public Spartan6PacketVector, 
 		public Spartan6PacketConstants {
-		friend class torc::bitstream::bitstream::bitstream_spartan16_bitstream;
+		friend class torc::bitstream::bitstream::Spartan6BitstreamUnitTest;
 	protected:
 	// typedefs
 		/// \brief Imported type name.
@@ -57,4 +57,4 @@ namespace bitstream { class bitstream_spartan16_bitstream; }
 } // namespace bitstream
 } // namespace torc
 
-#endif // TORC_BITSTREAM_SPARTAN16_BITSTREAM_HPP
+#endif // TORC_BITSTREAM_SPARTAN6BITSTREAM_HPP

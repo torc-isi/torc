@@ -13,9 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_MESSAGE_ID_HPP
-#define TORC_GENERIC_MESSAGE_ID_HPP
-
+#ifndef TORC_GENERIC_UTIL_MESSAGEID_HPP
+#define TORC_GENERIC_UTIL_MESSAGEID_HPP
 
 namespace torc {
 
@@ -50,4 +49,4 @@ enum MessageId
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_UTIL_MESSAGEID_HPP

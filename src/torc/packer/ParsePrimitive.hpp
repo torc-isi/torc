@@ -13,12 +13,11 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
- 
 /// \file
 /// \brief Header for primitive parser.
- 
-#ifndef _PARSE_PRIMITIVE_H
-#define _PARSE_PRIMITIVE_H
+
+#ifndef TORC_PACKER_PARSEPRIMITIVE_HPP
+#define TORC_PACKER_PARSEPRIMITIVE_HPP
 
 #include "torc/packer/PrimitiveSet.hpp"
 #include "torc/physical/Factory.hpp"
@@ -63,6 +62,4 @@ namespace torc {
 } // namespace physical
 } // namespace torc
  
-#endif // TORC_PHYSICAL_PARSE_PRIMITIVE_HPP
-
-
+#endif // TORC_PACKER_PARSEPRIMITIVE_HPP

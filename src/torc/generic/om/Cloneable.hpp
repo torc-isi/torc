@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_CLONEABLE_HPP
-#define TORC_GENERIC_CLONEABLE_HPP
+#ifndef TORC_GENERIC_OM_CLONEABLE_HPP
+#define TORC_GENERIC_OM_CLONEABLE_HPP
 
 #include "torc/generic/om/DumpRestoreConfig.hpp"
 
@@ -103,4 +103,4 @@ Cloneable<_CloneableType>::serialize( Archive &ar, unsigned int ) {
 
 } // namespace torc
 
-#endif
+#endif // TORC_GENERIC_OM_CLONEABLE_HPP

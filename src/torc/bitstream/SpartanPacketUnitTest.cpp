@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the SpartanPacket unit test.
+/// \brief Unit test for the SpartanPacket class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/bitstream/SpartanPacket.hpp"
@@ -29,7 +29,7 @@ namespace bitstream {
 
 BOOST_AUTO_TEST_SUITE(bitstream)
 
-BOOST_AUTO_TEST_CASE(bitstream_spartan_packet) {
+BOOST_AUTO_TEST_CASE(SpartanPacketUnitTest) {
 
 	// build the file paths
 	boost::filesystem::path regressionPath 

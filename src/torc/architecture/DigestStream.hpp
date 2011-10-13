@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the DigestStream class.
 
-#ifndef TORC_ARCHITECTURE_DIGEST_STREAM_HPP
-#define TORC_ARCHITECTURE_DIGEST_STREAM_HPP
+#ifndef TORC_ARCHITECTURE_DIGESTSTREAM_HPP
+#define TORC_ARCHITECTURE_DIGESTSTREAM_HPP
 
 #include "torc/common/Endian.hpp"
 #include <boost/filesystem/convenience.hpp>
@@ -98,4 +98,4 @@ namespace architecture {
 } // namespace architecture
 } // namespace torc
 
-#endif // TORC_ARCHITECTURE_DIGEST_STREAM_HPP
+#endif // TORC_ARCHITECTURE_DIGESTSTREAM_HPP

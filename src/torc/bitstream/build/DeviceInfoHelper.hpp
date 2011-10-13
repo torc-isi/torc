@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the DeviceInfoHelper class.
 
-#ifndef TORC_BITSTREAM_BUILD_DEVICE_INFO_HELPER_HPP
-#define TORC_BITSTREAM_BUILD_DEVICE_INFO_HELPER_HPP
+#ifndef TORC_BITSTREAM_BUILD_DEVICEINFOHELPER_HPP
+#define TORC_BITSTREAM_BUILD_DEVICEINFOHELPER_HPP
 
 #include "torc/bitstream/Bitstream.hpp"
 #include "torc/common/Devices.hpp"
@@ -38,4 +38,4 @@ namespace bitstream {
 } // namespace bitstream
 } // namespace torc
 
-#endif // TORC_BITSTREAM_BUILD_DEVICE_INFO_HELPER_HPP
+#endif // TORC_BITSTREAM_BUILD_DEVICEINFOHELPER_HPP

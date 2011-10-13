@@ -63,6 +63,7 @@ BOOST_AUTO_TEST_CASE(EncapsulatedIntegerSizeUnitTest) {
 	EInt eint1 = boost::integer_traits<TYPE>::const_min; /* primitive constructor */ \
 	EInt eint2 = eint1; /* object constructor */ \
 	EInt eint3, eint4, eint5; /* null constructors */ \
+    (void) eint2; /* be sure to test the constructor even if the object is unused */ \
 	\
 	/* functions tested: */ \
 	/*		type& operator =(const type& rhs); */ \

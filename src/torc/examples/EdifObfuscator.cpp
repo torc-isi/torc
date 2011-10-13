@@ -17,6 +17,7 @@
 /// \brief Source for the EDIF obfuscator.
 
 #include "torc/Generic.hpp"
+#include "torc/Common.hpp"
 #include "torc/externals/md5/md5.h"
 #include <iostream>
 #include <fstream>
@@ -374,11 +375,10 @@ int main(int argc, char** argv) {
 		// build the file names
 		boost::filesystem::path sourcePath = argv[i];
 		boost::filesystem::path targetPath = sourcePath;
+		targetPath = targetPath.replace_extension().string() 
+			+ ".mod" + boost::filesystem::extension(sourcePath);
 		boost::filesystem::path logPath = sourcePath;
-		std::string modExtension = ".mod" + boost::filesystem::extension(sourcePath);
-		targetPath.replace_extension(modExtension);
-		std::string logExtension = boost::filesystem::extension(sourcePath) + ".obfuscation_log";
-		logPath.replace_extension(logExtension);
+		logPath = logPath.replace_extension().string() + ".obfuscation_log";
 		// obfuscate the file
 		try {
 			// read the source file

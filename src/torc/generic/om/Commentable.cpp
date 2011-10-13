@@ -38,6 +38,7 @@ namespace generic {
  * @param[in] comment The comment to add to an existing list of comments
  */
 void Commentable::addComment(const std::string & comment) throw() {
+    mComments.push_back( comment );
 }
 
 /**
@@ -49,7 +50,8 @@ void Commentable::setComments(const std::vector<std::string> & inSource) throw()
   mComments = inSource;
 }
 
-Commentable::Commentable() throw() {
+Commentable::Commentable()
+    :mComments() {
 }
 
 Commentable::~Commentable() throw() {

@@ -32,6 +32,8 @@ CCFLAGS = \
 OBJS = \
 				Bitstream.o \
 				BitstreamUnitTest.o \
+				Factory.o \
+				FactoryUnitTest.o \
 				DeviceInfo.o \
 				Frame.o \
 				FrameUnitTest.o \
@@ -78,6 +80,7 @@ OBJS = \
 				VirtexBitstreamUnitTest.o \
 				VirtexPacket.o \
 				VirtexPacketUnitTest.o \
+				VirtexFrameAddress.o \
 				$
 
 # dependencies

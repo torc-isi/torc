@@ -17,9 +17,18 @@
 /// \brief Source for the Arc class.
 
 #include "torc/architecture/Arc.hpp"
+#include <boost/functional/hash.hpp>
 
 namespace torc {
 namespace architecture {
 
+	std::size_t hash_value(const Arc& inArc) {
+		std::size_t seed = 0;
+		boost::hash_combine(seed, inArc.getSourceTilewire().getTileIndex());
+		boost::hash_combine(seed, inArc.getSourceTilewire().getWireIndex());
+		boost::hash_combine(seed, inArc.getSinkTilewire().getTileIndex());
+		boost::hash_combine(seed, inArc.getSinkTilewire().getWireIndex());
+		return seed;
+	}
 } // namespace architecture
 } // namespace torc

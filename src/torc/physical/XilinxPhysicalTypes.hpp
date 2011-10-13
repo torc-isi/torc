@@ -16,10 +16,10 @@
 /// \file
 /// \brief Header for Xilinx physical types.
 
-#ifndef TORC_PHYSICAL_XILINX_XILINX_PHYSICAL_TYPES_HPP
-#define TORC_PHYSICAL_XILINX_XILINX_PHYSICAL_TYPES_HPP
+#ifndef TORC_PHYSICAL_XILINXPHYSICALTYPES_HPP
+#define TORC_PHYSICAL_XILINXPHYSICALTYPES_HPP
 
-#include <boost/integer.hpp>
+#include <boost/cstdint.hpp>
 #include <string>
 
 namespace torc {
@@ -155,4 +155,4 @@ namespace physical {
 } // namespace physical
 } // namespace torc
 
-#endif // TORC_PHYSICAL_XILINX_XILINX_PHYSICAL_TYPES_HPP
+#endif // TORC_PHYSICAL_XILINXPHYSICALTYPES_HPP

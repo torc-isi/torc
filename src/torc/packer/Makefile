@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License along with this program.  If 
 # not, see <http://www.gnu.org/licenses/>.
 
-THIS_DIR = torc/common
+THIS_DIR = torc/packer
 SRC_DIR = ../..
 BOOST_INCLUDE_DIR = /usr/local/include/boost-1_42
 
@@ -35,16 +35,22 @@ OBJS = \
 				Element.o \
 				Primitive.o \
 				PrimitiveSet.o \
+				PrimitiveStructure.o \
+				PrimitiveStructureUnitTest.o \
+				Unpacker.o \
+				UnpackerUnitTest.o \
+				Virtex2PrimitiveStructure.o \
+				Virtex2PrimitiveStructureUnitTest.o \
+				Virtex5PrimitiveStructure.o \
+				Virtex5PrimitiveStructureUnitTest.o \
 				WritePrimitive.o \
 				XdlUnpack.o \
 				XdlUnpackUnitTest.o \
-				testParse.o \
 				ParsePrimitive.o \
 				PrimitivePin.o \
 				RoutingNet.o \
 				CombinationalPath.o \
 				RcFactory.o \
-				UnpackTest.o \
 				$
 
 # dependencies

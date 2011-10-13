@@ -18,8 +18,8 @@
 /// \details The coverage and support of classes is quite limited at present, but may be expanded 
 ///		upon request.
 
-#ifndef TORC_PHYSICAL_OUTPUT_STREAM_HELPERS_HPP
-#define TORC_PHYSICAL_OUTPUT_STREAM_HELPERS_HPP
+#ifndef TORC_PHYSICAL_OUTPUTSTREAMHELPERS_HPP
+#define TORC_PHYSICAL_OUTPUTSTREAMHELPERS_HPP
 
 #include <iosfwd>
 
@@ -52,4 +52,4 @@ namespace physical {
 } // namespace physical
 } // namespace torc
 
-#endif // TORC_PHYSICAL_OUTPUT_STREAM_HELPERS_HPP
+#endif // TORC_PHYSICAL_OUTPUTSTREAMHELPERS_HPP

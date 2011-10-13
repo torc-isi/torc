@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_PARAMETER_MAP_HPP
-#define TORC_GENERIC_PARAMETER_MAP_HPP
+#ifndef TORC_GENERIC_OM_PARAMETERMAP_HPP
+#define TORC_GENERIC_OM_PARAMETERMAP_HPP
 
 #include "torc/generic/om/PointerTypes.hpp"
 #include <string>
@@ -205,4 +205,4 @@ ParameterMap::applyOnOverriddenParameters(
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_OM_PARAMETERMAP_HPP

@@ -209,6 +209,8 @@ Cell::Cell()
      Renamable(),
      Visitable(),
      SelfReferencing<Cell>(),
+     UserDataContainer(),   
+     StatusContainer(),   
      mViewSymTab(),
      mType( eTypeGeneric ) {
 }

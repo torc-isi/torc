@@ -286,6 +286,16 @@ Library::getCells(
   return mCellSymTab.getValues( outCells );
 }
 
+/**
+ * Set the pointer to the simulation info.
+ *
+ * @param[in] inSource Pointer to the simulation info
+ */
+void
+Library::setSimulationInfo(const SimulationInfoSharedPtr & inSource ) throw() {
+    mSimulationInfo = inSource;
+} 
+
 Library::Library()
     : Commentable(),
     Extern(),
@@ -294,9 +304,12 @@ Library::Library()
     Visitable(),
     ParentedObject<Root>(),
     SelfReferencing<Library>(),
+    UserDataContainer(),
+    StatusContainer(),
     mScaleFactors(),
     mLevel(),
-    mCellSymTab() {
+    mCellSymTab(),
+    mSimulationInfo() {
 }
 
 Library::~Library() throw() {

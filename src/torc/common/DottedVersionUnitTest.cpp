@@ -14,10 +14,11 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the DottedVersion unit test.
+/// \brief Unit test for the DottedVersion class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/common/DottedVersion.hpp"
+#include "torc/Version.hpp"
 
 namespace torc {
 namespace common {
@@ -55,6 +56,9 @@ BOOST_AUTO_TEST_CASE(DottedVersionUnitTest) {
 	BOOST_CHECK(version >= DottedVersion(1, 1, 3));
 	BOOST_CHECK(version >= DottedVersion(1, 2, 2));
 	/// \todo Update the list of members tested, and add Doxygen comments to the header file.
+
+	// just for fun, we'll check the Torc version
+	BOOST_CHECK(torc::cTorcVersion >= DottedVersion(0, 9, 0));
 }
 
 BOOST_AUTO_TEST_SUITE_END()

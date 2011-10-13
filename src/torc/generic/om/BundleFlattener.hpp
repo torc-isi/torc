@@ -13,17 +13,17 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_BUNDLE_FLATTENER_HPP
-#define TORC_GENERIC_BUNDLE_FLATTENER_HPP
+#ifndef TORC_GENERIC_OM_BUNDLEFLATTENER_HPP
+#define TORC_GENERIC_OM_BUNDLEFLATTENER_HPP
 
-#include "PointerTypes.hpp"
-#include "DumpRestoreConfig.hpp"
+#include "torc/generic/om/PointerTypes.hpp"
+#include "torc/generic/om/DumpRestoreConfig.hpp"
 
-#include "Bundle.hpp"
-#include "ScalarPort.hpp"
-#include "VectorPort.hpp"
-#include "PortBundle.hpp"
-#include "VisitorApplier.hpp"
+#include "torc/generic/om/Bundle.hpp"
+#include "torc/generic/om/ScalarPort.hpp"
+#include "torc/generic/om/VectorPort.hpp"
+#include "torc/generic/om/PortBundle.hpp"
+#include "torc/generic/om/VisitorApplier.hpp"
 
 namespace torc {
 
@@ -162,4 +162,4 @@ BundleFlattener<_BaseType, _Scalar, _Vector, _VectorBit, _Bundle>
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_OM_BUNDLEFLATTENER_HPP

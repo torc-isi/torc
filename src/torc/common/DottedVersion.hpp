@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the DottedVersion class.
 
-#ifndef TORC_COMMON_DOTTED_VERSION_HPP
-#define TORC_COMMON_DOTTED_VERSION_HPP
+#ifndef TORC_COMMON_DOTTEDVERSION_HPP
+#define TORC_COMMON_DOTTEDVERSION_HPP
 
 #include <boost/cstdint.hpp>
 
@@ -76,4 +76,4 @@ namespace common {
 } // namespace common
 } // namespace torc
 
-#endif // TORC_COMMON_DOTTED_VERSION_HPP
+#endif // TORC_COMMON_DOTTEDVERSION_HPP

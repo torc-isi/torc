@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the DeviceInfo class.
 
-#ifndef TORC_BITSTREAM_STATIC_DEVICE_INFO_HPP
-#define TORC_BITSTREAM_STATIC_DEVICE_INFO_HPP
+#ifndef TORC_BITSTREAM_DEVICEINFO_HPP
+#define TORC_BITSTREAM_DEVICEINFO_HPP
 
 #include <boost/cstdint.hpp>
 #include <string>
@@ -119,4 +119,4 @@ namespace bitstream { class bitstream_static_device_info; }
 } // namespace bitstream
 } // namespace torc
 
-#endif // TORC_BITSTREAM_STATIC_DEVICE_INFO_HPP
+#endif // TORC_BITSTREAM_DEVICEINFO_HPP

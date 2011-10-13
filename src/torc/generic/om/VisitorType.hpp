@@ -13,9 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_VISITOR_TYPE_HPP
-#define TORC_GENERIC_VISITOR_TYPE_HPP
-
+#ifndef TORC_GENERIC_OM_VISITORTYPE_HPP
+#define TORC_GENERIC_OM_VISITORTYPE_HPP
 
 #include "torc/generic/util/Error.hpp"
 
@@ -105,4 +104,4 @@ void runVisitor(_Tp &inoutVisited,
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_OM_VISITORTYPE_HPP

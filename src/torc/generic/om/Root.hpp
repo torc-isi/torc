@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_ROOT_HPP
-#define TORC_GENERIC_ROOT_HPP
+#ifndef TORC_GENERIC_OM_ROOT_HPP
+#define TORC_GENERIC_OM_ROOT_HPP
 
 #include "torc/generic/om/PointerTypes.hpp"
 #include "torc/generic/om/DumpRestoreConfig.hpp"
@@ -40,6 +40,9 @@
 #include "torc/generic/om/SymTab.hpp"
 #include "torc/generic/om/Visitable.hpp"
 #include "torc/generic/om/VisitorType.hpp"
+#include "torc/generic/om/UserDataContainer.hpp"
+#include "torc/generic/om/StatusContainer.hpp"
+
 #ifdef GENOM_SERIALIZATION
 #include "torc/generic/om/DumpRestoreData.hpp"
 #endif //GENOM_SERIALIZATION
@@ -63,7 +66,9 @@ class Root
     public Nameable,
 	public Renamable,
     public Visitable,
-    public SelfReferencing<Root> {
+    public SelfReferencing<Root>, 
+    public UserDataContainer,
+    public StatusContainer {
 
 #ifdef GENOM_SERIALIZATION
     friend class boost::serialization::access;
@@ -448,4 +453,4 @@ restore( const std::string &inName,
 
 } // namespace torc
 
-#endif
+#endif // TORC_GENERIC_OM_ROOT_HPP

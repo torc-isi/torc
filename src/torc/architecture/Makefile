@@ -41,8 +41,6 @@ OBJS = \
 				DDBUnitTest.o \
 				DDBStreamHelper.o \
 				DDBStreamHelperUnitTest.o \
-				DeviceDesignator.o \
-				DeviceDesignatorUnitTest.o \
 				DigestStream.o \
 				DigestStreamUnitTest.o \
 				ExtendedWireInfo.o \
@@ -51,9 +49,25 @@ OBJS = \
 				InstancePinUnitTest.o \
 				OutputStreamHelpers.o \
 				OutputStreamHelpersUnitTest.o \
+				Package.o \
+				PackageUnitTest.o \
+				Pad.o \
+				PadUnitTest.o \
+				PrimitiveConn.o \
+				PrimitiveConnUnitTest.o \
+				PrimitiveDef.o \
+				PrimitiveDefUnitTest.o \
+				PrimitiveElement.o \
+				PrimitiveElementUnitTest.o \
+				PrimitiveElementPin.o \
+				PrimitiveElementPinUnitTest.o \
+				PrimitivePin.o \
+				PrimitivePinUnitTest.o \
 				Segments.o \
 				SegmentsRegressionTest.o \
 				SegmentsUnitTest.o \
+				Site.o \
+				SiteUnitTest.o \
 				Sites.o \
 				SitesUnitTest.o \
 				SiteTypesUnitTest.o \

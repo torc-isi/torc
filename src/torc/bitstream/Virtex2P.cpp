@@ -100,7 +100,6 @@ namespace bitstream {
 		uint32_t frameCount = 0;
 		for(uint32_t blockType = 0; blockType < Virtex2P::eFarBlockTypeCount; blockType++) {
 			for(TileCol col; col < colCount; col++) {
-				bool found = false;
 				columnTypes[col] = eColumnTypeEmpty;
 				TileTypeIndexToColumnType::iterator ttwe = mTileTypeIndexToColumnType.end();
 				TileTypeIndexToColumnType::iterator ttwp = ttwe;
@@ -110,15 +109,13 @@ namespace bitstream {
 						= tiles.getTileInfo(tiles.getTileIndex(row, col));
 					TileTypeIndex tileTypeIndex = tileInfo.getTypeIndex();
 					// determine whether the tile type widths are defined
-					TileTypeIndexToColumnType::iterator ttwp 
-						= mTileTypeIndexToColumnType.find(tileTypeIndex);
+					ttwp = mTileTypeIndexToColumnType.find(tileTypeIndex);
 					if(ttwp != ttwe) {
 						uint32_t width = mColumnDefs[ttwp->second][blockType];
 						frameCount += width;
 						//std::cout << "    " << tiles.getTileTypeName(tileInfo.getTypeIndex()) 
 						// << ": " << width << " (" << frameCount << ")" << std::endl;
 						columnTypes[col] = static_cast<EColumnType>(ttwp->second);
-						found = true;
 						break;
 					}
 				}

@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the DirectoryTree class.
 
-#ifndef TORC_DIRECTORY_TREE_HPP
-#define TORC_DIRECTORY_TREE_HPP
+#ifndef TORC_COMMON_DIRECTORYTREE_HPP
+#define TORC_COMMON_DIRECTORYTREE_HPP
 
 #include <boost/filesystem/convenience.hpp>
 
@@ -65,4 +65,4 @@ namespace common {
 } // namespace common
 } // namespace torc
 
-#endif // TORC_DIRECTORY_TREE_HPP
+#endif // TORC_COMMON_DIRECTORYTREE_HPP

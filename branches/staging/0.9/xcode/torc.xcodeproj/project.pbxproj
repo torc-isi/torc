@@ -2520,9 +2520,9 @@
 		08FB7795FE84155DC02AAC07 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				1236750F11E500830034B204 /* Doxyfile */,
 				12367B0D11E6B5B80034B204 /* Makefile */,
 				123676BC11E52C560034B204 /* torc */,
-				1236750F11E500830034B204 /* Doxyfile */,
 			);
 			name = src;
 			sourceTree = "<group>";

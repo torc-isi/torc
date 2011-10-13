@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the Frame unit test.
+/// \brief Unit test for the Frame class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/bitstream/Frame.hpp"

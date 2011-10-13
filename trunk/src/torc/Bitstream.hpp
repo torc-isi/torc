@@ -24,6 +24,7 @@
 #define TORC_BITSTREAM_HPP
 
 #include "torc/bitstream/Bitstream.hpp"
+#include "torc/bitstream/Factory.hpp"
 #include "torc/bitstream/DeviceInfo.hpp"
 #include "torc/bitstream/OutputStreamHelpers.hpp"
 #include "torc/bitstream/Spartan6Bitstream.hpp"

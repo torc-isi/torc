@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the VirtexPacket unit test.
+/// \brief Unit test for the VirtexPacket class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/bitstream/VirtexPacket.hpp"
@@ -30,7 +30,7 @@ namespace bitstream {
 BOOST_AUTO_TEST_SUITE(bitstream)
 
 /// \brief Unit test for the VirtexPacket class.
-BOOST_AUTO_TEST_CASE(bitstream_virtex_packet) {
+BOOST_AUTO_TEST_CASE(VirtexPacketUnitTest) {
 
 	// build the file paths
 	boost::filesystem::path regressionPath 

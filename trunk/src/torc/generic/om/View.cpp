@@ -404,7 +404,6 @@ View::setPorts(const std::vector< PortSharedPtr > &inSource) throw(Error) {
  * @param[in] inPort Pointer to port to be added.
  *
  * @exception Error Could not add port, because Port name is empty
- * @exception Error Could not add port, because Port name already exists
  */
 void
 View::addPort(
@@ -486,6 +485,142 @@ View::setNonNetlistViewData( const std::string &inData) throw() {
     mNonNetlistViewData = inData;
 }
 
+/**
+ * Set the vector of permutables to this view. It will lead to a linear traversal on the list. So usage of this API is not recommended.
+ *
+ * @param[in] inSource Vector of permutables to this view.
+ * @exception Error Could not add permutable because pointer to the permutable does not exist
+ */
+void
+View::setPermutables(
+        const std::vector< PermutableSharedPtr > & inSource) throw(Error) {
+    std::vector< PermutableSharedPtr >::const_iterator entry = inSource.begin();
+    std::vector< PermutableSharedPtr >::const_iterator end = inSource.end();
+    for(; entry != end; ++entry )
+    {
+        try
+        {
+            addPermutable( *entry );
+        }
+        catch( Error &e )
+        {
+            e.setCurrentLocation(
+                __FUNCTION__, __FILE__, __LINE__ );
+            throw;
+        }
+    }
+}
+
+/**
+ * Add a permutable to this view.
+ *
+ * @param[in] inPermutable Pointer to permutable to be added.
+ * @exception Error Could not add permutable because pointer to the permutable does not exist
+ */
+bool
+View::addPermutable(
+        const PermutableSharedPtr & inPermutable ) throw(Error) {
+    if( !inPermutable )
+    {
+        Error e( eMessageIdErrorPointerToItemDoesNotExist,
+            __FUNCTION__, __FILE__, __LINE__ );
+        e.saveContextData("Pointer to the permutable object does not exist", inPermutable);
+        throw e;
+    }
+    if( inPermutable ) {
+        mPermutables.push_back( inPermutable );
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+/**
+ * Set the vector of joined info for this view.
+ *
+ * @param[in] inSource Vector of joined info to this view.
+ * @exception Error Could not add joined info because pointer to the joined info does not exist
+ */
+void
+View::setInterfaceJoinedInfos( const std::vector< InterfaceJoinedInfoSharedPtr >
+     & inSource ) throw(Error) {
+    std::vector< InterfaceJoinedInfoSharedPtr >::const_iterator entry = inSource.begin();
+    std::vector< InterfaceJoinedInfoSharedPtr >::const_iterator end = inSource.end();
+    for(; entry != end; ++entry )
+    {
+        try
+        {
+            addInterfaceJoinedInfo( *entry );
+        }
+        catch( Error &e )
+        {
+            e.setCurrentLocation(
+                __FUNCTION__, __FILE__, __LINE__ );
+            throw;
+        }
+    }
+}
+
+/**
+ * Add a joined info to this view.
+ *
+ * @param[in] inJoinedInfo Pointer to joined info to be added.
+ * @exception Error Could not add joined info because pointer to the joined info does not exist
+ */
+bool
+View::addInterfaceJoinedInfo(
+    const InterfaceJoinedInfoSharedPtr & inJoinedInfo ) throw(Error) {
+    if( !inJoinedInfo )
+    {
+        Error e( eMessageIdErrorPointerToItemDoesNotExist,
+            __FUNCTION__, __FILE__, __LINE__ );
+        e.saveContextData("Pointer to the joined info object does not exist", inJoinedInfo);
+        throw e;
+    }
+    if( inJoinedInfo ) {
+        mInterfaceJoinedInfos.push_back( inJoinedInfo );
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+/**
+ * Set the attributes of a view interface. 
+ * Attributes include designator, simulate, timing, comments, userdata etc.
+ * This will decompile within (contents ...) construct.
+ *
+ * @param[in] inSource Pointer to InterfaceAttributes object.
+ */
+void
+View::setInterfaceAttributes(
+        const InterfaceAttributesSharedPtr & inSource) throw() {
+    mAttributes = inSource;
+}
+
+/**
+ * Set the pointer to the simulate.
+ *
+ * @param[in] inSource Pointer to the simulate
+ */
+void
+View::setSimulate(const SimulateSharedPtr & inSource ) throw() {
+    mSimulate = inSource;
+}
+
+/**
+ * Set the pointer to the timing object
+ *
+ * @param[in] inSource Pointer to the timing object
+ */
+void
+View::setTiming(const TimingSharedPtr & inSource ) throw() {
+    mTiming = inSource;
+}
+
+
 View::View()
     : Commentable(),
     Extern(),
@@ -495,12 +630,19 @@ View::View()
     Renamable(),
     SelfReferencing<View>(),
     Visitable(),
+    UserDataContainer(),
+    StatusContainer(),
     mParameters( new ParameterMap() ),
     mMyContext( mParameters->getNewContext() ),
     mInstanceSymTab(),
     mNetSymTab(),
     mPortSymTab(),
-    mType(eTypeNetlist) {
+    mType(eTypeNetlist),
+    mPermutables(),
+    mInterfaceJoinedInfos(),
+    mAttributes(),
+    mSimulate(),
+    mTiming() {
 }
 
 View::~View() throw() {
@@ -514,6 +656,8 @@ View::~View() throw() {
     mNetSymTab.clear();
     mPortSymTab.clear();
     mInstanceSymTab.clear();
+    mPermutables.clear();
+    mInterfaceJoinedInfos.clear();
 }
 
 #ifdef GENOM_SERIALIZATION

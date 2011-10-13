@@ -13,17 +13,17 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_PORT_REF_CREATOR_HPP
-#define TORC_GENERIC_PORT_REF_CREATOR_HPP
+#ifndef TORC_GENERIC_OM_PORTREFCREATOR_HPP
+#define TORC_GENERIC_OM_PORTREFCREATOR_HPP
 
-#include "PointerTypes.hpp"
-#include "DumpRestoreConfig.hpp"
+#include "torc/generic/om/PointerTypes.hpp"
+#include "torc/generic/om/DumpRestoreConfig.hpp"
 
-#include "ScalarPort.hpp"
-#include "VectorPort.hpp"
-#include "PortBundle.hpp"
-#include "ObjectFactory.hpp"
-#include "VisitorApplier.hpp"
+#include "torc/generic/om/ScalarPort.hpp"
+#include "torc/generic/om/VectorPort.hpp"
+#include "torc/generic/om/PortBundle.hpp"
+#include "torc/generic/om/ObjectFactory.hpp"
+#include "torc/generic/om/VisitorApplier.hpp"
 
 namespace torc {
 
@@ -177,4 +177,4 @@ PortRefCreator<_ReturnType>::setupCreatedPort( const PortSharedPtr &port,
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_OM_PORTREFCREATOR_HPP

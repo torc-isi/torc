@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_ERROR_H
-#define TORC_GENERIC_ERROR_H
+#ifndef TORC_GENERIC_UTIL_ERROR_HPP
+#define TORC_GENERIC_UTIL_ERROR_HPP
 
 #include <map>
 #include <string>
@@ -206,4 +206,4 @@ Error::getErrorMessageId() const throw() {
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_UTIL_ERROR_HPP

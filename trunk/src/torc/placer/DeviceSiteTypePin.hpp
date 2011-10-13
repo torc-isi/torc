@@ -56,6 +56,3 @@ namespace placer {
 } // namespace placer
 } // namespace torc
 #endif // TORC_PLACER_DEVICESITETYPEPIN_HPP
-
-
-

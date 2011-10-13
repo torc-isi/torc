@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the DeviceInfo unit test.
+/// \brief Unit test for the DeviceInfo class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/bitstream/DeviceInfo.hpp"
@@ -26,7 +26,7 @@ BOOST_AUTO_TEST_SUITE(bitstream)
 
 
 /// \brief Unit test for the DeviceInfo class.
-BOOST_AUTO_TEST_CASE(bitstream_static_device_info) {
+BOOST_AUTO_TEST_CASE(DeviceInfoUnitTest) {
 
 	BOOST_REQUIRE(true);
 

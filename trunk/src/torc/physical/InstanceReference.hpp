@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the InstanceReference class.
 
-#ifndef TORC_PHYSICAL_INSTANCE_REFERENCE_HPP
-#define TORC_PHYSICAL_INSTANCE_REFERENCE_HPP
+#ifndef TORC_PHYSICAL_INSTANCEREFERENCE_HPP
+#define TORC_PHYSICAL_INSTANCEREFERENCE_HPP
 
 #include <string>
 #include <boost/smart_ptr.hpp>
@@ -89,4 +89,4 @@ namespace physical {
 } // namespace physical
 } // namespace torc
 
-#endif // TORC_PHYSICAL_INSTANCE_REFERENCE_HPP
+#endif // TORC_PHYSICAL_INSTANCEREFERENCE_HPP

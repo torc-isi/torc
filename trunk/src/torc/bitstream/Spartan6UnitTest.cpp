@@ -14,12 +14,12 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the Spartan6 unit test.
+/// \brief Unit test for the Spartan6 class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/bitstream/Spartan6.hpp"
 #include "torc/architecture/DDB.hpp"
-#include "torc/architecture/DeviceDesignator.hpp"
+#include "torc/common/DeviceDesignator.hpp"
 #include "torc/bitstream/OutputStreamHelpers.hpp"
 #include "torc/common/TestHelpers.hpp"
 #include "torc/common/DirectoryTree.hpp"
@@ -33,7 +33,7 @@ BOOST_AUTO_TEST_SUITE(bitstream)
 
 
 /// \brief Unit test for the Spartan6 class.
-BOOST_AUTO_TEST_CASE(bitstream_spartan6) {
+BOOST_AUTO_TEST_CASE(Spartan6UnitTest) {
 
 	// enums tested:
 	//		EPacket
@@ -140,13 +140,13 @@ BOOST_AUTO_TEST_CASE(bitstream_spartan6) {
 	Spartan6 bitstream;
 	bitstream.read(fileStream, false);
 	// write the bitstream digest to the console
-	std::cout << bitstream << std::endl;
+	//std::cout << bitstream << std::endl;
 
 	std::string designName = bitstream.getDesignName();
 	std::string deviceName = bitstream.getDeviceName();
 	std::string designDate = bitstream.getDesignDate();
 	std::string designTime = bitstream.getDesignTime();
-	torc::architecture::DeviceDesignator deviceDesignator(deviceName);
+	torc::common::DeviceDesignator deviceDesignator(deviceName);
 	std::cout << "family of " << deviceName << " is " << deviceDesignator.getFamily() << std::endl;
 
 	// write the bitstream back out

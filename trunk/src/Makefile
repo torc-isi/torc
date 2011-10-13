@@ -13,10 +13,24 @@
 # You should have received a copy of the GNU General Public License along with this program.  If 
 # not, see <http://www.gnu.org/licenses/>.
 
+ifdef ILOG_LICENSE_FILE
+	# CPLEXDIR and CONCERTDIR should be defined as environment variables
+	#CPLEX_CPLEXDIR = /usr/local/IBM/ILOG/CPLEX_Studio_AcademicResearch122/cplex
+	#CPLEX_CONCERTDIR = /usr/local/IBM/ILOG/CPLEX_Studio_AcademicResearch122/concert
+	# link options
+	CPLEX_LIBFORMAT = static_pic
+	CPLEX_SYSTEM = x86-64_sles10_4.1
+	CPLEX_CPLEXLIBDIR = $(CPLEX_CPLEXDIR)/lib/$(CPLEX_SYSTEM)/$(CPLEX_LIBFORMAT)
+	CPLEX_CONCERTLIBDIR = $(CPLEX_CONCERTDIR)/lib/$(CPLEX_SYSTEM)/$(CPLEX_LIBFORMAT)
+	CPLEX_CCLNFLAGS = -L$(CPLEX_CPLEXLIBDIR) -lilocplex -lcplex -L$(CPLEX_CONCERTLIBDIR) \
+		-lconcert -lm -pthread
+endif
+
 ifneq ($(TORC_X), 1)
 LDFLAGS = \
 				-L/usr/local/lib64 \
 				-L/usr/local/lib \
+				$(CPLEX_CCLNFLAGS) \
 				-dead_strip \
 				-lboost_filesystem \
 				-lboost_regex \
@@ -30,8 +44,9 @@ LDTESTFLAGS = \
 				$
 else
 LDFLAGS = \
-				-arch x86_64 \
+				-m64 \
 				-L/usr/local/lib \
+				$(CPLEX_CCLNFLAGS) \
 				-dead_strip \
 				-lboost_filesystem \
 				-lboost_regex \
@@ -47,6 +62,7 @@ endif
 
 
 REAL_OBJECTS = \
+				@torc/RealObjectFileList \
 				@torc/architecture/RealObjectFileList \
 				@torc/bitstream/RealObjectFileList \
 				@torc/bitstream/build/RealObjectFileList \
@@ -66,6 +82,7 @@ REAL_OBJECTS = \
 				$
 
 TEST_OBJECTS = \
+				@torc/TestObjectFileList \
 				@torc/architecture/TestObjectFileList \
 				@torc/bitstream/TestObjectFileList \
 				@torc/bitstream/build/TestObjectFileList \
@@ -108,6 +125,9 @@ PHYSICAL_REFERENCES = \
 				DesignUnitTest.reference.xdl \
 				$
 
+PLACER_REFERENCES = \
+				$
+
 ROUTER_REFERENCES = \
 				TraceRegressionTest.Virtex5.xdl \
 				TraceRegressionTest.VirtexTbuf.xdl \
@@ -140,6 +160,14 @@ architecture_example: torc references
 				$(LDFLAGS) \
 				-o $@ \
 				$
+
+#gr_example: torc references
+#	$(CC) \
+#				$(REAL_OBJECTS) \
+#				torc/router/GlobalRouter/GlobalRouterExample.o \
+#				$(LDFLAGS) \
+#				-o gr_example \
+#				$
 
 # make the example example executable
 bitstream_example: torc references
@@ -215,6 +243,7 @@ references: \
 				${BITSTREAM_REFERENCES:%=regression/%} \
 				${EXAMPLE_REFERENCES:%=regression/%} \
 				${PHYSICAL_REFERENCES:%=regression/%} \
+				${PLACER_REFERENCES:%=regression/%} \
 				${ROUTER_REFERENCES:%=regression/%} \
 				$
 

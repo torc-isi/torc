@@ -19,8 +19,6 @@
 
 #include "torc/generic/om/DumpRestoreConfig.hpp"
 
-#include <vector>
-
 //BOOST
 #ifdef GENOM_SERIALIZATION
 #include <boost/archive/binary_iarchive.hpp>
@@ -41,15 +39,31 @@ namespace generic {
 
 /**
  * Create a port list.
+ *
+ * @param[in] inPorts List of ports to this composition.
+ * @param[in] inPortReferences List of port references to this composition.
+ *
  * @return Pointer to created  port list.
  */
 
 PortListSharedPtr
-PortList::Factory::newPortListPtr( ) throw(Error) {
+PortList::Factory::newPortListPtr( const std::list< PortSharedPtr > & inPorts,
+    const std::list< PortReferenceSharedPtr > & inPortReferences ) throw(Error) {
     try
     {
         PortListSharedPtr newPortList;
         create( newPortList );
+        std::list< PortSharedPtr >::const_iterator portIt = inPorts.begin();
+        for( ; portIt != inPorts.end(); portIt++ )
+        {
+            newPortList->addChildPort( *portIt );
+        }
+        std::list< PortReferenceSharedPtr >::const_iterator portRefIt 
+                                    = inPortReferences.begin();
+        for( ; portRefIt != inPortReferences.end(); portRefIt++ )
+        {
+            newPortList->addChildPortReference( *portRefIt );
+        }
         return newPortList;
     }
     catch( Error &e )
@@ -98,8 +112,7 @@ PortList::connectElementToNet(
             {
                 if( 1 == inType->getSize() )
                 {
-                    Connectable::Connection conn
-                                        = inType->connect( inNet );
+                    inType->connect( inNet );
                     inoutCurrentWidth++;
                 }
                 break;
@@ -236,7 +249,7 @@ PortList::disconnect(
 size_t
 PortList::getSize() const throw() {
     size_t size = 0;
-    for( std::list<PortListElement>::const_iterator it
+    for( std::list< PortListElement >::const_iterator it
             = mElements.begin(); it != mElements.end(); ++ it )
     {
         switch( (*it).getType() )

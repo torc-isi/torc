@@ -13,9 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_OBJECT_VISITOR_HPP
-#define TORC_GENERIC_OBJECT_VISITOR_HPP
-
+#ifndef TORC_GENERIC_DECOMPILER_OBJECTVISITOR_HPP
+#define TORC_GENERIC_DECOMPILER_OBJECTVISITOR_HPP
 
 #include "torc/generic/om/Root.hpp"
 #include "torc/generic/om/Library.hpp"
@@ -42,6 +41,20 @@
 #include "torc/generic/om/VectorPortBitReference.hpp"
 #include "torc/generic/om/PortBundleReference.hpp"
 #include "torc/generic/om/PortList.hpp"
+#include "torc/generic/om/PortListAlias.hpp"
+#include "torc/generic/om/Status.hpp"
+#include "torc/generic/om/Permutable.hpp"
+#include "torc/generic/om/InterfaceJoinedInfo.hpp"
+#include "torc/generic/om/SimulationInfo.hpp"
+#include "torc/generic/om/Simulate.hpp"
+#include "torc/generic/om/LogicalResponse.hpp"
+#include "torc/generic/om/LogicValue.hpp"
+#include "torc/generic/om/LogicElement.hpp"
+#include "torc/generic/om/WaveValue.hpp"
+#include "torc/generic/om/Apply.hpp"
+#include "torc/generic/om/Timing.hpp"
+#include "torc/generic/om/Event.hpp"
+#include "torc/generic/om/ForbiddenEvent.hpp"
 
 namespace torc {
 
@@ -75,7 +88,21 @@ class ObjectVisitor
     public VectorPortReference::Visitor,
     public VectorPortBitReference::Visitor,
     public PortBundleReference::Visitor,
-    public PortList::Visitor {
+    public PortList::Visitor,
+    public PortListAlias::Visitor,
+    public Status::Visitor,
+    public Permutable::Visitor,
+    public InterfaceJoinedInfo::Visitor,
+    public SimulationInfo::Visitor,
+    public Simulate::Visitor,
+    public LogicalResponse::Visitor,
+    public LogicValue::Visitor,
+    public LogicElement::Visitor,
+    public WaveValue::Visitor,
+    public Apply::Visitor,
+    public Timing::Visitor,
+    public Event::Visitor,
+    public ForbiddenEvent::Visitor {
 
   protected:
     ObjectVisitor();
@@ -87,4 +114,4 @@ class ObjectVisitor
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_DECOMPILER_OBJECTVISITOR_HPP

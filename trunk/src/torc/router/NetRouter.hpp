@@ -406,11 +406,11 @@ namespace router {
 		/// \brief Move the source terminal of a net in the sinkwards direction.
 		Tilewire expandSourceTerminal(Tilewire inSource, RouteNodePtrVector& outRoute) {
 			ArcVector arcs;
-			bool movingsource = false;
+			//bool movingsource = false;
 			Tilewire tempsource = inSource;
 			mDB.expandSegmentSinks(inSource, arcs);
 			while (arcs.size() == 1) {
-				movingsource = true;
+				//movingsource = true;
 				RouteNode* node = new RouteNode(arcs[0], 0, 0, 0, 0);
 				outRoute.push_back(node);
 				mDB.useArc(arcs[0]);
@@ -424,11 +424,11 @@ namespace router {
 		/// \brief Move the sink terminal of a net in the sourcewards direction.
 		Tilewire expandSinkTerminal(Tilewire inSink, RouteNodePtrVector& outRoute) {
 			ArcVector arcs;
-			bool movingsink = false;
+			//bool movingsink = false;
 			Tilewire tempsink = inSink;
 			mDB.expandSegmentSources(inSink, arcs);
 			while (arcs.size() == 1) {
-				movingsink = true;
+				//movingsink = true;
 				RouteNode* node = new RouteNode(arcs[0], 0, 0, 0, 0);
 				outRoute.push_back(node);
 				mDB.useArc(arcs[0]);

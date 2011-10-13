@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the InstancePin unit test.
+/// \brief Unit test for the InstancePin class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/architecture/InstancePin.hpp"
@@ -29,7 +29,7 @@ namespace architecture {
 BOOST_AUTO_TEST_SUITE(architecture)
 
 /// \brief Unit test for the InstancePin class.
-BOOST_AUTO_TEST_CASE(InstanceUnitTest) {
+BOOST_AUTO_TEST_CASE(InstancePinUnitTest) {
 	// create objects to work with
 	torc::physical::InstanceSharedPtr instancePtr 
 		= torc::physical::Factory::newInstancePtr("name", "type", "tile", "site");

@@ -14,13 +14,13 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the SpartanBitstream unit test.
+/// \brief Unit test for the SpartanBitstream class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/bitstream/SpartanBitstream.hpp"
 #include "torc/bitstream/SpartanPacket.hpp"
 #include "torc/bitstream/Spartan3E.hpp"
-#include "torc/architecture/DeviceDesignator.hpp"
+#include "torc/common/DeviceDesignator.hpp"
 #include "torc/bitstream/OutputStreamHelpers.hpp"
 #include "torc/common/TestHelpers.hpp"
 #include "torc/common/DirectoryTree.hpp"
@@ -33,7 +33,7 @@ namespace bitstream {
 BOOST_AUTO_TEST_SUITE(bitstream)
 
 /// \brief Unit test for the SpartanBitstream class.
-BOOST_AUTO_TEST_CASE(crc_spartan) {
+BOOST_AUTO_TEST_CASE(SpartanBitstreamCrcUnitTest) {
 	std::fstream fileStream("Spartan3EUnitTest.reference.bit", std::ios::binary | std::ios::in);
 	Spartan3E bitstream;
 	bitstream.read(fileStream, false);
@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE(crc_spartan) {
 	BOOST_REQUIRE(true);
 }
 /// \brief Unit test for the SpartanBitstream class.
-BOOST_AUTO_TEST_CASE(bitstream_spartan_bitstream) {
+BOOST_AUTO_TEST_CASE(SpartanBitstreamUnitTest) {
 
 	// build the file paths
 	boost::filesystem::path regressionPath 
@@ -68,7 +68,7 @@ BOOST_AUTO_TEST_CASE(bitstream_spartan_bitstream) {
 	SpartanBitstream bitstream;
 	// prepare the bitstream header
 	bitstream.setDesignName("Spartan3EUnitTest.reference.ncd;UserID=0xFFFFFFFF");
-	bitstream.setDeviceName("xc3s500e4cp132");
+	bitstream.setDeviceName("xc3s500ecp132");
 	bitstream.setDesignDate("2010/10/08");
 	bitstream.setDesignTime("15:06:11");
 
@@ -80,7 +80,7 @@ BOOST_AUTO_TEST_CASE(bitstream_spartan_bitstream) {
 	bitstream.insert(bitstream.end(), 1, dummy);
 	// sync
 	bitstream.push_back(SpartanPacket(Spartan3E::eSynchronizationSync));
-	bitstream.push_back(nop);
+	//bitstream.push_back(nop);
 	// reset CRC command
 	bitstream.push_back(SpartanPacket::makeType1Write(Spartan3E::eRegisterCMD, Spartan3E::eCommandRCRC));
 	// FLR command
@@ -158,12 +158,12 @@ BOOST_AUTO_TEST_CASE(bitstream_spartan_bitstream) {
 	outputStream.flush();
 
 	// read the bitstream
-	std::fstream fileStream2(generatedPath.string().c_str(), std::ios::binary | std::ios::in);
-	BOOST_REQUIRE(fileStream2.good());
-	Spartan3E bitstream2;
-	bitstream2.read(fileStream2, false);
+	//std::fstream fileStream2(generatedPath.string().c_str(), std::ios::binary | std::ios::in);
+	//BOOST_REQUIRE(fileStream2.good());
+	//Spartan3E bitstream2;
+	//bitstream2.read(fileStream2, false);
 	// write the bitstream digest to the console
-	std::cout << bitstream2 << std::endl;
+	//std::cout << bitstream2 << std::endl;
 
 	// compare the reference and generated XDL
 	BOOST_CHECK(torc::common::fileContentsAreEqual(generatedPath, referencePath));

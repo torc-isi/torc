@@ -13,23 +13,35 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_PORT_LIST_H
-#define TORC_GENERIC_PORT_LIST_H
+#ifndef TORC_GENERIC_OM_PORTLIST_HPP
+#define TORC_GENERIC_OM_PORTLIST_HPP
 
 //BOOST
 #ifdef GENOM_SERIALIZATION
 #include <boost/serialization/access.hpp>
 #endif //GENOM_SERIALIZATION
 
+#include <list>
+
 #include "torc/generic/om/PointerTypes.hpp"
 #include "torc/generic/om/DumpRestoreConfig.hpp"
 #include "torc/generic/om/Connectable.hpp"
 #include "torc/generic/om/FactoryType.hpp"
 #include "torc/generic/om/VisitorType.hpp"
+#include "torc/generic/om/PortElement.hpp"
+
+namespace torc { namespace generic { class PortElement; }  }
 
 namespace torc {
 
 namespace generic {
+
+/**
+ * @brief Represents an ordered list of port references.
+ *
+ * The PortList class represents an ordered list of port references. 
+ * Such objects in EDIF are declard using the (portList portRefName1 portRefName2 ... ) syntax.
+ */
 
 class PortList
     : public Connectable,
@@ -42,79 +54,8 @@ class PortList
     friend class FactoryType<PortList>;
 
   public:
+    typedef PortElement PortListElement;
 
-    class PortListElement {
-#ifdef GENOM_SERIALIZATION
-        friend class boost::serialization::access;
-#endif //GENOM_SERIALIZATION
-
-
-        public:
-            enum ElementType {
-                eElementTypePort,
-                eElementTypePortReference
-            };
-
-            ElementType
-            getType() const throw() {
-                return mType;
-            }
-
-            PortSharedPtr
-            getPort() const throw() {
-                return mPort;
-            }
-
-            PortReferenceSharedPtr
-            getPortReference() const throw() {
-                return mPortReference;
-            }
-        
-        public:
-            PortListElement( const PortSharedPtr &inPort )
-                :mType( eElementTypePort ),
-                mPort( inPort ),
-                mPortReference() {
-            }
-            PortListElement(
-                    const PortReferenceSharedPtr &inPortRef )
-                :mType( eElementTypePortReference ),
-                mPort( ),
-                mPortReference( inPortRef ) {
-            }
-
-            PortListElement( const PortListElement &inRhs )
-                :mType( inRhs.mType ),
-                mPort( inRhs.mPort ),
-                mPortReference( inRhs.mPortReference ) {
-            }
-
-            PortListElement &
-            operator =( const PortListElement &inRhs ) {
-                if( this == &inRhs )
-                {
-                    mType = inRhs.mType;
-                    mPort = inRhs.mPort;
-                    mPortReference = inRhs.mPortReference;
-                }
-                return *this;
-            }
-
-        private:
-            PortListElement()
-                :mType( eElementTypePort ),
-                mPort(),
-                mPortReference() {
-            }
-
-#ifdef GENOM_SERIALIZATION
-            template<class Archive> void
-            serialize( Archive &ar, unsigned int );
-#endif
-            ElementType mType;
-            PortSharedPtr mPort;
-            PortReferenceSharedPtr mPortReference;    
-    };
     typedef VisitorType<PortList> Visitor;
 
     /**
@@ -126,36 +67,85 @@ class PortList
             using FactoryType<PortList>::create;
         /**
          * Create a port list.
-         * @return Pointer to created single instance.
+         *
+         * @param[in] inPorts List of ports to this composition.
+         * @param[in] inPortReferences List of port references to this composition.
+         *
+         * @return Pointer to created port list.
          */
-            virtual PortListSharedPtr
-            newPortListPtr( ) throw(Error);
+        virtual PortListSharedPtr
+        newPortListPtr( const std::list< PortSharedPtr > & inPorts,
+            const std::list< PortReferenceSharedPtr > & inPortReferences ) throw(Error);
     };
 
+    /**
+     * Recive a visitor to this class. The visit method of the visitor is called
+     * and a reference to this object is passed as a parameter. It has to be noted however,
+     * that a dynamic_cast is performed inside this method. If the cast fails,
+     * an appropriate exception is thrown by this method. This sitation can arise when
+     * the passed Visitor object does not inherit from the appropriate visitor specialization.
+     * See Visitor documentation for more details.
+     *
+     * @param[in,out] inoutVisitor A reference to the visitor object
+     * @exception Error Visitor type inappropriate for visiting this object
+     * or any other error thrown by the Visitor::throw() method.
+     */
     virtual void
     accept(BaseVisitor & inoutVisitor) throw(Error);
 
-     virtual Connection
+    /**
+     * Connect a Net to this object.
+     *
+     * @param[in] inNet A pointer to the Net object that needs to be connected
+     * @return A connection that has been established. This can be used later for disconnection.
+     */
+    virtual Connection
     connect(const NetSharedPtr & inNet) throw(Error);
 
     using Connectable::disconnect;
 
+    /**
+    * Disconnect a Net from this object.
+    *
+    * @param[in] inConnection A connection as returned by the connect() method
+    * @exception Error Provided connection is invalid
+    */
+
     virtual void
     disconnect(const Connection & inConnection) throw(Error);
 
+    /**
+     * Get the total number of bits of the composition
+     * @return Number of bits
+     */
     size_t
     getSize() const throw();
 
+    /**
+     * Add a port to the port list.
+     *
+     * @param[in] inPort Pointer to port to be added.
+     */
     void
     addChildPort( const PortSharedPtr &inPort ) throw();
 
+    /**
+     * Add a port reference to the port list.
+     *
+     * @param[in] inPortRef Pointer to port reference to be added.
+     */
     void
     addChildPortReference(
             const PortReferenceSharedPtr &inPortRef ) throw();
 
+    /**
+     * Get all the children of this composition
+     * @return[out] outPorts List containing all children 
+     */
     void
     getChildren( std::list< PortListElement > &outPorts ) throw();
 
+    virtual
     ~PortList() throw();
 
   protected:
@@ -180,4 +170,4 @@ class PortList
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_OM_PORTLIST_HPP

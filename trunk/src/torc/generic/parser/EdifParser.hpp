@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_EDIF_PARSER_HPP
-#define TORC_GENERIC_EDIF_PARSER_HPP
+#ifndef TORC_GENERIC_PARSER_EDIFPARSER_HPP
+#define TORC_GENERIC_PARSER_EDIFPARSER_HPP
 
 //BOOST
 #include <boost/shared_ptr.hpp>
@@ -84,4 +84,4 @@ class EdifParser
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_PARSER_EDIFPARSER_HPP

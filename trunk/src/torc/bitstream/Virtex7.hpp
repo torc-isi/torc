@@ -7,16 +7,19 @@
 // License, or (at your option) any later version.
 // 
 // This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See 
+// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See 
 // the GNU General Public License for more details.
 // 
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
+/// \file
+/// \brief Header for the Virtex7 class.
+
 #ifndef TORC_BITSTREAM_VIRTEX7_HPP
 #define TORC_BITSTREAM_VIRTEX7_HPP
 
-#include <boost/integer.hpp>
+#include <boost/cstdint.hpp>
 #include <boost/filesystem.hpp>
 #include "torc/bitstream/VirtexBitstream.hpp"
 #include <map>
@@ -27,15 +30,15 @@ namespace torc {
 namespace bitstream {
 
 //// To include once the UnitTest is set up
-namespace bitstream { class bitstream_virtex7; }    
-namespace bitstream { class bitstream_virtex7_far; }    
+namespace bitstream { class Virtex7UnitTest; }    
+namespace bitstream { class Virtex7FarUnitTest; }    
 namespace bitstream { void testVirtex7Device(const std::string& inDeviceName,             
 	const boost::filesystem::path& inWorkingPath); }
   
 	/// \brief Virtex7 bitstream.   
 	class Virtex7 : public VirtexBitstream {      
-		friend class torc::bitstream::bitstream::bitstream_virtex7;      
-		friend class torc::bitstream::bitstream::bitstream_virtex7_far;      
+		friend class torc::bitstream::bitstream::Virtex7UnitTest;      
+		friend class torc::bitstream::bitstream::Virtex7FarUnitTest;      
 		friend void torc::bitstream::bitstream::testVirtex7Device(const std::string& inDeviceName,
 			const boost::filesystem::path& inWorkingPath); 
 	protected:
@@ -226,4 +229,4 @@ namespace bitstream { void testVirtex7Device(const std::string& inDeviceName,
 } // namespace torc
 
 
-#endif //TORC_BITSTREAM_VIRTEX7_HPP
+#endif // TORC_BITSTREAM_VIRTEX7_HPP

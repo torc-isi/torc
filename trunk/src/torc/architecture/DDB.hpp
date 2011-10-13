@@ -27,8 +27,8 @@
 #include "torc/architecture/ArcUsage.hpp"
 #include "torc/architecture/WireUsage.hpp"
 #include "torc/architecture/ExtendedWireInfo.hpp"
-#include "torc/architecture/DeviceDesignator.hpp"
 #include "torc/architecture/DDBStreamHelper.hpp"
+#include "torc/common/DeviceDesignator.hpp"
 #include <string>
 #include <map>
 
@@ -95,7 +95,8 @@ namespace architecture {
 		DDB(const string& inDeviceName, const string& inPackageName = "") : mArcUsage(mTiles), 
 			mWireUsage(mTiles) { initialize(inDeviceName, inPackageName); }
 		/// \brief Public constructor.
-		DDB(const DeviceDesignator& inDeviceDesignator) : mArcUsage(mTiles), mWireUsage(mTiles) {
+		DDB(const torc::common::DeviceDesignator& inDeviceDesignator) : mArcUsage(mTiles), 
+			mWireUsage(mTiles) {
 			initialize(inDeviceDesignator.getDeviceName(), inDeviceDesignator.getDevicePackage());
 		}
 	// iterators

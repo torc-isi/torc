@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the WireInfo class.
 
-#ifndef TORC_ARCHITECTURE_WIRE_INFO_HPP
-#define TORC_ARCHITECTURE_WIRE_INFO_HPP
+#ifndef TORC_ARCHITECTURE_WIREINFO_HPP
+#define TORC_ARCHITECTURE_WIREINFO_HPP
 
 #include "torc/architecture/XilinxDatabaseTypes.hpp"
 #include "torc/architecture/Array.hpp"
@@ -165,4 +165,4 @@ namespace architecture {
 } // namespace architecture
 } // namespace torc
 
-#endif // TORC_ARCHITECTURE_WIRE_INFO_HPP
+#endif // TORC_ARCHITECTURE_WIREINFO_HPP

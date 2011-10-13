@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_SCALE_FACTOR_HPP
-#define TORC_GENERIC_SCALE_FACTOR_HPP
+#ifndef TORC_GENERIC_OM_SCALEFACTOR_HPP
+#define TORC_GENERIC_OM_SCALEFACTOR_HPP
 
 #include "torc/generic/om/DumpRestoreConfig.hpp"
 
@@ -113,4 +113,4 @@ ScaleFactor::getSiValue() const throw() {
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_OM_SCALEFACTOR_HPP

@@ -14,13 +14,13 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the SpartanBitstream unit test.
+/// \brief Unit test for the SpartanBitstream class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/bitstream/Spartan6Bitstream.hpp"
 #include "torc/bitstream/Spartan6Packet.hpp"
 #include "torc/bitstream/Spartan6.hpp"
-#include "torc/architecture/DeviceDesignator.hpp"
+#include "torc/common/DeviceDesignator.hpp"
 #include "torc/bitstream/OutputStreamHelpers.hpp"
 #include "torc/common/TestHelpers.hpp"
 #include "torc/common/DirectoryTree.hpp"
@@ -33,7 +33,7 @@ namespace bitstream {
 BOOST_AUTO_TEST_SUITE(bitstream)
 
 /// \brief Unit test for the Spartan6Bitstream class.
-BOOST_AUTO_TEST_CASE(crc_spartan16) {
+BOOST_AUTO_TEST_CASE(Spartan6BitstreamCrcUnitTest) {
 	std::fstream fileStream("Spartan6UnitTest.reference.bit", std::ios::binary | std::ios::in);
 	Spartan6 bitstream;
 	bitstream.read(fileStream, false);
@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE(crc_spartan16) {
 	BOOST_REQUIRE(true);
 }
 /// \brief Unit test for the Spartan6Bitstream class.
-BOOST_AUTO_TEST_CASE(bitstream_spartan16_bitstream) {
+BOOST_AUTO_TEST_CASE(Spartan6BistreamUnitTest) {
 
 	// build the file paths
 	boost::filesystem::path regressionPath 

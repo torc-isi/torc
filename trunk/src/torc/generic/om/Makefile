@@ -29,33 +29,49 @@ CCFLAGS = \
 
 # object files
 OBJS = \
+				Apply.o \
 				Cell.o \
+				Cloning.o \
 				Commentable.o \
 				Connectable.o \
 				ConnectionHandler.o \
 				Design.o \
 				DumpRestoreData.o \
 				EdifVersion.o \
+				Event.o \
 				Extern.o \
 				Flattening.o \
+				ForbiddenEvent.o \
 				Instance.o \
 				InstanceArray.o \
 				InstanceArrayMember.o \
+				InterfaceAttributes.o \
+				InterfaceJoinedInfo.o \
 				Library.o \
+				LogicElement.o \
+				LogicValue.o \
+				LogicValueAttributes.o \
+				LogicalResponse.o \
 				Nameable.o \
 				Net.o \
+				NetAttributes.o \
 				NetBundle.o \
+				NetDelay.o \
 				ObjectFactory.o \
 				Parameter.o \
 				ParameterArray.o \
 				ParameterArrayElement.o \
 				ParameterMap.o \
+				PathDelay.o \
+				Permutable.o \
 				Port.o \
 				PortAttributes.o \
 				PortBundle.o \
 				PortBundleReference.o \
 				PortDelay.o \
+				PortElement.o \
 				PortList.o \
+				PortListAlias.o \
 				PortReference.o \
 				Property.o \
 				PropertyContainer.o \
@@ -65,8 +81,15 @@ OBJS = \
 				ScalarPort.o \
 				ScalarPortReference.o \
 				ScaleFactor.o \
+				Simulate.o \
+				SimulationInfo.o \
 				SingleInstance.o \
 				SingleParameter.o \
+				Status.o \
+				StatusContainer.o \
+				TimeStamp.o \
+				Timing.o \
+				UserDataContainer.o \
 				Value.o \
 				VectorNet.o \
 				VectorNetBit.o \
@@ -77,6 +100,8 @@ OBJS = \
 				View.o \
 				Visitable.o \
 				VisitorType.o \
+				WaveValue.o \
+				Written.o \
 				$
 
 # dependencies

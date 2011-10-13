@@ -48,7 +48,21 @@ ObjectVisitor::ObjectVisitor()
     VectorPortReference::Visitor(),
     VectorPortBitReference::Visitor(),
     PortBundleReference::Visitor(),
-    PortList::Visitor() {
+    PortList::Visitor(),
+    PortListAlias::Visitor(),
+    Status::Visitor(),
+    Permutable::Visitor(),
+    InterfaceJoinedInfo::Visitor(),
+    SimulationInfo::Visitor(),
+    Simulate::Visitor(),
+    LogicalResponse::Visitor(),
+    LogicValue::Visitor(),
+    LogicElement::Visitor(),
+    WaveValue::Visitor(),
+    Apply::Visitor(),
+    Timing::Visitor(),
+    Event::Visitor(),
+    ForbiddenEvent::Visitor() {
 }
 
 ObjectVisitor::~ObjectVisitor() throw() {

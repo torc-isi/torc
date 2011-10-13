@@ -40,6 +40,7 @@
 #include "torc/physical/XdlImporter.hpp"
 #include "torc/physical/Factory.hpp"
 #include "torc/physical/OutputStreamHelpers.hpp"
+#include "torc/common/DeviceDesignator.hpp"
 #include <sstream>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/smart_ptr.hpp>
@@ -229,7 +230,9 @@ device_info
 
 part
 					: IDENTIFIER speed {
-							xdl.mDesignDevice = $1;
+							torc::common::DeviceDesignator designator($1);
+							xdl.mDesignDevice = designator.getDeviceName();
+							xdl.mDesignPackage = designator.getDevicePackage();
 							xdl.mDesignSpeedGrade = $2;
 						}
 					;
@@ -356,6 +359,8 @@ port_statement
 // ------------------------------------------- instances ------------------------------------------
 
 //# instance <name> <sitedef>, placed <tile> <site>, cfg <string> ;
+//# instance <name> <sitedef>, placed <tile> <site>, module "instantiation_name" "module_name" 
+//		"instance_name", cfg <string> ;
 //# instance <name> <sitedef>, unplaced, cfg <string> ;
 
 instance_statement
@@ -400,7 +405,9 @@ instance_bonding
 					;
 
 reference_and_config
-					: ',' config
+					: /* empty */
+					| ',' config
+					| ',' module_reference
 					| ',' module_reference ',' config
 					;
 

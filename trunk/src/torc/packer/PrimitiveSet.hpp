@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the PrimitiveSet class.
 
-#ifndef TORC_PHYSICAL_PrimitiveSet_HPP
-#define TORC_PHYSICAL_PrimitiveSet_HPP
+#ifndef TORC_PACKER_PRIMITIVESET_HPP
+#define TORC_PACKER_PRIMITIVESET_HPP
 
 #include "torc/packer/Primitive.hpp"
 #include <string>
@@ -113,4 +113,4 @@ typedef std::vector<PrimitiveSetSharedPtr> PrimitiveSetSharedPtrVector;
 } // namespace physical
 } // namespace torc
 
-#endif // TORC_PHYSICAL_PrimitiveSet_HPP
+#endif // TORC_PACKER_PRIMITIVESET_HPP

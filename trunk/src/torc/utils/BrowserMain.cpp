@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
 	}
 	string device_arg = argv[1];
 	
-	torc::architecture::DeviceDesignator device(device_arg);
+	torc::common::DeviceDesignator device(device_arg);
 	torc::architecture::DDB db(device);
 	torc::ArchitectureBrowser ab(db);
 	ab.browse();

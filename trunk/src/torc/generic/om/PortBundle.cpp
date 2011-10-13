@@ -183,6 +183,7 @@ PortBundle::disconnect(
 * @param[in] inName Name of the port bundle to be created.
 * @param[in] inDirection Direction of port.
 * @param[in] inViewPtr Pointer to parented(View) object.
+* @param[in] inParentCollection Pointer to parent bundle.
 * @param[in] inOriginalName Original name of the port bundle [optional].
 *
 * @return Pointer to created port bundle.

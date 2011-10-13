@@ -120,7 +120,7 @@ Connectable::disconnect(
  * Disconnect the named Net from this object.
  * @note This metod can be overridden by derived classes. However, the method must call the on_connected() method after this. The sigConnected_ signal must also be invoked in the overriding method.
  *
- * @param[in] inNname Name of the net to be DisConnected
+ * @param[in] inNname Name of the net to be Disconnected
  * @exception Error Provided net was not found
  *
  */
@@ -166,7 +166,7 @@ void Connectable::onConnect() throw(Error) {
 }
 
 /**
- * A polymorphic function that is called after a net is DisConnected from this object
+ * A polymorphic function that is called after a net is Disconnected from this object
  */
 void Connectable::onDisconnect() throw(Error) {
 }

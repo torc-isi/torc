@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for Boost.Test helper functions.
 
-#ifndef TORC_TEST_HELPERS_HPP
-#define TORC_TEST_HELPERS_HPP
+#ifndef TORC_COMMON_TESTHELPERS_HPP
+#define TORC_COMMON_TESTHELPERS_HPP
 
 #include <string>
 #include <boost/filesystem/convenience.hpp>
@@ -40,4 +40,4 @@ bool fileContentsAreEqual(const boost::filesystem::path& inA, const boost::files
 } // namespace common
 } // namespace torc
 
-#endif // TORC_TEST_HELPERS_HPP
+#endif // TORC_COMMON_TESTHELPERS_HPP

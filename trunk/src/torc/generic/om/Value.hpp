@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_VALUE_HPP
-#define TORC_GENERIC_VALUE_HPP
+#ifndef TORC_GENERIC_OM_VALUE_HPP
+#define TORC_GENERIC_OM_VALUE_HPP
 
 #include "torc/generic/om/DumpRestoreConfig.hpp"
 
@@ -72,89 +72,6 @@ class Value
     typedef std::string String;
 
     /**
-     * Represents an EDIF MiNoMax inSource. This is basically a ranged integer. As such it stores the minium, nominal and maximum values.
-     */
-    class MiNoMax
-    {
-#ifdef GENOM_SERIALIZATION
-        friend class boost::serialization::access;
-#endif
-      private:
-        int32_t mMin;
-        bool mMinUndefined;
-        int32_t mNominal;
-        int32_t mMax;
-        bool mMaxUndefined;
-
-      public:
-        MiNoMax();
-
-        MiNoMax(int32_t inMin,
-                int32_t inNominal, int32_t inMax );
-
-        ~MiNoMax() throw();
-
-        MiNoMax(const MiNoMax & inSource) throw();
-
-        MiNoMax &
-        operator=(const MiNoMax & inSource) throw();
-
-        bool
-        operator <(const MiNoMax & inRhs) const throw();
-
-        bool
-        operator ==(const MiNoMax & inRhs) const throw();
-
-        bool
-        operator !=(const MiNoMax & inRhs) const throw();
-
-        bool
-        operator >(const MiNoMax & inRhs) const throw();
-
-        bool
-        operator >=(const MiNoMax & inRhs) const throw();
-
-        bool
-        operator <=(const MiNoMax & inRhs) const throw();
-
-        void
-        setMax(const int32_t & inSource) throw();
-
-        inline const int32_t
-        getMax() const throw();
-
-        inline const bool
-        getMinUndefined() const throw();
-
-        inline const bool
-        getMaxUndefined() const throw();
-
-        inline const int32_t
-        getMin() const throw();
-
-        void
-        setMin(const int32_t & inSource) throw();
-
-        inline const int32_t
-        getNominal() const throw();
-
-        void
-        setNominal(const int32_t & inSource) throw();
-
-#ifdef GENOM_SERIALIZATION
-        template<class Archive> void
-        serialize( Archive &ar, unsigned int ) {
-            ar & mMin;
-            ar & mMinUndefined;
-            ar & mNominal;
-            ar & mMax;
-            ar & mMaxUndefined;
-        }
-#endif //GENOM_SERIALIZATION
-
-    };
-
-    /**
      * Represents a decimal number. This is used to represent decimal floating point numbers in EDIF. This has a exponent and mantissa part.
      */
     class Number
@@ -209,9 +126,10 @@ class Value
         void
         setExponent(const int32_t & inSource) throw();
 
-      private:
         double
         eval() const throw();
+
+      private:
 #ifdef GENOM_SERIALIZATION
         template<class Archive> void
         serialize( Archive &ar, unsigned int ) {
@@ -220,6 +138,91 @@ class Value
         }
 #endif //GENOM_SERIALIZATION
     };
+
+
+    /**
+     * Represents an EDIF MiNoMax inSource. This is basically a ranged integer. As such it stores the minium, nominal and maximum values.
+     */
+    class MiNoMax
+    {
+#ifdef GENOM_SERIALIZATION
+        friend class boost::serialization::access;
+#endif
+      private:
+        Value::Number mMin;
+        bool mMinUndefined;
+        Value::Number mNominal;
+        Value::Number mMax;
+        bool mMaxUndefined;
+
+      public:
+        MiNoMax();
+
+        MiNoMax(Value::Number inMin,
+                Value::Number inNominal, Value::Number inMax );
+
+        ~MiNoMax() throw();
+
+        MiNoMax(const MiNoMax & inSource) throw();
+
+        MiNoMax &
+        operator=(const MiNoMax & inSource) throw();
+
+        bool
+        operator <(const MiNoMax & inRhs) const throw();
+
+        bool
+        operator ==(const MiNoMax & inRhs) const throw();
+
+        bool
+        operator !=(const MiNoMax & inRhs) const throw();
+
+        bool
+        operator >(const MiNoMax & inRhs) const throw();
+
+        bool
+        operator >=(const MiNoMax & inRhs) const throw();
+
+        bool
+        operator <=(const MiNoMax & inRhs) const throw();
+
+        void
+        setMax(const Value::Number & inSource) throw();
+
+        inline const Value::Number
+        getMax() const throw();
+
+        inline const bool
+        getMinUndefined() const throw();
+
+        inline const bool
+        getMaxUndefined() const throw();
+
+        inline const Value::Number
+        getMin() const throw();
+
+        void
+        setMin(const Value::Number & inSource) throw();
+
+        inline const Value::Number
+        getNominal() const throw();
+
+        void
+        setNominal(const Value::Number & inSource) throw();
+
+#ifdef GENOM_SERIALIZATION
+        template<class Archive> void
+        serialize( Archive &ar, unsigned int ) {
+            ar & mMin;
+            ar & mMinUndefined;
+            ar & mNominal;
+            ar & mMax;
+            ar & mMaxUndefined;
+        }
+#endif //GENOM_SERIALIZATION
+
+    };
+
 
     /**
      * Represents a point in cartesian coordinates. This stores the X and Y coordinates.
@@ -376,7 +379,7 @@ class Value
     bool mIsSet;
 };
 
-inline const int32_t
+inline const Value::Number
 Value::MiNoMax::getMax() const throw() {
   return mMax;
 }
@@ -391,12 +394,12 @@ Value::MiNoMax::getMaxUndefined() const throw() {
   return mMaxUndefined;
 }
 
-inline const int32_t
+inline const Value::Number
 Value::MiNoMax::getMin() const throw() {
   return mMin;
 }
 
-inline const int32_t
+inline const Value::Number
 Value::MiNoMax::getNominal() const throw() {
   return mNominal;
 }
@@ -503,4 +506,4 @@ Value::get() const throw(Error) {
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_OM_VALUE_HPP

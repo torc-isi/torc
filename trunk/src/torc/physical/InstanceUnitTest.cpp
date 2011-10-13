@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the Instance unit test.
+/// \brief Unit test for the Instance class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/physical/Factory.hpp"

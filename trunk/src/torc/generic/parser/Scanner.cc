@@ -1,3 +1,4 @@
+
 #include <cstdio>
 #line 3 "lex.Edif.cc"
 
@@ -2064,38 +2065,38 @@ static yyconst flex_int16_t yy_chk[3603] =
 
 static yyconst flex_int16_t yy_rule_linenum[298] =
     {   0,
-       83,   87,   88,   95,  102,  109,  116,  123,  130,  137,
-      144,  151,  158,  165,  172,  179,  186,  193,  200,  207,
-      214,  221,  228,  235,  242,  249,  256,  263,  270,  277,
-      284,  291,  298,  305,  312,  319,  326,  333,  340,  347,
-      354,  361,  368,  375,  382,  389,  396,  403,  410,  417,
-      424,  431,  438,  445,  452,  459,  466,  474,  481,  488,
-      495,  502,  509,  517,  524,  531,  538,  545,  552,  559,
-      566,  573,  580,  587,  594,  601,  608,  615,  622,  630,
-      638,  645,  652,  659,  666,  673,  680,  687,  694,  701,
-      708,  715,  722,  729,  736,  743,  750,  757,  764,  771,
+       88,   92,   93,  101,  109,  117,  125,  133,  141,  149,
+      157,  165,  173,  181,  189,  197,  205,  213,  221,  229,
+      237,  245,  253,  261,  269,  277,  285,  293,  301,  309,
+      317,  325,  333,  341,  349,  358,  366,  374,  382,  390,
+      398,  406,  414,  422,  430,  438,  446,  454,  462,  470,
+      478,  486,  494,  502,  510,  518,  526,  535,  543,  551,
+      559,  567,  575,  584,  592,  600,  608,  616,  624,  632,
+      640,  648,  656,  664,  672,  680,  688,  696,  704,  713,
+      722,  730,  738,  746,  754,  762,  770,  778,  786,  794,
+      802,  810,  818,  826,  834,  842,  850,  858,  866,  874,
 
-      778,  785,  792,  799,  806,  813,  820,  827,  834,  841,
-      848,  855,  862,  869,  876,  883,  890,  897,  905,  912,
-      920,  927,  934,  941,  948,  955,  962,  969,  976,  983,
-      990,  997, 1004, 1011, 1018, 1025, 1032, 1039, 1046, 1053,
-     1061, 1068, 1075, 1082, 1090, 1097, 1104, 1111, 1118, 1125,
-     1132, 1139, 1146, 1153, 1160, 1168, 1175, 1182, 1189, 1197,
-     1205, 1212, 1219, 1226, 1233, 1240, 1247, 1254, 1261, 1268,
-     1275, 1282, 1289, 1296, 1303, 1310, 1317, 1325, 1332, 1339,
-     1346, 1353, 1360, 1368, 1376, 1383, 1391, 1398, 1405, 1412,
-     1420, 1427, 1434, 1441, 1448, 1455, 1462, 1469, 1476, 1483,
+      882,  890,  898,  906,  914,  922,  930,  938,  946,  954,
+      962,  970,  978,  986,  994, 1002, 1010, 1018, 1027, 1035,
+     1044, 1052, 1060, 1068, 1076, 1084, 1092, 1100, 1108, 1116,
+     1124, 1132, 1140, 1148, 1156, 1164, 1172, 1180, 1188, 1196,
+     1205, 1213, 1221, 1229, 1238, 1246, 1254, 1262, 1270, 1278,
+     1286, 1294, 1302, 1310, 1318, 1327, 1335, 1343, 1351, 1360,
+     1369, 1377, 1385, 1393, 1401, 1410, 1418, 1426, 1434, 1442,
+     1451, 1459, 1467, 1476, 1484, 1492, 1500, 1509, 1517, 1525,
+     1533, 1541, 1549, 1558, 1567, 1575, 1584, 1592, 1600, 1608,
+     1617, 1625, 1633, 1641, 1649, 1657, 1665, 1673, 1681, 1689,
 
-     1490, 1497, 1504, 1511, 1518, 1525, 1532, 1539, 1546, 1554,
-     1562, 1569, 1576, 1583, 1590, 1597, 1604, 1611, 1618, 1625,
-     1632, 1639, 1647, 1654, 1662, 1669, 1676, 1683, 1690, 1697,
-     1704, 1711, 1719, 1726, 1734, 1741, 1748, 1755, 1762, 1769,
-     1776, 1784, 1791, 1798, 1805, 1812, 1819, 1826, 1833, 1840,
-     1847, 1854, 1861, 1868, 1875, 1882, 1889, 1896, 1903, 1910,
-     1917, 1924, 1931, 1938, 1945, 1952, 1959, 1966, 1973, 1980,
-     1987, 1994, 2001, 2008, 2015, 2022, 2029, 2036, 2043, 2051,
-     2058, 2065, 2073, 2080, 2087, 2094, 2101, 2108, 2115, 2122,
-     2131, 2137, 2141, 2145, 2152, 2157, 2163
+     1697, 1705, 1713, 1721, 1729, 1737, 1745, 1753, 1761, 1770,
+     1779, 1787, 1795, 1803, 1811, 1819, 1827, 1835, 1843, 1851,
+     1859, 1867, 1876, 1884, 1893, 1901, 1909, 1917, 1925, 1934,
+     1943, 1951, 1960, 1968, 1977, 1985, 1993, 2001, 2009, 2017,
+     2025, 2034, 2042, 2050, 2058, 2066, 2074, 2082, 2091, 2099,
+     2107, 2115, 2123, 2131, 2139, 2147, 2155, 2163, 2171, 2179,
+     2187, 2195, 2203, 2211, 2219, 2227, 2235, 2243, 2251, 2259,
+     2267, 2275, 2283, 2291, 2299, 2307, 2315, 2324, 2332, 2341,
+     2349, 2357, 2366, 2374, 2382, 2390, 2399, 2407, 2415, 2423,
+     2433, 2439, 2443, 2447, 2454, 2459, 2465
 
     } ;
 
@@ -2132,8 +2133,11 @@ goto find_rule; \
 
 #include "torc/generic/parser/ParserHelpers.hpp"
 #include "torc/generic/om/PortAttributes.hpp"
+#include "torc/generic/om/NetAttributes.hpp"
 #include "torc/generic/parser/Parser.h"
 #include "torc/generic/parser/Scanner.hpp"
+#include "torc/generic/om/InterfaceAttributes.hpp"
+#include "torc/generic/om/LogicValueAttributes.hpp"
 
 /* import the parser's Token type into a local typedef */
 typedef torc::generic::Parser::token Token;
@@ -2157,9 +2161,11 @@ typedef torc::generic::Parser::token_type TokenType;
 /* instructs flex to generate a case-insensitive scanner */
 /* The following paragraph suffices to track locations accurately. Each time
  * yylex is invoked, the begin position is moved onto the end position. */
-#line 65 "Scanner.ll"
-#define YY_USER_ACTION  { yylloc->columns(yyleng); addToBuffer( yytext ); }
-#line 2163 "lex.Edif.cc"
+#line 68 "Scanner.ll"
+#define YY_USER_ACTION  { yylloc->columns(yyleng); addToBuffer( yytext ); \
+                          yylloc->columns(yyleng); addToUserDataBuffer( yytext ); \
+                        }
+#line 2168 "lex.Edif.cc"
 
 #define INITIAL 0
 
@@ -2316,7 +2322,7 @@ YY_DECL
 	register int yy_act;
     
 /* %% [7.0] user's declarations go here */
-#line 75 "Scanner.ll"
+#line 80 "Scanner.ll"
 
 
  /* code to place at the beginning of yylex() */
@@ -2325,7 +2331,7 @@ YY_DECL
     yylloc->step();
 
 
-#line 2329 "lex.Edif.cc"
+#line 2334 "lex.Edif.cc"
 
 	if ( !(yy_init) )
 		{
@@ -2449,7 +2455,7 @@ do_action:	/* This label is used only to access EOF actions. */
 /* %% [13.0] actions go here */
 case 1:
 YY_RULE_SETUP
-#line 83 "Scanner.ll"
+#line 88 "Scanner.ll"
 {
                                 setIsIdContext( false );
                                 return Token::LBKT;
@@ -2457,15 +2463,16 @@ YY_RULE_SETUP
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 87 "Scanner.ll"
+#line 92 "Scanner.ll"
 { return Token::RBKT; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 88 "Scanner.ll"
+#line 93 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ANGLE; 
@@ -2473,10 +2480,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 95 "Scanner.ll"
+#line 101 "Scanner.ll"
 {
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               } 
                               return Token::BEHAVIOR; 
@@ -2484,10 +2492,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 102 "Scanner.ll"
+#line 109 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CALCULATED; 
@@ -2495,10 +2504,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 109 "Scanner.ll"
+#line 117 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CAPACITANCE; 
@@ -2506,10 +2516,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 116 "Scanner.ll"
+#line 125 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CENTERCENTER; 
@@ -2517,10 +2528,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 123 "Scanner.ll"
+#line 133 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CENTERLEFT; 
@@ -2528,10 +2540,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 130 "Scanner.ll"
+#line 141 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CENTERRIGHT; 
@@ -2539,10 +2552,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 137 "Scanner.ll"
+#line 149 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CHARGE; 
@@ -2550,10 +2564,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 144 "Scanner.ll"
+#line 157 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CONDUCTANCE; 
@@ -2561,10 +2576,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 151 "Scanner.ll"
+#line 165 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CURRENT; 
@@ -2572,10 +2588,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 158 "Scanner.ll"
+#line 173 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DISTANCE; 
@@ -2583,10 +2600,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 165 "Scanner.ll"
+#line 181 "Scanner.ll"
 {
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               } 
                               return Token::DOCUMENT; 
@@ -2594,10 +2612,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 172 "Scanner.ll"
+#line 189 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ENERGY; 
@@ -2605,10 +2624,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 179 "Scanner.ll"
+#line 197 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::EXTEND; 
@@ -2616,10 +2636,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 186 "Scanner.ll"
+#line 205 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FLUX; 
@@ -2627,10 +2648,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 193 "Scanner.ll"
+#line 213 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FREQUENCY; 
@@ -2638,10 +2660,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 200 "Scanner.ll"
+#line 221 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::GENERIC; 
@@ -2649,10 +2672,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 207 "Scanner.ll"
+#line 229 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::GRAPHIC; 
@@ -2660,10 +2684,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 214 "Scanner.ll"
+#line 237 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::INDUCTANCE; 
@@ -2671,10 +2696,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 221 "Scanner.ll"
+#line 245 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::INOUT; 
@@ -2682,10 +2708,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 228 "Scanner.ll"
+#line 253 "Scanner.ll"
 {
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               } 
                               return Token::INPUT; 
@@ -2693,10 +2720,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 235 "Scanner.ll"
+#line 261 "Scanner.ll"
 {
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               } 
                               return Token::LOGICMODEL; 
@@ -2704,10 +2732,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 242 "Scanner.ll"
+#line 269 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LOWERCENTER; 
@@ -2715,10 +2744,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 249 "Scanner.ll"
+#line 277 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LOWERLEFT; 
@@ -2726,10 +2756,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 256 "Scanner.ll"
+#line 285 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LOWERRIGHT; 
@@ -2737,10 +2768,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 263 "Scanner.ll"
+#line 293 "Scanner.ll"
 {
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               } 
                               return Token::MASKLAYOUT; 
@@ -2748,10 +2780,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 270 "Scanner.ll"
+#line 301 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::MASS; 
@@ -2759,10 +2792,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 277 "Scanner.ll"
+#line 309 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::MEASURED; 
@@ -2770,10 +2804,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 284 "Scanner.ll"
+#line 317 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::MX; 
@@ -2781,10 +2816,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 291 "Scanner.ll"
+#line 325 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::MXR90; 
@@ -2792,10 +2828,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 298 "Scanner.ll"
+#line 333 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::MY; 
@@ -2803,10 +2840,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 305 "Scanner.ll"
+#line 341 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::MYR90; 
@@ -2814,21 +2852,24 @@ YY_RULE_SETUP
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 312 "Scanner.ll"
+#line 349 "Scanner.ll"
 {
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
+                              setIsIdContext( true );
                               return Token::NETLIST;
                             }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 319 "Scanner.ll"
+#line 358 "Scanner.ll"
 {
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               } 
                               return Token::OUTPUT; 
@@ -2836,10 +2877,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 326 "Scanner.ll"
+#line 366 "Scanner.ll"
 {
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               } 
                               return Token::PCBLAYOUT; 
@@ -2847,10 +2889,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 333 "Scanner.ll"
+#line 374 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::POWER; 
@@ -2858,10 +2901,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 340 "Scanner.ll"
+#line 382 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::R0; 
@@ -2869,10 +2913,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 347 "Scanner.ll"
+#line 390 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::R180; 
@@ -2880,10 +2925,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 354 "Scanner.ll"
+#line 398 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::R270; 
@@ -2891,10 +2937,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 361 "Scanner.ll"
+#line 406 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::R90; 
@@ -2902,10 +2949,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 368 "Scanner.ll"
+#line 414 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::REQUIRED; 
@@ -2913,10 +2961,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 375 "Scanner.ll"
+#line 422 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::RESISTANCE; 
@@ -2924,10 +2973,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 382 "Scanner.ll"
+#line 430 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::RIPPER; 
@@ -2935,10 +2985,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 389 "Scanner.ll"
+#line 438 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ROUND; 
@@ -2946,10 +2997,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 396 "Scanner.ll"
+#line 446 "Scanner.ll"
 {
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::SCHEMATIC; 
@@ -2957,10 +3009,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 403 "Scanner.ll"
+#line 454 "Scanner.ll"
 {
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               } 
                               return Token::STRANGER; 
@@ -2968,10 +3021,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 410 "Scanner.ll"
+#line 462 "Scanner.ll"
 {
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               } 
                               return Token::SYMBOLIC; 
@@ -2979,10 +3033,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 417 "Scanner.ll"
+#line 470 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TEMPERATURE; 
@@ -2990,10 +3045,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 424 "Scanner.ll"
+#line 478 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TIE; 
@@ -3001,10 +3057,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 431 "Scanner.ll"
+#line 486 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TIME; 
@@ -3012,10 +3069,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 438 "Scanner.ll"
+#line 494 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TRUNCATE; 
@@ -3023,10 +3081,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 445 "Scanner.ll"
+#line 502 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::UPPERCENTER; 
@@ -3034,10 +3093,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 452 "Scanner.ll"
+#line 510 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::UPPERLEFT; 
@@ -3045,10 +3105,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 459 "Scanner.ll"
+#line 518 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::UPPERRIGHT; 
@@ -3056,10 +3117,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 466 "Scanner.ll"
+#line 526 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::VOLTAGE; 
@@ -3067,10 +3129,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 474 "Scanner.ll"
+#line 535 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ACLOAD; 
@@ -3078,10 +3141,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 481 "Scanner.ll"
+#line 543 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::AFTER; 
@@ -3089,10 +3153,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 488 "Scanner.ll"
+#line 551 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ANNOTATE; 
@@ -3100,10 +3165,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 495 "Scanner.ll"
+#line 559 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::APPLY; 
@@ -3111,10 +3177,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 502 "Scanner.ll"
+#line 567 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ARC; 
@@ -3122,10 +3189,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 509 "Scanner.ll"
+#line 575 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -3134,10 +3202,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 517 "Scanner.ll"
+#line 584 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ARRAYMACRO; 
@@ -3145,10 +3214,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 524 "Scanner.ll"
+#line 592 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ARRAYRELATEDINFO; 
@@ -3156,10 +3226,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 531 "Scanner.ll"
+#line 600 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ARRAYSITE; 
@@ -3167,10 +3238,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 538 "Scanner.ll"
+#line 608 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ATLEAST; 
@@ -3178,10 +3250,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 545 "Scanner.ll"
+#line 616 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ATMOST; 
@@ -3189,10 +3262,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
-#line 552 "Scanner.ll"
+#line 624 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::AUTHOR; 
@@ -3200,10 +3274,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 559 "Scanner.ll"
+#line 632 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::BASEARRAY; 
@@ -3211,10 +3286,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 566 "Scanner.ll"
+#line 640 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::BECOMES; 
@@ -3222,10 +3298,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 573 "Scanner.ll"
+#line 648 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::BETWEEN; 
@@ -3233,10 +3310,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
-#line 580 "Scanner.ll"
+#line 656 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::BOOLEAN; 
@@ -3244,10 +3322,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
-#line 587 "Scanner.ll"
+#line 664 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::BOOLEANDISPLAY; 
@@ -3255,10 +3334,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
-#line 594 "Scanner.ll"
+#line 672 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::BOOLEANMAP; 
@@ -3266,10 +3346,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 76:
 YY_RULE_SETUP
-#line 601 "Scanner.ll"
+#line 680 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::BORDERPATTERN; 
@@ -3277,10 +3358,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
-#line 608 "Scanner.ll"
+#line 688 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::BORDERWIDTH; 
@@ -3288,10 +3370,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 78:
 YY_RULE_SETUP
-#line 615 "Scanner.ll"
+#line 696 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::BOUNDINGBOX; 
@@ -3299,10 +3382,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 79:
 YY_RULE_SETUP
-#line 622 "Scanner.ll"
+#line 704 "Scanner.ll"
 {
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -3311,10 +3395,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 80:
 YY_RULE_SETUP
-#line 630 "Scanner.ll"
+#line 713 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -3323,10 +3408,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 81:
 YY_RULE_SETUP
-#line 638 "Scanner.ll"
+#line 722 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CELLTYPE; 
@@ -3334,10 +3420,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 82:
 YY_RULE_SETUP
-#line 645 "Scanner.ll"
+#line 730 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CHANGE; 
@@ -3345,10 +3432,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 83:
 YY_RULE_SETUP
-#line 652 "Scanner.ll"
+#line 738 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CIRCLE; 
@@ -3356,10 +3444,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 84:
 YY_RULE_SETUP
-#line 659 "Scanner.ll"
+#line 746 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::COLOR; 
@@ -3367,10 +3456,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 85:
 YY_RULE_SETUP
-#line 666 "Scanner.ll"
+#line 754 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::COMMENT; 
@@ -3378,10 +3468,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 86:
 YY_RULE_SETUP
-#line 673 "Scanner.ll"
+#line 762 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::COMMENTGRAPHICS; 
@@ -3389,10 +3480,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 87:
 YY_RULE_SETUP
-#line 680 "Scanner.ll"
+#line 770 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::COMPOUND; 
@@ -3400,10 +3492,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 88:
 YY_RULE_SETUP
-#line 687 "Scanner.ll"
+#line 778 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CONNECTLOCATION; 
@@ -3411,10 +3504,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 89:
 YY_RULE_SETUP
-#line 694 "Scanner.ll"
+#line 786 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CONTENTS; 
@@ -3422,10 +3516,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 90:
 YY_RULE_SETUP
-#line 701 "Scanner.ll"
+#line 794 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CORNERTYPE; 
@@ -3433,10 +3528,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 91:
 YY_RULE_SETUP
-#line 708 "Scanner.ll"
+#line 802 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CRITICALITY; 
@@ -3444,10 +3540,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 92:
 YY_RULE_SETUP
-#line 715 "Scanner.ll"
+#line 810 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CURRENTMAP; 
@@ -3455,10 +3552,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 93:
 YY_RULE_SETUP
-#line 722 "Scanner.ll"
+#line 818 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CURVE; 
@@ -3466,10 +3564,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 94:
 YY_RULE_SETUP
-#line 729 "Scanner.ll"
+#line 826 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::CYCLE; 
@@ -3477,10 +3576,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 95:
 YY_RULE_SETUP
-#line 736 "Scanner.ll"
+#line 834 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DATAORIGIN; 
@@ -3488,10 +3588,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 96:
 YY_RULE_SETUP
-#line 743 "Scanner.ll"
+#line 842 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DCFANINLOAD; 
@@ -3499,10 +3600,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 97:
 YY_RULE_SETUP
-#line 750 "Scanner.ll"
+#line 850 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DCFANOUTLOAD; 
@@ -3510,10 +3612,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 98:
 YY_RULE_SETUP
-#line 757 "Scanner.ll"
+#line 858 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DCMAXFANIN; 
@@ -3521,10 +3624,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 99:
 YY_RULE_SETUP
-#line 764 "Scanner.ll"
+#line 866 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DCMAXFANOUT; 
@@ -3532,10 +3636,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 100:
 YY_RULE_SETUP
-#line 771 "Scanner.ll"
+#line 874 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DELAY; 
@@ -3543,10 +3648,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 101:
 YY_RULE_SETUP
-#line 778 "Scanner.ll"
+#line 882 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DELTA; 
@@ -3554,10 +3660,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 102:
 YY_RULE_SETUP
-#line 785 "Scanner.ll"
+#line 890 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DERIVATION; 
@@ -3565,10 +3672,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 103:
 YY_RULE_SETUP
-#line 792 "Scanner.ll"
+#line 898 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DESIGN; 
@@ -3576,10 +3684,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 104:
 YY_RULE_SETUP
-#line 799 "Scanner.ll"
+#line 906 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DESIGNATOR; 
@@ -3587,10 +3696,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 105:
 YY_RULE_SETUP
-#line 806 "Scanner.ll"
+#line 914 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DIFFERENCE; 
@@ -3598,10 +3708,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 106:
 YY_RULE_SETUP
-#line 813 "Scanner.ll"
+#line 922 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DIRECTION; 
@@ -3609,10 +3720,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 107:
 YY_RULE_SETUP
-#line 820 "Scanner.ll"
+#line 930 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DISPLAY; 
@@ -3620,10 +3732,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 108:
 YY_RULE_SETUP
-#line 827 "Scanner.ll"
+#line 938 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DOMINATES; 
@@ -3631,10 +3744,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 109:
 YY_RULE_SETUP
-#line 834 "Scanner.ll"
+#line 946 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DOT; 
@@ -3642,10 +3756,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 110:
 YY_RULE_SETUP
-#line 841 "Scanner.ll"
+#line 954 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::DURATION; 
@@ -3653,10 +3768,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 111:
 YY_RULE_SETUP
-#line 848 "Scanner.ll"
+#line 962 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::E; 
@@ -3664,10 +3780,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 112:
 YY_RULE_SETUP
-#line 855 "Scanner.ll"
+#line 970 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::EDIF; 
@@ -3675,10 +3792,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 113:
 YY_RULE_SETUP
-#line 862 "Scanner.ll"
+#line 978 "Scanner.ll"
 { 
                              if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::EDIFLEVEL; 
@@ -3686,10 +3804,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 114:
 YY_RULE_SETUP
-#line 869 "Scanner.ll"
+#line 986 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::EDIFVERSION; 
@@ -3697,10 +3816,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 115:
 YY_RULE_SETUP
-#line 876 "Scanner.ll"
+#line 994 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ENCLOSUREDISTANCE; 
@@ -3708,10 +3828,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 116:
 YY_RULE_SETUP
-#line 883 "Scanner.ll"
+#line 1002 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ENDTYPE; 
@@ -3719,10 +3840,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 117:
 YY_RULE_SETUP
-#line 890 "Scanner.ll"
+#line 1010 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ENTRY; 
@@ -3730,10 +3852,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 118:
 YY_RULE_SETUP
-#line 897 "Scanner.ll"
+#line 1018 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::EVENT; 
@@ -3741,10 +3864,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 119:
 YY_RULE_SETUP
-#line 905 "Scanner.ll"
+#line 1027 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::EXACTLY; 
@@ -3752,10 +3876,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 120:
 YY_RULE_SETUP
-#line 912 "Scanner.ll"
+#line 1035 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -3764,10 +3889,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 121:
 YY_RULE_SETUP
-#line 920 "Scanner.ll"
+#line 1044 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FABRICATE; 
@@ -3775,10 +3901,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 122:
 YY_RULE_SETUP
-#line 927 "Scanner.ll"
+#line 1052 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FALSE; 
@@ -3786,10 +3913,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 123:
 YY_RULE_SETUP
-#line 934 "Scanner.ll"
+#line 1060 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FIGURE; 
@@ -3797,10 +3925,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 124:
 YY_RULE_SETUP
-#line 941 "Scanner.ll"
+#line 1068 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FIGUREAREA; 
@@ -3808,10 +3937,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 125:
 YY_RULE_SETUP
-#line 948 "Scanner.ll"
+#line 1076 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FIGUREGROUP; 
@@ -3819,10 +3949,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 126:
 YY_RULE_SETUP
-#line 955 "Scanner.ll"
+#line 1084 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FIGUREGROUPOBJECT; 
@@ -3830,10 +3961,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 127:
 YY_RULE_SETUP
-#line 962 "Scanner.ll"
+#line 1092 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FIGUREGROUPOVERRIDE; 
@@ -3841,10 +3973,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 128:
 YY_RULE_SETUP
-#line 969 "Scanner.ll"
+#line 1100 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FIGUREGROUPREF; 
@@ -3852,10 +3985,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 129:
 YY_RULE_SETUP
-#line 976 "Scanner.ll"
+#line 1108 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FIGUREPERIMETER; 
@@ -3863,10 +3997,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 130:
 YY_RULE_SETUP
-#line 983 "Scanner.ll"
+#line 1116 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FIGUREWIDTH; 
@@ -3874,10 +4009,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 131:
 YY_RULE_SETUP
-#line 990 "Scanner.ll"
+#line 1124 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FILLPATTERN; 
@@ -3885,10 +4021,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 132:
 YY_RULE_SETUP
-#line 997 "Scanner.ll"
+#line 1132 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FOLLOW; 
@@ -3896,10 +4033,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 133:
 YY_RULE_SETUP
-#line 1004 "Scanner.ll"
+#line 1140 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::FORBIDDENEVENT; 
@@ -3907,10 +4045,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 134:
 YY_RULE_SETUP
-#line 1011 "Scanner.ll"
+#line 1148 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::GLOBALPORTREF; 
@@ -3918,10 +4057,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 135:
 YY_RULE_SETUP
-#line 1018 "Scanner.ll"
+#line 1156 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::GREATERTHAN; 
@@ -3929,10 +4069,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 136:
 YY_RULE_SETUP
-#line 1025 "Scanner.ll"
+#line 1164 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::GRIDMAP; 
@@ -3940,10 +4081,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 137:
 YY_RULE_SETUP
-#line 1032 "Scanner.ll"
+#line 1172 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::IGNORE; 
@@ -3951,10 +4093,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 138:
 YY_RULE_SETUP
-#line 1039 "Scanner.ll"
+#line 1180 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::INCLUDEFIGUREGROUP; 
@@ -3962,10 +4105,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 139:
 YY_RULE_SETUP
-#line 1046 "Scanner.ll"
+#line 1188 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::INITIAL_KW; 
@@ -3973,10 +4117,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 140:
 YY_RULE_SETUP
-#line 1053 "Scanner.ll"
+#line 1196 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -3985,10 +4130,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 141:
 YY_RULE_SETUP
-#line 1061 "Scanner.ll"
+#line 1205 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::INSTANCEBACKANNOTATE; 
@@ -3996,10 +4142,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 142:
 YY_RULE_SETUP
-#line 1068 "Scanner.ll"
+#line 1213 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::INSTANCEGROUP; 
@@ -4007,10 +4154,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 143:
 YY_RULE_SETUP
-#line 1075 "Scanner.ll"
+#line 1221 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::INSTANCEMAP; 
@@ -4018,10 +4166,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 144:
 YY_RULE_SETUP
-#line 1082 "Scanner.ll"
+#line 1229 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -4030,10 +4179,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 145:
 YY_RULE_SETUP
-#line 1090 "Scanner.ll"
+#line 1238 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::INTEGER; 
@@ -4041,10 +4191,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 146:
 YY_RULE_SETUP
-#line 1097 "Scanner.ll"
+#line 1246 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::INTEGERDISPLAY; 
@@ -4052,10 +4203,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 147:
 YY_RULE_SETUP
-#line 1104 "Scanner.ll"
+#line 1254 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::INTERFACE; 
@@ -4063,10 +4215,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 148:
 YY_RULE_SETUP
-#line 1111 "Scanner.ll"
+#line 1262 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                                return Token::INTERFIGUREGROUPSPACING; 
@@ -4074,10 +4227,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 149:
 YY_RULE_SETUP
-#line 1118 "Scanner.ll"
+#line 1270 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::INTERSECTION; 
@@ -4085,10 +4239,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 150:
 YY_RULE_SETUP
-#line 1125 "Scanner.ll"
+#line 1278 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::INTRAFIGUREGROUPSPACING; 
@@ -4096,10 +4251,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 151:
 YY_RULE_SETUP
-#line 1132 "Scanner.ll"
+#line 1286 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::INVERSE; 
@@ -4107,10 +4263,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 152:
 YY_RULE_SETUP
-#line 1139 "Scanner.ll"
+#line 1294 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ISOLATED; 
@@ -4118,10 +4275,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 153:
 YY_RULE_SETUP
-#line 1146 "Scanner.ll"
+#line 1302 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::JOINED; 
@@ -4129,10 +4287,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 154:
 YY_RULE_SETUP
-#line 1153 "Scanner.ll"
+#line 1310 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::JUSTIFY; 
@@ -4140,10 +4299,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 155:
 YY_RULE_SETUP
-#line 1160 "Scanner.ll"
+#line 1318 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
 							  setIsIdContext( true );
@@ -4152,10 +4312,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 156:
 YY_RULE_SETUP
-#line 1168 "Scanner.ll"
+#line 1327 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::KEYWORDLEVEL; 
@@ -4163,10 +4324,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 157:
 YY_RULE_SETUP
-#line 1175 "Scanner.ll"
+#line 1335 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::KEYWORDMAP; 
@@ -4174,10 +4336,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 158:
 YY_RULE_SETUP
-#line 1182 "Scanner.ll"
+#line 1343 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LESSTHAN; 
@@ -4185,10 +4348,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 159:
 YY_RULE_SETUP
-#line 1189 "Scanner.ll"
+#line 1351 "Scanner.ll"
 {
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               } 
                               setIsIdContext( true );
@@ -4197,10 +4361,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 160:
 YY_RULE_SETUP
-#line 1197 "Scanner.ll"
+#line 1360 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -4209,10 +4374,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 161:
 YY_RULE_SETUP
-#line 1205 "Scanner.ll"
+#line 1369 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LISTOFNETS; 
@@ -4220,10 +4386,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 162:
 YY_RULE_SETUP
-#line 1212 "Scanner.ll"
+#line 1377 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LISTOFPORTS; 
@@ -4231,10 +4398,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 163:
 YY_RULE_SETUP
-#line 1219 "Scanner.ll"
+#line 1385 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LOADDELAY; 
@@ -4242,10 +4410,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 164:
 YY_RULE_SETUP
-#line 1226 "Scanner.ll"
+#line 1393 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LOGICASSIGN; 
@@ -4253,21 +4422,24 @@ YY_RULE_SETUP
 	YY_BREAK
 case 165:
 YY_RULE_SETUP
-#line 1233 "Scanner.ll"
+#line 1401 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
+                              setIsIdContext( true );
                               return Token::LOGICINPUT; 
                             }
 	YY_BREAK
 case 166:
 YY_RULE_SETUP
-#line 1240 "Scanner.ll"
+#line 1410 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LOGICLIST; 
@@ -4275,10 +4447,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 167:
 YY_RULE_SETUP
-#line 1247 "Scanner.ll"
+#line 1418 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LOGICMAPINPUT; 
@@ -4286,10 +4459,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 168:
 YY_RULE_SETUP
-#line 1254 "Scanner.ll"
+#line 1426 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LOGICMAPOUTPUT; 
@@ -4297,10 +4471,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 169:
 YY_RULE_SETUP
-#line 1261 "Scanner.ll"
+#line 1434 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LOGICONEOF; 
@@ -4308,21 +4483,24 @@ YY_RULE_SETUP
 	YY_BREAK
 case 170:
 YY_RULE_SETUP
-#line 1268 "Scanner.ll"
+#line 1442 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
+                              setIsIdContext( true );
                               return Token::LOGICOUTPUT; 
                             }
 	YY_BREAK
 case 171:
 YY_RULE_SETUP
-#line 1275 "Scanner.ll"
+#line 1451 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LOGICPORT; 
@@ -4330,10 +4508,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 172:
 YY_RULE_SETUP
-#line 1282 "Scanner.ll"
+#line 1459 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LOGICREF; 
@@ -4341,21 +4520,24 @@ YY_RULE_SETUP
 	YY_BREAK
 case 173:
 YY_RULE_SETUP
-#line 1289 "Scanner.ll"
+#line 1467 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
+                              setIsIdContext( true );
                               return Token::LOGICVALUE; 
                             }
 	YY_BREAK
 case 174:
 YY_RULE_SETUP
-#line 1296 "Scanner.ll"
+#line 1476 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::LOGICWAVEFORM; 
@@ -4363,10 +4545,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 175:
 YY_RULE_SETUP
-#line 1303 "Scanner.ll"
+#line 1484 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::MAINTAIN; 
@@ -4374,10 +4557,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 176:
 YY_RULE_SETUP
-#line 1310 "Scanner.ll"
+#line 1492 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::MATCH; 
@@ -4385,10 +4569,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 177:
 YY_RULE_SETUP
-#line 1317 "Scanner.ll"
+#line 1500 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -4397,10 +4582,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 178:
 YY_RULE_SETUP
-#line 1325 "Scanner.ll"
+#line 1509 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::MINOMAX; 
@@ -4408,10 +4594,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 179:
 YY_RULE_SETUP
-#line 1332 "Scanner.ll"
+#line 1517 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::MINOMAXDISPLAY; 
@@ -4419,10 +4606,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 180:
 YY_RULE_SETUP
-#line 1339 "Scanner.ll"
+#line 1525 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::MNM; 
@@ -4430,10 +4618,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 181:
 YY_RULE_SETUP
-#line 1346 "Scanner.ll"
+#line 1533 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::MULTIPLEVALUESET; 
@@ -4441,10 +4630,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 182:
 YY_RULE_SETUP
-#line 1353 "Scanner.ll"
+#line 1541 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::MUSTJOIN; 
@@ -4452,10 +4642,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 183:
 YY_RULE_SETUP
-#line 1360 "Scanner.ll"
+#line 1549 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
 							  setIsIdContext( true );
@@ -4464,10 +4655,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 184:
 YY_RULE_SETUP
-#line 1368 "Scanner.ll"
+#line 1558 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -4476,10 +4668,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 185:
 YY_RULE_SETUP
-#line 1376 "Scanner.ll"
+#line 1567 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::NETBACKANNOTATE; 
@@ -4487,10 +4680,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 186:
 YY_RULE_SETUP
-#line 1383 "Scanner.ll"
+#line 1575 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -4499,10 +4693,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 187:
 YY_RULE_SETUP
-#line 1391 "Scanner.ll"
+#line 1584 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::NETDELAY; 
@@ -4510,10 +4705,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 188:
 YY_RULE_SETUP
-#line 1398 "Scanner.ll"
+#line 1592 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::NETGROUP; 
@@ -4521,10 +4717,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 189:
 YY_RULE_SETUP
-#line 1405 "Scanner.ll"
+#line 1600 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::NETMAP; 
@@ -4532,10 +4729,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 190:
 YY_RULE_SETUP
-#line 1412 "Scanner.ll"
+#line 1608 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -4544,10 +4742,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 191:
 YY_RULE_SETUP
-#line 1420 "Scanner.ll"
+#line 1617 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::NOCHANGE; 
@@ -4555,10 +4754,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 192:
 YY_RULE_SETUP
-#line 1427 "Scanner.ll"
+#line 1625 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::NONPERMUTABLE; 
@@ -4566,10 +4766,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 193:
 YY_RULE_SETUP
-#line 1434 "Scanner.ll"
+#line 1633 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::NOTALLOWED; 
@@ -4577,10 +4778,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 194:
 YY_RULE_SETUP
-#line 1441 "Scanner.ll"
+#line 1641 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::NOTCHSPACING; 
@@ -4588,10 +4790,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 195:
 YY_RULE_SETUP
-#line 1448 "Scanner.ll"
+#line 1649 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::NUMBER; 
@@ -4599,10 +4802,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 196:
 YY_RULE_SETUP
-#line 1455 "Scanner.ll"
+#line 1657 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::NUMBERDEFINITION; 
@@ -4610,10 +4814,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 197:
 YY_RULE_SETUP
-#line 1462 "Scanner.ll"
+#line 1665 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::NUMBERDISPLAY; 
@@ -4621,10 +4826,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 198:
 YY_RULE_SETUP
-#line 1469 "Scanner.ll"
+#line 1673 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::OFFPAGECONNECTOR; 
@@ -4632,10 +4838,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 199:
 YY_RULE_SETUP
-#line 1476 "Scanner.ll"
+#line 1681 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }    
                               return Token::OFFSETEVENT; 
@@ -4643,10 +4850,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 200:
 YY_RULE_SETUP
-#line 1483 "Scanner.ll"
+#line 1689 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::OPENSHAPE; 
@@ -4654,10 +4862,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 201:
 YY_RULE_SETUP
-#line 1490 "Scanner.ll"
+#line 1697 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ORIENTATION; 
@@ -4665,10 +4874,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 202:
 YY_RULE_SETUP
-#line 1497 "Scanner.ll"
+#line 1705 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::ORIGIN; 
@@ -4676,10 +4886,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 203:
 YY_RULE_SETUP
-#line 1504 "Scanner.ll"
+#line 1713 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::OVERHANGDISTANCE; 
@@ -4687,10 +4898,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 204:
 YY_RULE_SETUP
-#line 1511 "Scanner.ll"
+#line 1721 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::OVERLAPDISTANCE; 
@@ -4698,10 +4910,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 205:
 YY_RULE_SETUP
-#line 1518 "Scanner.ll"
+#line 1729 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::OVERSIZE; 
@@ -4709,10 +4922,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 206:
 YY_RULE_SETUP
-#line 1525 "Scanner.ll"
+#line 1737 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }    
                               return Token::OWNER; 
@@ -4720,10 +4934,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 207:
 YY_RULE_SETUP
-#line 1532 "Scanner.ll"
+#line 1745 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PAGE; 
@@ -4731,21 +4946,23 @@ YY_RULE_SETUP
 	YY_BREAK
 case 208:
 YY_RULE_SETUP
-#line 1539 "Scanner.ll"
+#line 1753 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
-                              return Token::PAGESIZE_TORC; 
+                              return Token::PAGESIZE_EDIF; 
                             }
 	YY_BREAK
 case 209:
 YY_RULE_SETUP
-#line 1546 "Scanner.ll"
+#line 1761 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -4754,10 +4971,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 210:
 YY_RULE_SETUP
-#line 1554 "Scanner.ll"
+#line 1770 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -4766,10 +4984,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 211:
 YY_RULE_SETUP
-#line 1562 "Scanner.ll"
+#line 1779 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PARAMETERDISPLAY; 
@@ -4777,10 +4996,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 212:
 YY_RULE_SETUP
-#line 1569 "Scanner.ll"
+#line 1787 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PATH; 
@@ -4788,10 +5008,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 213:
 YY_RULE_SETUP
-#line 1576 "Scanner.ll"
+#line 1795 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PATHDELAY; 
@@ -4799,10 +5020,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 214:
 YY_RULE_SETUP
-#line 1583 "Scanner.ll"
+#line 1803 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PATHWIDTH; 
@@ -4810,10 +5032,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 215:
 YY_RULE_SETUP
-#line 1590 "Scanner.ll"
+#line 1811 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PERMUTABLE; 
@@ -4821,10 +5044,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 216:
 YY_RULE_SETUP
-#line 1597 "Scanner.ll"
+#line 1819 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PHYSICALDESIGNRULE; 
@@ -4832,10 +5056,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 217:
 YY_RULE_SETUP
-#line 1604 "Scanner.ll"
+#line 1827 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PLUG; 
@@ -4843,10 +5068,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 218:
 YY_RULE_SETUP
-#line 1611 "Scanner.ll"
+#line 1835 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::POINT; 
@@ -4854,10 +5080,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 219:
 YY_RULE_SETUP
-#line 1618 "Scanner.ll"
+#line 1843 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::POINTDISPLAY; 
@@ -4865,10 +5092,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 220:
 YY_RULE_SETUP
-#line 1625 "Scanner.ll"
+#line 1851 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::POINTLIST; 
@@ -4876,10 +5104,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 221:
 YY_RULE_SETUP
-#line 1632 "Scanner.ll"
+#line 1859 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::POLYGON; 
@@ -4887,10 +5116,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 222:
 YY_RULE_SETUP
-#line 1639 "Scanner.ll"
+#line 1867 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;    
                               }
                               setIsIdContext( true );
@@ -4899,10 +5129,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 223:
 YY_RULE_SETUP
-#line 1647 "Scanner.ll"
+#line 1876 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PORTBACKANNOTATE; 
@@ -4910,10 +5141,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 224:
 YY_RULE_SETUP
-#line 1654 "Scanner.ll"
+#line 1884 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -4922,10 +5154,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 225:
 YY_RULE_SETUP
-#line 1662 "Scanner.ll"
+#line 1893 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PORTDELAY; 
@@ -4933,10 +5166,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 226:
 YY_RULE_SETUP
-#line 1669 "Scanner.ll"
+#line 1901 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PORTGROUP; 
@@ -4944,10 +5178,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 227:
 YY_RULE_SETUP
-#line 1676 "Scanner.ll"
+#line 1909 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PORTIMPLEMENTATION; 
@@ -4955,10 +5190,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 228:
 YY_RULE_SETUP
-#line 1683 "Scanner.ll"
+#line 1917 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PORTINSTANCE; 
@@ -4966,32 +5202,37 @@ YY_RULE_SETUP
 	YY_BREAK
 case 229:
 YY_RULE_SETUP
-#line 1690 "Scanner.ll"
+#line 1925 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
+                              setIsIdContext( true );
                               return Token::PORTLIST; 
                             }
 	YY_BREAK
 case 230:
 YY_RULE_SETUP
-#line 1697 "Scanner.ll"
+#line 1934 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
+                              setIsIdContext( true );
                               return Token::PORTLISTALIAS; 
                             }
 	YY_BREAK
 case 231:
 YY_RULE_SETUP
-#line 1704 "Scanner.ll"
+#line 1943 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PORTMAP; 
@@ -4999,10 +5240,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 232:
 YY_RULE_SETUP
-#line 1711 "Scanner.ll"
+#line 1951 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -5011,10 +5253,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 233:
 YY_RULE_SETUP
-#line 1719 "Scanner.ll"
+#line 1960 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PROGRAM; 
@@ -5022,10 +5265,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 234:
 YY_RULE_SETUP
-#line 1726 "Scanner.ll"
+#line 1968 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -5034,10 +5278,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 235:
 YY_RULE_SETUP
-#line 1734 "Scanner.ll"
+#line 1977 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PROPERTYDISPLAY; 
@@ -5045,10 +5290,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 236:
 YY_RULE_SETUP
-#line 1741 "Scanner.ll"
+#line 1985 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PROTECTIONFRAME; 
@@ -5056,10 +5302,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 237:
 YY_RULE_SETUP
-#line 1748 "Scanner.ll"
+#line 1993 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::PT; 
@@ -5067,10 +5314,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 238:
 YY_RULE_SETUP
-#line 1755 "Scanner.ll"
+#line 2001 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::RANGEVECTOR; 
@@ -5078,10 +5326,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 239:
 YY_RULE_SETUP
-#line 1762 "Scanner.ll"
+#line 2009 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::RECTANGLE; 
@@ -5089,10 +5338,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 240:
 YY_RULE_SETUP
-#line 1769 "Scanner.ll"
+#line 2017 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::RECTANGLESIZE; 
@@ -5100,10 +5350,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 241:
 YY_RULE_SETUP
-#line 1776 "Scanner.ll"
+#line 2025 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -5112,10 +5363,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 242:
 YY_RULE_SETUP
-#line 1784 "Scanner.ll"
+#line 2034 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::RESOLVES; 
@@ -5123,10 +5375,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 243:
 YY_RULE_SETUP
-#line 1791 "Scanner.ll"
+#line 2042 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::SCALE; 
@@ -5134,10 +5387,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 244:
 YY_RULE_SETUP
-#line 1798 "Scanner.ll"
+#line 2050 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                                return Token::SCALEX; 
@@ -5145,10 +5399,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 245:
 YY_RULE_SETUP
-#line 1805 "Scanner.ll"
+#line 2058 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::SCALEY; 
@@ -5156,10 +5411,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 246:
 YY_RULE_SETUP
-#line 1812 "Scanner.ll"
+#line 2066 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::SECTION; 
@@ -5167,10 +5423,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 247:
 YY_RULE_SETUP
-#line 1819 "Scanner.ll"
+#line 2074 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::SHAPE; 
@@ -5178,21 +5435,24 @@ YY_RULE_SETUP
 	YY_BREAK
 case 248:
 YY_RULE_SETUP
-#line 1826 "Scanner.ll"
+#line 2082 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
+                              setIsIdContext( true );
                               return Token::SIMULATE; 
                             }
 	YY_BREAK
 case 249:
 YY_RULE_SETUP
-#line 1833 "Scanner.ll"
+#line 2091 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::SIMULATIONINFO; 
@@ -5200,10 +5460,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 250:
 YY_RULE_SETUP
-#line 1840 "Scanner.ll"
+#line 2099 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::SINGLEVALUESET; 
@@ -5211,10 +5472,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 251:
 YY_RULE_SETUP
-#line 1847 "Scanner.ll"
+#line 2107 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::SITE; 
@@ -5222,10 +5484,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 252:
 YY_RULE_SETUP
-#line 1854 "Scanner.ll"
+#line 2115 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::SOCKET; 
@@ -5233,10 +5496,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 253:
 YY_RULE_SETUP
-#line 1861 "Scanner.ll"
+#line 2123 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::SOCKETSET; 
@@ -5244,10 +5508,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 254:
 YY_RULE_SETUP
-#line 1868 "Scanner.ll"
+#line 2131 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::STATUS; 
@@ -5255,10 +5520,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 255:
 YY_RULE_SETUP
-#line 1875 "Scanner.ll"
+#line 2139 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::STEADY; 
@@ -5266,10 +5532,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 256:
 YY_RULE_SETUP
-#line 1882 "Scanner.ll"
+#line 2147 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::STRING; 
@@ -5277,10 +5544,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 257:
 YY_RULE_SETUP
-#line 1889 "Scanner.ll"
+#line 2155 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::STRINGDISPLAY; 
@@ -5288,10 +5556,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 258:
 YY_RULE_SETUP
-#line 1896 "Scanner.ll"
+#line 2163 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::STRONG; 
@@ -5299,10 +5568,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 259:
 YY_RULE_SETUP
-#line 1903 "Scanner.ll"
+#line 2171 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::SYMBOL; 
@@ -5310,10 +5580,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 260:
 YY_RULE_SETUP
-#line 1910 "Scanner.ll"
+#line 2179 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::SYMMETRY; 
@@ -5321,10 +5592,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 261:
 YY_RULE_SETUP
-#line 1917 "Scanner.ll"
+#line 2187 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TABLE; 
@@ -5332,10 +5604,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 262:
 YY_RULE_SETUP
-#line 1924 "Scanner.ll"
+#line 2195 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TABLEDEFAULT; 
@@ -5343,10 +5616,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 263:
 YY_RULE_SETUP
-#line 1931 "Scanner.ll"
+#line 2203 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TECHNOLOGY; 
@@ -5354,10 +5628,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 264:
 YY_RULE_SETUP
-#line 1938 "Scanner.ll"
+#line 2211 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TEXTHEIGHT; 
@@ -5365,10 +5640,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 265:
 YY_RULE_SETUP
-#line 1945 "Scanner.ll"
+#line 2219 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TIMEINTERVAL; 
@@ -5376,10 +5652,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 266:
 YY_RULE_SETUP
-#line 1952 "Scanner.ll"
+#line 2227 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TIMESTAMP; 
@@ -5387,10 +5664,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 267:
 YY_RULE_SETUP
-#line 1959 "Scanner.ll"
+#line 2235 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TIMING; 
@@ -5398,10 +5676,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 268:
 YY_RULE_SETUP
-#line 1966 "Scanner.ll"
+#line 2243 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TRANSFORM; 
@@ -5409,10 +5688,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 269:
 YY_RULE_SETUP
-#line 1973 "Scanner.ll"
+#line 2251 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TRANSITION; 
@@ -5420,10 +5700,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 270:
 YY_RULE_SETUP
-#line 1980 "Scanner.ll"
+#line 2259 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TRIGGER; 
@@ -5431,10 +5712,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 271:
 YY_RULE_SETUP
-#line 1987 "Scanner.ll"
+#line 2267 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::TRUE; 
@@ -5442,10 +5724,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 272:
 YY_RULE_SETUP
-#line 1994 "Scanner.ll"
+#line 2275 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::UNCONSTRAINED; 
@@ -5453,10 +5736,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 273:
 YY_RULE_SETUP
-#line 2001 "Scanner.ll"
+#line 2283 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::UNDEFINED; 
@@ -5464,10 +5748,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 274:
 YY_RULE_SETUP
-#line 2008 "Scanner.ll"
+#line 2291 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::UNION; 
@@ -5475,10 +5760,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 275:
 YY_RULE_SETUP
-#line 2015 "Scanner.ll"
+#line 2299 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::UNIT; 
@@ -5486,10 +5772,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 276:
 YY_RULE_SETUP
-#line 2022 "Scanner.ll"
+#line 2307 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::UNUSED; 
@@ -5497,21 +5784,24 @@ YY_RULE_SETUP
 	YY_BREAK
 case 277:
 YY_RULE_SETUP
-#line 2029 "Scanner.ll"
+#line 2315 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
+                              setIsIdContext( true );
                               return Token::USERDATA; 
                             }
 	YY_BREAK
 case 278:
 YY_RULE_SETUP
-#line 2036 "Scanner.ll"
+#line 2324 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::VERSION; 
@@ -5519,10 +5809,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 279:
 YY_RULE_SETUP
-#line 2043 "Scanner.ll"
+#line 2332 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -5531,10 +5822,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 280:
 YY_RULE_SETUP
-#line 2051 "Scanner.ll"
+#line 2341 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::VIEWLIST; 
@@ -5542,10 +5834,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 281:
 YY_RULE_SETUP
-#line 2058 "Scanner.ll"
+#line 2349 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::VIEWMAP; 
@@ -5553,10 +5846,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 282:
 YY_RULE_SETUP
-#line 2065 "Scanner.ll"
+#line 2357 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               setIsIdContext( true );
@@ -5565,10 +5859,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 283:
 YY_RULE_SETUP
-#line 2073 "Scanner.ll"
+#line 2366 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::VIEWTYPE; 
@@ -5576,10 +5871,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 284:
 YY_RULE_SETUP
-#line 2080 "Scanner.ll"
+#line 2374 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::VISIBLE; 
@@ -5587,10 +5883,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 285:
 YY_RULE_SETUP
-#line 2087 "Scanner.ll"
+#line 2382 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::VOLTAGEMAP; 
@@ -5598,21 +5895,24 @@ YY_RULE_SETUP
 	YY_BREAK
 case 286:
 YY_RULE_SETUP
-#line 2094 "Scanner.ll"
+#line 2390 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
+                              setIsIdContext( true );
                               return Token::WAVEVALUE; 
                             }
 	YY_BREAK
 case 287:
 YY_RULE_SETUP
-#line 2101 "Scanner.ll"
+#line 2399 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::WEAK; 
@@ -5620,10 +5920,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 288:
 YY_RULE_SETUP
-#line 2108 "Scanner.ll"
+#line 2407 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::WEAKJOINED; 
@@ -5631,10 +5932,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 289:
 YY_RULE_SETUP
-#line 2115 "Scanner.ll"
+#line 2415 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::WHEN; 
@@ -5642,10 +5944,11 @@ YY_RULE_SETUP
 	YY_BREAK
 case 290:
 YY_RULE_SETUP
-#line 2122 "Scanner.ll"
+#line 2423 "Scanner.ll"
 { 
                               if( getIsIdContext() )
                               {
+                                  mIsIdAlreadyAdded = true;
                                   REJECT;
                               }
                               return Token::WRITTEN; 
@@ -5653,7 +5956,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 291:
 YY_RULE_SETUP
-#line 2131 "Scanner.ll"
+#line 2433 "Scanner.ll"
 {
                       yylval->stringVal = new std::string(yytext, yyleng);
                       setIsIdContext( false );
@@ -5662,14 +5965,14 @@ YY_RULE_SETUP
 	YY_BREAK
 case 292:
 YY_RULE_SETUP
-#line 2137 "Scanner.ll"
+#line 2439 "Scanner.ll"
 { yylval->integerVal = atoi(yytext);
                       return Token::INTEGER;
                     }
 	YY_BREAK
 case 293:
 YY_RULE_SETUP
-#line 2141 "Scanner.ll"
+#line 2443 "Scanner.ll"
 { yylval->doubleVal = atof(yytext);
                       return Token::DOUBLE;
                     }
@@ -5677,16 +5980,16 @@ YY_RULE_SETUP
 case 294:
 /* rule 294 can match eol */
 YY_RULE_SETUP
-#line 2145 "Scanner.ll"
-{  std::string str = std::string(yytext);
-                        yylval->stringVal = new std::string(str, 1, yyleng -2);
+#line 2447 "Scanner.ll"
+{ 
+                      yylval->stringVal = new std::string(yytext +1, yyleng -2);
                       return Token::STRING;
                     }
 	YY_BREAK
 /* gobble up white-spaces */
 case 295:
 YY_RULE_SETUP
-#line 2152 "Scanner.ll"
+#line 2454 "Scanner.ll"
 {
     yylloc->step();
 }
@@ -5695,7 +5998,7 @@ YY_RULE_SETUP
 case 296:
 /* rule 296 can match eol */
 YY_RULE_SETUP
-#line 2157 "Scanner.ll"
+#line 2459 "Scanner.ll"
 {
     yylloc->lines(yyleng); yylloc->step();
     /* return Token::EOL; */
@@ -5704,17 +6007,17 @@ YY_RULE_SETUP
 /* pass all other characters up to bison */
 case 297:
 YY_RULE_SETUP
-#line 2163 "Scanner.ll"
+#line 2465 "Scanner.ll"
 {
     return static_cast<TokenType>(*yytext);
 }
 	YY_BREAK
 case 298:
 YY_RULE_SETUP
-#line 2168 "Scanner.ll"
+#line 2470 "Scanner.ll"
 ECHO;
 	YY_BREAK
-#line 5718 "lex.Edif.cc"
+#line 6020 "lex.Edif.cc"
 			case YY_STATE_EOF(INITIAL):
 				yyterminate();
 
@@ -6728,7 +7031,7 @@ void Ediffree (void * ptr )
 
 /* %ok-for-header */
 
-#line 2168 "Scanner.ll"
+#line 2470 "Scanner.ll"
 
 
 
@@ -6740,7 +7043,10 @@ Scanner::Scanner(std::istream* in,
 : EdifFlexLexer(in, out),
   mIsIdContext( false ),
   mAppendToBuffer( false ),
-  mBuffer()
+  mAppendToUserDataBuffer( false ),
+  mBuffer(),
+  mUserDataBuffer(),
+  mIsIdAlreadyAdded( false )  
 {
 }
 
@@ -6790,11 +7096,30 @@ Scanner::resetBuffer() throw() {
 }
 
 void
+Scanner::setAppendToUserDataBuffer( bool inAppendToBuffer ) throw() {
+	mAppendToUserDataBuffer = inAppendToBuffer;
+}
+
+void
+Scanner::resetUserDataBuffer() throw() {
+	mUserDataBuffer = "";
+}
+
+void
 Scanner::addToBuffer( const char *str ) throw() {
 	if( getAppendToBuffer() )
 	{
 		mBuffer += str;
 	}
+}
+
+void
+Scanner::addToUserDataBuffer( const char *str ) throw() {
+	if( getAppendToUserDataBuffer() && (mIsIdAlreadyAdded == false) )
+	{
+		mUserDataBuffer += str;
+	}
+    mIsIdAlreadyAdded = false;
 }
 
 void

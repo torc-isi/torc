@@ -19,7 +19,7 @@
 #ifndef TORC_BITSTREAM_VIRTEXE_HPP
 #define TORC_BITSTREAM_VIRTEXE_HPP
 
-#include <boost/integer.hpp>
+#include <boost/cstdint.hpp>
 #include "torc/bitstream/Virtex.hpp"
 
 namespace torc { namespace architecture { class DDB; } }
@@ -27,17 +27,19 @@ namespace torc { namespace architecture { class DDB; } }
 namespace torc {
 namespace bitstream {
 
-namespace bitstream { class bitstream_virtexe; }
-namespace bitstream { class bitstream_virtexe_far; }
+namespace bitstream { class VirtexEUnitTest; }
+namespace bitstream { class VirtexEFarUnitTest; }
 namespace bitstream { void testVirtexEDevice(const std::string& inDeviceName, 
 	const boost::filesystem::path& inWorkingPath); }
+namespace bitstream { void testVirtexEFullMapping(const boost::filesystem::path& inWorkingPath); }
 
 	/// \brief VirtexE bitstream inherited from Virtex bitstream.
 	class VirtexE : public Virtex {
-		friend class torc::bitstream::bitstream::bitstream_virtexe;
-		friend class torc::bitstream::bitstream::bitstream_virtexe_far;
+		friend class torc::bitstream::bitstream::VirtexEUnitTest;
+		friend class torc::bitstream::bitstream::VirtexEFarUnitTest;
 		friend void torc::bitstream::bitstream::testVirtexEDevice(const std::string& inDeviceName, 
 			const boost::filesystem::path& inWorkingPath);
+		friend void torc::bitstream::bitstream::testVirtexEFullMapping(const boost::filesystem::path& inWorkingPath);
 	  public:
 	// functions
 		/// \brief Initialize the device information.

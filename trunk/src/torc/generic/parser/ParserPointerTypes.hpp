@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef PARSER_POINTER_TYPES_HPP
-#define PARSER_POINTER_TYPES_HPP
+#ifndef TORC_GENERIC_PARSER_PARSERPOINTERTYPES_HPP
+#define TORC_GENERIC_PARSER_PARSERPOINTERTYPES_HPP
 
 //BOOST
 #include <boost/shared_ptr.hpp>
@@ -34,5 +34,4 @@ typedef boost::weak_ptr<Linker> LinkerWeakPtr;
 } // namespace torc::generic
 
 } // namespace torc
-#endif
-
+#endif // TORC_GENERIC_PARSER_PARSERPOINTERTYPES_HPP

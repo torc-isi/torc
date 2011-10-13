@@ -19,9 +19,10 @@
 #ifndef TORC_BITSTREAM_VIRTEX_HPP
 #define TORC_BITSTREAM_VIRTEX_HPP
 
-#include <boost/integer.hpp>
+#include <boost/cstdint.hpp>
 #include <boost/filesystem.hpp>
 #include "torc/bitstream/VirtexBitstream.hpp"
+#include "torc/bitstream/VirtexFrameAddress.hpp"
 #include <map>
 
 namespace torc { namespace architecture { class DDB; } }
@@ -29,17 +30,19 @@ namespace torc { namespace architecture { class DDB; } }
 namespace torc {
 namespace bitstream {
 
-namespace bitstream { class bitstream_virtex; }
-namespace bitstream { class bitstream_virtex_far; }
+namespace bitstream { class VirtexUnitTest; }
+namespace bitstream { class VirtexFarUnitTest; }
 namespace bitstream { void testVirtexDevice(const std::string& inDeviceName, 
 	const boost::filesystem::path& inWorkingPath); }
+namespace bitstream { void testVirtexFullMapping(const boost::filesystem::path& inWorkingPath); }
 
 	/// \brief Virtex bitstream.
 	class Virtex : public VirtexBitstream {
-		friend class torc::bitstream::bitstream::bitstream_virtex;
-		friend class torc::bitstream::bitstream::bitstream_virtex_far;
+		friend class torc::bitstream::bitstream::VirtexUnitTest;
+		friend class torc::bitstream::bitstream::VirtexFarUnitTest;
 		friend void torc::bitstream::bitstream::testVirtexDevice(const std::string& inDeviceName, 
 			const boost::filesystem::path& inWorkingPath);
+		friend void torc::bitstream::bitstream::testVirtexFullMapping(const boost::filesystem::path& inWorkingPath);
 	protected:
 	// typedefs
 		/// \brief Imported type name.
@@ -126,16 +129,22 @@ namespace bitstream { void testVirtexDevice(const std::string& inDeviceName,
 		/// \brief Initialize the maps between frame indexes and frame addresses.
 		/// \detail This is generally only useful for internal purposes.
 		virtual void initializeFrameMaps(void);
-		/// \brief This function takes care of the Virtex Frame Mapping
+		/// \brief Prepares the frames to load them at the correct frame indexes
 		typedef torc::common::EncapsulatedInteger<uint16_t> ColumnIndex;
-		virtual void prepareFrames(ColumnIndex &inCol, int &inFrameCount, int &inFrameIndex, EFarBlockType &inBlockType, int &inFarMajor, int &inWidth);
+		void prepareFrames(ColumnIndex &inCol, int &inFrameCount, int &inFrameIndex, EFarBlockType &inBlockType, int &inFarMajor, int &inWidth);
+		/// \brief Loads full bitstream frames into block data structure.
+		void initializeFullFrameBlocks(void);
+		/// \brief Returns frames for queried bitstream co-ordinates
+		VirtexFrameBlocks getBitstreamFrames(uint32_t inBlockCount, uint32_t inBitCol);
+		/// \brief Returns frames for queried xdl co-ordinates
+		VirtexFrameBlocks getXdlFrames(uint32_t inBlockCount, uint32_t inXdlCol);
 	// inserters
 		/// \brief Insert the bitstream header into an output stream.
 		friend std::ostream& operator<< (std::ostream& os, const Virtex& rhs);
 	// inner classes
-		class FrameAddress {
+		class FrameAddress : public VirtexFrameAddress {
 		protected:
-			void assign(uint32_t inAddress) {
+			virtual void assign(uint32_t inAddress) {
 				mBlockType = EFarBlockType((inAddress & eFarMaskBlockType) >> eFarShiftBlockType);
 				mMajor = (inAddress & eFarMaskMajor) >> eFarShiftMajor;
 				mMinor = (inAddress & eFarMaskMinor) >> eFarShiftMinor;
@@ -148,10 +157,12 @@ namespace bitstream { void testVirtexDevice(const std::string& inDeviceName,
 			EFarBlockType mBlockType;
 			uint32_t mMajor;
 			uint32_t mMinor;
-			bool operator== (const FrameAddress& rhs) const {
+			virtual bool operator== (const VirtexFrameAddress& vrhs) const {
+			    const FrameAddress& rhs = reinterpret_cast<const FrameAddress&>(vrhs);
 				return mBlockType == rhs.mBlockType	&& mMajor == rhs.mMajor && mMinor == rhs.mMinor;
 			}
-			bool operator< (const FrameAddress& rhs) const {
+			virtual bool operator< (const VirtexFrameAddress& vrhs) const {
+			    const FrameAddress& rhs = reinterpret_cast<const FrameAddress&>(vrhs);
 				int diffBlockType = mBlockType - rhs.mBlockType;
 				if(diffBlockType) return diffBlockType < 0;
 				int diffMajor = mMajor - rhs.mMajor;
@@ -159,14 +170,7 @@ namespace bitstream { void testVirtexDevice(const std::string& inDeviceName,
 				return mMinor < rhs.mMinor;
 			}
 		private:
-			//operator uint32_t (void) const {
-			//	return 
-			//		((mTopBottom << eFarShiftTopBottom) & eFarMaskTopBottom) | 
-			//		((mBlockType << eFarShiftBlockType) & eFarMaskBlockType) |
-			//		((mRow << eFarShiftRow) & eFarMaskRow) | 
-			//		((mMajor << eFarShiftMajor) & eFarMaskMajor) | 
-			//		((mMinor << eFarShiftMinor) & eFarMaskMinor);
-			//}
+			//
 		};
 	// accessors
 		/// \brief Return the frame length for the current device.
@@ -193,16 +197,23 @@ namespace bitstream { void testVirtexDevice(const std::string& inDeviceName,
 		/// \brief Map from frame address to frame index.
 		typedef std::map<Virtex::FrameAddress, uint32_t> FrameAddressToIndex;
 		/// \brief Array of vectors to store frame indexes of each block type
-		typedef std::vector<uint32_t> ColumnIndexVector;
+		typedef std::vector<uint32_t> IndexVector;
+
 	// members
 		/// \brief Map of frame indexes to frame addresses.
 		FrameIndexToAddress mFrameIndexToAddress;
 		/// \brief Map of frame addressee to frame indexes.
 		FrameAddressToIndex mFrameAddressToIndex;
 		/// \brief Vector to store frame indexes of XDL columns.
-		ColumnIndexVector mBitColumnIndexes [Virtex::eFarBlockTypeCount];
+		IndexVector mBitColumnIndexes [Virtex::eFarBlockTypeCount];
 		/// \brief Vector to store frame indexes of Bitstream columns.
-		ColumnIndexVector mXdlColumnIndexes [Virtex::eFarBlockTypeCount];
+		IndexVector mXdlColumnIndexes [Virtex::eFarBlockTypeCount];
+		/// \brief Array to hold frame index boundaries for blocks.
+		uint32_t mBlockFrameIndexBounds [Virtex::eFarBlockTypeCount];
+		/// \brief Frame index bounds count.
+		uint32_t mFrameIndexBounds;
+		/// \brief Map of xdl columns to bit columns.
+		std::map<uint32_t, uint32_t> mXdlIndexToBitIndex;
 	};
 
 } // namespace bitstream

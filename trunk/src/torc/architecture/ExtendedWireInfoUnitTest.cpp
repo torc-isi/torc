@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the ExtendedWireInfo unit test.
+/// \brief Unit test for the ExtendedWireInfo class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/architecture/ExtendedWireInfo.hpp"

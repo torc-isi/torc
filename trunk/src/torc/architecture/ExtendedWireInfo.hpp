@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the ExtendedWireInfo class.
 
-#ifndef TORC_ARCHITECTURE_EXTENDED_WIRE_INFO_HPP
-#define TORC_ARCHITECTURE_EXTENDED_WIRE_INFO_HPP
+#ifndef TORC_ARCHITECTURE_EXTENDEDWIREINFO_HPP
+#define TORC_ARCHITECTURE_EXTENDEDWIREINFO_HPP
 
 #include "torc/architecture/XilinxDatabaseTypes.hpp"
 #include "torc/architecture/Tilewire.hpp"
@@ -25,7 +25,7 @@
 namespace torc {
 namespace architecture {
 
-		class DDB;
+	class DDB;
 
 	/// \brief Verbose encapsulation of a wire's information.
 	class ExtendedWireInfo {
@@ -82,4 +82,4 @@ namespace architecture {
 } // namespace architecture
 } // namespace torc
 
-#endif // TORC_ARCHITECTURE_EXTENDED_WIRE_INFO_HPP
+#endif // TORC_ARCHITECTURE_EXTENDEDWIREINFO_HPP

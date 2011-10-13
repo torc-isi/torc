@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_EDIFCONTEXT_HPP
-#define TORC_GENERIC_EDIFCONTEXT_HPP
+#ifndef TORC_GENERIC_PARSER_EDIFCONTEXT_HPP
+#define TORC_GENERIC_PARSER_EDIFCONTEXT_HPP
 
 #include "torc/generic/om/PointerTypes.hpp"
 #include "torc/generic/parser/ParserPointerTypes.hpp"
@@ -39,6 +39,22 @@ namespace torc { namespace generic { class Property; } }
 namespace torc { namespace generic { class PropertyContainer; } }
 namespace torc { namespace generic { class Root; } }
 namespace torc { namespace generic { class View; } }
+namespace torc { namespace generic { class Instance; } }
+namespace torc { namespace generic { class Status; } }
+namespace torc { namespace generic { class StatusContainer; } }
+namespace torc { namespace generic { class Permutable; } }
+namespace torc { namespace generic { class InterfaceJoinedInfo; } }
+namespace torc { namespace generic { class SimulationInfo; } }
+namespace torc { namespace generic { class Simulate; } }
+namespace torc { namespace generic { class LogicValue; } }
+namespace torc { namespace generic { class Apply; } }
+namespace torc { namespace generic { class LogicalResponse; } }
+namespace torc { namespace generic { class LogicElement; } }
+namespace torc { namespace generic { class WaveValue; } }
+namespace torc { namespace generic { class Timing; } }
+namespace torc { namespace generic { class PathDelay; } }
+namespace torc { namespace generic { class Event; } }
+namespace torc { namespace generic { class ForbiddenEvent; } }
 
 namespace torc {
 namespace generic {
@@ -82,6 +98,14 @@ class EdifContext {
     void
     setCurrentView( const ViewSharedPtr &inView ) throw();
 
+
+    inline InstanceSharedPtr
+    getCurrentInstance() const throw();
+
+    void
+    setCurrentInstance( const InstanceSharedPtr &inInstance ) throw();
+
+
     inline PortSharedPtr
     getCurrentPort() const throw();
 
@@ -106,6 +130,99 @@ class EdifContext {
 
     void
     setCurrentNet( const NetSharedPtr &inNet ) throw();
+
+    inline StatusSharedPtr
+    getCurrentStatus() const throw();
+
+    void
+    setCurrentStatus( const StatusSharedPtr &inStatus ) throw();
+
+    inline WrittenSharedPtr
+    getCurrentWritten() const throw();
+
+    void
+    setCurrentWritten( const WrittenSharedPtr &inWritten ) throw();
+    
+    //For SimulationInfo
+    inline SimulationInfoSharedPtr
+    getCurrentSimulationInfo() const throw();
+
+    void
+    setCurrentSimulationInfo( const SimulationInfoSharedPtr &inSimulationInfo ) throw();
+
+    //For Simulate
+    inline SimulateSharedPtr
+    getCurrentSimulate() const throw();
+
+    void
+    setCurrentSimulate( const SimulateSharedPtr &inSimulate ) throw();
+
+    //For Apply
+    inline ApplySharedPtr
+    getCurrentApply() const throw();
+
+    void
+    setCurrentApply( const ApplySharedPtr &inApply ) throw();
+
+    //For LogicalResponse
+    inline LogicalResponseSharedPtr
+    getCurrentLogicalResponse() const throw();
+
+    void
+    setCurrentLogicalResponse( const LogicalResponseSharedPtr & inLogicalResponse ) throw();
+
+    //For WaveValue
+    inline WaveValueSharedPtr
+    getCurrentWaveValue() const throw();
+
+    void
+    setCurrentWaveValue( const WaveValueSharedPtr & inWaveValue ) throw();
+
+
+    //For LogicValue
+    inline LogicValueSharedPtr
+    getCurrentLogicValue() const throw();
+
+    void
+    setCurrentLogicValue( const LogicValueSharedPtr &inLogicValue ) throw();
+
+    //For Timing
+    inline TimingSharedPtr
+    getCurrentTiming() const throw();
+
+    void
+    setCurrentTiming( const TimingSharedPtr &inTiming ) throw();
+
+    //For PathDelay
+    inline PathDelaySharedPtr
+    getCurrentPathDelay() const throw();
+
+    void
+    setCurrentPathDelay( const PathDelaySharedPtr &inPathDelay ) throw();
+
+    //For Event
+    inline EventSharedPtr
+    getCurrentEvent() const throw();
+
+    void
+    setCurrentEvent( const EventSharedPtr &inEvent ) throw();
+
+    //For ForbiddenEvent
+    inline ForbiddenEventSharedPtr
+    getCurrentForbiddenEvent() const throw();
+
+    void
+    setCurrentForbiddenEvent( const ForbiddenEventSharedPtr &inForbiddenEvent ) throw();
+
+    void
+    popStatusContainer() throw();
+
+    void
+    pushStatusContainer(
+        const StatusContainerSharedPtr &inStatusContainer ) throw();
+
+    StatusContainerSharedPtr
+    getCurrentStatusContainer() const throw();
 
     PortBundleSharedPtr
     getCurrentPortBundleContext() throw();
@@ -176,6 +293,66 @@ class EdifContext {
     void
     decrementPropertyDepth() throw(); 
 
+    //For Permutable
+    void
+    pushPermutable(
+            const PermutableSharedPtr &inPermutable) throw();
+
+    void
+    popPermutable() throw();
+
+    PermutableSharedPtr
+    getCurrentPermutable() throw();
+
+    inline int32_t
+    getPermutableDepth() const throw();
+
+    void
+    incrementPermutableDepth() throw(); 
+
+    void
+    decrementPermutableDepth() throw(); 
+
+    //For InterfaceJoinedInfo
+    void
+    pushInterfaceJoinedInfo(
+            const InterfaceJoinedInfoSharedPtr &inInterfaceJoinedInfo) throw();
+
+    void
+    popInterfaceJoinedInfo() throw();
+
+    InterfaceJoinedInfoSharedPtr
+    getCurrentInterfaceJoinedInfo() throw();
+
+    inline int32_t
+    getInterfaceJoinedInfoDepth() const throw();
+
+    void
+    incrementInterfaceJoinedInfoDepth() throw(); 
+
+    void
+    decrementInterfaceJoinedInfoDepth() throw(); 
+
+    //For LogicElement
+    void
+    pushLogicElement(
+            const LogicElementSharedPtr &inLogicElement) throw();
+
+    void
+    popLogicElement() throw();
+
+    LogicElementSharedPtr
+    getCurrentLogicElement() throw();
+
+    inline int32_t
+    getLogicElementDepth() const throw();
+
+    void
+    incrementLogicElementDepth() throw(); 
+
+    void
+    decrementLogicElementDepth() throw(); 
+
     EdifContext( const RootSharedPtr &inRoot,
                 const LinkerSharedPtr &inLinker,
                 const ObjectFactorySharedPtr &inFactory,
@@ -191,9 +368,13 @@ class EdifContext {
     DesignSharedPtr mCurrentDesign;
     CellSharedPtr mCurrentCell;
     ViewSharedPtr mCurrentView;
+    InstanceSharedPtr mCurrentInstance;
     PortSharedPtr mCurrentPort;
     PortReferenceSharedPtr mCurrentPortRef;
     NetSharedPtr mCurrentNet;
+    StatusSharedPtr mCurrentStatus;
+    WrittenSharedPtr mCurrentWritten;
+    std::stack< StatusContainerSharedPtr > mStatusContainer;
     std::stack< PortBundleSharedPtr > mPortBundleContext;
     std::stack< NetBundleSharedPtr > mNetBundleContext;
     bool mIsInInstance;
@@ -202,6 +383,22 @@ class EdifContext {
     std::stack< PropertyContainerSharedPtr > mPropertyContainer;
     std::stack< NetSharedPtr > mNet;
     int32_t mPropertyDepth;
+    std::stack< PermutableSharedPtr > mPermutable;
+    int32_t mPermutableDepth;
+    std::stack< InterfaceJoinedInfoSharedPtr > mInterfaceJoinedInfo;
+    int32_t mInterfaceJoinedInfoDepth;
+    SimulationInfoSharedPtr mCurrentSimulationInfo;
+    SimulateSharedPtr mCurrentSimulate;
+    ApplySharedPtr mCurrentApply;
+    LogicalResponseSharedPtr mCurrentLogicalResponse;
+    WaveValueSharedPtr mCurrentWaveValue;
+    LogicValueSharedPtr mCurrentLogicValue;
+    TimingSharedPtr mCurrentTiming;
+    PathDelaySharedPtr mCurrentPathDelay;
+    EventSharedPtr mCurrentEvent;
+    ForbiddenEventSharedPtr mCurrentForbiddenEvent;
+    std::stack< LogicElementSharedPtr > mLogicElement;
+    int32_t mLogicElementDepth;
 }; 
 
 inline RootSharedPtr
@@ -234,6 +431,11 @@ EdifContext::getCurrentView() const throw() {
     return mCurrentView;
 }
 
+inline InstanceSharedPtr
+EdifContext::getCurrentInstance() const throw() {
+    return mCurrentInstance;
+}
+
 inline PortSharedPtr
 EdifContext::getCurrentPort() const throw() {
     return mCurrentPort;
@@ -247,6 +449,66 @@ EdifContext::getCurrentPortRef() const throw() {
 inline bool
 EdifContext::getIsInInstance() const throw() {
     return mIsInInstance;
+}
+
+inline StatusSharedPtr
+EdifContext::getCurrentStatus() const throw() {
+    return mCurrentStatus;
+}
+
+inline WrittenSharedPtr
+EdifContext::getCurrentWritten() const throw() {
+    return mCurrentWritten;
+}
+
+inline SimulationInfoSharedPtr
+EdifContext::getCurrentSimulationInfo() const throw() {
+    return mCurrentSimulationInfo;
+}
+
+inline SimulateSharedPtr
+EdifContext::getCurrentSimulate() const throw() {
+    return mCurrentSimulate;
+}
+
+inline ApplySharedPtr
+EdifContext::getCurrentApply() const throw() {
+    return mCurrentApply;
+}
+
+inline LogicalResponseSharedPtr
+EdifContext::getCurrentLogicalResponse() const throw() {
+    return mCurrentLogicalResponse;
+}
+
+inline WaveValueSharedPtr
+EdifContext::getCurrentWaveValue() const throw() {
+    return mCurrentWaveValue;
+}
+
+inline LogicValueSharedPtr
+EdifContext::getCurrentLogicValue() const throw() {
+    return mCurrentLogicValue;
+}
+
+inline TimingSharedPtr
+EdifContext::getCurrentTiming() const throw() {
+    return mCurrentTiming;
+}
+
+inline PathDelaySharedPtr
+EdifContext::getCurrentPathDelay() const throw() {
+    return mCurrentPathDelay;
+}
+
+inline EventSharedPtr
+EdifContext::getCurrentEvent() const throw() {
+    return mCurrentEvent;
+}
+
+inline ForbiddenEventSharedPtr
+EdifContext::getCurrentForbiddenEvent() const throw() {
+    return mCurrentForbiddenEvent;
 }
 
 inline const ParserOptions &
@@ -270,7 +532,22 @@ EdifContext::getPropertyDepth() const throw() {
     return mPropertyDepth;
 }
 
+inline int32_t
+EdifContext::getPermutableDepth() const throw() {
+    return mPermutableDepth;
+}
+
+inline int32_t
+EdifContext::getInterfaceJoinedInfoDepth() const throw() {
+    return mInterfaceJoinedInfoDepth;
+}
+
+inline int32_t
+EdifContext::getLogicElementDepth() const throw() {
+    return mLogicElementDepth;
+}
+
 } //namespace generic
 } //namespace torc
 
-#endif //TORC_GENERIC_EDIFCONTEXT_HPP
+#endif // TORC_GENERIC_PARSER_EDIFCONTEXT_HPP

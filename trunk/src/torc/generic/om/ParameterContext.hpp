@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_PARAMETER_CONTEXT_HPP
-#define TORC_GENERIC_PARAMETER_CONTEXT_HPP
+#ifndef TORC_GENERIC_OM_PARAMETERCONTEXT_HPP
+#define TORC_GENERIC_OM_PARAMETERCONTEXT_HPP
 
 #include <cstddef>
 
@@ -27,4 +27,4 @@ typedef size_t ParameterContext;
 } //namespace torc
 
 
-#endif //TORC_GENERIC_PARAMETER_CONTEXT_HPP
+#endif // TORC_GENERIC_OM_PARAMETERCONTEXT_HPP

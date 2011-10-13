@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the generic object model unit test.
+/// \brief Unit test for the generic object model class.
 
 #include <boost/test/unit_test.hpp>
 #include <iostream>

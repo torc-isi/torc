@@ -34,11 +34,11 @@
 namespace torc {
 namespace bitstream {
 
-namespace bitstream { class bitstream_bitstream; }
+namespace bitstream { class BitstreamUnitTest; }
 
 	/// \brief Xilinx bitstream base class.
 	class Bitstream {
-		friend class torc::bitstream::bitstream::bitstream_bitstream;
+		friend class torc::bitstream::bitstream::BitstreamUnitTest;
 /// \todo Bitstream access needs to be changed from public back to protected.
 //	protected: changed to run tests
 		public:
@@ -197,6 +197,9 @@ namespace bitstream { class bitstream_bitstream; }
 		/// \detail This is generally only useful for internal purposes.
 		/// \todo This function should be made pure virtual.
 		virtual void initializeDeviceInfo(const std::string& inDeviceName) {}
+		/// \brief Initialize the maps between frame indexes and frame addresses.
+		/// \detail This is generally only useful for internal purposes.
+		virtual void initializeFrameMaps(void) {}
 		/// \brief Output static device information to a stream.
 		/// \details This is used to generate the static column maps for bitstream frame mapping.
 		virtual void writeDeviceInfo(std::ostream& inStream, const std::string& inDeviceName);

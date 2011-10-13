@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the XdlImporter class.
 
-#ifndef TORC_ARCHITECTURE_XDL_IMPORTER_HPP
-#define TORC_ARCHITECTURE_XDL_IMPORTER_HPP
+#ifndef TORC_ARCHITECTURE_XDLIMPORTER_HPP
+#define TORC_ARCHITECTURE_XDLIMPORTER_HPP
 
 #include "torc/physical/XdlImporter.hpp"
 #include "torc/architecture/DDB.hpp"
@@ -65,4 +65,4 @@ namespace architecture {
 } // namespace architecture
 } // namespace torc
 
-#endif // TORC_ARCHITECTURE_XDL_IMPORTER_HPP
+#endif // TORC_ARCHITECTURE_XDLIMPORTER_HPP

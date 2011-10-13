@@ -21,6 +21,7 @@
 
 #include <boost/cstdint.hpp>
 #include <boost/shared_ptr.hpp>
+#include <boost/shared_array.hpp>
 #include <vector>
 
 namespace torc {
@@ -64,14 +65,14 @@ namespace bitstream {
 	// functions
 		/// \brief Touch the frame by marking it dirty.
 		/// \details WARNING: This is a temporary convenience function that will not be retained.
-		void touch(void) { mIsUsed = mIsDirty = true; }
+		inline void touch(void) { mIsUsed = mIsDirty = true; }
 	// accessors
 		/// \brief Returns the length of the frame in words.
 		uint32_t getLength(void) const { return mLength; }
 		/// \brief Returns a const raw word pointer.
 		const word_t* getWords(void) const { return mWords; }
-//		/// \brief Returns a non-const raw word pointer.
-//		word_t* getWords(void) { return mWords; }
+		/// \brief Returns a non-const raw word pointer.
+		//word_t* getWords(void) { return mWords; }
 		/// \brief Returns true if the frame is in use in the bitstream, or false otherwise.
 		bool isUsed(void) const { return mIsUsed; }
 		/// \brief Returns true if the frame has been modified, or false otherwise.
@@ -81,14 +82,40 @@ namespace bitstream {
 			if(mWords == 0 || index < 0 || static_cast<uint32_t>(index) >= mLength) return 0;
 			return mWords[index];
 		}
+		/// \brief Sets the value of the specified frame word.
+		void setWord(int index, int inWord) {
+			// do nothing if the index is out of bounds
+			if(index < 0 || static_cast<uint32_t>(index) >= mLength) return;
+			// allocate and zero out the words if they were previously unallocated
+			if(mWords == 0) {
+				mWords = new word_t[mLength];
+				word_t* p = mWords;
+				for(uint32_t i = 0; i < mLength; i++) *p++ = 0;
+			}
+			// set the new word value, and mark it used and dirty
+			mWords + index = inWord;
+			touch();
+		}
+		/// \brief Sets the value of the specified frame words.
+		void setWords(int inWord) {
+			// allocate and zero out the words if they were previously unallocated
+			if(mWords == 0) {
+				mWords = new word_t[mLength];
+				word_t* p = mWords;
+				for(uint32_t i = 0; i < mLength; i++) *p++ = 0;
+			}
+			// set the new word value, and mark it used and dirty
+			mWords = inWord;
+			touch();
+		}
 	};
 
 	typedef Frame<uint32_t> VirtexFrame;	///< \brief Virtex frame type.
 	typedef Frame<uint32_t> SpartanFrame;	///< \brief Spartan frame type.
 	typedef Frame<uint16_t> Spartan6Frame;	///< \brief Spartan6 frame type.
 
-	typedef boost::shared_ptr<VirtexFrame> VirtexFrameSharedPtr;	///< \brief Virtex frame type.
-	typedef boost::shared_ptr<SpartanFrame> SpartanFrameSharedPtr;	///< \brief Spartan frame type.
+	typedef boost::shared_ptr<VirtexFrame> VirtexFrameSharedPtr;	  ///< \brief Virtex frame type.
+	typedef boost::shared_ptr<SpartanFrame> SpartanFrameSharedPtr;  ///< \brief Spartan frame type.
 	typedef boost::shared_ptr<Spartan6Frame> Spartan6FrameSharedPtr;///< \brief Spartan6 frame type.
 
 } // namespace bitstream

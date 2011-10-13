@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_LIBRARY_HPP
-#define TORC_GENERIC_LIBRARY_HPP
+#ifndef TORC_GENERIC_OM_LIBRARY_HPP
+#define TORC_GENERIC_OM_LIBRARY_HPP
 
 #include "torc/generic/om/PointerTypes.hpp"
 #include "torc/generic/om/DumpRestoreConfig.hpp"
@@ -40,6 +40,8 @@
 #include "torc/generic/om/Visitable.hpp"
 #include "torc/generic/om/VisitorType.hpp"
 #include "torc/generic/om/Unit.hpp"
+#include "torc/generic/om/UserDataContainer.hpp"
+#include "torc/generic/om/StatusContainer.hpp"
 
 namespace torc { namespace generic { class BaseVisitor; }  }
 namespace torc { namespace generic { class Cell; }  }
@@ -60,7 +62,9 @@ class Library :
     public Renamable,
     public Visitable,
     public ParentedObject<Root>,
-    public SelfReferencing<Library> {
+    public SelfReferencing<Library>,
+    public UserDataContainer,
+    public StatusContainer {
 
 #ifdef GENOM_SERIALIZATION
     friend class boost::serialization::access;
@@ -260,6 +264,22 @@ class Library :
     inline void
     applyOnAllCells( const _Action &action ) throw(Error); 
 
+    /**
+     * Get the pointer to the simulation info.
+     *
+     * @return Pointer to the simulation info
+     */
+    inline const SimulationInfoSharedPtr
+    getSimulationInfo() const throw();   
+
+    /**
+     * Set the pointer to the simulation info.
+     *
+     * @param[in] inSource Pointer to the simulation info
+     */
+    void
+    setSimulationInfo(const SimulationInfoSharedPtr & inSource ) throw(); 
+ 
     virtual
     ~Library() throw();
  
@@ -293,6 +313,7 @@ class Library :
     SymTab<Unit,ScaleFactor> mScaleFactors;
     EdifLevel mLevel;
     SymTab< std::string,CellSharedPtr > mCellSymTab;
+    SimulationInfoSharedPtr mSimulationInfo;
 #ifdef GENOM_SERIALIZATION
     mutable std::list< std::string > mDumpedCells;
 #endif //GENOM_SERIALIZATION
@@ -343,6 +364,16 @@ Library::applyOnAllCells( const _Action &action ) throw(Error) {
     }
 }
 
+/**
+ * Get the pointer to the simulation info.
+ *
+ * @return Pointer to the simulation info
+ */
+inline const SimulationInfoSharedPtr
+Library::getSimulationInfo() const throw() {
+    return mSimulationInfo;
+}   
+
 #ifdef GENOM_SERIALIZATION
 void
 dump( const LibrarySharedPtr &inLibrary ) throw(Error);
@@ -364,4 +395,4 @@ restore( const std::string &inName,
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_OM_LIBRARY_HPP

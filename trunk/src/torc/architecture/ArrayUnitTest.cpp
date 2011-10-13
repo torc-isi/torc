@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the Array unit test.
+/// \brief Unit test for the Array class.
 
 #include <boost/test/unit_test.hpp>
 #define DEBUG // test the debug functionality as well
@@ -52,6 +52,7 @@ BOOST_AUTO_TEST_CASE(ArrayUnitTest) {
 	try {
 		// if bounds checking is enabled and correct, we won't be able to read index 3
 		Tilewire outOfRange = tilewireArray[size3];
+		(void) outOfRange;
 	} catch(std::out_of_range oor) {
 		std::cerr << "Bounds checking generated message \"" << oor.what() << "\"" << std::endl;
 		boundsEnforced = true;

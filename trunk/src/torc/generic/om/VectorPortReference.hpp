@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_GENERIC_VECTOR_PORT_REFERENCE_HPP
-#define TORC_GENERIC_VECTOR_PORT_REFERENCE_HPP
+#ifndef TORC_GENERIC_OM_VECTORPORTREFERENCE_HPP
+#define TORC_GENERIC_OM_VECTORPORTREFERENCE_HPP
 
 #include "torc/generic/om/PointerTypes.hpp"
 #include "torc/generic/om/DumpRestoreConfig.hpp"
@@ -120,7 +120,7 @@ class VectorPortReference
      *
      * @note This metod can be overridden by derived classes. However, the method must call the on_connected() method after this. The sigConnected_ signal must also be invoked in the overriding method.
      *
-     * @param[in] net A pointer to the Net object that eeds to be connected
+     * @param[in] inNet A pointer to the Net object that needs to be connected
      * @return A connection that has been established. This can be used later for disconnection.
      *
      * @exception Error Pointer to the Net object does not exist
@@ -156,7 +156,7 @@ class VectorPortReference
      * Disconnect a Net from this object.
      * @note This metod can be overridden by derived classes. However, the method must call the on_connected() method after this. The sigConnected_ signal must also be invoked in the overriding method.
 
-     * @param[in] connection A connection as returned by the connect() method
+     * @param[in] inConnection A connection as returned by the connect() method
      * @exception Error Provided connection is invalid, because pointer to the Net does not exist
      *       <ul>
      *         <li>
@@ -181,7 +181,8 @@ class VectorPortReference
      * 1) Nets connected to the whole port
      * 2) Nets connected to the individual nodes of the port
      *
-     * param[out] outNets List of nets to be populated
+     * @param[out] outNets List of nets to be populated
+     * @param[in] inSkipChildConnections bool Whether child connection is skiped or not
      */
 
     virtual void getConnectedNets(
@@ -217,4 +218,4 @@ class VectorPortReference
 } // namespace torc::generic
 
 } // namespace torc
-#endif
+#endif // TORC_GENERIC_OM_VECTORPORTREFERENCE_HPP

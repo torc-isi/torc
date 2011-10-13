@@ -13,8 +13,8 @@
 // You should have received a copy of the GNU General Public License along with this program.  If 
 // not, see <http://www.gnu.org/licenses/>.
 
-#ifndef TORC_PHYSICAL_CONNECTION_PIN_HPP
-#define TORC_PHYSICAL_CONNECTION_PIN_HPP
+#ifndef TORC_PACKER_CONNECTIONPIN_HPP
+#define TORC_PACKER_CONNECTIONPIN_HPP
 
 #include "torc/physical/XilinxPhysicalTypes.hpp"
 #include <boost/smart_ptr.hpp>
@@ -63,4 +63,4 @@ namespace physical {
 } // namespace physical
 } // namespace torc
 
-#endif // TORC_PHYSICAL_CONNECTION_PIN_HPP
+#endif // TORC_PACKER_CONNECTIONPIN_HPP

@@ -14,13 +14,13 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the VirtexBitstream unit test.
+/// \brief Unit test for the VirtexBitstream class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/bitstream/VirtexBitstream.hpp"
 #include "torc/bitstream/Virtex5.hpp"
 #include "torc/common/DirectoryTree.hpp"
-#include "torc/architecture/DeviceDesignator.hpp"
+#include "torc/common/DeviceDesignator.hpp"
 #include "torc/bitstream/OutputStreamHelpers.hpp"
 #include "torc/common/TestHelpers.hpp"
 #include <fstream>
@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_SUITE(bitstream)
 
 
 /// \brief Unit test for the VirtexBitstream class.
-BOOST_AUTO_TEST_CASE(crc_virtex) {
+BOOST_AUTO_TEST_CASE(VirtexBitstreamCrcUnitTest) {
 	std::fstream fileStream("VirtexUnitTest.reference.bit", std::ios::binary | std::ios::in);
 	Virtex bitstream;
 	bitstream.read(fileStream, false);
@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE(crc_virtex) {
 
 
 /// \brief Unit test for the VirtexBitstream class.
-BOOST_AUTO_TEST_CASE(bitstream_virtex_bitstream) {
+BOOST_AUTO_TEST_CASE(VirtexBitstreamUnitTest) {
 
 	// build the file paths
 	boost::filesystem::path regressionPath 
@@ -226,10 +226,10 @@ BOOST_AUTO_TEST_CASE(bitstream_virtex_bitstream) {
 	bitstream.insert(bitstream.end(), 61, nop);
 
 	// write the bitstream back out
-	//std::fstream outputStream(generatedPath.string().c_str(), std::ios::binary | std::ios::out);
-	//BOOST_REQUIRE(outputStream.good());
-	//bitstream.write(outputStream);
-	//outputStream.flush();
+	std::fstream outputStream(generatedPath.string().c_str(), std::ios::binary | std::ios::out);
+	BOOST_REQUIRE(outputStream.good());
+	bitstream.write(outputStream);
+	outputStream.flush();
 
 	/* read the bitstream
 	std::fstream fileStream2(generatedPath.string().c_str(), std::ios::binary | std::ios::in);

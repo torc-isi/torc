@@ -54,6 +54,9 @@ namespace architecture {
 		bool isUndefined(void) const {
 			return mSourceTilewire.isUndefined() || mSinkTilewire.isUndefined();
 		}
+	// friends
+		/// \brief Return a hash value for the specified arc.
+		friend std::size_t hash_value(const Arc& inArc);
 	};
 
 	class InvalidArcException {

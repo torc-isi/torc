@@ -208,7 +208,7 @@ namespace common {
 		// Spartan3E
 		DeviceFamilyHelper spartan3EHelper(mDeviceNameMap, mSpartan3EDevices, mDeviceNames);
 		spartan3EHelper
-			// Spartan3E
+			// Spartan3E
 			<< "xc3s100e" << eXC3S100E << "xc3s250e" << eXC3S250E << "xc3s500e" << eXC3S500E 
 			<< "xc3s1200e" << eXC3S1200E << "xc3s1600e" << eXC3S1600E;
 		// Spartan6
@@ -229,6 +229,7 @@ namespace common {
 			<< "xc6slx25l" << eXC6SLX25L << "xc6slx45l" << eXC6SLX45L << "xc6slx75l" << eXC6SLX75L 
 			<< "xc6slx100l" << eXC6SLX100L << "xc6slx150l" << eXC6SLX150L;
 
+		// add all of the devices that are currently supported
 		addToSupportedDevices(mVirtexDevices);
 		addToSupportedDevices(mVirtexEDevices);
 		addToSupportedDevices(mVirtex2Devices);
@@ -244,6 +245,23 @@ namespace common {
 		addToSupportedDevices(mSpartan3EDevices);
 		addToSupportedDevices(mSpartan6Devices);
 		addToSupportedDevices(mSpartan6LDevices);
+
+		// add a subset of devices suitable for basic unit tests
+		mUnitTestDevices.push_back(mVirtexDevices.front());
+		mUnitTestDevices.push_back(mVirtexEDevices.front());
+		mUnitTestDevices.push_back(mVirtex2Devices.front());
+		mUnitTestDevices.push_back(mVirtex2PDevices.front());
+		mUnitTestDevices.push_back(mVirtex4Devices.front());
+		mUnitTestDevices.push_back(mVirtex5Devices.front());
+		mUnitTestDevices.push_back(mVirtex6Devices.front());
+		//mUnitTestDevices.push_back(mVirtex6LDevices.front()); // included in Virtex6
+		mUnitTestDevices.push_back(mVirtex7Devices.front());
+		//mUnitTestDevices.push_back(mVirtex7LDevices.front()); // included in Virtex7
+		mUnitTestDevices.push_back(mKintex7Devices.front());
+		//mUnitTestDevices.push_back(mKintex7LDevices.front()); // included in Kintex7
+		mUnitTestDevices.push_back(mSpartan3EDevices.front());
+		mUnitTestDevices.push_back(mSpartan6Devices.front());
+		//mUnitTestDevices.push_back(mSpartan6LDevices.front()); // included in Spartan6
 	}
 
 } // namespace common

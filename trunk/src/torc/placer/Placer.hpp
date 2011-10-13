@@ -35,6 +35,7 @@ namespace placer {
 		typedef boost::uint32_t uint32;
 		
 		DDB& mDB;
+		PlacerHeuristicBase& mHeuristic;
 		uint32 mMovesPerTemperature;
 
 	public:
@@ -42,43 +43,50 @@ namespace placer {
 		// heuristic should contain most of the numeric constants here
 		// probably functions for cooling schedule and such as well
 		// in fact, the heuristic may wrap the placement entirely... as we do in routing
-		Placer(DDB& inDB, PlacerHeuristicBase& inHeuristic) : mDB(inDB) {}
+		Placer(DDB& inDB, PlacerHeuristicBase& inHeuristic) : mDB(inDB), mHeuristic(inHeuristic) {}
 		
 		~Placer() {}
 		
 		void generatePlacement(Placement& placement) {
-			double initialtemperature = 10000;
+			//double initialtemperature = 10000;
+			placement.updateCostFull(false);
 			int currentCost = placement.getCost();
 			int newCost = 9999999;
 			int goodMoves = 0;
 			int movesUndone = 0;
 			int acceptedBad = 0;
 			int zeroCostMoves = 0;
+			int illegalMoves = 0;
 			int bestCost = 999999;
 			bool done = false;
-			double temperature = initialtemperature;
+			double temperature = mHeuristic.getInitialTemperature();
 			double acceptrate = 0;
 			int doneCount = 0;
 			
 			boost::timer epochTimer;
 			boost::timer totalTimer;
 			
-			mMovesPerTemperature = 50000;
+			mMovesPerTemperature = mHeuristic.getMovesPerTemperature(); //50000
 			//mMovesPerTemperature = 10 * sqrt(pow(placement.getNumInstances(), 3));
 			//mMovesPerTemperature = 100000;
 			std::cout << "Moves per temperature: " << mMovesPerTemperature << std::endl;
-			
+			//placement.updateCostFull(false);
 			while (!done) {
 				epochTimer.restart();
-				placement.updateCostFull(false);
+				//placement.updateCostFull(false);
 				goodMoves = 0;
 				movesUndone = 0;
 				acceptedBad = 0;
 				zeroCostMoves = 0;
+				illegalMoves = 0;
 				std::cout << "currentCost for epoch: " << currentCost;
 				
 				for (uint32 movei = 0; movei < mMovesPerTemperature; movei++) {
-					placement.randomMove(false);
+					if (!placement.randomMove(false)) {
+						//std::cout << "FAILED MOVED" << std::endl;
+						illegalMoves++;
+						continue;
+					}
 					newCost = placement.getCost();
 					if (newCost < bestCost) {
 						bestCost = newCost;
@@ -95,7 +103,7 @@ namespace placer {
 						} else {
 							acceptedBad++;
 							currentCost = newCost;
-							std::cout << " ACCEPT BAD" << std::endl;
+							//std::cout << " ACCEPT BAD" << std::endl;
 						}
 					} else if (currentCost == newCost) {
 						zeroCostMoves++;
@@ -142,6 +150,7 @@ namespace placer {
 				std::cout << " Undone: " << movesUndone;
 				std::cout << " ZeroCostMoves: " << zeroCostMoves;
 				std::cout << " Best Cost: " << bestCost;
+				std::cout << " Attemped Illegal Moves: " << illegalMoves;
 				std::cout << " Acceptance rate: " << acceptrate;
 				std::cout << " new temp: " << temperature;
 				std::cout << " tempadjust: " << tempadjust;

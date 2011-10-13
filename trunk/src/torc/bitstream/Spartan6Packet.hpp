@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the Spartan6Packet class.
 
-#ifndef TORC_BITSTREAM_SPARTAN16_PACKET_HPP
-#define TORC_BITSTREAM_SPARTAN16_PACKET_HPP
+#ifndef TORC_BITSTREAM_SPARTAN6PACKET_HPP
+#define TORC_BITSTREAM_SPARTAN6PACKET_HPP
 
 #include "torc/common/Endian.hpp"
 #include <boost/smart_ptr.hpp>
@@ -29,7 +29,7 @@
 namespace torc {
 namespace bitstream {
 
-namespace bitstream { class bitstream_spartan16_packet; }
+namespace bitstream { class Spartan6PacketUnitTest; }
 
 	/// \brief Bitstream packet constants for Spartan 16 bit class architectures.
 	class Spartan6PacketConstants {
@@ -73,7 +73,7 @@ namespace bitstream { class bitstream_spartan16_packet; }
 
 	/// \brief Bitstream packet for Spartan 16 bit class architectures.
 	class Spartan6Packet : public Spartan6PacketConstants {
-		friend class torc::bitstream::bitstream::bitstream_spartan16_packet;
+		friend class torc::bitstream::bitstream::Spartan6PacketUnitTest;
 	protected:
 	// typedefs
 		/// \brief Imported type name.
@@ -321,4 +321,4 @@ namespace bitstream { class bitstream_spartan16_packet; }
 } // namespace bitstream
 } // namespace torc
 
-#endif // TORC_BITSTREAM_SPARTAN16_PACKET_HPP
+#endif // TORC_BITSTREAM_SPARTAN6PACKET_HPP

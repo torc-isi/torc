@@ -53,7 +53,9 @@ Net::Net()
     PropertyContainer(),
     Renamable(),
     Visitable(),
-    ParentedObject<View>() {
+    ParentedObject<View>(),
+    UserDataContainer(),
+    mAttributes() {
 }
 
 Net::~Net() throw() {
@@ -140,6 +142,17 @@ Net::removeSubnet(const std::string &inName) throw(Error) {
 void
 Net::setParentNet( const NetSharedPtr &inParent ) throw() {
     mParentNet = inParent;
+}
+
+/**
+ * Set the attributes of the net. Attributes include criticality, netDelay etc.
+ *
+ * @param[in] inSource Pointer to NetAttributes object.
+ */
+void
+Net::setAttributes(
+        const NetAttributesSharedPtr & inSource) throw() {
+    mAttributes = inSource;
 }
 
 void

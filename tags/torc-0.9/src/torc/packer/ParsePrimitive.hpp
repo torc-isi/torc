@@ -1,0 +1,65 @@
+// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// $HeadURL$
+// $Id$
+
+// This program is free software: you can redistribute it and/or modify it under the terms of the 
+// GNU General Public License as published by the Free Software Foundation, either version 3 of the 
+// License, or (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See 
+// the GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License along with this program.  If 
+// not, see <http://www.gnu.org/licenses/>.
+
+/// \file
+/// \brief Header for primitive parser.
+
+#ifndef TORC_PACKER_PARSEPRIMITIVE_HPP
+#define TORC_PACKER_PARSEPRIMITIVE_HPP
+
+#include "torc/packer/PrimitiveSet.hpp"
+#include "torc/physical/Factory.hpp"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+namespace torc {
+ namespace physical {
+ 	
+ 					
+     /// \brief Pare Primitives.
+     
+     class ParsePrimitive {
+     		protected:
+     			
+     			// Input file
+     			FILE *inFile;
+     			// Input file name
+     			const char  *inFileName;
+					// current line  
+					char   *line;         
+					//its allocated size
+					unsigned lineSize; 
+					//Line number
+					unsigned    lineNumber;
+					
+					/// \brief Reads the current line
+					void readCurrentLine();
+					
+					/// \brief Print printError.
+					void printError(const char *format, ...);
+     							
+				public:
+					ParsePrimitive(){ lineSize = 2048; line = new char[2048];}
+										
+					/// \brief parse an XDLRC file
+					PrimitiveSetSharedPtr ParsePrimitiveFile(const char *inFileName);
+		};
+		
+} // namespace physical
+} // namespace torc
+ 
+#endif // TORC_PACKER_PARSEPRIMITIVE_HPP

@@ -1,0 +1,34 @@
+Strategy, management, and architecture:
+
+	Matthew French, USC Information Sciences Institute
+	Neil Steiner, USC Information Sciences Institute
+
+Core development (architecture, bitstream, devices, packer, physical, placer, router, ...):
+
+	Prabhaav Bhardwaj, USC Information Sciences Institute
+	Hamid Shojaei, University of Wisconsin
+	Neil Steiner, USC Information Sciences Institute
+	Aaron Wood, USC Information Sciences Institute
+
+EDIF development (generic):
+
+	Samiran Chattopadhyay, Interra Systems
+	Niladri Sekhar Das, Interra Systems
+	Partha Pratim Das, Interra Systems
+	Santanu Sinha, Interra Systems
+
+Other contributors, developers, and early adopters:
+
+	Jacob Couch, Virginia Tech
+	Tannous "Tony" Frangieh, Virginia Tech
+	Chris Lavin, Brigham Young University
+	Andrew Love, Virginia Tech
+	Wenwei Zha, Virginia Tech
+
+Special thanks to:
+
+	Virginia Tech Configurable Computing Lab
+	Brigham Young University Configurable Computing Lab
+	Peter Athanas, Virginia Tech
+	Brad Hutchings, Brigham Young University
+	Brent Nelson, Brigham Young University

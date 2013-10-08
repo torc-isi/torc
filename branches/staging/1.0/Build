@@ -1,0 +1,48 @@
+Code, Examples, and Tests
+=========================
+
+Building the default target compiles all of the source code, and links the example and unit test 
+executables.
+
+	cd src
+	make
+
+The following examples are also available in the sandbox mentioned below, where they can safely be 
+modified.  The examples demonstrate the basic operation of the main Torc APIs, and can be invoked 
+as follows:
+
+	./architecture_example
+	./bitstream_example regression/VirtexUnitTest.reference.bit
+	./generic_example regression/GenericExample.reference.edf
+	./physical_example regression/DesignUnitTest.reference.xdl
+	./edif_obfuscator regression/GenericExample.reference.edf
+
+The unit and regression tests are available through the test executable.  Individual test suites or 
+tests can be invoked by passing -t and one or more suites or test cases separated by commas.
+
+	./test
+
+The test app can also be built with Xcode, by opening project xcode/torc.xcodeproj.  The test app 
+can likewise be built with Eclipse, by importing the projects in src and sandbox.  With recent 
+versions of Eclipse and CDT, the projects can be imported with utility scripts in the eclipse 
+directory.
+
+Sandbox
+=======
+
+The sandbox is available for quick experimentation with Torc.  The sandbox examples are identical 
+to the examples in src/torc/Examples, but may be modified the user.  Note that building inside the 
+sandbox also compiles all of the source code in src.
+
+	cd sandbox
+	make
+
+Doxygen Documentation
+=====================
+
+The Doxygen documentation can be built as follows:
+
+	cd src
+	doxygen Doxyfile
+
+Doxygen is available from http://www.stack.nl/~dimitri/doxygen/.

@@ -1,0 +1,31 @@
+design "C:\Users\Tony\Desktop\testCases\moduleTransformerExample.ncd" xc5vlx110tff1136-1 v3.2;
+module "hm" "$COMP_0", cfg "_SYSTEM_MACRO::FALSE";
+	inst "$COMP_0" "SLICEL", placed CLBLL_X2Y1 SLICE_X2Y1;
+endmodule "hm";
+module "aModule" "c1";
+	port "NET_1_0" "c1" "A";
+	inst "c1" "SLICEL", unplaced;
+	inst "c2" "SLICEL", unplaced;
+	net "$NET_2",
+		outpin "c1" B,
+		inpin "c2" B1
+		;
+endmodule "aModule";
+inst "e1" "SLICEL", placed CLBLL_X7Y7 SLICE_X10Y7, cfg "_ROUTETHROUGH:B:BMUX";
+inst "e2" "SLICEL", placed CLBLL_X9Y5 SLICE_X14Y5;
+inst "e3" "SLICEM", placed CLBLM_X10Y5 SLICE_X16Y5;
+inst "aModuleInstance" "aModule", unplaced;
+net "$NET_0",
+	outpin "e1" B,
+	inpin "e2" B1,
+	pip CLBLL_X7Y7 M_B -> M_BMUX, # _ROUTETHROUGH:B:BMUX "e1" B -> BMUX
+	pip CLBLL_X7Y7 M_BMUX -> SITE_LOGIC_OUTS21,
+	pip CLBLL_X9Y5 SITE_IMUX_B17 -> M_B1,
+	pip INT_X7Y7 LOGIC_OUTS21 -> SE2BEG2,
+	pip INT_X8Y6 SE2END2 -> SE2BEG2,
+	pip INT_X9Y5 SE2END2 -> IMUX_B17
+	;
+net "$NET_1",
+	outpin "aModuleInstance" NET_1_0,
+	inpin "e2" A1
+	;

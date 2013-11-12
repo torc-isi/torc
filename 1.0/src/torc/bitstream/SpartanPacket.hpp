@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -45,21 +45,21 @@ namespace bitstream { class SpartanPacketUnitTest; }
 		/// \see type 2 packet format: XAPP452, v1.1, June 25, 2008, Figure 7.
 		enum EPacket {
 			// generic packet subfields
-			ePacketMaskType =			     0xe0000000,		ePacketShiftType =			    29,
-			ePacketMaskOpcode =			   0x18000000,		ePacketShiftOpcode =		    27,
+			ePacketMaskType =			0xe0000000,		ePacketShiftType =			29,
+			ePacketMaskOpcode =			0x18000000,		ePacketShiftOpcode =		27,
 			// type 1 packet subfields
-			ePacketMaskType1Address =	 0x07ffe000,		ePacketShiftType1Address =	13,
-			ePacketMaskType1Reserved = 0x00001800,		ePacketShiftType1Reserved =	11,
-			ePacketMaskType1Count =		 0x000007ff,		ePacketShiftType1Count =	   0,
+			ePacketMaskType1Address =	0x07ffe000,		ePacketShiftType1Address =	13,
+			ePacketMaskType1Reserved =	0x00001800,		ePacketShiftType1Reserved =	11,
+			ePacketMaskType1Count =		0x000007ff,		ePacketShiftType1Count =	 0,
 			// type 2 packet subfields
-			ePacketMaskType2Count =		 0x07ffffff,		ePacketShiftType2Count =	   0
+			ePacketMaskType2Count =		0x07ffffff,		ePacketShiftType2Count =	 0
 		};
 		//
 		/// \brief Synchronization words.
 		/// \see Configuration Sequence: XAPP452, v1.1, June 25, 2008, Table 9.
 		enum ESynchronization {
-			eSynchronizationDummy =				    0xffffffff,
-			eSynchronizationSync =				    0xaa995566,
+			eSynchronizationDummy =				0xffffffff,
+			eSynchronizationSync =				0xaa995566,
 			eSynchronizationBusWidthSync =		0x000000bb,
 			eSynchronizationBusWidthDetect =	0x11220044
 		};
@@ -98,7 +98,7 @@ namespace bitstream { class SpartanPacketUnitTest; }
 	public:
 	// constructors
 		/// \brief Null constructor.
-		SpartanPacket(void) : mHeader(0), mCount(0), mWord(0), mWords(0), mType(EPacketType(0)), 
+		SpartanPacket(void) : mHeader(0), mCount(0), mWord(0), mWords(), mType(EPacketType(0)), 
 			mOpcode(eOpcodeNOP), mAddress(0) {}
 		/// \brief Full constructor.
 		SpartanPacket(uint32_t inHeader, uint32_t inCount, uint32_t inWord, uint32_t* inWords) 
@@ -108,11 +108,11 @@ namespace bitstream { class SpartanPacketUnitTest; }
 		}
 		/// \brief Header plus single word constructor.
 		SpartanPacket(uint32_t inHeader, uint32_t inWord) : mHeader(inHeader), mCount(1), 
-			mWord(inWord), mWords(0), mType(EPacketType(0)), mOpcode(eOpcodeNOP), mAddress(0) {
+			mWord(inWord), mWords(), mType(EPacketType(0)), mOpcode(eOpcodeNOP), mAddress(0) {
 			initialize();
 		}
 		/// \brief Header only constructor.
-		SpartanPacket(uint32_t inHeader) : mHeader(inHeader), mCount(0), mWord(0), mWords(0), 
+		SpartanPacket(uint32_t inHeader) : mHeader(inHeader), mCount(0), mWord(0), mWords(), 
 			mType(EPacketType(0)), mOpcode(eOpcodeNOP), mAddress(0) {
 			initialize();
 		}
@@ -137,7 +137,7 @@ namespace bitstream { class SpartanPacketUnitTest; }
 			if(header == eSynchronizationDummy || header == eSynchronizationSync
 				|| header == eSynchronizationBusWidthSync 
 				|| header == eSynchronizationBusWidthDetect) {
-				//if (debug) printf("Header in sync: %x\n", header) ;
+				//if(debug) printf("Header in sync: %x\n", header) ;
 				return SpartanPacket(header, 0, 0, 0);
 			}
 			// determine the payload length
@@ -145,12 +145,12 @@ namespace bitstream { class SpartanPacketUnitTest; }
 			switch(type) {
 			case ePacketType1:
 				count = (header & ePacketMaskType1Count) >> ePacketShiftType1Count;
-				//if (debug) printf("Type 1: Packet Header: %x\n", header);
-				//if (debug) std::cout << "Type 1: Packet Count: " << count << std::endl;
+				//if(debug) printf("Type 1: Packet Header: %x\n", header);
+				//if(debug) std::cout << "Type 1: Packet Count: " << count << std::endl;
 				break;
 			case ePacketType2:
 				count = (header & ePacketMaskType2Count) >> ePacketShiftType2Count;
-				//if (debug) std::cout << "Type 2: Packet Count: " << count << std::endl;
+				//if(debug) std::cout << "Type 2: Packet Count: " << count << std::endl;
 				break;
 			default:
 				/// \todo we should throw an exception on invalid packet types
@@ -164,7 +164,7 @@ namespace bitstream { class SpartanPacketUnitTest; }
 			} else if(count > 1) {
 				raw_words = new uint32_t[count];
 				inStream.read((char*) raw_words, count << 2);
-				//if (debug) printf("Packet Count: %x\n", count);
+				//if(debug) printf("Packet Count: %x\n", count);
 				uint32_t* wordPtr = raw_words;
 				for(uint32_t i = 0; i < count; i++, wordPtr++) *wordPtr = ntohl(*wordPtr);
 			}
@@ -189,7 +189,8 @@ namespace bitstream { class SpartanPacketUnitTest; }
 		}
 		/// \brief Construct a type 1 write packet.
 		static SpartanPacket makeType1Write(uint32_t inAddress, uint32_t inWord) {
-			return SpartanPacket(makeHeader(ePacketType1, eOpcodeWrite, inAddress, 1), 1, inWord, 0);
+			return SpartanPacket(makeHeader(ePacketType1, eOpcodeWrite, inAddress, 1), 1, inWord, 
+				0);
 		}
 		/// \brief Construct a type 2 write packet.
 		static SpartanPacket makeType2Write(uint32_t inCount, uint32_t* inWords) {

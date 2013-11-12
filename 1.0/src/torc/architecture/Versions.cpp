@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -33,7 +33,7 @@ namespace architecture {
 		inStream.read(scratch, 4);
 		scratch[4] = 0;
 		if(!(torc == scratch)) {
-			std::cerr << "This is not a valid Torc database.  Magic \"" << scratch 
+			mErr() << "This is not a valid Torc database.  Magic \"" << scratch 
 				<< "\" does not match expected \"" << torc << "\"." << std::endl;
 			return 0;
 		}
@@ -68,7 +68,7 @@ namespace architecture {
 		scratch[nameLength] = 0;
 		mVendorString = scratch;
 		
-		if(inShowVersion) std::cout << "\tDatabase " << static_cast<uint32_t>(mFormat.mMajor) 
+		if(inShowVersion) mOut() << "\tDatabase " << static_cast<uint32_t>(mFormat.mMajor) 
 			<< "." << static_cast<uint32_t>(mFormat.mMinor) << "." 
 			<< static_cast<uint32_t>(mFormat.mRevision) << " build " << mBuild << ", Vendor "
 			//<< static_cast<uint32_t>(mVendor.mMajor) << "." 

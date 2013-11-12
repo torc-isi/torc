@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -26,14 +26,20 @@
 namespace torc {
 namespace architecture {
 
+// forward declaration of our unit test class within its namespace
+namespace architecture { class TileInfoUnitTest; }
+
 	/// \brief Encapsulation of a tile within a device tile map.
 	class TileInfo {
 	// friends
 		/// \brief The Tiles class has access to our protected members.
 		friend class Tiles;
+		/// \brief Our unit test has direct access to our internals.
+		friend class torc::architecture::architecture::TileInfoUnitTest;
 	protected:
 	// types
-		typedef boost::uint16_t uint16_t;				///< \brief Imported type name.
+		typedef boost::uint32_t uint32_t;				///< \brief Imported type name.
+		typedef boost::int32_t int32_t;					///< \brief Imported type name.
 		typedef xilinx::TileTypeIndex TileTypeIndex;	///< \brief Imported type name.
 		typedef xilinx::TileRow TileRow;				///< \brief Imported type name.
 		typedef xilinx::TileCol TileCol;				///< \brief Imported type name.
@@ -74,6 +80,12 @@ namespace architecture {
 		~TileInfo(void) {
 			// release the tile name if allocated
 			if(mName != 0) { free(const_cast<char*>(mName)); mName = 0; }
+		}
+	// function
+		/// \brief Returns the Manhattan distance between two tiles.
+		friend uint32_t manhattanDistance(const TileInfo& inA, const TileInfo& inB) {
+			return uint32_t(abs(int32_t(inA.mRow) - int32_t(inB.mRow))) 
+				+ uint32_t(abs(int32_t(inA.mCol) - int32_t(inB.mCol)));
 		}
 	// accessors
 		/// \brief Returns the tile type index for this tile.

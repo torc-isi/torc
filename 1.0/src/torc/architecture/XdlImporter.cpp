@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -35,8 +35,6 @@ namespace architecture {
 
 	void XdlImporter::bind(torc::physical::Pip& inPip, EPipType inPipType) {
 		if(!mDDBPtr) return;
-		/// \todo Add routethrough usage support.
-		if(inPipType == ePipTypeRoutethrough) return; // we don't support routethroughs yet
 		torc::physical::TileName tileName = inPip.getTileName();
 		torc::physical::WireName sourceWireName = inPip.getSourceWireName();
 		torc::physical::WireName sinkWireName = inPip.getSinkWireName();

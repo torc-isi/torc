@@ -1,4 +1,4 @@
-# Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+# Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 # $HeadURL$
 # $Id$
 
@@ -20,7 +20,9 @@
 	@::format_number = (1, 0, 1, 0);
 	# format number 1.0.0.0: initial release
 	# format number 1.0.1.0: 6/1/2011: extends segment tile anchor count from 16 to 32 bits
-	$::build_number = 3;
+	$::build_number = 5;
+	# build number 5: 5/18/2013 renamed Zynq7000; building ISE 14.5 Virtex7/Kintex7/Artix7/Zynq
+	# build number 4: 1/20/2012 no code changes; building ISE 13.4 Virtex7/Kintex7/Artix7/Zynq7
 	# build number 3: 6/1/2011 added Virtex7 and Kintex7, with requisite format 1.0.1
 	# build number 2: 5/16/2011 removed routethroughs from regular arc list
 	# build number 1: initial release
@@ -1072,7 +1074,7 @@ print LOG "into $anchor_tile_index:$compact_segment\n" if $found;
 		}
 		$feedback::out_ref->flush();
 
-		# count the number of (non-unique) segments that we actually saw
+		# count the number of (non-unique, non-trivial) segments that we actually saw
 		my $cumulative_segment_count = 0;
 		foreach my $segment (keys %segment) {
 			$cumulative_segment_count += $segment{$segment};
@@ -1080,7 +1082,7 @@ print LOG "into $anchor_tile_index:$compact_segment\n" if $found;
 		# write statistics
 		print "\n";
 		print LOG "# " . $device_wire_count . " device_wire_count\n";
-		print LOG "# " . $cumulative_segment_count . " cumulative segments\n";
+		print LOG "# " . $cumulative_segment_count . " non-trivial cumulative segments\n";
 		#print "    # " . $cumulative_segment_count . " cumulative segments\n";
 		print LOG "# " . ($trivial_segments + scalar keys %segment) . " unique segments ($trivial_segments trivial + " 
 			. (scalar keys %segment) . " real)\n";
@@ -1571,6 +1573,7 @@ print STDERR $message;
 		my ($version_string, $version_number) = ($1, $2);
 		my $version = "# $version_number \"$version_string\"\n";
 
+
 		# iterate over all requested devices that are supported by ISE
 		my $partgen_devices = `partgen -i`;
 		foreach my $device (@_) {
@@ -1583,22 +1586,30 @@ print STDERR $message;
 
 			# create the exported and compressed file names
 			my $xdlrc_file_name = "$device.conns.xdlrc";
+			my $xdlrc_raw_file_name = "$xdlrc_file_name.raw";
+			my $xdlrc_version_file_name = "$xdlrc_file_name.version";
 			my $xdlrc_gz_file_name = "$xdlrc_file_name.gz";
 
 			# skip this device if it has already been built
 			next if -e $xdlrc_gz_file_name;
 
 			# generate the XDLRC
-			my $command1 = "xdl -report -pips -all_conns $xilinx_device $xdlrc_file_name >& /dev/null";
+			my $command1 = "xdl -report -pips -all_conns $xilinx_device $xdlrc_raw_file_name "
+				. ">& /dev/null";
 			$command1 =~ s/ >.*// if $ENV{"HOST"} eq "tag-b"; # what's wrong with tag-b?
 			print "    $command1\n";
 			`$command1`;
-			# inject the version information
-			`sed -i -e '1i$version' $xdlrc_file_name`;
-			# gzip the XDLRC
-			my $command2 = "gzip -9 $xdlrc_file_name";
-			print "    $command2\n";
+			# insert the version information into the XDLRC
+			my $meta_version = quotemeta $version;
+			my $command2 
+				= "echo $meta_version > $xdlrc_version_file_name;"
+				. "cat $xdlrc_version_file_name $xdlrc_raw_file_name > $xdlrc_file_name;"
+				. "rm $xdlrc_version_file_name $xdlrc_raw_file_name";
 			`$command2`;
+			# gzip the XDLRC
+			my $command3 = "gzip -9 $xdlrc_file_name";
+			print "    $command3\n";
+			`$command3`;
 		}
 
 	}
@@ -1622,7 +1633,7 @@ print STDERR $message;
 		$partgen_devices =~ /^Copyright [^\n]+\n(.*)/ms;
 		my @entries = split /^(?=\S)/m, $1;
 		foreach my $entry (@entries) {
-			$entry =~ /^(\S+)\s+SPEEDS:\s+([^\n]+)\s+(.*?)\s+$/s;
+			next unless $entry =~ /^(\S+)\s+SPEEDS:\s+([^\n]+)\s+(.*?)\s+$/s;
 			my ($device, $speeds, $packages) = ($1, $2, $3);
 			$speeds =~ s/\s*\(Minimum speed data available\)\s*//;
 			$speeds =~ s/\s+/,/g;
@@ -1706,9 +1717,10 @@ print STDERR $message;
 	# extract the command line arguments
 	my ($xdlrc, $packages, $preprocess, $process, $development, $tagm12, $isirrex, $virtex, 
 		$virtexe, $virtex2, $virtex2p, $virtex4, $virtex5, $virtex6, $virtex6l, $virtex7, 
-		$virtex7l, $kintex7, $kintex7l, $spartan3e, $spartan6, $spartan6l) = (false, false, false, 
-		false, false, false, false, false, false, false, false, false, false, false, false, false, 
-		false, false);
+		$virtex7l, $kintex7, $kintex7l, $artix7, $zynq7000, $spartan3e, $spartan6, 
+		$spartan6l) 
+		= (false, false, false, false, false, false, false, false, false, false, false, 
+		false, false, false, false, false, false, false, false);
 	foreach my $arg (@ARGV) {
 		$xdlrc = true if $arg =~ /\bxdlrc\b/i;
 		$packages = true if $arg =~ /\bpackages\b/i;
@@ -1729,6 +1741,8 @@ print STDERR $message;
 		$virtex7l = true if $arg =~ /\bvirtex7l\b/i;
 		$kintex7 = true if $arg =~ /\bkintex7\b/i;
 		$kintex7l = true if $arg =~ /\bkintex7l\b/i;
+		$artix7 = true if $arg =~ /\bartix7\b/i;
+		$zynq7000 = true if $arg =~ /\bzynq7000\b/i;
 		$spartan3e = true if $arg =~ /\bspartan3e\b/i;
 		$spartan6 = true if $arg =~ /\bspartan6\b/i;
 		$spartan6l = true if $arg =~ /\bspartan6l\b/i;
@@ -1748,6 +1762,8 @@ print STDERR $message;
 	generate_xdlrc("Virtex7L", @devices::virtex7l) if $xdlrc && $virtex7l;
 	generate_xdlrc("Kintex7", @devices::kintex7) if $xdlrc && $kintex7;
 	generate_xdlrc("Kintex7L", @devices::kintex7l) if $xdlrc && $kintex7l;
+	generate_xdlrc("Artix7", @devices::artix7) if $xdlrc && $artix7;
+	generate_xdlrc("Zynq7000", @devices::zynq7000) if $xdlrc && $zynq7000;
 	generate_xdlrc("Spartan3E", @devices::spartan3e) if $xdlrc && $spartan3e;
 	generate_xdlrc("Spartan6", @devices::spartan6) if $xdlrc && $spartan6;
 	generate_xdlrc("Spartan6L", @devices::spartan6l) if $xdlrc && $spartan6l;
@@ -1765,6 +1781,8 @@ print STDERR $message;
 	preprocess_packages("Virtex7L", @devices::virtex7l) if $packages && $virtex7l;
 	preprocess_packages("Kintex7", @devices::kintex7) if $packages && $kintex7;
 	preprocess_packages("Kintex7L", @devices::kintex7l) if $packages && $kintex7l;
+	preprocess_packages("Artix7", @devices::artix7) if $packages && $artix7;
+	preprocess_packages("Zynq7000", @devices::zynq7000) if $packages && $zynq7000;
 	preprocess_packages("Spartan3E", @devices::spartan3e) if $packages && $spartan3e;
 	preprocess_packages("Spartan6", @devices::spartan6) if $packages && $spartan6;
 	preprocess_packages("Spartan6L", @devices::spartan6l) if $packages && $spartan6l;
@@ -1782,6 +1800,8 @@ print STDERR $message;
 	preprocess_architecture("Virtex7L", @devices::virtex7l) if $preprocess && $virtex7l;
 	preprocess_architecture("Kintex7", @devices::kintex7) if $preprocess && $kintex7;
 	preprocess_architecture("Kintex7L", @devices::kintex7l) if $preprocess && $kintex7l;
+	preprocess_architecture("Artix7", @devices::artix7) if $preprocess && $artix7;
+	preprocess_architecture("Zynq7000", @devices::zynq7000) if $preprocess && $zynq7000;
 	preprocess_architecture("Spartan3E", @devices::spartan3e) if $preprocess && $spartan3e;
 	preprocess_architecture("Spartan6", @devices::spartan6) if $preprocess && $spartan6;
 	preprocess_architecture("Spartan6L", @devices::spartan6l) if $preprocess && $spartan6l;
@@ -1799,6 +1819,8 @@ print STDERR $message;
 	process_wiring("Virtex7L", @devices::virtex7l) if $process && $virtex7l;
 	process_wiring("Kintex7", @devices::kintex7) if $process && $kintex7;
 	process_wiring("Kintex7L", @devices::kintex7l) if $process && $kintex7l;
+	process_wiring("Artix7", @devices::artix7) if $process && $artix7;
+	process_wiring("Zynq7000", @devices::zynq7000) if $process && $zynq7000;
 	process_wiring("Spartan3E", @devices::spartan3e) if $process && $spartan3e;
 	process_wiring("Spartan6", @devices::spartan6) if $process && $spartan6;
 	process_wiring("Spartan6L", @devices::spartan6l) if $process && $spartan6l;

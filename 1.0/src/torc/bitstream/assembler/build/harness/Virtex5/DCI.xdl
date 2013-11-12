@@ -1,0 +1,16 @@
+design "DCI" xc5vfx30tff665-3 v3.2;
+inst "DCI" "DCI", placed HCLK_IOI_X0Y69 DCI_X0Y3;
+net "DCI",
+	outpin "DCI" DCIADDRESS0,
+	outpin "DCI" DCIADDRESS1,
+	outpin "DCI" DCIADDRESS2,
+	outpin "DCI" DCIDATA,
+	outpin "DCI" DCIDONE,
+	outpin "DCI" DCIIOUPDATE,
+	outpin "DCI" DCIREFIOUPDATE,
+	outpin "DCI" DCISCLK,
+	inpin "DCI" TSTCLK,
+	inpin "DCI" TSTHLN,
+	inpin "DCI" TSTHLP,
+	inpin "DCI" TSTRST
+	;

@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -24,23 +24,28 @@
 #define TORC_BITSTREAM_HPP
 
 #include "torc/bitstream/Bitstream.hpp"
+#include "torc/bitstream/DeviceInfo.hpp"
 #include "torc/bitstream/Factory.hpp"
+#include "torc/bitstream/Frame.hpp"
+#include "torc/bitstream/FrameSet.hpp"
 #include "torc/bitstream/DeviceInfo.hpp"
 #include "torc/bitstream/OutputStreamHelpers.hpp"
-#include "torc/bitstream/Spartan6Bitstream.hpp"
-#include "torc/bitstream/Spartan6Packet.hpp"
 #include "torc/bitstream/Spartan3E.hpp"
 #include "torc/bitstream/Spartan6.hpp"
+#include "torc/bitstream/Spartan6Bitstream.hpp"
+#include "torc/bitstream/Spartan6Packet.hpp"
 #include "torc/bitstream/SpartanBitstream.hpp"
 #include "torc/bitstream/SpartanPacket.hpp"
+#include "torc/bitstream/TestHelpers.hpp"
 #include "torc/bitstream/Virtex.hpp"
+#include "torc/bitstream/VirtexE.hpp"
 #include "torc/bitstream/Virtex2.hpp"
 #include "torc/bitstream/Virtex2P.hpp"
 #include "torc/bitstream/Virtex4.hpp"
 #include "torc/bitstream/Virtex5.hpp"
 #include "torc/bitstream/Virtex6.hpp"
+#include "torc/bitstream/Virtex7.hpp"
 #include "torc/bitstream/VirtexBitstream.hpp"
-#include "torc/bitstream/VirtexE.hpp"
 #include "torc/bitstream/VirtexPacket.hpp"
 
 #endif // TORC_BITSTREAM_HPP

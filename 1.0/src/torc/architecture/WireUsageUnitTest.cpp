@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -22,9 +22,8 @@
 namespace torc {
 namespace architecture {
 
+BOOST_AUTO_TEST_SUITE(regression)
 BOOST_AUTO_TEST_SUITE(architecture)
-
-using namespace torc::architecture::xilinx;
 
 /// \brief Unit test for the WireUsage class.
 BOOST_AUTO_TEST_CASE(WireUsageUnitTest) {
@@ -34,6 +33,7 @@ BOOST_AUTO_TEST_CASE(WireUsageUnitTest) {
 
 }
 
+BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE_END()
 
 } // namespace architecture

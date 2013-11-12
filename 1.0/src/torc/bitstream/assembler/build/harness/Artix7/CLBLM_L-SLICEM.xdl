@@ -1,0 +1,90 @@
+# =======================================================
+# The syntax for the design statement is:                
+# design <design_name> <part> <ncd version>;             
+# or                                                     
+# design <design_name> <device> <package> <speed> <ncd_version>
+# =======================================================
+design "CLBLM_L_SLICEM" xc7a100tfgg484-1 v3.2 ;
+
+#  =======================================================
+#  The syntax for instances is:
+#      instance <name> <sitedef>, placed <tile> <site>, cfg <string> ;
+#  or
+#      instance <name> <sitedef>, unplaced, cfg <string> ;
+#  =======================================================
+inst "SLICEM" "SLICEM",placed CLBLM_L_DUMMY SLICE_X30Y150  ,
+  cfg " A5FFINIT::INIT1 A5FFMUX::IN_A A5FFSR::SRLOW A5LUT::#RAM:O5=0x00000000 
+	   A5RAMMODE::SPRAM32 A6LUT::#RAM:O6=0x0000000000000000 A6RAMMODE::SPRAM32
+       ACY0::O5 ADI1MUX::BDI1 AFF::#FF AFFINIT::INIT1 AFFMUX::O6 AFFSR::SRLOW
+       AOUTMUX::A5Q AUSED::0 
+	    B5FFINIT::INIT1 B5FFMUX::IN_A B5FFSR::SRLOW
+       B5LUT::#RAM:O5=0x00000000 B5RAMMODE::SPRAM32 B6LUT::#RAM:O6=0x0000000000000000
+       B6RAMMODE::SPRAM32 BCY0::O5 BDI1MUX::DI BFF::#FF BFFINIT::INIT1
+       BFFMUX::O6 BFFSR::SRLOW BOUTMUX::B5Q BUSED::0
+		C5FFINIT::INIT1 C5FFMUX::IN_A C5FFSR::SRLOW
+       C5LUT::#RAM:O5=0x00000000 C5RAMMODE::SPRAM32
+       C6LUT::#RAM:O6=0x0000000000000000 C6RAMMODE::SPRAM32
+       CCY0::O5 CDI1MUX::DI CEUSEDMUX::1
+       CFF::#FF CFFINIT::INIT1 CFFMUX::O6 CFFSR::SRLOW
+       CLKINV::CLK COUTMUX::C5Q COUTUSED::0 CUSED::0
+		D5FFINIT::INIT1 D5FFMUX::IN_A D5FFSR::SRLOW
+       D5LUT::#RAM:O5=0x00000000 D5RAMMODE::SPRAM32
+       D6LUT::#RAM:O6=0x0000000000000000 D6RAMMODE::SPRAM32 DCY0::O5
+       DFF::#FF DFFINIT::INIT1 DFFMUX::O6 DFFSR::SRLOW
+       DOUTMUX::D5Q DUSED::0
+		PRECYINIT::#OFF SRUSEDMUX::0
+       SYNC_ATTR::SYNC WA7USED::0 WA8USED::0 WEMUX::CE "
+  ;
+
+net "SLICEM",
+	outpin "SLICEM" A,
+	outpin "SLICEM" AMUX,
+	outpin "SLICEM" AQ,
+	outpin "SLICEM" B,
+	outpin "SLICEM" BMUX,
+	outpin "SLICEM" BQ,
+	outpin "SLICEM" C,
+	outpin "SLICEM" CMUX,
+	outpin "SLICEM" COUT,
+	outpin "SLICEM" CQ,
+	outpin "SLICEM" D,
+	outpin "SLICEM" DMUX,
+	outpin "SLICEM" DQ,
+	inpin "SLICEM" A1,
+	inpin "SLICEM" A2,
+	inpin "SLICEM" A3,
+	inpin "SLICEM" A4,
+	inpin "SLICEM" A5,
+	inpin "SLICEM" A6,
+	inpin "SLICEM" AI,
+	inpin "SLICEM" AX,
+	inpin "SLICEM" B1,
+	inpin "SLICEM" B2,
+	inpin "SLICEM" B3,
+	inpin "SLICEM" B4,
+	inpin "SLICEM" B5,
+	inpin "SLICEM" B6,
+	inpin "SLICEM" BI,
+	inpin "SLICEM" BX,
+	inpin "SLICEM" C1,
+	inpin "SLICEM" C2,
+	inpin "SLICEM" C3,
+	inpin "SLICEM" C4,
+	inpin "SLICEM" C5,
+	inpin "SLICEM" C6,
+	inpin "SLICEM" CE,
+	inpin "SLICEM" CI,
+	inpin "SLICEM" CIN,
+	inpin "SLICEM" CLK,
+	inpin "SLICEM" CX,
+	inpin "SLICEM" D1,
+	inpin "SLICEM" D2,
+	inpin "SLICEM" D3,
+	inpin "SLICEM" D4,
+	inpin "SLICEM" D5,
+	inpin "SLICEM" D6,
+	inpin "SLICEM" DI,
+	inpin "SLICEM" DX,
+	inpin "SLICEM" SR,
+	inpin "SLICEM" WE
+	;

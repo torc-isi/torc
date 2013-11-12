@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -29,7 +29,7 @@ namespace bitstream {
 namespace bitstream { class SpartanBitstreamUnitTest; }
 
 	/// \brief Spartan-class bitstream.
-	class SpartanBitstream : public Bitstream, public SpartanPacketVector, 
+	class SpartanBitstream : virtual public Bitstream, public SpartanPacketVector, 
 		public SpartanPacketConstants {
 		friend class torc::bitstream::bitstream::SpartanBitstreamUnitTest;
 	protected:

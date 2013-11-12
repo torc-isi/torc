@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -40,9 +40,6 @@ namespace common {
 		eXC6SLX100, eXC6SLX150, 
 		// Spartan6 LXT
 		eXC6SLX25T, eXC6SLX45T, eXC6SLX75T, eXC6SLX100T, eXC6SLX150T, 
-		// Spartan6 LXL
-		eXC6SLX4L, eXC6SLX9L, eXC6SLX16L, eXC6SLX25L, eXC6SLX45L, eXC6SLX75L, 
-		eXC6SLX100L, eXC6SLX150L, 
 	// Virtex
 		// Virtex
 		eXCV50, eXCV100, eXCV150, eXCV200, eXCV300, eXCV400, eXCV600, eXCV800, eXCV1000, 
@@ -91,28 +88,30 @@ namespace common {
 		eXC6VLX760, 
 		// Virtex6 SXT
 		eXC6VSX315T, eXC6VSX475T, 
-	// Virtex6L
-		// Virtex6 LXTL
-		eXC6VLX75TL, eXC6VLX130TL, eXC6VLX195TL, eXC6VLX240TL, eXC6VLX365TL, eXC6VLX550TL, 
-		eXC6VLX760L, 
-		// Virtex6 SXTL
-		eXC6VSX315TL, eXC6VSX475TL, 
-	// Virtex7
-		// Virtex7 T
-		eXC7V285T, eXC7V450T, eXC7V585T, eXC7V855T, eXC7V1500T, eXC7V2000T,
-		// Virtex7 XT
-		eXC7VX485T, 
-	// Virtex7L
-		// Virtex7 TL
-		eXC7V285TL, eXC7V450TL, eXC7V585TL, eXC7V855TL, eXC7V1500TL, 
-		eXC7V2000TL, 
+	// The 7-Series families have been very volatile:
+	// Artix7: 
+	//		xc7a8, xc7a15, xc7a30t, xc7a50t were removed from ISE 14.1
+	//		xc7a350t was removed from ISE 14.3
+	// Virtex7: 
+	//		xc7vh290t, xc7vh580t, xc7vh870t were added to ISE 14.1
+	//		xc7vh290t, xc7v1500t were removed from ISE 14.3
+	// Artix7
+		// Artix7 T
+		eXC7A100T, eXC7A200T, 
 	// Kintex7
 		// Kintex7 T
-		eXC7K30T, eXC7K70T, eXC7K160T, eXC7K325T, eXC7K410T, 
-	// Kintex7L
-		// Kintex7 TL
-		eXC7K30TL, eXC7K70TL, eXC7K160TL, eXC7K325TL, eXC7K410TL, 
-		// end
+		eXC7K70T, eXC7K160T, eXC7K325T, eXC7K355T, eXC7K410T, eXC7K420T, eXC7K480T, 
+	// Virtex7
+		// Virtex7 T
+		eXC7V585T, eXC7V2000T, 
+		// Virtex7 HT
+		eXC7VH580T, eXC7VH870T,
+		// Virtex7 XT
+		eXC7VX330T, eXC7VX415T, eXC7VX485T, eXC7VX550T, eXC7VX690T, eXC7VX980T, eXC7VX1140T, 
+	// Zynq7000
+		// Zynq7000
+		eXC7Z010, eXC7Z020, eXC7Z030, eXC7Z045, 
+	// end
 		eDeviceCount
 	};
 
@@ -147,18 +146,16 @@ namespace common {
 		DeviceVector mVirtex6LDevices;
 		/// \brief Virtex7 devices.
 		DeviceVector mVirtex7Devices;
-		/// \brief Virtex7L devices.
-		DeviceVector mVirtex7LDevices;
 		/// \brief Kintex7 devices.
 		DeviceVector mKintex7Devices;
-		/// \brief Kintex7L devices.
-		DeviceVector mKintex7LDevices;
+		/// \brief Artix7 devices.
+		DeviceVector mArtix7Devices;
+		/// \brief Zynq7000 devices.
+		DeviceVector mZynq7000Devices;
 		/// \brief Spartan3E devices.
 		DeviceVector mSpartan3EDevices;
 		/// \brief Spartan6 devices.
 		DeviceVector mSpartan6Devices;
-		/// \brief Spartan6L devices.
-		DeviceVector mSpartan6LDevices;
 		/// \brief All supported devices.
 		DeviceVector mSupportedDevices;
 		/// \brief Unit test device subset.
@@ -194,22 +191,18 @@ namespace common {
 		static const DeviceVector& getVirtex5Devices(void) { return sDevices.mVirtex5Devices; }
 		/// \brief Returns the Virtex6 devices.
 		static const DeviceVector& getVirtex6Devices(void) { return sDevices.mVirtex6Devices; }
-		/// \brief Returns the Virtex6L devices.
-		static const DeviceVector& getVirtex6LDevices(void) { return sDevices.mVirtex6LDevices; }
 		/// \brief Returns the Virtex7 devices.
 		static const DeviceVector& getVirtex7Devices(void) { return sDevices.mVirtex7Devices; }
 		/// \brief Returns the Virtex7L devices.
-		static const DeviceVector& getVirtex7LDevices(void) { return sDevices.mVirtex7LDevices; }
-		/// \brief Returns the Kintex7 devices.
 		static const DeviceVector& getKintex7Devices(void) { return sDevices.mKintex7Devices; }
-		/// \brief Returns the Kintex7L devices.
-		static const DeviceVector& getKintex7LDevices(void) { return sDevices.mKintex7LDevices; }
+		/// \brief Returns the Artix7 devices.
+		static const DeviceVector& getArtix7Devices(void) { return sDevices.mArtix7Devices; }
+		/// \brief Returns the Zynq7000 devices.
+		static const DeviceVector& getZynq7000Devices(void) { return sDevices.mZynq7000Devices; }
 		/// \brief Returns the Spartan3E devices.
 		static const DeviceVector& getSpartan3EDevices(void) { return sDevices.mSpartan3EDevices; }
 		/// \brief Returns the Spartan6 devices.
 		static const DeviceVector& getSpartan6Devices(void) { return sDevices.mSpartan6Devices; }
-		/// \brief Returns the Spartan6L devices.
-		static const DeviceVector& getSpartan6LDevices(void) { return sDevices.mSpartan6LDevices; }
 		/// \brief Returns all devices.
 		static const DeviceVector& getSupportedDevices(void) { return sDevices.mSupportedDevices; }
 		/// \brief Returns a subset of devices for unit tests.

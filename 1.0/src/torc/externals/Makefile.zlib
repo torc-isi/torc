@@ -1,4 +1,4 @@
-# Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+# Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 # $HeadURL$
 # $Id$
 
@@ -23,7 +23,7 @@ CFLAGS = \
 				-Werror \
 				-I$(SRC_DIR) \
 				$
-ifeq ($(OSTYPE),cygwin)
+ifneq (,$(findstring CYGWIN,$(shell uname)))
 	CFLAGS += -DNO_VIZ
 endif
 

@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -34,32 +34,35 @@ namespace architecture {
 	///	\details <p><pre>std::cout << ddb << ...;</pre>
 	class DDBStreamHelper {
 	protected:
+	// friends
+		/// \brief Insertion operator to associate the given device database with the given stream.
+		friend std::ostream& operator <<(std::ostream& os, const class DDB& ddb);
 	// types
-		/// \brief Map of streams to iwords.
-		typedef std::map<std::ostream*, int> OStreamToIntMap;
+		/// \brief Map of streams to database pointers.
+		typedef std::map<std::ostream*, const class DDB*> OStreamToDDBMap;
 	// static variables
-		/// \brief Map of streams to iwords.
-		static OStreamToIntMap sIWordIndexes;
+		/// \brief Map of streams to databases.
+		static OStreamToDDBMap sStreamToDatabase;
 	public:
-	// types
-		/// \brief Encapsulation of a stream iword used as a pword index.
-		typedef torc::common::EncapsulatedInteger<int> IWordIndex;
-	// functions
-		/// \brief Return the iword index for this stream, or allocate it if not defined.
-		static IWordIndex getIWordIndex(std::ostream& os) {
-			OStreamToIntMap::const_iterator index = sIWordIndexes.find(&os);
-			if(index == sIWordIndexes.end()) {
-				std::pair<OStreamToIntMap::iterator, bool> inserted 
-					= sIWordIndexes.insert(std::make_pair(&os, os.xalloc()));
-				index = inserted.first;
-			}
-			return index->second;
-		}
 		/// \brief Return the device database pointer associated with this stream.
 		/// \returns the device database pointer, or 0 if no database has been associated with the 
 		///		stream.
 		static const class DDB* getDDBPtr(std::ostream& os) {
-			return static_cast<DDB*>(os.pword(getIWordIndex(os)));
+			OStreamToDDBMap::const_iterator p = sStreamToDatabase.find(&os);
+			if(p == sStreamToDatabase.end()) return 0;
+			return p->second;
+		}
+		/// \brief Dissociate the given device database from any stream.
+		static void dissociate(const class DDB& ddb) {
+			const DDB* ddbPtr = &ddb;
+			// iterate through all streams that have an association
+			OStreamToDDBMap::iterator p = sStreamToDatabase.begin();
+			OStreamToDDBMap::iterator e = sStreamToDatabase.end();
+			while(p != e) {
+				// if we find a stream associated with this database, remove the association
+				if(p->second == ddbPtr) sStreamToDatabase.erase(p);
+				p++;
+			}
 		}
 	};
 
@@ -74,3 +77,4 @@ namespace architecture {
 } // namespace torc
 
 #endif // TORC_ARCHITECTURE_DDBSTREAMHELPER_HPP
+

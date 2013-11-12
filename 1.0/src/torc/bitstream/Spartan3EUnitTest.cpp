@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -106,10 +106,10 @@ BOOST_AUTO_TEST_CASE(Spartan3EUnitTest) {
 	BOOST_CHECK_EQUAL(Spartan3E::sCommandName[Spartan3E::eCommandDESYNCH],		"DESYNCH");
 
 	// build the file paths
-	boost::filesystem::path regressionPath 
-		= torc::common::DirectoryTree::getExecutablePath() / "regression";
-	boost::filesystem::path generatedPath = regressionPath / "Spartan3EUnitTest.generated.bit";
-	boost::filesystem::path referencePath = regressionPath / "Spartan3EUnitTest.reference.bit";
+	boost::filesystem::path referencePath = torc::common::DirectoryTree::getExecutablePath()
+		/ "torc" / "bitstream" / "Spartan3EUnitTest.reference.bit";
+	boost::filesystem::path generatedPath = torc::common::DirectoryTree::getExecutablePath()
+		/ "regression" / "Spartan3EUnitTest.generated.bit";
 
 	// read the bitstream
 	std::fstream fileStream(referencePath.string().c_str(), std::ios::binary | std::ios::in);
@@ -286,22 +286,6 @@ std::cerr << "TRYING TO FIND " << referencePath << std::endl;
 
 return;
 }
-
-
-
-
-
-
-/*
-/// \brief Unit test for the Spartan3E static device info generation.
-BOOST_AUTO_TEST_CASE(Spartan3EGenerateUnitTest) {
-
-	Spartan3E bitstream;
-	DeviceInfoHelper::buildFamilyDeviceInfo("Spartan3E", "Spartan3EDeviceInfo.template", 
-		"Spartan3EDeviceInfo.cpp", torc::common::Devices::getSpartan3EDevices(), bitstream);
-
-}
-*/
 
 BOOST_AUTO_TEST_SUITE_END()
 

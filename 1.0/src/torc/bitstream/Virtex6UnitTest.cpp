@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -33,16 +33,6 @@ namespace torc {
 namespace bitstream {
 
 BOOST_AUTO_TEST_SUITE(bitstream)
-
-/// \brief Unit test for the Virtex6 CRC
-BOOST_AUTO_TEST_CASE(Virtex6CrcUnitTest) {
-	std::fstream fileStream("Virtex6UnitTest.reference.bit", std::ios::binary | std::ios::in);
-	Virtex6 bitstream;
-	bitstream.read(fileStream, false);
-	std::cout << bitstream << std::endl;
-	bitstream.preflightPackets();
-	BOOST_REQUIRE(true);
-}
 
 /// \brief Unit test for the Virtex6 class.
 BOOST_AUTO_TEST_CASE(Virtex6UnitTest) {
@@ -129,10 +119,10 @@ BOOST_AUTO_TEST_CASE(Virtex6UnitTest) {
 	BOOST_CHECK_EQUAL(Virtex6::sCommandName[Virtex6::eCommandLTIMER],		"LTIMER");
 
 	// build the file paths
-	boost::filesystem::path regressionPath 
-		= torc::common::DirectoryTree::getExecutablePath() / "regression";
-	boost::filesystem::path generatedPath = regressionPath / "Virtex6UnitTest.generated.bit";
-	boost::filesystem::path referencePath = regressionPath / "Virtex6UnitTest.reference.bit";
+	boost::filesystem::path referencePath = torc::common::DirectoryTree::getExecutablePath()
+		/ "torc" / "bitstream" / "Virtex6UnitTest.reference.bit";
+	boost::filesystem::path generatedPath = torc::common::DirectoryTree::getExecutablePath()
+		/ "regression" / "Virtex6UnitTest.generated.bit";
 
 	// read the bitstream
 	std::fstream fileStream(referencePath.string().c_str(), std::ios::binary | std::ios::in);
@@ -224,18 +214,6 @@ BOOST_AUTO_TEST_CASE(Virtex6FarUnitTest) {
 		}
 	}
 
-	// iterate over the Virtex6L devices
-	{
-		const torc::common::DeviceVector& devices = torc::common::Devices::getVirtex6LDevices();
-		torc::common::DeviceVector::const_iterator dp = devices.begin();
-		torc::common::DeviceVector::const_iterator de = devices.end();
-		while(dp < de) {
-			const std::string& device = *dp++;
-			if(device.empty()) break;
-	//std::cout << "device " << ": " << device << std::endl;
-			testVirtex6Device(device, torc::common::DirectoryTree::getWorkingPath());
-		}
-	}
 }
 
 /*
@@ -385,10 +363,10 @@ BOOST_AUTO_TEST_CASE(Virtex6MapUnitTest) {
 
 void testVirtex6FullMapping(const boost::filesystem::path& inWorkingPath) {
 	// build the file paths
-	boost::filesystem::path regressionPath 
-		= torc::common::DirectoryTree::getExecutablePath() / "regression";
-	boost::filesystem::path generatedPath = regressionPath / "Virtex6UnitTest.generatedFull.bit";
-	boost::filesystem::path referencePath = regressionPath / "Virtex6UnitTest.reference.bit";
+	boost::filesystem::path referencePath = torc::common::DirectoryTree::getExecutablePath()
+		/ "torc" / "bitstream" / "Virtex6UnitTest.reference.bit";
+	boost::filesystem::path generatedPath = torc::common::DirectoryTree::getExecutablePath()
+		/ "regression" / "Virtex6MapUnitTest.generated.bit";
 
 	// read the bitstream
 	std::fstream fileStream(referencePath.string().c_str(), std::ios::binary | std::ios::in);
@@ -409,15 +387,15 @@ void testVirtex6FullMapping(const boost::filesystem::path& inWorkingPath) {
 	typedef boost::shared_array<uint32_t> WordSharedArray;
 	Virtex6::iterator p = bitstream.begin();
 	Virtex6::iterator e = bitstream.end();
-	while (p < e) {
+	while(p < e) {
 		const VirtexPacket& packet = *p++;
-		if (packet.isType2()) {
+		if(packet.isType2()) {
 			WordSharedArray words = packet.getWords();
 			uint32_t* ptr = words.get();
-			for (uint32_t block = 0; block < 8; block++) {
-				for (uint32_t frame = 0; frame < bitstream.mBlockFrameIndexBounds[block]; frame++) {
+			for(uint32_t block = 0; block < 8; block++) {
+				for(uint32_t frame = 0; frame < bitstream.mBlockFrameIndexBounds[block]; frame++) {
 					VirtexFrameBlocks::word_t* words = const_cast<VirtexFrameBlocks::word_t*>(bitstream.mFrameBlocks.mBlock[block][frame]->getWords());
-					for (uint32_t index = 0; index < frameLength; index++) {
+					for(uint32_t index = 0; index < frameLength; index++) {
 						*ptr++ = words[index];
 					}
 				}
@@ -433,32 +411,6 @@ void testVirtex6FullMapping(const boost::filesystem::path& inWorkingPath) {
 
 	return;
 }
-
-
-
-
-
-
-/*
-/// \brief Unit test for the Virtex6 static device info generation.
-BOOST_AUTO_TEST_CASE(Virtex6GenerateUnitTest) {
-
-	Virtex6 bitstream;
-	const torc::common::DeviceVector& virtex6Devices = torc::common::Devices::getVirtex6Devices();
-	const torc::common::DeviceVector& virtex6LDevices = torc::common::Devices::getVirtex6LDevices();
-	torc::common::DeviceVector devices;
-	devices.insert(devices.end(), virtex6Devices.begin(), virtex6Devices.end());
-	devices.insert(devices.end(), virtex6LDevices.begin(), virtex6LDevices.end());
-	DeviceInfoHelper::buildFamilyDeviceInfo("Virtex6", "Virtex6DeviceInfo.template", 
-		"Virtex6DeviceInfo.cpp", devices, bitstream);
-
-}
-*/
-
-
-
-
-
 
 BOOST_AUTO_TEST_SUITE_END()
 

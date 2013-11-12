@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -155,22 +155,22 @@ BOOST_AUTO_TEST_CASE(DesignRegressionTest) {
 	InstancePinSharedPtr blinkNetPin3Ptr = Factory::newInstancePinPtr(outInstPtr, "O");
 	blinkNetPtr->addSink(blinkNetPin3Ptr);
 	blinkNetPtr->addPip(Factory::newPip("CLBLL_X16Y59", "L_DQ", "SITE_LOGIC_OUTS3", 
-		ePipBidirectionalUnidirectionallyBuffered));
+		ePipUnidirectionalBuffered));
 	blinkNetPtr->addPip(Factory::newPip("CLBLL_X16Y59", "SITE_IMUX_B47", "L_D6", 
-		ePipBidirectionalUnidirectionallyBuffered));
+		ePipUnidirectionalBuffered));
 	blinkNetPtr->addPip(Factory::newPip("INT_X16Y59", "EL2BEG2", "IMUX_B47", 
-		ePipBidirectionalUnidirectionallyBuffered));
+		ePipUnidirectionalBuffered));
 	blinkNetPtr->addPip(Factory::newPip("INT_X16Y59", "LOGIC_OUTS3", "EL2BEG2", 
-		ePipBidirectionalUnidirectionallyBuffered));
+		ePipUnidirectionalBuffered));
 	blinkNetPtr->addPip(Factory::newPip("INT_X17Y59", "EL2MID2", "IMUX_B41", 
-		ePipBidirectionalUnidirectionallyBuffered));
+		ePipUnidirectionalBuffered));
 	blinkNetPtr->addPip(Factory::newPip("IOI_X17Y59", "IOI_IMUX_B41", "IOI_O11", 
-		ePipBidirectionalUnidirectionallyBuffered));
+		ePipUnidirectionalBuffered));
 	blinkNetPtr->addPip(Factory::newPip("IOI_X17Y59", "IOI_O11", "IOI_O_PINWIRE1", 
-		ePipBidirectionalUnidirectionallyBuffered, Factory::newRoutethroughPtr("_ROUTETHROUGH", 
+		ePipUnidirectionalBuffered, Factory::newRoutethroughPtr("_ROUTETHROUGH", 
 		"D1", "OQ", OLOGIC_X1Y118InstPtr, "D1", "OQ")));
 	blinkNetPtr->addPip(Factory::newPip("IOI_X17Y59", "IOI_O_PINWIRE1", "IOI_O1", 
-		ePipBidirectionalUnidirectionallyBuffered));
+		ePipUnidirectionalBuffered));
 	designPtr->addNet(blinkNetPtr);
 	// net clk
 	NetSharedPtr clkNetPtr = Factory::newNetPtr("clk");
@@ -183,15 +183,15 @@ BOOST_AUTO_TEST_CASE(DesignRegressionTest) {
 	InstancePinSharedPtr clkCNetPin2Ptr = Factory::newInstancePinPtr(blinkInstPtr, "CLK");
 	clkCNetPtr->addSink(clkCNetPin2Ptr);
 	clkCNetPtr->addPip(Factory::newPip("CLBLL_X16Y59", "SITE_CLK_B0", "L_CLK", 
-		ePipBidirectionalUnidirectionallyBuffered));
+		ePipUnidirectionalBuffered));
 	clkCNetPtr->addPip(Factory::newPip("CLK_BUFGMUX_X47Y44", "CLK_BUFGMUX_POSTMUX_GCLKP30", 
-		"CLK_BUFGMUX_GCLKP30", ePipBidirectionalUnidirectionallyBuffered));
+		"CLK_BUFGMUX_GCLKP30", ePipUnidirectionalBuffered));
 	clkCNetPtr->addPip(Factory::newPip("CLK_HROW_X17Y49", "CLK_HROW_GCLK_BUF30", 
-		"CLK_HROW_HCLKL_P5", ePipBidirectionalUnidirectionallyBuffered));
+		"CLK_HROW_HCLKL_P5", ePipUnidirectionalBuffered));
 	clkCNetPtr->addPip(Factory::newPip("HCLK_X16Y49", "HCLK_G_HCLK_P5", "HCLK_LEAF_GCLK5", 
-		ePipBidirectionalUnidirectionallyBuffered));
+		ePipUnidirectionalBuffered));
 	clkCNetPtr->addPip(Factory::newPip("INT_X16Y59", "GCLK5", "CLK_B0", 
-		ePipBidirectionalUnidirectionallyBuffered));
+		ePipUnidirectionalBuffered));
 	designPtr->addNet(clkCNetPtr);
 	// net clk_ibuf/IBUFG
 	NetSharedPtr clkIibufIbufgNetPtr = Factory::newNetPtr("clk_ibuf/IBUFG");
@@ -201,20 +201,20 @@ BOOST_AUTO_TEST_CASE(DesignRegressionTest) {
 	clkIibufIbufgNetPtr->addSink(clkIibufIbufgNetPin2Ptr);
 	clkIibufIbufgNetPtr->addPip(Factory::newPip("CLK_BUFGMUX_X47Y44", 
 		"CLK_BUFGMUX_MUXED_IN_CLKT_P28", "CLK_BUFGMUX_PREMUX0_CLK30", 
-		ePipBidirectionalUnidirectionallyBuffered));
+		ePipUnidirectionalBuffered));
 	clkIibufIbufgNetPtr->addPip(Factory::newPip("CLK_BUFGMUX_X47Y44", "CLK_BUFGMUX_PREMUX0_CLK30", 
-		"CLK_BUFGMUX_CLKP0_30", ePipBidirectionalUnidirectionallyBuffered));
+		"CLK_BUFGMUX_CLKP0_30", ePipUnidirectionalBuffered));
 	clkIibufIbufgNetPtr->addPip(Factory::newPip("CLK_IOB_T_X17Y60", "CLK_IOB_CLK_BUF1", 
-		"CLK_IOB_MUXED_CLKOUT28", ePipBidirectionalUnidirectionallyBuffered));
+		"CLK_IOB_MUXED_CLKOUT28", ePipUnidirectionalBuffered));
 	clkIibufIbufgNetPtr->addPip(Factory::newPip("CLK_IOB_T_X17Y60", "CLK_IOB_PAD_CLK1", 
-		"CLK_IOB_CLK_BUF1", ePipBidirectionalUnidirectionallyBuffered));
+		"CLK_IOB_CLK_BUF1", ePipUnidirectionalBuffered));
 	clkIibufIbufgNetPtr->addPip(Factory::newPip("IOI_X17Y61", "IOI_D0", "IOI_I0", 
-		ePipBidirectionalUnidirectionallyBuffered, Factory::newRoutethroughPtr("_ROUTETHROUGH", 
+		ePipUnidirectionalBuffered, Factory::newRoutethroughPtr("_ROUTETHROUGH", 
 		"D", "O", ILOGIC_X1Y123InstPtr, "D", "O")));
 	clkIibufIbufgNetPtr->addPip(Factory::newPip("IOI_X17Y61", "IOI_I0", "IOI_I_2GCLK0", 
-		ePipBidirectionalUnidirectionallyBuffered));
+		ePipUnidirectionalBuffered));
 	clkIibufIbufgNetPtr->addPip(Factory::newPip("IOI_X17Y61", "IOI_IBUF0", "IOI_D0", 
-		ePipBidirectionalUnidirectionallyBuffered));
+		ePipUnidirectionalBuffered));
 	designPtr->addNet(clkIibufIbufgNetPtr);
 	// net out
 	NetSharedPtr outNetPtr = Factory::newNetPtr("out");
@@ -231,22 +231,22 @@ BOOST_AUTO_TEST_CASE(DesignRegressionTest) {
 	InstancePinSharedPtr resetCNetPin2Ptr = Factory::newInstancePinPtr(blinkInstPtr, "SR");
 	resetCNetPtr->addSink(resetCNetPin2Ptr);
 	resetCNetPtr->addPip(Factory::newPip("CLBLL_X16Y59", "SITE_CTRL_B2", "L_SR", 
-		ePipBidirectionalUnidirectionallyBuffered));
+		ePipUnidirectionalBuffered));
 	resetCNetPtr->addPip(Factory::newPip("INT_INTERFACE_X17Y59", "INT_INTERFACE_LOGIC_OUTS_B11", 
-		"INT_INTERFACE_LOGIC_OUTS11", ePipBidirectionalUnidirectionallyBuffered));
+		"INT_INTERFACE_LOGIC_OUTS11", ePipUnidirectionalBuffered));
 	resetCNetPtr->addPip(Factory::newPip("INT_X16Y59", "CTRL2", "CTRL_B2", 
-		ePipBidirectionalUnidirectionallyBuffered));
+		ePipUnidirectionalBuffered));
 	resetCNetPtr->addPip(Factory::newPip("INT_X16Y59", "WS2MID2", "CTRL2", 
-		ePipBidirectionalUnidirectionallyBuffered));
+		ePipUnidirectionalBuffered));
 	resetCNetPtr->addPip(Factory::newPip("INT_X17Y59", "LOGIC_OUTS11", "WS2BEG2", 
-		ePipBidirectionalUnidirectionallyBuffered));
+		ePipUnidirectionalBuffered));
 	resetCNetPtr->addPip(Factory::newPip("IOI_X17Y59", "IOI_D0", "IOI_I0", 
-		ePipBidirectionalUnidirectionallyBuffered, Factory::newRoutethroughPtr("_ROUTETHROUGH", 
+		ePipUnidirectionalBuffered, Factory::newRoutethroughPtr("_ROUTETHROUGH", 
 		"D", "O", ILOGIC_X1Y119InstPtr, "D", "O")));
 	resetCNetPtr->addPip(Factory::newPip("IOI_X17Y59", "IOI_I0", "IOI_LOGIC_OUTS11", 
-		ePipBidirectionalUnidirectionallyBuffered));
+		ePipUnidirectionalBuffered));
 	resetCNetPtr->addPip(Factory::newPip("IOI_X17Y59", "IOI_IBUF0", "IOI_D0", 
-		ePipBidirectionalUnidirectionallyBuffered));
+		ePipUnidirectionalBuffered));
 	designPtr->addNet(resetCNetPtr);
 	// verify the expected net count
 	BOOST_CHECK_EQUAL(designPtr->getNetCount(), 7u);
@@ -260,10 +260,10 @@ BOOST_AUTO_TEST_CASE(DesignRegressionTest) {
 	}
 
 	// create the appropriate file paths
-	boost::filesystem::path regressionPath 
-		= torc::common::DirectoryTree::getExecutablePath() / "regression";
-	boost::filesystem::path generatedPath = regressionPath / "DesignUnitTest.generated.xdl";
-	boost::filesystem::path referencePath = regressionPath / "DesignUnitTest.reference.xdl";
+	boost::filesystem::path referencePath = torc::common::DirectoryTree::getExecutablePath()
+		/ "torc" / "physical" / "DesignUnitTest.reference.xdl";
+	boost::filesystem::path generatedPath = torc::common::DirectoryTree::getExecutablePath()
+		/ "regression" / "DesignUnitTest.generated.xdl";
 	// export the created design
 	std::fstream xdlExport(generatedPath.string().c_str(), std::ios_base::out);
 	XdlExporter fileExporter(xdlExport);

@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -32,10 +32,10 @@ BOOST_AUTO_TEST_SUITE(bitstream)
 BOOST_AUTO_TEST_CASE(Spartan6PacketUnitTest) {
 
 	// build the file paths
-	boost::filesystem::path regressionPath 
-		= torc::common::DirectoryTree::getExecutablePath() / "regression";
-	boost::filesystem::path generatedPath = regressionPath / "Spartan6UnitTest.generated.bit";
-	boost::filesystem::path referencePath = regressionPath / "Spartan6UnitTest.reference.bit";
+	boost::filesystem::path referencePath = torc::common::DirectoryTree::getExecutablePath()
+		/ "torc" / "bitstream" / "Spartan6UnitTest.reference.bit";
+	boost::filesystem::path generatedPath = torc::common::DirectoryTree::getExecutablePath()
+		/ "regression" / "Spartan6PacketUnitTest.generated.bit";
 
 	// read the bitstream
 	std::fstream fileStream(referencePath.string().c_str(), std::ios::binary | std::ios::in);

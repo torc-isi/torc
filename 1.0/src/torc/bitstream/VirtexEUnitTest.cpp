@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -98,10 +98,10 @@ BOOST_AUTO_TEST_CASE(VirtexEUnitTest) {
 	BOOST_CHECK_EQUAL(VirtexE::sCommandName[VirtexE::eCommandSWITCH],		"SWITCH");
 
 	// build the file paths
-	boost::filesystem::path regressionPath 
-		= torc::common::DirectoryTree::getExecutablePath() / "regression";
-	boost::filesystem::path generatedPath = regressionPath / "VirtexEUnitTest.generated.bit";
-	boost::filesystem::path referencePath = regressionPath / "VirtexEUnitTest.reference.bit";
+	boost::filesystem::path referencePath = torc::common::DirectoryTree::getExecutablePath()
+		/ "torc" / "bitstream" / "VirtexEUnitTest.reference.bit";
+	boost::filesystem::path generatedPath = torc::common::DirectoryTree::getExecutablePath()
+		/ "regression" / "VirtexEUnitTest.generated.bit";
 
 	// read the bitstream
 	std::fstream fileStream(referencePath.string().c_str(), std::ios::binary | std::ios::in);
@@ -287,10 +287,10 @@ BOOST_AUTO_TEST_CASE(VirtexEMapUnitTest) {
 
 void testVirtexEFullMapping(const boost::filesystem::path& inWorkingPath) {
 	// build the file paths
-	boost::filesystem::path regressionPath 
-		= torc::common::DirectoryTree::getExecutablePath() / "regression";
-	boost::filesystem::path generatedPath = regressionPath / "VirtexEUnitTest.generatedFull.bit";
-	boost::filesystem::path referencePath = regressionPath / "VirtexEUnitTest.reference.bit";
+	boost::filesystem::path referencePath = torc::common::DirectoryTree::getExecutablePath()
+		/ "torc" / "bitstream" / "VirtexEUnitTest.reference.bit";
+	boost::filesystem::path generatedPath = torc::common::DirectoryTree::getExecutablePath()
+		/ "regression" / "VirtexEMapUnitTest.generated.bit";
 
 	// read the bitstream
 	std::fstream fileStream(referencePath.string().c_str(), std::ios::binary | std::ios::in);
@@ -311,18 +311,21 @@ void testVirtexEFullMapping(const boost::filesystem::path& inWorkingPath) {
 	typedef boost::shared_array<uint32_t> WordSharedArray;
 	VirtexE::iterator p = bitstream.begin();
 	VirtexE::iterator e = bitstream.end();
-	while (p < e) {
+	while(p < e) {
 		const VirtexPacket& packet = *p++;
-		if (packet.isType2()) {
+		if(packet.isType2()) {
 			WordSharedArray words = packet.getWords();
 			uint32_t* ptr = words.get();
-			for (uint32_t block = 0; block < 8; block++) {
-				for (uint32_t frame = 0; frame < bitstream.mBlockFrameIndexBounds[block]; frame++) {
+			for(uint32_t block = 0; block < 8; block++) {
+				for(uint32_t frame = 0; frame < bitstream.mBlockFrameIndexBounds[block]; frame++) {
 					VirtexFrameBlocks::word_t* words = const_cast<VirtexFrameBlocks::word_t*>(bitstream.mFrameBlocks.mBlock[block][frame]->getWords());
-					for (uint32_t index = 0; index < frameLength; index++) {
+					for(uint32_t index = 0; index < frameLength; index++) {
 						*ptr++ = words[index];
 					}
 				}
+				// only block type 0 is present in this particular bitstream
+				// if we try to copy block type 1 frames into the packet, we will trash memory
+				break;
 			}
 		}
 	}
@@ -335,20 +338,6 @@ void testVirtexEFullMapping(const boost::filesystem::path& inWorkingPath) {
 
 	return;
 }
-
-
-
-
-/*
-/// \brief Unit test for the VirtexE static device info generation.
-BOOST_AUTO_TEST_CASE(VirtexEGenerateUnitTest) {
-
-	VirtexE bitstream;
-	DeviceInfoHelper::buildFamilyDeviceInfo("VirtexE", "VirtexEDeviceInfo.template", 
-		"VirtexEDeviceInfo.cpp", torc::common::Devices::getVirtexEDevices(), bitstream);
-
-}
-*/
 
 BOOST_AUTO_TEST_SUITE_END()
 

@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -14,8 +14,12 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 #include "torc/bitstream/Spartan6Bitstream.hpp"
+#include "torc/bitstream/Spartan6.hpp"
+#include "torc/common/DeviceDesignator.hpp"
 #include <boost/crc.hpp>
 #include <stdio.h>
+
+using namespace torc::common;
 
 namespace torc {
 namespace bitstream {
@@ -25,7 +29,18 @@ namespace bitstream {
 		uint16_t cumulativeWordLength = 0;
 		while(cumulativeWordLength < bitstreamWordLength) {
 			push_back(Spartan6Packet::read(inStream));
-			cumulativeWordLength += back().getWordSize();
+			uint32_t wordSize = back().getWordSize();
+			cumulativeWordLength += wordSize;
+			// infer Auto CRCs for writes equal to or longer than one frame (not rigorously correct)
+			if(wordSize <= getFrameLength()) continue;
+			uint16_t autoCrcHi = 0;
+			uint16_t autoCrcLo = 0;
+			inStream.read((char*) &autoCrcHi, sizeof(autoCrcHi));
+			inStream.read((char*) &autoCrcLo, sizeof(autoCrcLo));
+			autoCrcHi = ntohs(autoCrcHi);
+			autoCrcLo = ntohs(autoCrcLo);
+			push_back(Spartan6Packet(autoCrcHi, autoCrcLo));
+			cumulativeWordLength += 2;
 		}
 	}
 
@@ -36,56 +51,73 @@ namespace bitstream {
 	}
 
 	void Spartan6Bitstream::preflightPackets(void) {
-return;
-		uint32_t crc;
-		uint32_t address = 0;
-		const_iterator p = begin();
-		const_iterator e = end();
-		boost::crc_basic<32> crc32(0x1EDC6F41, 0, 0, false, false);
+		// determine which architecture this is
+		DeviceDesignator deviceDesignator(getDeviceName());
+		DeviceDesignator::EFamily family = deviceDesignator.getFamily();
+		// set up family-specific variables
+		uint32_t crcRegister = 0;
+		uint32_t cmdRegister = 0;
+		uint32_t fdriRegister = 0;
+		uint32_t rcrcCommand = 0;
+		uint32_t addressLength = 0;
+		bool autoCrc = false;
+		switch(family) {
+		case DeviceDesignator::eFamilySpartan6: 
+			cmdRegister = Spartan6::eRegisterCMD; rcrcCommand = Spartan6::eCommandRCRC; 
+			fdriRegister = Spartan6::eRegisterFDRI; crcRegister = Spartan6::eRegisterCRC; 
+			/*addressLength = 6*/ (void) addressLength; autoCrc = true; 
+			break;
+		default:
+			std::cerr << "Unsupported architecture in Spartan6Bitstream::preflightPackets()."
+				<< std::endl;
+			break;
+		}
+		// begin CRC calculation: calculation is derived from one of the following simulation files:
+		//		ISE/verilog/src/unisims/SIM_CONFIG_S6.v
+		//		ISE/vhdl/src/unisims/primitive/SIM_CONFIG_S6.vhd
+		CRC crc;
+		iterator p = begin();
+		iterator e = end();
 		while(p < e) {
-			// read packet in
+			// look up the current packet
 		  	const Spartan6Packet& packet = *p++;
+			// only process write packets with non-zero payload length
 		  	if(!packet.isWrite()) continue;
-			address = packet.getAddress();
+			uint32_t address = packet.getAddress();
 			uint32_t wordCount = packet.getWordCount();
 			if(wordCount == 0) continue;
-			// CRC Command
-			if(address == 0) {
-				printf("\n\nExpected CRC: %X%X\n", packet[1],packet[2]);
-				crc = crc32.checksum();
-				printf("Calculated CRC: %X\n\n\n", crc);
-				crc = 0;
-				crc32.reset();
-			}
-		  	// Reset CRC
-			else if(address == 5 && wordCount >= 1 && packet[1] == 7) {
-				crc = 0;
-				crc32.reset();
-				//printf("Reset\n");
-		  	}
-			else {
+			// CRC register write (this is what compares the expected and supplied CRC values)
+			if(address == crcRegister) {
+				//printf("Expected CRC16:   %8.8x\n", uint32_t(packet[1]) << 16 | packet[2]);
+				//printf("Calculated CRC16: %8.8x\n", uint32_t(crc));
+				*(p-1) = Spartan6Packet::makeType1Write32(crcRegister, crc);
+				crc.reset();
+		  	// reset CRC command
+			} else if(address == cmdRegister && wordCount >= 1 && packet[1] == rcrcCommand) {
+				crc.reset();
+			// registers that are omitted from CRC calculation
+			} else if(address == Spartan6::eRegisterBOOSTS || address == Spartan6::eRegisterSTAT 
+				|| address == Spartan6::eRegisterLOUT || address == Spartan6::eRegisterCSBO 
+				|| address == Spartan6::eRegisterRDBK_SIGN || address == Spartan6::eRegisterFDRO) {
+			// process packet contents
+		  	} else {
 				for(uint32_t i = 1; i <= wordCount; i++) {
-					uint16_t word = packet[i];
-					printf("Address: %2.2X\n", address);
-					printf("Word (%d): %4.4X\n", i, word);
-					uint16_t j;
-					uint16_t mask;
-					for(j = 0, mask = 1; j < 16; j++, mask <<= 1) {
-					  crc32.process_bits((word & mask) ? 1 : 0, 1);
-					  printf("\t%8.8X\n", crc32.checksum());
-					}
-					for(j = 0, mask = 1; j < 6; j++, mask <<= 1) {
-					  crc32.process_bits((address & mask) ? 1 : 0, 1);
-					  printf("\t\t%8.8X\n", crc32.checksum());
-					}
-					printf("\t\t\t%8.8X\n", crc32.checksum());
+					uint32_t word = packet[i];
+					//printf("Address: %4.4x\n", address);
+					//printf("Word: %8.8x\n", word);
+					crc.update(address, word);
+					// debugging output
+					//for(int32_t c = sizeof(crc_curr) - 1; c >= 0; c--) printf("%d", crc_curr[c]);
+					//printf("\n");
 				}
-				// Auto CRC Called
-				if (packet.isType2()){
-				  crc = crc32.checksum();
-  				  printf("Calculated Auto CRC: %X\n", crc);
-				  crc = 0;
-				  crc32.reset();
+				// process the Auto CRC
+				if(autoCrc && address == fdriRegister) {
+					//printf("Expected Auto CRC16:   %8.8x\n", (uint32_t((*p)[0]) << 16) | (*p)[1]);
+					//printf("Calculated Auto CRC16: %8.8x\n", uint32_t(crc));
+					// current packet is FDRI, next is Auto CRC
+					*p = Spartan6Packet(crc >> 16, crc & 0xffff);
+					// unlike the Spartan3E, the CRC is not reset after an Auto CRC
+					//crc.reset();
 				}
 			}
 		}

@@ -1,0 +1,11 @@
+# define these variables here if necessary or define them as environment variables
+#BOOST_INCLUDE_DIR = 
+#BOOST_LIB_DIR = 
+
+ifneq "$(strip $(BOOST_INCLUDE_DIR))" ""
+	BOOST_INCLUDE_DIR_OPTION = -I$(BOOST_INCLUDE_DIR)
+endif
+
+ifneq "$(strip $(BOOST_LIB_DIR))" ""
+	BOOST_LIB_DIR_OPTION = -L$(BOOST_LIB_DIR)
+endif

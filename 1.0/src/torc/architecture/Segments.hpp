@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -23,6 +23,7 @@
 #include "torc/architecture/DigestStream.hpp"
 #include "torc/architecture/Array.hpp"
 #include "torc/architecture/Tilewire.hpp"
+#include "torc/architecture/DDBConsoleStreams.hpp"
 
 namespace torc {
 namespace architecture {
@@ -36,7 +37,7 @@ namespace architecture { class segments_unit_test_helper; }
 	/// \details Segment data is encoded in a collection of compact segments (segment shapes 
 	///		normalized to tile index 0) and a mapping from tilewires to segment references and 
 	///		anchor tile indexes.
-	class Segments {
+	class Segments : DDBConsoleStreams {
 	// friends
 		/// \brief The database has access to our protected functions.
 		friend class DDB;
@@ -70,6 +71,7 @@ namespace architecture { class segments_unit_test_helper; }
 			CompactSegmentTilewire(WireIndex inWireIndex, TileOffset inTileOffset)
 				: mWireIndex(inWireIndex), mTileOffset(inTileOffset) {}
 		};
+	public:
 		/// \brief Encapsulation of compact segment index and an anchoring tile index.
 		/// \details Compact segments are normalized relative to tile index 0.  The accompanying 
 		///		tile index serves as an anchor from which to derive a full segment description.
@@ -94,6 +96,7 @@ namespace architecture { class segments_unit_test_helper; }
 				{ return sTrivialSegmentReference; }
 			static const SegmentReference sTrivialSegmentReference;
 		};
+	protected:
 		/// \brief Encapsulation of an irregular arc.
 		/// \details Arcs which are defined for a tile type, but which are not instantiated in 
 		///		every single tile of that type are considered irregular, and must be considered on 
@@ -120,11 +123,27 @@ namespace architecture { class segments_unit_test_helper; }
 		CompactSegmentCount mCompactSegmentCount;
 		/// \brief The number of irregular arcs in the device.
 		uint32_t mIrregularArcCount;
-		/// \brief The total number of defined wires on non-trivial segments.
+		/// \brief The total number of wires in the device (pruned and actual).
 		/// \note We cannot use a WireCount for this, because it is only intended for use in a 
 		///		single tile, and is consequently only 16 bits wide.
 		uint32_t mTotalWireCount;
-		/// \brief The total number of defined non-trivial segments.
+		/// \brief The number of pruned wires in the device.
+		/// \note We cannot use a WireCount for this, because it is only intended for use in a 
+		///		single tile, and is consequently only 16 bits wide.
+		uint32_t mPrunedWireCount;
+		/// \brief The number of actual wires on non-trivial segments in the device.
+		/// \note We cannot use a WireCount for this, because it is only intended for use in a 
+		///		single tile, and is consequently only 16 bits wide.
+		uint32_t mActualWireCount;
+		/// \brief The number of defined trivial segments.
+		/// \note We could use a CompactSegmentCount for this, but that would be semantically 
+		///		incorrect because we are really counting full segments, not compact segments.
+		uint32_t mTrivialSegmentCount;
+		/// \brief The number of defined non-trivial segments.
+		/// \note We could use a CompactSegmentCount for this, but that would be semantically 
+		///		incorrect because we are really counting full segments, not compact segments.
+		uint32_t mNonTrivialSegmentCount;
+		/// \brief The total number of defined segments.
 		/// \note We could use a CompactSegmentCount for this, but that would be semantically 
 		///		incorrect because we are really counting full segments, not compact segments.
 		uint32_t mTotalSegmentCount;
@@ -143,8 +162,16 @@ namespace architecture { class segments_unit_test_helper; }
 			WireIndex inSourceWireIndex, WireIndex inSinkWireIndex);
 	public:
 	// accessors
-		/// \brief Return the total number of real wires in the device.
+		/// \brief Return the total number of wires in the device (pruned and actual).
 		uint32_t getTotalWireCount(void) const { return mTotalWireCount; }
+		/// \brief Return the number of actual wires in the device (unpruned and non-trivial).
+		uint32_t getActualWireCount(void) const { return mActualWireCount; }
+		/// \brief Return the number of pruned wires in the device.
+		uint32_t getPrunedWireCount(void) const { return mPrunedWireCount; }
+		/// \brief Return the total number of trivial segments in the device.
+		uint32_t getTrivialSegmentCount(void) const { return mNonTrivialSegmentCount; }
+		/// \brief Return the total number of non-trivial segments in the device.
+		uint32_t getNonTrivialSegmentCount(void) const { return mNonTrivialSegmentCount; }
 		/// \brief Return the total number of full segments in the device.
 		uint32_t getTotalSegmentCount(void) const { return mTotalSegmentCount; }
 		/// \brief Return the number of compact segments in the device.

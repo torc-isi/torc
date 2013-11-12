@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -477,7 +477,7 @@ namespace bitstream {
 
 		// identify every column that contains known frames
 		columnTypes.resize(colCount);
-		uint32_t frameCount = 0;
+		uint32_t frameRowCount = 0;
 		for(uint32_t blockType = 0; blockType < eFarBlockTypeCount; blockType++) {
 			for(TileCol col; col < colCount; col++) {
 				columnTypes[col] = eColumnTypeEmpty;
@@ -492,7 +492,7 @@ namespace bitstream {
 					ttwp = mTileTypeIndexToColumnType.find(tileTypeIndex);
 					if(ttwp != ttwe) {
 						uint32_t width = mColumnDefs[ttwp->second][blockType];
-						frameCount += width;
+						frameRowCount += width;
 						//std::cout << "    " << tiles.getTileTypeName(tileInfo.getTypeIndex()) 
 						// << ": " << width << " (" << frameCount << ")" << std::endl;
 						columnTypes[col] = static_cast<EColumnType>(ttwp->second);
@@ -527,12 +527,40 @@ namespace bitstream {
 
 	void Virtex5::initializeFrameMaps(void) {
 
-		bool debug = 0;
+		bool debug = false;
+		mFrameRowCount = 0;
 		uint32_t frameCount = 0;
 		uint32_t farRowCount = (mDeviceInfo.getRowCount() / 22) >> 1;
 		// the xc5vlx20t has 3 total FAR rows, 1 in the bottom half, and 2 in the top half
 		bool shortBottomHalf = (farRowCount * 22 << 1) + 1 < mDeviceInfo.getRowCount();
 		if(shortBottomHalf) farRowCount++;
+
+		// map XDL tiles to top/bottom halves and frame rows
+		uint32_t bottomRowCount = farRowCount - (shortBottomHalf ? 1 : 0);
+		uint32_t topRowCount = farRowCount;
+		// top half rows
+		uint32_t xdlRow = 0;
+		uint32_t xdlBaseRow = xdlRow;
+		for(uint32_t frameRow = topRowCount - 1; ; frameRow--) {
+			for(int i = 0; i < 22; i++, xdlRow++) {
+//std::cout << "mapping XDL row " << xdlRow << " to top frame row " << frameRow << " (base " << xdlBaseRow << ")" << std::endl;
+				mXdlRowToFrameRowDesignator[xdlRow] 
+					= FrameRowDesignator(eFarTop, frameRow, xdlBaseRow);
+			}
+			xdlBaseRow += 22;
+			if(frameRow == 0) break;
+		}
+		// bottom half rows
+		for(uint32_t frameRow = 0; frameRow < bottomRowCount; frameRow++) {
+			for(int i = 0; i < 22; i++, xdlRow++) {
+//std::cout << "mapping XDL row " << xdlRow << " to bottom frame row " << frameRow << " (base " << xdlBaseRow << ")" << std::endl;
+				mXdlRowToFrameRowDesignator[xdlRow] 
+					= FrameRowDesignator(eFarBottom, frameRow, xdlBaseRow);
+			}
+			xdlBaseRow += 22;
+		}
+
+		// generate the columns and mappings
 		uint32_t frameIndex = 0;
 		for(uint32_t i = 0; i < Virtex5::eFarBlockTypeCount; i++) {
 			Virtex5::EFarBlockType blockType = Virtex5::EFarBlockType(i);
@@ -542,18 +570,20 @@ namespace bitstream {
 			uint32_t xdlIndex = 0;
 			mBitColumnIndexes[i].push_back(bitIndex);
 			mXdlColumnIndexes[i].push_back(xdlIndex);
+			bool blockUsed = false;
 			for(uint32_t half = 0; half < 2; half++) {
 				for(uint32_t farRow = 0; farRow < farRowCount; farRow++) {
 					// fix short bottom half on xc5vlx20t
 					if(shortBottomHalf && half == 0 && (farRow + 1 == farRowCount)) continue;
+					// count the number of frame rows
+					if(i == 0) mFrameRowCount++;
 					// build the columns
 					uint32_t farMajor = 0;
 					typedef torc::common::EncapsulatedInteger<uint16_t> ColumnIndex;
 					uint16_t finalColumn = mDeviceInfo.getColCount()-1;
 					uint32_t xdlColumnCount = 0;
 					uint32_t bitColumnCount = 0;
-					for(ColumnIndex col; col < mDeviceInfo.getColCount(); 
-						col++) {
+					for(ColumnIndex col; col < mDeviceInfo.getColCount(); col++) {
 						uint32_t width = mColumnDefs[mDeviceInfo.getColumnTypes()[col]][i];
 						//Allocate the frame maps
 						for(uint32_t farMinor = 0; farMinor < width; farMinor++) {
@@ -564,19 +594,23 @@ namespace bitstream {
 							frameIndex++;
 							blockFrameIndexBounds++;
 						}
-						if(width > 0) farMajor++;
+						if(width > 0) {
+							farMajor++;
+							blockUsed = true;
+						}
 						frameCount += width;
 
 						//Extract frame indexes for 1 row
 						if(farRow == 0 && half == 0) {
 						    //Indexes for Bitstream Columns, only stores non-empty tile types
-						    if(mDeviceInfo.getColumnTypes()[col] != Virtex5::eColumnTypeEmpty) {
-								mXdlIndexToBitIndex[bitColumnCount] = xdlColumnCount;
+						    if(mDeviceInfo.getColumnTypes()[col] != Virtex5::eColumnTypeEmpty
+								&& mDeviceInfo.getColumnTypes()[col] != Virtex5::eColumnTypeInt ) {
+								mBitColumnToXdlColumn[bitColumnCount] = xdlColumnCount;
 							    bitColumnCount++;
 							    bitIndex += width;
 							    mBitColumnIndexes[i].push_back(bitIndex);
-							    if(col == finalColumn) {
-							        bitIndex += mColumnDefs[mDeviceInfo.getColumnTypes()[col]][i];
+								if(col == finalColumn) {
+									bitIndex += getRowPadFrames();
 							        mBitColumnIndexes[i].push_back(bitIndex);
 							    }
 						    }
@@ -585,22 +619,28 @@ namespace bitstream {
 						    xdlIndex += width;
 						    mXdlColumnIndexes[i].push_back(xdlIndex);
 							xdlColumnCount++;
-						    if(col == finalColumn)
-						    {    
-						        xdlIndex += mColumnDefs[mDeviceInfo.getColumnTypes()[col]][i];
-						        mXdlColumnIndexes[i].push_back(xdlIndex);
-						    }
+							if(col == finalColumn) {
+								xdlIndex += getRowPadFrames();
+								mXdlColumnIndexes[i].push_back(xdlIndex);
+							}
 						}
 					}
-					if (debug) std::cout << "Last frame index:   [" << i << ", " << frameIndex << "]" << std::endl;
+					// account for two pad frames after each frame row
+					if(blockUsed) {
+						frameIndex += getRowPadFrames();
+						blockFrameIndexBounds += getRowPadFrames();
+					}
+					if(debug) std::cout << "Last frame index:   [" << i << ", " << frameIndex 
+						<< "]" << std::endl;
 				}
 			}
 			//stores frame index bounds for each block type
 			mBlockFrameIndexBounds[i] = blockFrameIndexBounds;
-			if (debug) std::cout << "***Block frame index bounds: " << mBlockFrameIndexBounds[i] << std::endl;
+			if(debug) std::cout << "***Block frame index bounds: " << mBlockFrameIndexBounds[i] 
+				<< std::endl;
 		}
 		//Test to check proper indexing
-		if (debug) {
+		if(debug) {
   		  for(uint32_t i = 0; i < Virtex5::eFarBlockTypeCount; i++) {
 			  for(uint32_t j = 0; j < mBitColumnIndexes[i].size(); j++) 
 				  std::cout << "Bit Value at index: (" << i << ", " << j << ") : "
@@ -612,23 +652,47 @@ namespace bitstream {
 		}
 	}
 
-	void Virtex5::initializeFullFrameBlocks (void) {
+	void Virtex5::initializeFullFrameBlocks(void) {
 		boost::shared_array<uint32_t> frameWords;
-		//Walk the bitstream and extract all frames 
+		// walk the bitstream and extract all frames
 		Virtex5::iterator p = begin();
 		Virtex5::iterator e = end();
-		while (p < e) {
+		while(p < e) {
 		    const VirtexPacket& packet = *p++;
-		    if (packet.isType2() && packet.isWrite()) 
+		    if(packet.isType2() && packet.isWrite()) 
   				frameWords = packet.getWords();
 		}
 		uint32_t index = 0;
-		for (uint32_t i = 0; i < VirtexFrameBlocks::eBlockTypeCount; i++) {
-			//All frames of block type are extracted
-			for (uint32_t j = 0; j < mBlockFrameIndexBounds[i]; j++) {
+		for(uint32_t i = 0; i < Bitstream::eBlockTypeCount; i++) {
+			// all frames of block type are extracted
+			for(uint32_t j = 0; j < mBlockFrameIndexBounds[i]; j++) {
 				mFrameBlocks.mBlock[i].push_back(VirtexFrameSet::FrameSharedPtr
 					(new VirtexFrame(getFrameLength(), &frameWords[index])));
 				index += getFrameLength();
+			}
+		}
+	}
+
+	void Virtex5::updateFullFrameBlocks(void) {
+		/// \todo If the packet size differs from the frame data size, we need to replace the 
+		///		entire packet.
+		uint32_t frameLength = getFrameLength();
+		typedef boost::shared_array<uint32_t> WordSharedArray;
+		// walk the bitstream and find the (full) FDRI write packet
+		Virtex5::iterator p = begin();
+		Virtex5::iterator e = end();
+		while(p < e) {
+		    const VirtexPacket& packet = *p++;
+		    if(packet.isType2() && packet.isWrite()) {
+				WordSharedArray words = packet.getWords();
+				uint32_t* ptr = words.get();
+				for(uint32_t block = 0; block < 8; block++) {
+					for(uint32_t frame = 0; frame < mBlockFrameIndexBounds[block]; frame++) {
+						const VirtexFrameBlocks::word_t* words 
+							= mFrameBlocks.mBlock[block][frame]->getWords();
+						for(uint32_t index = 0; index < frameLength; index++) *ptr++ = *words++;
+					}
+				}
 			}
 		}
 	}
@@ -641,14 +705,14 @@ namespace bitstream {
 		Virtex5::iterator e = end();
 		Virtex5::FrameAddress far;
 		uint32_t address;
-		while (p < e) {
+		while(p < e) {
 		    const VirtexPacket& packet = *p++;
-		    if (packet.isType1() && packet.isWrite() && packet.getAddress() == eRegisterFAR) {
+		    if(packet.isType1() && packet.isWrite() && packet.getAddress() == eRegisterFAR) {
 			    address = packet[1];
 				far.assign (address);
 				//std::cout << "Far: " << far << std::endl;
 			}
-		    if (packet.isType1() && packet.isWrite() && packet.getAddress() == eRegisterFDRI) {
+		    if(packet.isType1() && packet.isWrite() && packet.getAddress() == eRegisterFDRI) {
   				frameWords = packet.getWords();
 				//uint32_t numFrames = packet.getWordCount() % getFrameLength();
 				//mFrameBlocks.mBlock[far.mBlockType].push_back(VirtexFrameSet
@@ -658,48 +722,125 @@ namespace bitstream {
 	}
 	*/
 
-	VirtexFrameBlocks Virtex5::getBitstreamFrames (uint32_t blockCount, uint32_t bitCol) {
-
-		//Index and extract frames
-		int32_t bitColumnIndex [blockCount];
-		int32_t bitColumnBound [blockCount];
-
-		for (uint32_t i = 0; i < blockCount; i++) {
-			//Column Index of given frame index
-			bitColumnIndex[i] = mBitColumnIndexes[i][bitCol];
-			//Frame bounds for given column type
-			bitColumnBound[i] = mColumnDefs[mDeviceInfo.getColumnTypes()
-			    [mXdlIndexToBitIndex[bitCol]]][i];
-		}
-		//Extract the tile frames for the specified FAR 
-		VirtexFrameBlocks frameBlocks;
-		for (uint32_t i = 0; i < blockCount; i++) {
-		    int startIndex = bitColumnIndex[i];
-		    for (int j = 0; j < bitColumnBound[i]; j++)
-				frameBlocks.mBlock[i].push_back(mFrameBlocks.mBlock[i][startIndex+j]);
-		}
-		return frameBlocks;
+	VirtexFrameBlocks Virtex5::getBitstreamFrames(EFarTopBottom inTopBottom, uint32_t inFrameRow, 
+		uint32_t inBitCol, uint32_t inBlockCount) {
+		return getXdlFrames(inFrameRow + (inTopBottom == eFarBottom ? (mFrameRowCount >> 1) : 0), 
+			mBitColumnToXdlColumn[inBitCol], inBlockCount);
 	}
 
-	VirtexFrameBlocks Virtex5::getXdlFrames (uint32_t blockCount, uint32_t xdlCol) {
+	VirtexFrameBlocks Virtex5::getBitstreamFrames(uint32_t inBitRow, uint32_t inBitCol, 
+		uint32_t& outBeginBit, uint32_t& outEndBit, uint32_t inBlockCount) {
+		return getXdlFrames(inBitRow, mBitColumnToXdlColumn[inBitCol], outBeginBit, outEndBit, 
+			inBlockCount);
+	}
 
-		//Index and extract frames
-		int32_t xdlColumnIndex [blockCount];
-		int32_t xdlColumnBound [blockCount];
-		for (uint32_t i = 0; i < blockCount; i++) {
-			//Column Index of given frame index
-			xdlColumnIndex[i] = mXdlColumnIndexes[i][xdlCol];
-			//Frame bounds for given column type
-			xdlColumnBound[i] = mColumnDefs[mDeviceInfo.getColumnTypes()[xdlCol]][i];
+	VirtexFrameBlocks Virtex5::getBitstreamFrames(uint32_t inFrameRow, uint32_t inBitCol, 
+		uint32_t inBlockCount) {
+		return getXdlFrames(inFrameRow, mBitColumnToXdlColumn[inBitCol], inBlockCount);
+	}
+
+	VirtexFrameBlocks Virtex5::getXdlFrames(uint32_t inXdlRow, uint32_t inXdlCol, 
+		uint32_t& outBeginBit, uint32_t& outEndBit, uint32_t inBlockCount) {
+
+		// look up the frame row designator for this XDL row
+		FrameRowDesignator designator = mXdlRowToFrameRowDesignator[inXdlRow];
+
+		// by default we have no bit position information
+		outBeginBit = outEndBit = 0;
+		// look up the absolute frame row
+		uint32_t absoluteFrameRow = designator.mFrameRow;
+		if(designator.mTopBottom == eFarBottom) absoluteFrameRow += (mFrameRowCount >> 1);
+
+		// look up the relative XDL row
+		uint32_t relativeXdlRow = inXdlRow - designator.mXdlBaseRow;
+		//std::cout << "inXdlRow: " << inXdlRow << std::endl;
+		//std::cout << "inXdlCol: " << inXdlCol << std::endl;
+		//std::cout << "    designator.mTopBottom: " << designator.mTopBottom << std::endl;
+		//std::cout << "    designator.mFrameRow: " << designator.mFrameRow << std::endl;
+		//std::cout << "    designator.mXdlBaseRow: " << designator.mXdlBaseRow << std::endl;
+		//std::cout << "    absoluteFrameRow: " << absoluteFrameRow << std::endl;
+		//std::cout << "    relativeXdlRow: " << relativeXdlRow << std::endl;
+
+		// provide bit information for the columns that we know
+		uint32_t index = relativeXdlRow;
+		//std::cout << "    index: " << index << std::endl;
+		//std::cout << "    mDeviceInfo.getColumnTypes()[inXdlCol]: " 
+		//	<< mDeviceInfo.getColumnTypes()[inXdlCol] << std::endl;
+		switch(mDeviceInfo.getColumnTypes()[inXdlCol]) {
+		case eColumnTypeClb:
+		case eColumnTypeInt:
+			if(index == 0 || index == 11) break; // these tiles have no bits
+			index--; // tile 0 has no bits
+			outBeginBit = index * 64; // regular tiles are 64 bits long
+			outEndBit = outBeginBit + 64;
+			if(index > 11) {
+				outBeginBit -= 32; // the clock word is 32 bits long
+				outEndBit -= 32;   // the clock word is 32 bits long
+			}
+			break;
+		case eColumnTypeBram:
+			if(index != 5 && index != 10 && index != 16 && index != 21) break;
+			index -= 5;
+			outBeginBit = index * 64; // regular tiles are 64 bits long
+			outEndBit = outBeginBit + 320;
+			if(index > 10) {
+				outBeginBit -= 32; // the clock word is 32 bits long
+				outEndBit -= 32;   // the clock word is 32 bits long
+			}
+			break;
+		default:
+			break;
 		}
-		//Extract the tile frames for the specified FAR 
+
+		// invoke the function that really does the work
+		return getXdlFrames(absoluteFrameRow, inXdlCol);
+	}
+
+	VirtexFrameBlocks Virtex5::getXdlFrames(uint32_t inFrameRow, uint32_t inXdlCol, 
+		uint32_t inBlockCount) {
+		if(inFrameRow > getFrameRowCount()) return VirtexFrameBlocks();
+
+		// index and extract frames
+		int32_t xdlColumnIndex[inBlockCount];
+		int32_t xdlColumnBound[inBlockCount];
+		for(uint32_t i = 0; i < inBlockCount; i++) {
+			// adjust for the frame row
+			uint32_t indexOffset = inFrameRow * mXdlColumnIndexes[i].back();
+			// column Index of given frame index
+			xdlColumnIndex[i] = mXdlColumnIndexes[i][inXdlCol] + indexOffset;
+			// frame bounds for given column type
+			xdlColumnBound[i] = mColumnDefs[mDeviceInfo.getColumnTypes()[inXdlCol]][i];
+			//std::cout << "    block: " << i << ", start: " << xdlColumnIndex[i] << ", width: " 
+			//	<< xdlColumnBound[i] << " ==== XDL column: " << inXdlCol << ", bit column: " 
+			//	<< mXdlColumnToBitColumn[inXdlCol] << std::endl;
+		}
+		// extract the tile frames for the specified FAR 
 		VirtexFrameBlocks frameBlocks;
-		for (uint32_t i = 0; i < blockCount; i++) {
+		for(uint32_t i = 0; i < inBlockCount; i++) {
 		    int startIndex = xdlColumnIndex[i];
-		    for (int j = 0; j < xdlColumnBound[i]; j++)
+		    for(int j = 0; j < xdlColumnBound[i]; j++) 
 				frameBlocks.mBlock[i].push_back(mFrameBlocks.mBlock[i][startIndex+j]);
 		}
 		return frameBlocks;
 	}
+
+	uint32_t Virtex5::getPrimaryXdlColumn(uint32_t inXdlCol) {
+		// INT columns "belong" with their corresponding primary column in the bitstream, so if the 
+		// caller hands us an INT column, we look for the next primary column to the right
+		// if the caller passes in a primary column, we return it as is
+		const ColumnTypeVector& columns = mDeviceInfo.getColumnTypes();
+		if(columns[inXdlCol] != eColumnTypeInt) return inXdlCol;
+		// otherwise loop and increment until we find a primary column
+		uint32_t col = inXdlCol + 1;
+		ColumnTypeVector::const_iterator p = columns.begin() + col;
+		ColumnTypeVector::const_iterator e = columns.end();
+		while(p < e) {
+			if(*p != eColumnTypeEmpty) return col;
+			col++; p++;
+		}
+		// we shouldn't get here, but if we do, the best thing is to return the original column
+		return inXdlCol;
+	}
+
 } // namespace bitstream
 } // namespace torc

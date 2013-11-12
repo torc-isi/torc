@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -39,7 +39,7 @@ namespace packer {
 				const PrimitiveElement& element = *ep++;
 				if(element.getName() != cByInvOutUsedElementName) continue;
 				// look for the one and only input pin, and add it to the inverted inputs set
-				PrimitiveElementPinArray elementPins = element.getPins();
+				const PrimitiveElementPinArray& elementPins = element.getPins();
 				PrimitiveElementPinArray::const_iterator pp = elementPins.begin();
 				PrimitiveElementPinArray::const_iterator pe = elementPins.end();
 				while(pp < pe) { if(pp->isInput()) mInvertedInputs.insert(&*pp); pp++; }

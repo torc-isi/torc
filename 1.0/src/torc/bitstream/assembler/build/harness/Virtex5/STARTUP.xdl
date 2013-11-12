@@ -1,0 +1,16 @@
+design "STARTUP" xc5vfx30tff665-3 v3.2;
+inst "STARTUP" "STARTUP", placed CFG_CENTER_X63Y44 STARTUP;
+net "STARTUP",
+	outpin "STARTUP" CFGCLK,
+	outpin "STARTUP" CFGMCLK,
+	outpin "STARTUP" DINSPI,
+	outpin "STARTUP" EOS,
+	outpin "STARTUP" TCKSPI,
+	inpin "STARTUP" CLK,
+	inpin "STARTUP" GSR,
+	inpin "STARTUP" GTS,
+	inpin "STARTUP" USRCCLKO,
+	inpin "STARTUP" USRCCLKTS,
+	inpin "STARTUP" USRDONEO,
+	inpin "STARTUP" USRDONETS
+	;

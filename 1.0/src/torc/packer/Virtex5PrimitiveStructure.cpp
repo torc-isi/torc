@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the Virtex2PrimitiveStructure class.
+/// \brief Source for the Virtex5PrimitiveStructure class.
 
 #include "torc/packer/Virtex5PrimitiveStructure.hpp"
 #include <iostream>
@@ -29,8 +29,8 @@ namespace packer {
 	const std::string cSliceMTypeName = "SLICEM";
 
 	void Virtex5PrimitiveStructure::initialize(void) {
-		// look up the SLICE BYINVOUTUSED element
-		if(mPrimitiveDefPtr->getName() == cSliceLTypeName || mPrimitiveDefPtr->getName() == cSliceMTypeName) {
+		if(mPrimitiveDefPtr->getName() == cSliceLTypeName 
+			|| mPrimitiveDefPtr->getName() == cSliceMTypeName) {
 			
 			const PrimitiveElementArray& elements = mPrimitiveDefPtr->getElements();
 			PrimitiveElementArray::const_iterator ep = elements.begin();
@@ -39,42 +39,42 @@ namespace packer {
 				const PrimitiveElement& element = *ep++;
 				const PrimitiveElement* elementPtr = &element;
 				if(element.getName() == "SYNC_ATTR"){
-					mPrincipalstoOrphans["AFF"].push_back(elementPtr);
-					mPrincipalstoOrphans["BFF"].push_back(elementPtr);
-					mPrincipalstoOrphans["CFF"].push_back(elementPtr);
-					mPrincipalstoOrphans["DFF"].push_back(elementPtr);
-				}else if(element.getName() == "AFFSR"){
-					mPrincipalstoOrphans["AFF"].push_back(elementPtr);
-				}else if(element.getName() == "BFFSR"){
-					mPrincipalstoOrphans["BFF"].push_back(elementPtr);
-				}else if(element.getName() == "CFFSR"){
-					mPrincipalstoOrphans["CFF"].push_back(elementPtr);
-				}else if(element.getName() == "DFFSR"){
-					mPrincipalstoOrphans["DFF"].push_back(elementPtr);
-				}else if(element.getName() == "AFFINIT"){
-					mPrincipalstoOrphans["AFF"].push_back(elementPtr);
-				}else if(element.getName() == "BFFINIT"){
-					mPrincipalstoOrphans["BFF"].push_back(elementPtr);
-				}else if(element.getName() == "CFFINIT"){
-					mPrincipalstoOrphans["CFF"].push_back(elementPtr);
-				}else if(element.getName() == "DFFINIT"){
-					mPrincipalstoOrphans["DFF"].push_back(elementPtr);
-				}else if(element.getName() == "A5RAMMODE"){
-					mPrincipalstoOrphans["A5LUT"].push_back(elementPtr);
-				}else if(element.getName() == "B5RAMMODE"){
-					mPrincipalstoOrphans["B5LUT"].push_back(elementPtr);
-				}else if(element.getName() == "C5RAMMODE"){
-					mPrincipalstoOrphans["C5LUT"].push_back(elementPtr);
-				}else if(element.getName() == "D5RAMMODE"){
-					mPrincipalstoOrphans["D5LUT"].push_back(elementPtr);
-				}else if(element.getName() == "A6RAMMODE"){
-					mPrincipalstoOrphans["A6LUT"].push_back(elementPtr);
-				}else if(element.getName() == "B6RAMMODE"){
-					mPrincipalstoOrphans["B6LUT"].push_back(elementPtr);
-				}else if(element.getName() == "C6RAMMODE"){
-					mPrincipalstoOrphans["C6LUT"].push_back(elementPtr);
-				}else if(element.getName() == "D6RAMMODE"){
-					mPrincipalstoOrphans["D6LUT"].push_back(elementPtr);
+					mPrincipalsToOrphans["AFF"].push_back(elementPtr);
+					mPrincipalsToOrphans["BFF"].push_back(elementPtr);
+					mPrincipalsToOrphans["CFF"].push_back(elementPtr);
+					mPrincipalsToOrphans["DFF"].push_back(elementPtr);
+				} else if(element.getName() == "AFFSR"){
+					mPrincipalsToOrphans["AFF"].push_back(elementPtr);
+				} else if(element.getName() == "BFFSR"){
+					mPrincipalsToOrphans["BFF"].push_back(elementPtr);
+				} else if(element.getName() == "CFFSR"){
+					mPrincipalsToOrphans["CFF"].push_back(elementPtr);
+				} else if(element.getName() == "DFFSR"){
+					mPrincipalsToOrphans["DFF"].push_back(elementPtr);
+				} else if(element.getName() == "AFFINIT"){
+					mPrincipalsToOrphans["AFF"].push_back(elementPtr);
+				} else if(element.getName() == "BFFINIT"){
+					mPrincipalsToOrphans["BFF"].push_back(elementPtr);
+				} else if(element.getName() == "CFFINIT"){
+					mPrincipalsToOrphans["CFF"].push_back(elementPtr);
+				} else if(element.getName() == "DFFINIT"){
+					mPrincipalsToOrphans["DFF"].push_back(elementPtr);
+				} else if(element.getName() == "A5RAMMODE"){
+					mPrincipalsToOrphans["A5LUT"].push_back(elementPtr);
+				} else if(element.getName() == "B5RAMMODE"){
+					mPrincipalsToOrphans["B5LUT"].push_back(elementPtr);
+				} else if(element.getName() == "C5RAMMODE"){
+					mPrincipalsToOrphans["C5LUT"].push_back(elementPtr);
+				} else if(element.getName() == "D5RAMMODE"){
+					mPrincipalsToOrphans["D5LUT"].push_back(elementPtr);
+				} else if(element.getName() == "A6RAMMODE"){
+					mPrincipalsToOrphans["A6LUT"].push_back(elementPtr);
+				} else if(element.getName() == "B6RAMMODE"){
+					mPrincipalsToOrphans["B6LUT"].push_back(elementPtr);
+				} else if(element.getName() == "C6RAMMODE"){
+					mPrincipalsToOrphans["C6LUT"].push_back(elementPtr);
+				} else if(element.getName() == "D6RAMMODE"){
+					mPrincipalsToOrphans["D6LUT"].push_back(elementPtr);
 				}
 			}
 		}

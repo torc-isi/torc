@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -29,18 +29,37 @@
 #include <iostream>
 #include <boost/filesystem.hpp>
 
+#include <torc/Architecture.hpp>
+
 namespace torc {
 namespace bitstream {
 
 BOOST_AUTO_TEST_SUITE(bitstream)
 
-/// \brief Unit test for the Virtex5 CRC
-BOOST_AUTO_TEST_CASE(Virtex5CrcUnitTest) {
-	std::fstream fileStream("Virtex5UnitTest.reference.bit", std::ios::binary | std::ios::in);
+/// \brief Unit test for the Virtex5 FX130T getPrimaryXdlColumn()
+BOOST_AUTO_TEST_CASE(Virtex5PrimaryXdlColumnUnitTest) {
+	torc::architecture::DDB ddb("xc5vfx130t");
+	const torc::architecture::Tiles& tiles = ddb.getTiles();
+	torc::architecture::xilinx::TileRow rows = tiles.getRowCount();
+	torc::architecture::xilinx::TileCol cols = tiles.getColCount();
+	torc::architecture::xilinx::TileRow row(4);
+	for(torc::architecture::xilinx::TileCol col(0); col < cols; col++) {
+		torc::architecture::xilinx::TileIndex tileIndex = tiles.getTileIndex(row, col);
+		const torc::architecture::TileInfo& tileInfo = tiles.getTileInfo(tileIndex);
+		std::cerr << col << ": " << tileInfo.getName() << ", ";
+	}
+	std::cerr << std::endl;
+	(void) rows;
+
 	Virtex5 bitstream;
-	bitstream.read(fileStream, false);
-	std::cout << bitstream << std::endl;
-	bitstream.preflightPackets();
+	bitstream.setDevice("xc5vfx130t");
+	bitstream.initializeDeviceInfo("xc5vfx130t");
+	bitstream.initializeFrameMaps();
+	for(uint32_t xdlCol = 0; xdlCol < 190; xdlCol++) {
+		uint32_t primaryXdlCol = bitstream.getPrimaryXdlColumn(xdlCol);
+		std::cerr << xdlCol << ": " << primaryXdlCol << ", ";
+	}
+	std::cerr << std::endl;
 	BOOST_REQUIRE(true);
 }
 
@@ -140,10 +159,10 @@ BOOST_AUTO_TEST_CASE(Virtex5UnitTest) {
 	BOOST_CHECK_EQUAL(uint32_t(Virtex5::FrameAddress(u6)), u6);
 
 	// build the file paths
-	boost::filesystem::path regressionPath 
-		= torc::common::DirectoryTree::getExecutablePath() / "regression";
-	boost::filesystem::path generatedPath = regressionPath / "Virtex5UnitTest.generated.bit";
-	boost::filesystem::path referencePath = regressionPath / "Virtex5UnitTest.reference.bit";
+	boost::filesystem::path referencePath = torc::common::DirectoryTree::getExecutablePath()
+		/ "torc" / "bitstream" / "Virtex5UnitTest.reference.bit";
+	boost::filesystem::path generatedPath = torc::common::DirectoryTree::getExecutablePath()
+		/ "regression" / "Virtex5UnitTest.generated.bit";
 
 	// read the bitstream
 	std::fstream fileStream(referencePath.string().c_str(), std::ios::binary | std::ios::in);
@@ -251,7 +270,9 @@ std::cerr << "TRYING TO FIND " << referencePath << std::endl;
 	std::cerr << "Trying to read: " << referencePath << std::endl;
 	BOOST_REQUIRE(fileStream.good());
 	Virtex5 bitstream;
+std::cerr << "test0" << std::endl;
 	bitstream.read(fileStream, false);
+std::cerr << "test1" << std::endl;
 	// write the bitstream digest to the console
 //	std::cout << bitstream << std::endl;
 
@@ -260,7 +281,9 @@ std::cerr << "TRYING TO FIND " << referencePath << std::endl;
 //		/ (inDeviceName + ".cpp");
 //	std::fstream deviceColumnsStream(deviceColumnsPath.string().c_str(), std::ios::out);
 	bitstream.initializeDeviceInfo(inDeviceName);
+std::cerr << "test2" << std::endl;
 	bitstream.initializeFrameMaps();
+std::cerr << "test3" << std::endl;
 
 	// iterate through the packets, and extract all of the FARs
 	Virtex5::FrameAddressToIndex farRemaining = bitstream.mFrameAddressToIndex;
@@ -357,10 +380,10 @@ BOOST_AUTO_TEST_CASE(Virtex5MapUnitTest) {
 
 void testVirtex5FullMapping(const boost::filesystem::path& inWorkingPath) {
 	// build the file paths
-	boost::filesystem::path regressionPath 
-		= torc::common::DirectoryTree::getExecutablePath() / "regression";
-	boost::filesystem::path generatedPath = regressionPath / "Virtex5UnitTest.generatedFull.bit";
-	boost::filesystem::path referencePath = regressionPath / "Virtex5UnitTest.reference.bit";
+	boost::filesystem::path referencePath = torc::common::DirectoryTree::getExecutablePath()
+		/ "torc" / "bitstream" / "Virtex5UnitTest.reference.bit";
+	boost::filesystem::path generatedPath = torc::common::DirectoryTree::getExecutablePath()
+		/ "regression" / "Virtex5MapUnitTest.generated.bit";
 
 	// read the bitstream
 	std::fstream fileStream(referencePath.string().c_str(), std::ios::binary | std::ios::in);
@@ -381,15 +404,15 @@ void testVirtex5FullMapping(const boost::filesystem::path& inWorkingPath) {
 	typedef boost::shared_array<uint32_t> WordSharedArray;
 	Virtex5::iterator p = bitstream.begin();
 	Virtex5::iterator e = bitstream.end();
-	while (p < e) {
+	while(p < e) {
 		const VirtexPacket& packet = *p++;
-		if (packet.isType2()) {
+		if(packet.isType2()) {
 			WordSharedArray words = packet.getWords();
 			uint32_t* ptr = words.get();
-			for (uint32_t block = 0; block < 8; block++) {
-				for (uint32_t frame = 0; frame < bitstream.mBlockFrameIndexBounds[block]; frame++) {
+			for(uint32_t block = 0; block < 8; block++) {
+				for(uint32_t frame = 0; frame < bitstream.mBlockFrameIndexBounds[block]; frame++) {
 					VirtexFrameBlocks::word_t* words = const_cast<VirtexFrameBlocks::word_t*>(bitstream.mFrameBlocks.mBlock[block][frame]->getWords());
-					for (uint32_t index = 0; index < frameLength; index++) {
+					for(uint32_t index = 0; index < frameLength; index++) {
 						*ptr++ = words[index];
 					}
 				}
@@ -432,9 +455,9 @@ void testVirtex5PartialMapping(const boost::filesystem::path& inWorkingPath) {
 	typedef boost::shared_array<uint32_t> WordSharedArray;
 	Virtex5::iterator p = bitstream.begin();
 	Virtex5::iterator e = bitstream.end();
-	while (p < e) {
+	while(p < e) {
 		const VirtexPacket& packet = *p++;
-		if (packet.isType2()) {
+		if(packet.isType2()) {
 			WordSharedArray words = packet.getWords();
 			uint32_t* ptr = words.get();
 		}
@@ -446,18 +469,6 @@ void testVirtex5PartialMapping(const boost::filesystem::path& inWorkingPath) {
 	outputStream.flush();
 
 	return;
-}
-*/
-
-
-/*
-/// \brief Unit test for the Virtex5 static device info generation.
-BOOST_AUTO_TEST_CASE(Virtex5GenerateUnitTest) {
-
-	Virtex5 bitstream;
-	DeviceInfoHelper::buildFamilyDeviceInfo("Virtex5", "Virtex5DeviceInfo.template", 
-		"Virtex5DeviceInfo.cpp", torc::common::Devices::getVirtex5Devices(), bitstream);
-
 }
 */
 

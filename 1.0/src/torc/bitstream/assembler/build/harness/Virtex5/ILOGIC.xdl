@@ -1,0 +1,28 @@
+design "ILOGIC" xc5vfx30tff665-3 v3.2;
+inst "ILOGIC" "ILOGIC", placed IOI_X0Y79 ILOGIC_X0Y158;
+net "ILOGIC",
+	outpin "ILOGIC" O,
+	outpin "ILOGIC" Q1,
+	outpin "ILOGIC" Q2,
+	outpin "ILOGIC" Q3,
+	outpin "ILOGIC" Q4,
+	outpin "ILOGIC" Q5,
+	outpin "ILOGIC" Q6,
+	outpin "ILOGIC" SHIFTOUT1,
+	outpin "ILOGIC" SHIFTOUT2,
+	inpin "ILOGIC" BITSLIP,
+	inpin "ILOGIC" CE1,
+	inpin "ILOGIC" CE2,
+	inpin "ILOGIC" CLK,
+	inpin "ILOGIC" CLKB,
+	inpin "ILOGIC" CLKDIV,
+	inpin "ILOGIC" D,
+	inpin "ILOGIC" DDLY,
+	inpin "ILOGIC" OCLK,
+	inpin "ILOGIC" OFB,
+	inpin "ILOGIC" REV,
+	inpin "ILOGIC" SHIFTIN1,
+	inpin "ILOGIC" SHIFTIN2,
+	inpin "ILOGIC" SR,
+	inpin "ILOGIC" TFB
+	;

@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
 	typedef std::string string;
 	torc::common::DirectoryTree directoryTree(argv[0]);
 		
-	if (argc != 3) {
+	if(argc != 3) {
 		std::cout << "Usage: " << argv[0] << " <xdlfile1> <xdlfile2>" << std::endl;
 		return 1;
 	}
@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
 	torc::PhysicalDiff diff(std::cout);
 	bool result = diff.diff(designPtrLeft, designPtrRight);
 
-	if (result) std::cout << "No differences found." << std::endl;
+	if(result) std::cout << "No differences found." << std::endl;
 
 	return 0;
 }

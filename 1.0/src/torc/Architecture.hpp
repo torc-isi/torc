@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -32,6 +32,7 @@
 #include "torc/architecture/ArcUsage.hpp"
 #include "torc/architecture/Array.hpp"
 #include "torc/architecture/DDB.hpp"
+#include "torc/architecture/DDBConsoleStreams.hpp"
 #include "torc/architecture/DDBStreamHelper.hpp"
 #include "torc/common/DeviceDesignator.hpp"
 #include "torc/architecture/DigestStream.hpp"

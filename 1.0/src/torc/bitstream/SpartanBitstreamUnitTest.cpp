@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -20,6 +20,7 @@
 #include "torc/bitstream/SpartanBitstream.hpp"
 #include "torc/bitstream/SpartanPacket.hpp"
 #include "torc/bitstream/Spartan3E.hpp"
+#include "torc/bitstream/TestHelpers.hpp"
 #include "torc/common/DeviceDesignator.hpp"
 #include "torc/bitstream/OutputStreamHelpers.hpp"
 #include "torc/common/TestHelpers.hpp"
@@ -34,22 +35,22 @@ BOOST_AUTO_TEST_SUITE(bitstream)
 
 /// \brief Unit test for the SpartanBitstream class.
 BOOST_AUTO_TEST_CASE(SpartanBitstreamCrcUnitTest) {
-	std::fstream fileStream("Spartan3EUnitTest.reference.bit", std::ios::binary | std::ios::in);
-	Spartan3E bitstream;
-	bitstream.read(fileStream, false);
-	std::cout << bitstream << std::endl;
-	bitstream.preflightPackets();
-	BOOST_REQUIRE(true);
+	// check the CRC generation
+	boost::filesystem::path regressionPath = torc::common::DirectoryTree::getExecutablePath() 
+		/ "torc" / "bitstream" / "Spartan3EUnitTest.reference.bit";
+	BOOST_CHECK(checkCRC<Spartan3E>(regressionPath, true));
 }
+
 /// \brief Unit test for the SpartanBitstream class.
 BOOST_AUTO_TEST_CASE(SpartanBitstreamUnitTest) {
 
 	// build the file paths
-	boost::filesystem::path regressionPath 
-		= torc::common::DirectoryTree::getExecutablePath() / "regression";
-	boost::filesystem::path generatedPath = regressionPath / "Spartan3EBitstreamUnitTest.generated.bit";
-	boost::filesystem::path referencePath = regressionPath / "Spartan3EUnitTest.reference.bit";
+	boost::filesystem::path referencePath = torc::common::DirectoryTree::getExecutablePath()
+		/ "torc" / "bitstream" / "Spartan3EUnitTest.reference.bit";
+	boost::filesystem::path generatedPath = torc::common::DirectoryTree::getExecutablePath()
+		/ "regression" / "SpartanBitstreamUnitTest.generated.bit";
 
+/*
 	// read the reference bitstream
 	std::fstream fileStream1(referencePath.string().c_str(), std::ios::binary | std::ios::in);
 	BOOST_REQUIRE(fileStream1.good());
@@ -63,14 +64,21 @@ BOOST_AUTO_TEST_CASE(SpartanBitstreamUnitTest) {
 		if(p->isType2() && p->isWrite()) { frameContents = *p; break; }
 		p++;
 	}
+	{
+		uint32_t length = frameContents.getWordCount();
+		for(uint32_t i = 1; i < length; i++) {
+			if(frameContents[i] != 0) printf("buffer[0x%8.8x] = 0x%8.8x; // byte address 0x%8.8x\n", i - 1, frameContents[i], (i - 1) << 2); 
+		}
+	}
+*/
 
 	// declare a bitstream of unspecified architectures
 	SpartanBitstream bitstream;
 	// prepare the bitstream header
-	bitstream.setDesignName("Spartan3EUnitTest.reference.ncd;UserID=0xFFFFFFFF");
-	bitstream.setDeviceName("xc3s500ecp132");
-	bitstream.setDesignDate("2010/10/08");
-	bitstream.setDesignTime("15:06:11");
+	bitstream.setDesignName("Spartan3EUnitTest.reference.ncd");
+	bitstream.setDeviceName("3s500ecp132");
+	bitstream.setDesignDate("2011/ 2/ 1");
+	bitstream.setDesignTime(" 9: 6:48");
 
 	// construct and add packets to the bitstream
 	SpartanPacket dummy(Spartan3E::eSynchronizationDummy);
@@ -123,6 +131,14 @@ BOOST_AUTO_TEST_CASE(SpartanBitstreamUnitTest) {
 	uint32_t* buffer = new uint32_t[length];
 	uint32_t* ptr = buffer + length - 1;
 	while(ptr >= buffer) *ptr-- = 0;
+	// kludge: the "null" reference bitstream in question isn't completely empty
+	buffer[0x00000124] = 0x05500000; // byte address 0x00000490
+	buffer[0x000001e3] = 0x00002a80; // byte address 0x0000078c
+	buffer[0x000001e4] = 0x18000000; // byte address 0x00000790
+	buffer[0x0000cbda] = 0x0000000a; // byte address 0x00032f68
+	buffer[0x0000cbdb] = 0xa0000000; // byte address 0x00032f6c
+	buffer[0x0000cc39] = 0x00140000; // byte address 0x000330e4
+	buffer[0x0000cc3a] = 0x05000000; // byte address 0x000330e8
 	bitstream.push_back(SpartanPacket::makeType2Write(0x0001149a, buffer));
 	// NOP
 	bitstream.push_back(nop);

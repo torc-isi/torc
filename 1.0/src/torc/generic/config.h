@@ -32,7 +32,7 @@
 #define HAVE_UNISTD_H 1
 
 /* Define to the sub-directory in which libtool stores uninstalled libraries.
-   */
+ */
 #define LT_OBJDIR ".libs/"
 
 /* Name of package */
@@ -62,6 +62,5 @@
 /* Version number of package */
 #define VERSION "2.0-Beta"
 
-/* Define to 1 if `lex' declares `yytext' as a `char *' by default, not a
-   `char[]'. */
+/* Define to 1 if `lex' declares `yytext' as a `char *' by default, not a `char[]'. */
 #define YYTEXT_POINTER 1

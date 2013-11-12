@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -32,9 +32,9 @@ namespace architecture {
 
 		// pull in symbols from other namespaces
 		using std::string;
-		using std::cout;
-		using std::cerr;
-		using std::clog;
+//		using std::cout;
+//		using std::cerr;
+//		using std::clog;
 		using std::endl;
 		using std::fstream;
 		using boost::uint32_t;
@@ -49,18 +49,17 @@ namespace architecture {
 			mDeviceName = inDeviceName;
 			string deviceFilename = inDeviceName + ".db";
 			boost::to_lower(deviceFilename);
-			boost::filesystem::path devicePath 
-				= torc::common::DirectoryTree::getDevicesPath() / deviceFilename;
-			clog << "Reading device " << inDeviceName << " (" << devicePath << ")..." << endl;
-			DigestStream deviceDatabaseStream(devicePath);
+			mDevicePath = torc::common::DirectoryTree::getDevicesPath() / deviceFilename;
+			mLog() << "Reading device " << inDeviceName << " (" << mDevicePath << ")..." << endl;
+			DigestStream deviceDatabaseStream(mDevicePath);
 			deviceDatabaseStream.exceptions(fstream::eofbit | fstream::failbit | fstream::badbit);
 			deviceDatabaseBytesRead += mDeviceVersion.readVersions(deviceDatabaseStream, true);
 			deviceDatabaseBytesRead += readFamilyName(deviceDatabaseStream);
 
 			// open the family database
-			boost::filesystem::path familyPath = devicePath.parent_path() / (mFamilyName + ".db");
-			cout << "\tReading family " << mFamilyName << " (" << familyPath << ")..." << endl;
-			DigestStream familyDatabaseStream(familyPath);
+			mFamilyPath = mDevicePath.parent_path() / (mFamilyName + ".db");
+			mOut() << "\tReading family " << mFamilyName << " (" << mFamilyPath << ")..." << endl;
+			DigestStream familyDatabaseStream(mFamilyPath);
 			familyDatabaseStream.exceptions(fstream::eofbit | fstream::failbit | fstream::badbit);
 
 			// populate the database from family and device data
@@ -79,8 +78,8 @@ namespace architecture {
 			familyDatabaseBytesRead += mSites.readPrimitiveTypes(familyDatabaseStream);
 			familyDatabaseBytesRead += mSites.readPrimitivePinMaps(familyDatabaseStream);
 			deviceDatabaseBytesRead += mSites.readSites(deviceDatabaseStream);
-			cout << "Read " << familyDatabaseBytesRead << " bytes from " << mFamilyName << endl;
-			cout << "Read " << deviceDatabaseBytesRead << " bytes from " << mDeviceName << endl;
+			mOut() << "Read " << familyDatabaseBytesRead << " bytes from " << mFamilyName << endl;
+			mOut() << "Read " << deviceDatabaseBytesRead << " bytes from " << mDeviceName << endl;
 			// automatically size the wire and arc usage objects
 			mWireUsage.autosize();
 			mArcUsage.autosize();
@@ -90,7 +89,7 @@ namespace architecture {
 		}
 
 		catch(fstream::failure f) {
-			cerr << "An unprocessed ifstream::failure exception was thrown: " << f.what() << endl;
+			mErr() << "An unprocessed ifstream::failure exception was thrown: " << f.what() << endl;
 			throw;
 		}
 
@@ -134,7 +133,7 @@ namespace architecture {
 		// read the speed grade count
 		uint16_t speedGradeCount;
 		inStream.read(speedGradeCount);
-		std::cout << "\tReading " << speedGradeCount << " speed grade" 
+		mOut() << "\tReading " << speedGradeCount << " speed grade" 
 			<< (speedGradeCount != 1 ? "s" : "") << " (";
 		// loop through each speed grade
 		for(uint16_t i = 0; i < speedGradeCount; i++) {
@@ -144,9 +143,9 @@ namespace architecture {
 			inStream.read(scratch, nameLength);
 			scratch[nameLength] = 0;
 			mSpeedGrades.push_back(scratch);
-			std::cout << scratch << (i + 1 < speedGradeCount ? ", " : "");
+			mOut() << scratch << (i + 1 < speedGradeCount ? ", " : "");
 		}
-		std::cout << ") ... " << std::endl;
+		mOut() << ") ... " << std::endl;
 
 		// return the number of bytes read
 		return inStream.getBytesRead() - bytesReadOffset;
@@ -243,7 +242,7 @@ namespace architecture {
 				const Segments::IrregularArc* irregularArc = mSegments.getIrregularArc(tileIndex, 
 					wireIndex, sinkWireIndex);
 				if(irregularArc != 0 && !segment.isDefined()) {
-					std::cerr << "WARNING: Irregular arc " << inTilewire << " >> " 
+					mErr() << "WARNING: Irregular arc " << inTilewire << " >> " 
 						<< Tilewire(tileIndex, sinkWireIndex) 
 						<< " is defined, but the sink segment is undefined." << std::endl;
 				}
@@ -293,7 +292,7 @@ namespace architecture {
 				const Segments::IrregularArc* irregularArc = mSegments.getIrregularArc(tileIndex, 
 					sourceWireIndex, wireIndex);
 				if(irregularArc != 0 && !segment.isDefined()) {
-					std::cerr << "WARNING: Irregular arc " << inTilewire << " >> " 
+					mErr() << "WARNING: Irregular arc " << inTilewire << " >> " 
 						<< Tilewire(tileIndex, sourceWireIndex) 
 						<< " is defined, but the source segment is undefined." << std::endl;
 				}

@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -66,8 +66,10 @@ namespace torc {
 	// members
 		/// \brief Flag to track whether we are inside a double quote.
 		bool in_double_quote;
-		/// \brief Flag to count the number of separator colons seen.
+		/// \brief Variable to count the number of separator colons seen.
 		int colon;
+		/// \brief Variable to count the number of double-quotes seen.
+		int quote;
 		/// \biref Last double-quoted string that we saw.
 		std::string last_string;
 	};

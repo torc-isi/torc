@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -46,9 +46,16 @@ namespace architecture {
 		/// \brief Returns the sink tilewire.
 		const Tilewire& getSinkTilewire(void) const { return mSinkTilewire; }
 	// operators
-		/// \brief Comparison operator.
+		/// \brief Equality operator.
 		bool operator ==(const Arc& rhs) const {
 			return mSourceTilewire == rhs.mSourceTilewire && mSinkTilewire == rhs.mSinkTilewire;
+		}
+		/// \brief Comparison operator.
+		bool operator <(const Arc& rhs) const {
+			if (mSinkTilewire < rhs.mSinkTilewire) return true;
+			if (mSinkTilewire == rhs.mSinkTilewire
+				&& mSourceTilewire < rhs.mSourceTilewire) return true;
+			return false;
 		}
 	// functions
 		bool isUndefined(void) const {

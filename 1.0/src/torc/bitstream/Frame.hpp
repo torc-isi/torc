@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -62,10 +62,6 @@ namespace bitstream {
 			if(mWords) delete mWords;
 			mWords = 0;
 		}
-	// functions
-		/// \brief Touch the frame by marking it dirty.
-		/// \details WARNING: This is a temporary convenience function that will not be retained.
-		inline void touch(void) { mIsUsed = mIsDirty = true; }
 	// accessors
 		/// \brief Returns the length of the frame in words.
 		uint32_t getLength(void) const { return mLength; }
@@ -77,13 +73,17 @@ namespace bitstream {
 		bool isUsed(void) const { return mIsUsed; }
 		/// \brief Returns true if the frame has been modified, or false otherwise.
 		bool isDirty(void) const { return mIsDirty; }
+		/// \brief Marks the frame used or unused, and if unused automatically marks it clean.
+		void setUsed(bool inIsUsed = true) { mIsUsed = inIsUsed; if(!mIsUsed) mIsDirty = false; }
+		/// \brief Marks the frame dirty or clean, and if dirty automatically marks it used.
+		void setDirty(bool inIsDirty = true) { mIsDirty = inIsDirty; if(mIsDirty) mIsUsed = true; }
 		/// \brief Returns the specified frame word, or 0 if out of bounds.
 		word_t operator[] (int index) {
 			if(mWords == 0 || index < 0 || static_cast<uint32_t>(index) >= mLength) return 0;
 			return mWords[index];
 		}
 		/// \brief Sets the value of the specified frame word.
-		void setWord(int index, int inWord) {
+		void setWord(int index, word_t inWord) {
 			// do nothing if the index is out of bounds
 			if(index < 0 || static_cast<uint32_t>(index) >= mLength) return;
 			// allocate and zero out the words if they were previously unallocated
@@ -91,22 +91,13 @@ namespace bitstream {
 				mWords = new word_t[mLength];
 				word_t* p = mWords;
 				for(uint32_t i = 0; i < mLength; i++) *p++ = 0;
+				setDirty();
 			}
-			// set the new word value, and mark it used and dirty
-			mWords + index = inWord;
-			touch();
-		}
-		/// \brief Sets the value of the specified frame words.
-		void setWords(int inWord) {
-			// allocate and zero out the words if they were previously unallocated
-			if(mWords == 0) {
-				mWords = new word_t[mLength];
-				word_t* p = mWords;
-				for(uint32_t i = 0; i < mLength; i++) *p++ = 0;
+			// if the new value is different, update the word and mark the frame dirty
+			if(mWords[index] != inWord) {
+				mWords[index] = inWord;
+				setDirty();
 			}
-			// set the new word value, and mark it used and dirty
-			mWords = inWord;
-			touch();
 		}
 	};
 

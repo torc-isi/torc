@@ -1,0 +1,13 @@
+design "BUFGCTRL" xc5vfx30tff665-3 v3.2;
+inst "BUFGCTRL" "BUFGCTRL", placed CLK_BUFGMUX_X63Y44 BUFGCTRL_X0Y0;
+net "BUFGCTRL",
+	outpin "BUFGCTRL" O,
+	inpin "BUFGCTRL" CE0,
+	inpin "BUFGCTRL" CE1,
+	inpin "BUFGCTRL" I0,
+	inpin "BUFGCTRL" I1,
+	inpin "BUFGCTRL" IGNORE0,
+	inpin "BUFGCTRL" IGNORE1,
+	inpin "BUFGCTRL" S0,
+	inpin "BUFGCTRL" S1
+	;

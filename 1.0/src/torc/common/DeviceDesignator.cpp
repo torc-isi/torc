@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -53,20 +53,13 @@ namespace common {
 
 	boost::regex DeviceDesignator::sSpartan3ERegEx( 
 		"(x?c?3s[0-9]+e)" /* device */
-		"((?:cp|fg|ft|pq|vq)[0-9]+)?" /* package */
+		"((?:cp|fg|ft|pq|tq|vq)[0-9]+)?" /* package */
 		"(-[0-9]+)?", /* speed */
 		boost::regex_constants::icase
 	);
 
 	boost::regex DeviceDesignator::sSpartan6RegEx(
-		"(x?c?6s[l]x[0-9]+t?)" /* device */
-		"((?:cpg|csg|fgg|ftg|tqg)[0-9]+)?" /* package */
-		"(-[0-9]+)?", /* speed */
-		boost::regex_constants::icase
-	);
-
-	boost::regex DeviceDesignator::sSpartan6LRegEx(
-		"(x?c?6s[l]x[0-9]+t?l)" /* device */
+		"(x?c?6s[l]x[0-9]+t?l?)" /* device */
 		"((?:cpg|csg|fgg|ftg|tqg)[0-9]+)?" /* package */
 		"(-[0-9]+)?", /* speed */
 		boost::regex_constants::icase
@@ -115,44 +108,37 @@ namespace common {
 	);
 
 	boost::regex DeviceDesignator::sVirtex6RegEx(
-		"(x?c?6v[chls]x[0-9]+t?)" /* device */
+		"(x?c?6v[chls]x[0-9]+t?l?)" /* device */
 		"((?:ff)[0-9]+)?" /* package */
-		"(-[0-9]+)?", /* speed */
+		"(-[0-9]+L?)?", /* speed */
 		boost::regex_constants::icase
 	);
 
-	boost::regex DeviceDesignator::sVirtex6LRegEx(
-		"(x?c?6v[ls]x[0-9]+t?l)" /* device */
-		"((?:ff)[0-9]+)?" /* package */
-		"(-1L)?", /* speed */
-		boost::regex_constants::icase
-	);
-
-	boost::regex DeviceDesignator::sVirtex7RegEx(
-		"(x?c?7vx?[0-9]+t)" /* device */
-		"((?:ffg|fhg)[0-9]+)?" /* package */
-		"(-[0-9]+)?", /* speed */
-		boost::regex_constants::icase
-	);
-
-	boost::regex DeviceDesignator::sVirtex7LRegEx(
-		"(x?c?7v[0-9]+tl)" /* device */
-		"((?:ffg|fhg)[0-9]+)?" /* package */
-		"(-1L)?", /* speed */
+	boost::regex DeviceDesignator::sArtix7RegEx(
+		"(x?c?7a[0-9]+t?)" /* device */
+		"((?:cpg|csg|fbg|ffg|fgg|ftg)[0-9]+)?" /* package */
+		"(-[0-9]+L?)?", /* speed */
 		boost::regex_constants::icase
 	);
 
 	boost::regex DeviceDesignator::sKintex7RegEx(
-		"(x?c?7k[0-9]+t)" /* device */
+		"(x?c?7k[0-9]+tl?)" /* device */
 		"((?:fbg|ffg|sbg)[0-9]+)?" /* package */
-		"(-[0-9]+)?", /* speed */
+		"(-[0-9]+L?)?", /* speed */
 		boost::regex_constants::icase
 	);
 
-	boost::regex DeviceDesignator::sKintex7LRegEx(
-		"(x?c?7k[0-9]+tl)" /* device */
-		"((?:fbg|ffg|sbg)[0-9]+)?" /* package */
-		"(-1L)?", /* speed */
+	boost::regex DeviceDesignator::sVirtex7RegEx(
+		"(x?c?7v[hx]?[0-9]+tl?)" /* device */
+		"((?:ffg|fhg)[0-9]+)?" /* package */
+		"(-[0-9]+L?)?", /* speed */
+		boost::regex_constants::icase
+	);
+
+	boost::regex DeviceDesignator::sZynq7000RegEx(
+		"(x?c?7z[0-9]+)" /* device */
+		"((?:clg|fbg|ffg)[0-9]+|die)?" /* package */
+		"(-[0-9]+)?", /* speed */
 		boost::regex_constants::icase
 	);
 
@@ -164,7 +150,6 @@ namespace common {
 		if(parse(inDeviceDesignator, sSpartan3ARegEx)) { mFamily = eFamilySpartan3A; } else 
 		if(parse(inDeviceDesignator, sSpartan3ERegEx)) { mFamily = eFamilySpartan3E; } else 
 		if(parse(inDeviceDesignator, sSpartan6RegEx)) { mFamily = eFamilySpartan6; } else 
-		if(parse(inDeviceDesignator, sSpartan6LRegEx)) { mFamily = eFamilySpartan6L; } else 
 		if(parse(inDeviceDesignator, sVirtexRegEx)) { mFamily = eFamilyVirtex; } else 
 		if(parse(inDeviceDesignator, sVirtexERegEx)) { mFamily = eFamilyVirtexE; } else 
 		if(parse(inDeviceDesignator, sVirtex2RegEx)) { mFamily = eFamilyVirtex2; } else 
@@ -172,11 +157,10 @@ namespace common {
 		if(parse(inDeviceDesignator, sVirtex4RegEx)) { mFamily = eFamilyVirtex4; } else 
 		if(parse(inDeviceDesignator, sVirtex5RegEx)) { mFamily = eFamilyVirtex5; } else 
 		if(parse(inDeviceDesignator, sVirtex6RegEx)) { mFamily = eFamilyVirtex6; } else 
-		if(parse(inDeviceDesignator, sVirtex6LRegEx)) { mFamily = eFamilyVirtex6L; } else 
-		if(parse(inDeviceDesignator, sVirtex7RegEx)) { mFamily = eFamilyVirtex7; } else 
-		if(parse(inDeviceDesignator, sVirtex7LRegEx)) { mFamily = eFamilyVirtex7L; } else 
+		if(parse(inDeviceDesignator, sArtix7RegEx)) { mFamily = eFamilyArtix7; } else 
 		if(parse(inDeviceDesignator, sKintex7RegEx)) { mFamily = eFamilyKintex7; } else 
-		if(parse(inDeviceDesignator, sKintex7LRegEx)) { mFamily = eFamilyKintex7L; } else 
+		if(parse(inDeviceDesignator, sVirtex7RegEx)) { mFamily = eFamilyVirtex7; } else 
+		if(parse(inDeviceDesignator, sZynq7000RegEx)) { mFamily = eFamilyZynq7000; } else 
 		{ mFamily = eFamilyUnknown; }
 	}
 

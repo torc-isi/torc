@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -19,6 +19,7 @@
 #include <boost/test/unit_test.hpp>
 #include "torc/bitstream/VirtexBitstream.hpp"
 #include "torc/bitstream/Virtex5.hpp"
+#include "torc/bitstream/TestHelpers.hpp"
 #include "torc/common/DirectoryTree.hpp"
 #include "torc/common/DeviceDesignator.hpp"
 #include "torc/bitstream/OutputStreamHelpers.hpp"
@@ -28,32 +29,42 @@
 
 /// \todo Remove this #include
 #include "torc/bitstream/Virtex.hpp"
+#include "torc/bitstream/VirtexE.hpp"
+#include "torc/bitstream/Virtex2.hpp"
+#include "torc/bitstream/Virtex2P.hpp"
+#include "torc/bitstream/Virtex4.hpp"
+#include "torc/bitstream/Virtex5.hpp"
+#include "torc/bitstream/Virtex6.hpp"
+#include "torc/bitstream/Virtex7.hpp"
 
 namespace torc {
 namespace bitstream {
 
 BOOST_AUTO_TEST_SUITE(bitstream)
 
-
-/// \brief Unit test for the VirtexBitstream class.
+/// \brief Unit test for the VirtexBitstream class CRC calculation.
 BOOST_AUTO_TEST_CASE(VirtexBitstreamCrcUnitTest) {
-	std::fstream fileStream("VirtexUnitTest.reference.bit", std::ios::binary | std::ios::in);
-	Virtex bitstream;
-	bitstream.read(fileStream, false);
-	std::cout << bitstream << std::endl;
-	bitstream.preflightPackets();
-	BOOST_REQUIRE(true);
+	// check the CRC generation
+	boost::filesystem::path regressionPath = torc::common::DirectoryTree::getExecutablePath() 
+		/ "torc" / "bitstream";
+	BOOST_CHECK(checkCRC<Virtex>(regressionPath / "VirtexUnitTest.reference.bit"));
+	BOOST_CHECK(checkCRC<VirtexE>(regressionPath / "VirtexEUnitTest.reference.bit"));
+	BOOST_CHECK(checkCRC<Virtex2>(regressionPath / "Virtex2UnitTest.reference.bit"));
+	BOOST_CHECK(checkCRC<Virtex2P>(regressionPath / "Virtex2PUnitTest.reference.bit"));
+	BOOST_CHECK(checkCRC<Virtex4>(regressionPath / "Virtex4UnitTest.reference.bit"));
+	BOOST_CHECK(checkCRC<Virtex5>(regressionPath / "Virtex5UnitTest.reference.bit"));
+	BOOST_CHECK(checkCRC<Virtex6>(regressionPath / "Virtex6UnitTest.reference.bit"));
+	BOOST_CHECK(checkCRC<Virtex7>(regressionPath / "Virtex7UnitTest.reference.bit"));
 }
-
 
 /// \brief Unit test for the VirtexBitstream class.
 BOOST_AUTO_TEST_CASE(VirtexBitstreamUnitTest) {
 
 	// build the file paths
-	boost::filesystem::path regressionPath 
-		= torc::common::DirectoryTree::getExecutablePath() / "regression";
-	boost::filesystem::path generatedPath = regressionPath / "VirtexBitstreamUnitTest.generated.bit";
-	boost::filesystem::path referencePath = regressionPath / "Virtex5UnitTest.reference.bit";
+	boost::filesystem::path referencePath = torc::common::DirectoryTree::getExecutablePath()
+		/ "torc" / "bitstream" / "Virtex5UnitTest.reference.bit";
+	boost::filesystem::path generatedPath = torc::common::DirectoryTree::getExecutablePath()
+		/ "regression" / "VirtexBitstreamUnitTest.generated.bit";
 
 	// read the reference bitstream
 	std::fstream fileStream1(referencePath.string().c_str(), std::ios::binary | std::ios::in);

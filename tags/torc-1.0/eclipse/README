@@ -1,0 +1,36 @@
+Getting Eclipse CDT:
+====================
+If you do not have Eclipse with CDT installed, please install them before invoking the scripts in 
+this directory.
+
+    Eclipse is available at http://www.eclipse.org.
+    CDT (C/C++ Development Tooling) is available at http://www.eclipse.org/cdt.
+
+
+Importing Torc projects from the command line:
+==============================================
+Be sure to add Eclipse to your PATH environment variable.  You can then import the Torc projects 
+into eclipse on a one-time basis with import-projects.sh.  After the projects have been imported, 
+you can reopen Eclipse with open-eclipse.sh.
+
+	./import-projects.sh
+
+
+Importing Torc projects from inside Eclipse:
+============================================
+If you prefer to import the Torc projects manually, you may do so as follows:
+
+    File -> Import... -> General -> Existing Projects into Workspace
+
+Select torc/trunk as the root directory, and click the Finish button.
+
+
+Importing the Torc code formatter profile into Eclipse:
+=======================================================
+This directory includes a code formatter profile for Eclipse, conforming to the Torc style guide 
+as defined in spec/style/CodingStyle.pdf.  That profile can be imported into Eclipse projects to 
+apply the Torc style guide.  You may select the following from inside Eclipse:
+
+	Window -> Preferences -> C/C++ -> Code Style -> Import...
+
+When prompted for a file, select CodeFormatterProfile.xml.

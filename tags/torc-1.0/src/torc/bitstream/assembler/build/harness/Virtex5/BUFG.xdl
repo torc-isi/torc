@@ -1,0 +1,13 @@
+design "BUFG" xc5vfx30tff665-3 v3.2;
+inst "BUFG" "BUFG", placed CLK_BUFGMUX_X63Y44 BUFG_X0Y0;
+net "BUFG",
+	outpin "BUFG" O,
+	inpin "BUFG" CE0,
+	inpin "BUFG" CE1,
+	inpin "BUFG" I0,
+	inpin "BUFG" I1,
+	inpin "BUFG" IGNORE0,
+	inpin "BUFG" IGNORE1,
+	inpin "BUFG" S0,
+	inpin "BUFG" S1
+	;

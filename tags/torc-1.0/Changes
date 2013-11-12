@@ -1,0 +1,77 @@
+Version 1.0 (released November 12, 2013, from branches/staging/1.0)
+https://svn.code.sf.net/p/torc-isi/code/branches/staging/1.0
+	* Added experimental Virtex5 and Series7 bitstream generation.
+	* Added experimental structural Verilog importer and exporter.
+	* Added external Verilator code base for Verilog parsing.
+	* Added "test" and "regression" targets to facilitate release candidate testing.
+	* Added synthetic Spartan6 and Zynq7000 debug bitstreams.
+	* Added Series7 partial bitstream support.
+	* Added Series7 generalized frame reading from any combination of packet types.
+	* Added Artix7/Zynq7000 device databases to existing Virtex7/Kintex7 databases.
+	* Added Series7 unpacking support.
+	* Added preliminary architecture exporting from Torc to VPR.
+	* Added pregenerated Flex and Bison output to remove dependency on external tools.
+	* Added access to bitstream frames from user code.
+	* Added additional EDIF support for robust compliance.
+	* Added ability to override DDB console streams.
+	* Added factory to inspect bitstreams and dynamically instantiate appropriate class.
+	* Added a simplified build process for user development.
+	* Removed reference example files from regression directory.
+	* Removed unused CRC class in favor of Boost.CRC for checksum calculations.
+	* Changed the build process for simplicity and efficiency.
+	* Changed bitstream code and EncapsulatedInteger<T> class for compability with Boost 1.54.0.
+	* Changed the architecture browser to explicitly label irregular or routethrough arcs.
+	* Changed organization of torc::generic for simplicity.
+	* Changed a build flag to support Cygwin.
+	* Changed the device database build process for performance.
+	* Changed all test naming for consistency.
+	* Changed dependence from deprecated Boost.Signals to preferred Boost.Signals2.
+	* Fixed stale database references in DDBStreamHelper.
+	* Fixed unit test and regression test filtering.
+	* Fixed pip directionality in DesignRegressionTest.
+	* Fixed memory overwriting bug in VirtexEMapUnitTest.
+	* Fixed CRC calculations for all supported architectures.
+	* Fixed naming issue with GCC 4.7 stemming from a templatized base class.
+	* Fixed compatibility issue between Boost.Filesystem V2 and V3.
+	* Fixed unit testing of endian conversion code.
+	* Fixed unrecognized Spartan3E TQ package in DeviceDesignator.
+	* Fixed bug with XDL importer not resetting its counters when invoked.
+	* Fixed torc::architecture::Array<T> to prevent multiple attempts to release memory.
+
+Version 0.9 (released October 12, 2011, from branches/staging/0.9.x)
+https://torc-isi.svn.sourceforge.net/svnroot/torc-isi/tags/0.9
+	* Added device packages to databases.
+	* Added device logic definitions to databases.
+	* Added Virtex/2/2P/4/6 and Spartan3E bitstream frame mapping.
+	* Added Virtex7/Kintex7 device databases and updated DDB to 32-bit segment anchor tile counts.
+	* Added family DeviceInfo files to initialize bitstreams without opening device databases.
+	* Added Annotated class and functionality for routing, placement, and user operations.
+	* Added "Development" architecture to the database build scripts.
+	* Added tile and site regular expression searching to device browser.
+	* Added PrimitiveStructure analysis code for unpacking.
+	* Added frame to tile mapping capability for XDL and bitstream coordinates.
+	* Added ModuleTransformer class to modularize or flatten XDL modules.
+	* Added simulated annealing placer.
+	* Added bitstream frame data access.
+	* Added support for writing full bitstreams from frame data.
+	* Added exhaustive EDIF 2.0.0 support for NETLIST view types.
+	* Added a sample sandbox for new users.
+	* Added a bitstream factory to create an object of the correct type for arbitrary bitstreams.
+	* Added device database routethrough support.
+	* Added ArcUsage support for routethrough and tied arcs.
+	* Added Eclipse directory and project files.
+	* Added build instructions.
+	* Removed automatic copying of device databases and debug bitstreams.
+	* Removed dependency upon GCC, Flex, and Bison.
+	* Changed unit test naming for standardization.
+	* Changed Sites.hpp by splitting it into constituent classes.
+	* Changed license and copyright blurbs.
+	* Changed Torc coding style guidelines.
+	* Fixed bug with DeviceDesignator not recognizing Virtex5 "t" devices.
+	* Fixed code that generated warnings with newer version of GCC, including 4.6.1.
+	* Fixed bug in XDL parser to allow instances with no cfg strings.
+	* Fixed usage of Boost.Filesystem replace_extension() to accomodate V3 semantics.
+
+Version 0.8 (released February 25, 2011)
+https://torc-isi.svn.sourceforge.net/svnroot/torc-isi/tags/0.8.0
+	* Initial release.

@@ -1,0 +1,11 @@
+design "IOBS" xc5vfx30tff665-3 v3.2;
+inst "IOBS" "IOBS", placed LIOB_X0Y79 C14;
+net "IOBS",
+	outpin "IOBS" DIFFO_OUT,
+	outpin "IOBS" I,
+	outpin "IOBS" PADOUT,
+	inpin "IOBS" DIFFI_IN,
+	inpin "IOBS" DIFFO_IN,
+	inpin "IOBS" O,
+	inpin "IOBS" T
+	;

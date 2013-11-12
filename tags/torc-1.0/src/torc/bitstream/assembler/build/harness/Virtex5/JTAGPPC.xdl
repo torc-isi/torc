@@ -1,0 +1,8 @@
+design "JTAGPPC" xc5vfx30tff665-3 v3.2;
+inst "JTAGPPC" "JTAGPPC", placed CFG_CENTER_X63Y44 JTAGPPC;
+net "JTAGPPC",
+	outpin "JTAGPPC" TCK,
+	outpin "JTAGPPC" TDIPPC,
+	outpin "JTAGPPC" TMS,
+	inpin "JTAGPPC" TDOPPC
+	;

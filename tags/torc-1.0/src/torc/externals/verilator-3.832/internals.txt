@@ -1,0 +1,263 @@
+NAME
+
+    Verilator Internals
+
+INTRODUCTION
+
+    This file discusses internal and programming details for Verilator. It's
+    the first for reference for developers and debugging problems.
+
+    See also the Verilator internals presentation at
+    http://www.veripool.org.
+
+ADDING A NEW FEATURE
+
+    Generally what would you do to add a new feature?
+
+        File a bug (if there isn't already) so others know what you're
+        working on.
+
+        Make a testcase in the test_regress/t/t_EXAMPLE format, see TESTING
+        Below.
+
+        If grammar changes are needed, look at the git version of
+        VerilogPerl's src/VParseGrammar.y, as this grammar supports the full
+        SystemVerilog language and has a lot of back-and-forth with
+        Verilator's grammar. Copy the appropriate rules to src/verilog.y and
+        modify the productions.
+
+        If a new Ast type is needed, add it to V3AstNodes.h.
+
+        Now you can run "test_regress/t/t_{new testcase}.pl --debug" and
+        it'll probably fail but you'll see a
+        test_regress/obj_dir/t_{newtestcase}/*.tree file which you can
+        examine to see if the parsing worked. See also the sections below on
+        debugging.
+
+        Modify the later visitor functions to process the new feature as
+        needed.
+
+CODE FLOWS
+
+  Verilator Flow
+
+    The main flow of Verilator can be followed by reading the Verilator.cpp
+    process() function:
+
+    First, the files specified on the command line are read. Reading
+    involves preprocessing, then lexical analysis with Flex and parsing with
+    Bison. This produces an abstract syntax tree (AST) representation of the
+    design, which is what is visible in the .tree files described below.
+
+    Cells are then linked, which will read and parse additional files as
+    above.
+
+    Functions, variable and other references are linked to their
+    definitions.
+
+    Parameters are resolved and the design is elaborated.
+
+    Verilator then performs many additional edits and optimizations on the
+    hierarchical design. This includes coverage, assertions, X elimination,
+    inlining, constant propagation, and dead code elimination.
+
+    References in the design are then psudo-flattened. Each module's
+    variables and functions get "Scope" references. A scope reference is an
+    occurrence of that un-flattened variable in the flattened hierarchy. A
+    module that occurs only once in the hierarchy will have a single scope
+    and single VarScope for each variable. A module that occurs twice will
+    have a scope for each occurrence, and two VarScopes for each variable.
+    This allows optimizations to proceed across the flattened design, while
+    still preserving the hierarchy.
+
+    Additional edits and optimizations proceed on the psudo-flat design.
+    These include module references, function inlining, loop unrolling,
+    variable lifetime analysis, lookup table creation, always splitting, and
+    logic gate simplifications (pushing inverters, etc).
+
+    Verilator orders the code. Best case, this results in a single "eval"
+    function which has all always statements flowing from top to bottom with
+    no loops.
+
+    Verilator mostly removes the flattening, so that code may be shared
+    between multiple invocations of the same module. It localizes variables,
+    combines identical functions, expands macros to C primitives, adds
+    branch prediction hints, and performs additional constant propagation.
+
+    Verilator finally writes the C++ modules.
+
+  Verilated Flow
+
+    The evaluation loop outputted by Verilator is designed to allow a single
+    function to perform evaluation under most situations.
+
+    On the first evaluation, the Verilated code calls initial blocks, and
+    then "settles" the modules, by evaluating functions (from always
+    statements) until all signals are stable.
+
+    On other evaluations, the Verilated code detects what input signals have
+    changes. If any are clocks, it calls the appropriate sequential
+    functions (from always @ posedge statements). Interspersed with
+    sequential functions it calls combo functions (from always @*). After
+    this is complete, it detects any changes due to combo loops or
+    internally generated clocks, and if one is found must reevaluate the
+    model again.
+
+    For SystemC code, the eval() function is wrapped in a SystemC SC_METHOD,
+    sensitive to all inputs. (Ideally it would only be sensitive to clocks
+    and combo inputs, but tracing requires all signals to cause evaluation,
+    and the performance difference is small.)
+
+    If tracing is enabled, a callback examines all variables in the design
+    for changes, and writes the trace for each change. To accelerate this
+    process the evaluation process records a bitmask of variables that might
+    have changed; if clear, checking those signals for changes may be
+    skipped.
+
+CODING CONVENTIONS
+
+  Indentation style
+
+    To match the indentation of Verilator C++ sources, use 4 spaces per
+    level, and leave tabs at 8 columns, so every other indent level is a tab
+    stop.
+
+    In Emacs, use in your ~/.emacs
+
+      (add-hook 'c-mode-common-hook '(lambda ()
+                                       (c-set-style "cc-mode"))))
+
+    This sets indentation to the cc-mode defaults. (Verilator predates a
+    CC-mode change of several years ago which overrides the defaults with
+    GNU style indentation; the c-set-style undoes that.)
+
+  Visitor Functions
+
+    There's three ways data is passed between visitor functions.
+
+    1. A visitor-class member variable. This is generally for passing
+    "parent" information down to children. m_modp is a common example. It's
+    set to NULL in the constructor, where that node (AstModule visitor) sets
+    it, then the children are iterated, then it's cleared. Children under an
+    AstModule will see it set, while nodes elsewhere will see it clear. If
+    there can be nested items (for example an AstFor under an AstFor) the
+    variable needs to be save-set-restored in the AstFor visitor, otherwise
+    exiting the lower for will loose the upper for's setting.
+
+    2. User() attributes. Each node has 5 ->user() number or ->userp()
+    pointer utility values (a common technique lifted from graph traversal
+    packages). A visitor first clears the one it wants to use by calling
+    AstNode::user#ClearTree(), then it can mark any node's user() with
+    whatever data it wants. Readers just call nodep->user(), but may need to
+    cast appropriately, so you'll often see nodep->userp()->castSOMETYPE().
+    At the top of each visitor are comments describing how the user() stuff
+    applies to that visitor class. For example:
+
+        // NODE STATE
+        // Cleared entire netlist
+        //   AstModule::user1p()     // bool. True to inline this module
+
+    This says that at the AstNetlist user1ClearTree() is called. Each
+    AstModule's is user1() is used to indicate if we're going to inline it.
+
+    These comments are important to make sure a user#() on a given AstNode
+    type is never being used for two different purposes.
+
+    Note that calling user#ClearTree is fast, it doesn't walk the tree, so
+    it's ok to call fairly often. For example, it's commonly called on every
+    module.
+
+    3. Parameters can be passed between the visitors in close to the
+    "normal" function caller to callee way. This is the second "vup"
+    parameter that is ignored on most of the visitor functions. V3Width does
+    this, but it proved more messy than the above and is deprecated.
+    (V3Width was nearly the first module written. Someday this scheme may be
+    removed, as it slows the program down to have to pass vup everywhere.)
+
+TESTING
+
+    To write a test see notes in the forum and in the verilator.txt manual.
+
+    Note you can run the regression tests in parallel; see the
+    test_regress/driver.pl script -j flag.
+
+DEBUGGING
+
+  --debug
+
+    When you run with --debug there are two primary output file types placed
+    into the obj_dir, .tree and .dot files.
+
+  .dot output
+
+    Dot files are dumps of internal graphs in Graphviz
+    <http://www.graphviz.org/> dot format. When a dot file is dumped,
+    Verilator will also print a line on stdout that can be used to format
+    the output, for example:
+
+        dot -Tps -o ~/a.ps obj_dir/Vtop_foo.dot
+
+    You can then print a.ps. You may prefer gif format, which doesn't get
+    scaled so can be more useful with large graphs.
+
+    For dynamic graph viewing consider ZGRViewer
+    <http://zvtm.sourceforge.net/zgrviewer.html>. If you know of better
+    viewers let us know; ZGRViewer isn't great for large graphs.
+
+  .tree output
+
+    Tree files are dumps of the AST Tree and are produced between every
+    major algorithmic stage. An example:
+
+         NETLIST 0x90fb00 <e1> {a0} w0
+        1: MODULE 0x912b20 <e8822> {a8} w0  top  L2 [P]
+       *1:2: VAR 0x91a780 <e74#> {a22} w70  out_wide [O] WIRE
+        1:2:1: BASICDTYPE 0x91a3c0 <e73> {a22} w70  [logic]
+
+        "1:2:" indicates the hierarchy the VAR is op2p under the MODULE.
+
+        "VAR" is the AstNodeType.
+
+        "0x91a780" is the address of this node.
+
+        "<e74>" means the 74th edit to the netlist was the last modification
+        to this node. A trailing # indicates this node changed since the
+        last tree dump was made. You can gdb break on this edit; see below.
+
+        "{a22}" indicates this node is related to line 22 in the source
+        filename "a", where "a" is the first file read, "z" the 36th, and
+        "aa" the 37th.
+
+        "w70" indicates the width is 70 bits. sw70 would be signed 70 bits.
+
+        "out_wide" is the name of the node, in this case the name of the
+        variable.
+
+        "[O]" are flags which vary with the type of node, in this case it
+        means the variable is an output.
+
+  Debugging with GDB
+
+    The test_regress/driver.pl script accepts --debug --gdb to start
+    Verilator under gdb. You can also use --debug --gdbbt to just backtrace
+    and then exit gdb.
+
+    To break at a specific edit number which changed a node (presumably to
+    find what made a <e####> line in the tree dumps):
+
+       watch AstNode::s_editCntGbl==####
+
+    To print a node:
+
+       call nodep->dumpGdb()      # aliased to "pn" in .gdbinit
+       call nodep->dumpTreeGdb()  # aliased to "pnt" in .gdbinit
+
+DISTRIBUTION
+
+    The latest version is available from <http://www.veripool.org/>.
+
+    Copyright 2008-2012 by Wilson Snyder. Verilator is free software; you
+    can redistribute it and/or modify it under the terms of either the GNU
+    Lesser General Public License Version 3 or the Perl Artistic License
+    Version 2.0.
+

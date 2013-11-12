@@ -1,0 +1,75 @@
+
+# =======================================================
+# This is a harness circuit. The purpose of this XDL is to retain the 
+# individual setting of some muxes which gets removed during XDL to NCD conversion, when applied individually.
+# time: Wed 20th June
+
+# =======================================================
+
+design "harness_slicel" xc5vfx130tff1738-2 v3.2;
+
+inst "SLICEL" "SLICEL",placed CLBLM_X1Y38 SLICE_X1Y100  ,
+  cfg " A5LUT:SLICEL.A5LUT:#LUT:O5=A1 A6LUT:SLICEL.A6LUT:#LUT:O6=A1
+       ACY0::O5 AFF:SLICEL.AFF:#FF AFFINIT::INIT0 
+       AFFMUX::XOR AFFSR::#OFF AUSED::0
+	B5LUT:SLICEL.B5LUT:#LUT:O5=A1 B6LUT:SLICEL.B6LUT:#LUT:O6=A1
+       BCY0::O5 BFF:SLICEL.BFF:#FF BFFINIT::INIT0
+       BFFMUX::XOR BFFSR::#OFF BUSED::0 
+	C5LUT:SLICEL.C5LUT:#LUT:O5=A1 C6LUT:SLICEL.C6LUT:#LUT:O6=A1
+       CCY0::O5 CEUSED::#OFF CFF:SLICEL.CFF:#FF
+       CFFINIT::INIT0 CFFMUX::XOR CFFSR::#OFF CLKINV::CLK COUTMUX::#OFF
+       COUTUSED::0 CUSED::0 
+	D5LUT:SLICEL.D5LUT:#LUT:O5=A1 D6LUT:SLICEL.D6LUT:#LUT:O6=A1
+       DCY0::O5 DFF:SLICEL.DFF:#FF DFFINIT::INIT0
+       DFFMUX::XOR DFFSR::#OFF 
+	PRECYINIT::0 CARRY4:SLICEL.CARRY4:#OFF CYINITGND:SLICEL.CYINITGND:#OFF "
+  ;
+
+net "SLICEL",
+	outpin "SLICEL" A,
+	outpin "SLICEL" AMUX,
+	outpin "SLICEL" AQ,
+	outpin "SLICEL" B,
+	outpin "SLICEL" BMUX,
+	outpin "SLICEL" BQ,
+	outpin "SLICEL" C,
+	outpin "SLICEL" CMUX,
+	outpin "SLICEL" COUT,
+	outpin "SLICEL" CQ,
+	outpin "SLICEL" D,
+	outpin "SLICEL" DMUX,
+	outpin "SLICEL" DQ,
+	inpin "SLICEL" A1,
+	inpin "SLICEL" A2,
+	inpin "SLICEL" A3,
+	inpin "SLICEL" A4,
+	inpin "SLICEL" A5,
+	inpin "SLICEL" A6,
+	inpin "SLICEL" AX,
+	inpin "SLICEL" B1,
+	inpin "SLICEL" B2,
+	inpin "SLICEL" B3,
+	inpin "SLICEL" B4,
+	inpin "SLICEL" B5,
+	inpin "SLICEL" B6,
+	inpin "SLICEL" BX,
+	inpin "SLICEL" C1,
+	inpin "SLICEL" C2,
+	inpin "SLICEL" C3,
+	inpin "SLICEL" C4,
+	inpin "SLICEL" C5,
+	inpin "SLICEL" C6,
+	inpin "SLICEL" CE,
+	inpin "SLICEL" CIN,
+	inpin "SLICEL" CLK,
+	inpin "SLICEL" CX,
+	inpin "SLICEL" D1,
+	inpin "SLICEL" D2,
+	inpin "SLICEL" D3,
+	inpin "SLICEL" D4,
+	inpin "SLICEL" D5,
+	inpin "SLICEL" D6,
+	inpin "SLICEL" DX,
+	inpin "SLICEL" SR
+	;
+

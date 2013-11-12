@@ -1,0 +1,39 @@
+# Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
+# $HeadURL: https://svn.east.isi.edu/torc/trunk/src/torc/physical/xdl/Makefile $
+# $Id: Makefile 1051 2012-06-22 21:02:08Z nsteiner $
+
+# This program is free software: you can redistribute it and/or modify it under the terms of the 
+# GNU General Public License as published by the Free Software Foundation, either version 3 of the 
+# License, or (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See 
+# the GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License along with this program.  If 
+# not, see <http://www.gnu.org/licenses/>.
+
+TORC_PHYSICAL_XDL := $(TORC_DIR)/physical/xdl
+
+# Local object files
+OBJS = \
+	XdlScanner.o \
+	XdlParser.o \
+	$
+
+# Prepend absolute path to all local objects
+TORC_PHYSICAL_XDL_LOCAL_OBJS := $(patsubst %,$(TORC_PHYSICAL_XDL)/%,$(OBJS))
+
+# torc/physical/xdl objects for includes elsewhere in torc
+TORC_PHYSICAL_XDL_OBJS := \
+	$(TORC_PHYSICAL_XDL_LOCAL_OBJS) \
+	$
+
+# Extra C++ Flags for OBJS
+$(TORC_PHYSICAL_XDL_LOCAL_OBJS): EXTRA_CCFLAGS = \
+	-Wno-trigraphs \
+	-isystem $(TORC_PHYSICAL_XDL) \
+	$
+
+# dependencies
+DEPS = $(OBJS:.o=.d)

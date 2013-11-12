@@ -1,0 +1,195 @@
+# Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
+# $HeadURL: https://svn.east.isi.edu/torc/trunk/src/torc/architecture/Makefile $
+# $Id: Makefile 1440 2013-05-07 01:28:12Z nsteiner $
+
+# This program is free software: you can redistribute it and/or modify it under the terms of the 
+# GNU General Public License as published by the Free Software Foundation, either version 3 of the 
+# License, or (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See 
+# the GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License along with this program.  If 
+# not, see <http://www.gnu.org/licenses/>.
+
+# Verify that SRC_DIR is defined
+ifndef SRC_DIR
+	ERROR := "$(error Please declare SRC_DIR in your Makefile)"
+endif
+
+# Create a template Makefile.local if none exists
+ifeq ($(wildcard $(SRC_DIR)/Makefile.local),)
+	# The awkward syntax allows us to include platform-appropriate line breaks
+	N := $(shell echo "\# define these variables here if necessary or define them as environment \
+		variables"                                                      > $(SRC_DIR)/Makefile.local)
+	N := $(shell echo "\#BOOST_INCLUDE_DIR = "                         >> $(SRC_DIR)/Makefile.local)
+	N := $(shell echo "\#BOOST_LIB_DIR = "                             >> $(SRC_DIR)/Makefile.local)
+	N := $(shell echo "\# optionally define compiler to use"           >> $(SRC_DIR)/Makefile.local)
+	N := $(shell echo "\#CC = "                                        >> $(SRC_DIR)/Makefile.local)
+	N := $(shell echo "\# internal variable definitions"               >> $(SRC_DIR)/Makefile.local)
+	N := $(shell echo "\TORC_1_0_ENABLE_VERILOG = 0"                   >> $(SRC_DIR)/Makefile.local)
+endif
+
+# Verify that BOOST_INCLUDE_DIR and BOOST_LIB_DIR are defined, and incorporate them
+ifndef BOOST_INCLUDE_DIR
+	ERROR := "$(error Please declare BOOST_INCLUDE_DIR and BOOST_LIB_DIR in \
+		torc/trunk/src/Makefile.local or in your local environment)"
+else
+	BOOST_INCLUDE_DIR_OPTION = -I$(BOOST_INCLUDE_DIR)
+endif
+
+# Verify that BOOST_INCLUDE_DIR and BOOST_LIB_DIR are defined, and incorporate them
+ifndef BOOST_LIB_DIR
+	ERROR := "$(error Please declare BOOST_INCLUDE_DIR and BOOST_LIB_DIR in \
+		torc/trunk/src/Makefile.local or in your local environment)"
+else
+	BOOST_LIB_DIR_OPTION = -L$(BOOST_LIB_DIR)
+endif
+
+# Set Include Options for Torc
+TORC_INCLUDE_DIR_OPTION = -I$(SRC_DIR)
+TORC_LIB_DIR_OPTION = -L$(SRC_DIR)
+
+# Default C++ Flags - Use EXTRA_CCFLAGS to special flags
+CCFLAGS = \
+	-x c++ \
+	-g \
+	-Wall \
+	-Werror \
+	$(TORC_INCLUDE_DIR_OPTION) \
+	$(BOOST_INCLUDE_DIR_OPTION) \
+	$
+
+VERILATOR_SRC_DIR = $(TORC_DIR)/externals/verilator/src
+
+# Verilator Environment Assignments
+ASTGEN = astgen
+BISONPRE = bisonpre
+FLEXFIX = flexfix
+LFLAGS = -d
+PERL = perl
+LEX = flex
+YACC = bison
+HEADERS = $(wildcard V*.h v*.h)
+
+# not all targets are real
+.PHONY: all code clean
+
+# make everything
+all: code
+
+# Include automatically generated dependencies or silently make them.
+ifneq ($(MAKECMDGOALS), clean)
+-include $(DEPS)
+endif
+
+# build the code
+code: $(VERILATOR_SRC_DIR)/V3ParseBison.h $(OBJS) $(DEPS)
+
+# Special Case for torc/externals/zlib/zfstream.o
+# zfstream.cc actually exists in contrib/iostream3 directory
+$(TORC_DIR)/externals/zlib/zfstream.o: $(TORC_DIR)/externals/zlib/contrib/iostream3/zfstream.cc
+	$(CC) $(CCFLAGS) -c -I$(TORC_DIR)/externals/zlib/contrib/iostream3 -o $@ $<
+
+## Special Case for torc/externals/zlib/zfstream.d
+# zfstream.cc actually exists in contrib/iostream3 directory
+$(TORC_DIR)/externals/zlib/zfstream.d: $(TORC_DIR)/externals/zlib/contrib/iostream3/zfstream.cc
+	@set -e; rm -f $@; \
+	$(CC) -MM -I$(TORC_DIR)/externals/zlib/contrib/iostream3 $(CCFLAGS) $(EXTRA_CCFLAGS) $< |  \
+	sed -e '/boost/d' -e 's|.*:|$*.o:|' > $@;
+
+## Special Case for Verilator
+
+# generate the AST helper classes
+$(VERILATOR_SRC_DIR)/V3Ast__gen_classes.h: $(VERILATOR_SRC_DIR)/$(ASTGEN) \
+	$(VERILATOR_SRC_DIR)/V3Ast.h $(VERILATOR_SRC_DIR)/V3AstNodes.h
+	cd $(VERILATOR_SRC_DIR)/; \
+	$(PERL) $(ASTGEN) -I. --classes
+
+# generate the AST constants
+$(VERILATOR_SRC_DIR)/V3Const__gen.cpp: $(VERILATOR_SRC_DIR)/$(ASTGEN) \
+	$(VERILATOR_SRC_DIR)/V3Const.cpp
+	cd $(VERILATOR_SRC_DIR); \
+	$(PERL) $(ASTGEN) -I. V3Const.cpp
+
+# the parser header file requires Bison generation of the source file
+$(VERILATOR_SRC_DIR)/V3ParseBison.h: $(VERILATOR_SRC_DIR)/V3ParseBison.c
+
+# generate the parser with Bison
+$(VERILATOR_SRC_DIR)/V3ParseBison.c: $(VERILATOR_SRC_DIR)/verilog.y
+	cd $(VERILATOR_SRC_DIR); \
+	$(PERL) $(BISONPRE) --yacc $(YACC) -d -v -o V3ParseBison.c $<
+
+# the lexer source requires fixes to the Flex output
+$(VERILATOR_SRC_DIR)/V3ParseLex.cpp: $(VERILATOR_SRC_DIR)/V3Lexer.yy.cpp
+
+# fix the Flex output
+$(VERILATOR_SRC_DIR)/V3Lexer.yy.cpp: $(VERILATOR_SRC_DIR)/V3Lexer_pregen.yy.cpp $(VERILATOR_SRC_DIR)/$(FLEXFIX)
+	cd $(VERILATOR_SRC_DIR); \
+	$(PERL) $(FLEXFIX) V3Lexer <$< >$@
+
+# generate the preprocessor lexer with Flex
+$(VERILATOR_SRC_DIR)/V3PreLex_pregen.yy.cpp: $(VERILATOR_SRC_DIR)/V3PreLex.l \
+	$(filter-out $(VERILATOR_SRC_DIR)/V3ParseBison.h, $(HEADERS))
+	cd $(VERILATOR_SRC_DIR); \
+	${LEX} --version; \
+	${LEX} ${LFLAGS} -o $@ $<
+
+# fix the Flex output
+$(VERILATOR_SRC_DIR)/V3PreLex.yy.cpp: $(VERILATOR_SRC_DIR)/V3PreLex_pregen.yy.cpp $(VERILATOR_SRC_DIR)/$(FLEXFIX)
+	cd $(VERILATOR_SRC_DIR); \
+	$(PERL) $(FLEXFIX) V3PreLex <$< >$@
+
+# the preprocessor lexer source requires fixes to the Flex output
+$(VERILATOR_SRC_DIR)/V3PreProc.cpp: $(VERILATOR_SRC_DIR)/V3PreLex.yy.cpp
+
+$(VERILATOR_SRC_DIR)/V3ParseLex.o: $(VERILATOR_SRC_DIR)/V3ParseLex.cpp
+	cd $(VERILATOR_SRC_DIR); \
+	$(CC) $(CCFLAGS) $(EXTRA_CCFLAGS) -isystem ../../include -c -o $@ $<
+
+# compile c++ sources 
+$(VERILATOR_SRC_DIR)/%.o: $(VERILATOR_SRC_DIR)/%.cpp $(VERILATOR_SRC_DIR)/V3Ast__gen_classes.h 
+	cd $(VERILATOR_SRC_DIR); \
+	$(CC) $(CCFLAGS) $(EXTRA_CCFLAGS) -c -o $@ $<
+
+# build dependency files
+$(VERILATOR_SRC_DIR)/%.d: $(VERILATOR_SRC_DIR)/%.cpp $(VERILATOR_SRC_DIR)/V3Ast__gen_classes.h 
+	@cd $(VERILATOR_SRC_DIR); \
+	set -e; rm -f $@; \
+	$(CC) -MM $(CCFLAGS) $(EXTRA_CCFLAGS) $< |  \
+	sed -e '/boost/d' -e 's|.*:|$*.o:|' > $@;
+
+# compile c++ sources 
+%.o: %.cpp
+	$(CC) $(CCFLAGS) $(EXTRA_CCFLAGS) -c -o $@ $<
+
+# compile c sources 
+%.o: %.c
+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -c -o $@ $<
+
+# compile cc sources
+%.o: %.cc
+	$(CC) $(CCFLAGS) $(EXTRA_CCFLAGS) -c -o $@ $<
+
+# build dependency files for .cpp
+%.d: %.cpp
+	@set -e; rm -f $@; \
+	$(CC) -MM $(CCFLAGS) $(EXTRA_CCFLAGS) $< |  \
+	sed -e '/boost/d' -e 's|.*:|$*.o:|' > $@;
+
+# build dependency files for .c
+%.d: %.c
+	@set -e; rm -f $@; \
+	$(CC) -MM $(CFLAGS) $(EXTRA_CFLAGS) $< |  \
+	sed -e '/boost/d' -e 's|.*:|$*.o:|' > $@;
+
+# build dependency files for .cc
+%.d: %.cc
+	@set -e; rm -f $@; \
+	$(CC) -MM $(CCFLAGS) $(EXTRA_CCFLAGS) $< |  \
+	sed -e '/boost/d' -e 's|.*:|$*.o:|' > $@;
+
+# clean everything
+clean::
+	rm -f $(OBJS) $(DEPS)

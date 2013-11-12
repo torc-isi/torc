@@ -1,0 +1,427 @@
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
+// $HeadURL: https://svn.east.isi.edu/torc/trunk/src/torc/examples/PhysicalExample.cpp $
+// $Id: PhysicalExample.cpp -1   $
+
+// This program is free software: you can redistribute it and/or modify it under the terms of the 
+// GNU General Public License as published by the Free Software Foundation, either version 3 of the 
+// License, or (at your option) any later version.
+// 
+// This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+// without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See 
+// the GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License along with this program.  If 
+// not, see <http://www.gnu.org/licenses/>.
+
+// file declarations
+
+	/// \file XdlScanner.cpp
+	/// \brief Source for the XdlScanner class.
+
+	/// \file XdlParser.hpp
+	/// \brief Header for the XdlParser class.
+
+	/// \file XdlParser.cpp
+	/// \brief Source for the XdlParser class.
+
+	/// \file FlexLexer.h
+	/// \brief Header for the Bison FlexLexer class.
+
+	/// \file location.hh
+	/// \brief Header for the Bison location class.
+
+	/// \file position.hh
+	/// \brief Header for the Bison position class.
+
+	/// \file stack.hh
+	/// \brief Header for the Bison stack class.
+
+// stack.hh undocumented declarations
+
+	/// \class torc::stack
+	/// \brief Bison stack class.
+
+	/// \fn torc::stack::iterator
+	/// \brief Bison undocumented.
+
+	/// \fn torc::stack::const_iterator
+	/// \brief Bison undocumented.
+
+	/// \fn torc::stack::stack(unsigned int n)
+	/// \brief Bison undocumented.
+
+	/// \fn T& torc::stack::operator[] (unsigned int i)
+	/// \brief Bison undocumented.
+
+	/// \fn const T& torc::stack::operator[] (unsigned int i) const
+	/// \brief Bison undocumented.
+
+	/// \fn void torc::stack::push(const T& t)
+	/// \brief Bison undocumented.
+
+	/// \fn void torc::stack::pop(unsigned int n)
+	/// \brief Bison undocumented.
+
+	/// \fn inline unsigned int torc::stack::height() const
+	/// \brief Bison undocumented.
+
+	/// \fn inline const_iterator torc::stack::begin() const
+	/// \brief Bison undocumented.
+
+	/// \fn inline const_iterator torc::stack::end() const
+	/// \brief Bison undocumented.
+
+	/// \var S torc::stack::seq_
+	/// \brief Bison undocumented.
+
+	/// \fn torc::slice::slice(const S& stack, unsigned int range)
+	/// \brief Bison undocumented.
+
+	/// \fn inline const T& torc::slice::operator[] (unsigned int i) const
+	/// \brief Bison undocumented.
+
+	/// \var const S& torc::slice::stack_
+	/// \brief Bison undocumented.
+
+	/// \var const torc::slice::S& torc::slice::stack_
+	/// \brief Bison undocumented.
+
+	/// \var unsigned int torc::slice::range_
+	/// \brief Bison undocumented.
+
+// XdlParser.cpp internals
+
+	/// \struct yy_trans_info
+	/// \brief Bison parser internals.
+
+	/// \struct yy_buffer_state
+	/// \brief Bison parser internals.
+
+// XdlScanner.hpp undocumented declarations
+
+	/// \def yyFlexLexer
+	/// \brief Bison lexer internals.
+
+// XdlScanner.cpp undocumented declarations
+
+	/// \def yyFlexLexer
+	/// \brief Bison lexer internals.
+
+	/// \def YY_INT_ALIGNED
+	/// \brief Bison lexer internals.
+
+	/// \def FLEX_SCANNER
+	/// \brief Bison lexer internals.
+
+	/// \def YY_FLEX_MAJOR_VERSION
+	/// \brief Bison lexer internals.
+
+	/// \def YY_FLEX_MINOR_VERSION
+	/// \brief Bison lexer internals.
+
+	/// \def YY_FLEX_SUBMINOR_VERSION
+	/// \brief Bison lexer internals.
+
+	/// \def FLEX_BETA
+	/// \brief Bison lexer internals.
+
+	/// \def yyFlexLexer
+	/// \brief Bison lexer internals.
+
+	/// \def INT16_MIN
+	/// \brief Bison lexer internals.
+
+	/// \def INT32_MIN
+	/// \brief Bison lexer internals.
+
+	/// \def INT8_MAX
+	/// \brief Bison lexer internals.
+
+	/// \def INT16_MAX
+	/// \brief Bison lexer internals.
+
+	/// \def INT32_MAX
+	/// \brief Bison lexer internals.
+
+	/// \def UINT8_MAX
+	/// \brief Bison lexer internals.
+
+	/// \def UINT16_MAX
+	/// \brief Bison lexer internals.
+
+	/// \def UINT32_MAX
+	/// \brief Bison lexer internals.
+
+	/// \def yyconst
+	/// \brief Bison lexer internals.
+
+	/// \def YY_NULL
+	/// \brief Bison lexer internals.
+
+	/// \def YY_SC_TO_UI(c)
+	/// \brief Bison lexer internals.
+
+	/// \def BEGIN
+	/// \brief Bison lexer internals.
+
+	/// \def YY_START
+	/// \brief Bison lexer internals.
+
+	/// \def YYSTATE
+	/// \brief Bison lexer internals.
+
+	/// \def YY_STATE_EOF(state)
+	/// \brief Bison lexer internals.
+
+	/// \def YY_NEW_FILE
+	/// \brief Bison lexer internals.
+
+	/// \def YY_END_OF_BUFFER_CHAR
+	/// \brief Bison lexer internals.
+
+	/// \def YY_BUF_SIZE
+	/// \brief Bison lexer internals.
+
+	/// \def YY_STATE_BUF_SIZE
+	/// \brief Bison lexer internals.
+
+	/// \def YY_TYPEDEF_YY_BUFFER_STATE
+	/// \brief Bison lexer internals.
+
+	/// \def EOB_ACT_CONTINUE_SCAN
+	/// \brief Bison lexer internals.
+
+	/// \def EOB_ACT_END_OF_FILE
+	/// \brief Bison lexer internals.
+
+	/// \def EOB_ACT_LAST_MATCH
+	/// \brief Bison lexer internals.
+
+	/// \def YY_LESS_LINENO(n)
+	/// \brief Bison lexer internals.
+
+	/// \def yyless(n)
+	/// \brief Bison lexer internals.
+
+	/// \def unput(c)
+	/// \brief Bison lexer internals.
+
+	/// \def YY_TYPEDEF_YY_SIZE_T
+	/// \brief Bison lexer internals.
+
+	/// \def YY_STRUCT_YY_BUFFER_STATE
+	/// \brief Bison lexer internals.
+
+	/// \def YY_BUFFER_NEW
+	/// \brief Bison lexer internals.
+
+	/// \def YY_BUFFER_NORMAL
+	/// \brief Bison lexer internals.
+
+	/// \def YY_BUFFER_EOF_PENDING
+	/// \brief Bison lexer internals.
+
+	/// \def YY_CURRENT_BUFFER
+	/// \brief Bison lexer internals.
+
+	/// \def YY_CURRENT_BUFFER_LVALUE
+	/// \brief Bison lexer internals.
+
+	/// \def yy_new_buffer
+	/// \brief Bison lexer internals.
+
+	/// \def yy_set_interactive(is_interactive)
+	/// \brief Bison lexer internals.
+
+	/// \def yy_set_bol(at_bol)
+	/// \brief Bison lexer internals.
+
+	/// \def YY_AT_BOL()
+	/// \brief Bison lexer internals.
+
+	/// \def yytext_ptr
+	/// \brief Bison lexer internals.
+
+	/// \def YY_DO_BEFORE_ACTION
+	/// \brief Bison lexer internals.
+
+	/// \def YY_NUM_RULES
+	/// \brief Bison lexer internals.
+
+	/// \def YY_END_OF_BUFFER
+	/// \brief Bison lexer internals.
+
+	/// \def REJECT
+	/// \brief Bison lexer internals.
+
+	/// \def yymore()
+	/// \brief Bison lexer internals.
+
+	/// \def YY_MORE_ADJ
+	/// \brief Bison lexer internals.
+
+	/// \def YY_RESTORE_YY_MORE_OFFSET
+	/// \brief Bison lexer internals.
+
+	/// \def DEBUG(a)
+	/// \brief Bison lexer internals.
+
+	/// \def DEBUG1(a)
+	/// \brief Bison lexer internals.
+
+	/// \def CONFIGSTRING
+	/// \brief Bison lexer internals.
+
+	/// \def CONFIGSTRING2
+	/// \brief Bison lexer internals.
+
+	/// \def DOUBLEQUOTE
+	/// \brief Bison lexer internals.
+
+	/// \def YY_EXTRA_TYPE
+	/// \brief Bison lexer internals.
+
+	/// \def YY_READ_BUF_SIZE
+	/// \brief Bison lexer internals.
+
+	/// \def ECHO
+	/// \brief Bison lexer internals.
+
+	/// \def YY_INPUT(buf, result, max_size)
+	/// \brief Bison lexer internals.
+
+	/// \def YY_START_STACK_INCR
+	/// \brief Bison lexer internals.
+
+	/// \def YY_FATAL_ERROR(msg)
+	/// \brief Bison lexer internals.
+
+	/// \def YY_DECL_IS_OURS
+	/// \brief Bison lexer internals.
+
+	/// \def YY_DECL
+	/// \brief Bison lexer internals.
+
+	/// \def YY_BREAK
+	/// \brief Bison lexer internals.
+
+	/// \def YY_RULE_SETUP
+	/// \brief Bison lexer internals.
+
+	/// \def YY_EXIT_FAILURE
+	/// \brief Bison lexer internals.
+
+	/// \def yyless(n)
+	/// \brief Bison lexer internals.
+
+	/// \def YYTABLES_NAME
+	/// \brief Bison lexer internals.
+
+	/// \typedef flex_int8_t
+	/// \brief Bison lexer internals.
+
+	/// \typedef flex_int16_t
+	/// \brief Bison lexer internals.
+
+	/// \typedef flex_int32_t
+	/// \brief Bison lexer internals.
+
+	/// \typedef flex_uint8_t
+	/// \brief Bison lexer internals.
+
+	/// \typedef flex_uint16_t
+	/// \brief Bison lexer internals.
+
+	/// \typedef flex_uint32_t
+	/// \brief Bison lexer internals.
+
+	/// \typedef YY_BUFFER_STATE
+	/// \brief Bison lexer internals.
+
+	/// \typedef yy_size_t
+	/// \brief Bison lexer internals.
+
+	/// \typedef YY_CHAR
+	/// \brief Bison lexer internals.
+
+	/// \typedef token_type
+	/// \brief Bison lexer internals.
+
+	/// \fn void* Xdlalloc(yy_size_t)
+	/// \brief Bison lexer internals.
+
+	/// \fn void* Xdlrealloc(void *, yy_size_t)
+	/// \brief Bison lexer internals.
+
+	/// \fn void Xdlfree(void*)
+	/// \brief Bison lexer internals.
+
+	/// \var extern int yyleng
+	/// \brief Bison lexer internals.
+
+	/// \var static yyconst flex_int16_t yy_acclist
+	/// \brief Bison lexer internals.
+
+	/// \var static yyconst flex_int16_t yy_accept
+	/// \brief Bison lexer internals.
+
+	/// \var static yyconst flex_int32_t yy_ec
+	/// \brief Bison lexer internals.
+
+	/// \var static yyconst flex_int32_t yy_meta
+	/// \brief Bison lexer internals.
+
+	/// \var static yyconst flex_int16_t yy_base
+	/// \brief Bison lexer internals.
+
+	/// \var static yyconst flex_int16_t yy_def
+	/// \brief Bison lexer internals.
+
+	/// \var static yyconst flex_int16_t yy_nxt
+	/// \brief Bison lexer internals.
+
+	/// \var static yyconst flex_int16_t yy_chk
+	/// \brief Bison lexer internals.
+
+	/// \var std::istream* yy_buffer_state::yy_input_file
+	/// \brief Bison lexer internals.
+
+	/// \var char* yy_buffer_state::yy_ch_buf
+	/// \brief Bison lexer internals.
+
+	/// \var char* yy_buffer_state::yy_buf_pos
+	/// \brief Bison lexer internals.
+
+	/// \var yy_size_t yy_buffer_state::yy_buf_size
+	/// \brief Bison lexer internals.
+
+	/// \var int yy_buffer_state::yy_n_chars
+	/// \brief Bison lexer internals.
+
+	/// \var int yy_buffer_state::yy_is_our_buffer
+	/// \brief Bison lexer internals.
+
+	/// \var int yy_buffer_state::yy_is_interactive
+	/// \brief Bison lexer internals.
+
+	/// \var int yy_buffer_state::yy_at_bol
+	/// \brief Bison lexer internals.
+
+	/// \var int yy_buffer_state::yy_bs_lineno
+	/// \brief Bison lexer internals.
+
+	/// \var int yy_buffer_state::yy_bs_column
+	/// \brief Bison lexer internals.
+
+	/// \var int yy_buffer_state::yy_fill_buffer
+	/// \brief Bison lexer internals.
+
+	/// \var int yy_buffer_state::yy_buffer_status
+	/// \brief Bison lexer internals.
+
+	/// \var flex_int32_t yy_trans_info::yy_verify
+	/// \brief Bison lexer internals.
+
+	/// \var flex_int32_t yy_trans_info::yy_nxt
+	/// \brief Bison lexer internals.
+

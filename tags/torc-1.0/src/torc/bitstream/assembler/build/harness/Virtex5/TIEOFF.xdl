@@ -1,0 +1,7 @@
+design "TIEOFF" xc5vfx30tff665-3 v3.2;
+inst "TIEOFF" "TIEOFF", placed INT_X0Y79 TIEOFF_X0Y79;
+net "TIEOFF",
+	outpin "TIEOFF" HARD0,
+	outpin "TIEOFF" HARD1,
+	outpin "TIEOFF" KEEP1
+	;

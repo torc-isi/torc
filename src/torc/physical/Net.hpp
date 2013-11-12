@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -20,6 +20,7 @@
 #define TORC_PHYSICAL_NET_HPP
 
 #include "torc/physical/Named.hpp"
+#include "torc/physical/Renamable.hpp"
 #include "torc/physical/Progeny.hpp"
 #include "torc/physical/Progenitor.hpp"
 #include "torc/physical/ConfigMap.hpp"
@@ -38,7 +39,7 @@ namespace physical {
 	/// \todo Consider checking for duplicates whenever a source, sink, or pip is added.  On the 
 	///		other hand, we provide the functions to check for existing resources, so perhaps we can 
 	///		just leave it to the user.
-	class Net : public Named, public Progeny<class Circuit>, public ConfigMap, 
+	class Net : public Renamable<Circuit>, public Progeny<class Circuit>, public ConfigMap, 
 		public common::Annotated, protected Progenitor<Net> {
 	// friends
 		/// \brief The Factory class has direct access to our internals.
@@ -60,7 +61,7 @@ namespace physical {
 		/// \brief Protected constructor.
 		/// \param inName The net name.
 		/// \param inNetType The net power type.
-		Net(const string& inName, ENetType inNetType) : Named(inName), ConfigMap(), 
+		Net(const string& inName, ENetType inNetType) : Renamable<Circuit>(inName), ConfigMap(), 
 			mNetType(inNetType) {}
 	public:
 	// types

@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -162,6 +162,13 @@ namespace bitstream {
 					switch(address) {
 					case Spartan3E::eRegisterFDRI:
 						os << ": " << Hex32(wordCount) << " words";
+						if(wordCount == 0) break;
+						// include the Auto CRC information
+						os << std::endl << "    ";
+						os << Hex32(rhs.getHeaderByteLength() + (cumulativeWordLength << 2)) 
+							<< ": Auto CRC: " << Hex16(p->getHeader());
+						cumulativeWordLength += 1;
+						p++;
 						break;
 					case Spartan3E::eRegisterCMD: 
 						os << " " << Spartan3E::sCommandName[word];
@@ -339,27 +346,24 @@ namespace bitstream {
 						os << ": " << Hex32(word32);
 						break;
 					case Spartan6::eRegisterFDRI:
-					//    if(packet.hasAutoCRC())
-					//	{
-					//	  os << ": " << Hex32(wordCount) << " words\n";
-					//	  os << "\t\t\t\tAUTOCRC: " << Hex32(packet.getAutoCRC());
-					//	}
-					//	else
-						  os << ": " << Hex32(wordCount) << " words\n";
+						os << ": " << Hex32(wordCount) << " words";
+						if(wordCount == 0) break;
+						// include the Auto CRC information
+						os << std::endl << "    ";
+						os << Hex32(rhs.getHeaderByteLength() + (cumulativeWordLength << 1)) 
+							<< ": Auto CRC: " << Hex32((uint32_t((*p)[0]) << 16) | (*p)[1]);
+						cumulativeWordLength += 2;
+						p++;
 						break;
 					case Spartan6::eRegisterFARMAJ:
 						// Only updates the FAR Major
-						if (wordCount == 1)
-  						  os << "Major Address: " << Hex16(packet[1]);
+						if(wordCount == 1) 
+							os << ": " << Hex16(packet[1]);
 						// Updates both the FAR Major and Minor address
 						// Word 1: FAR Major
 						// Word 2: FAR Minor
-						else if (wordCount == 2) {
-						  std::cout << std::endl;
-						  os << "\t\t\t\tMajor Address: " << Hex16(packet[1]);
-						  std::cout << std::endl;
-						  os << "\t\t\t\tMinor Address: " << Hex16(packet[2] >> 1);
-						}
+						else if(wordCount == 2) 
+							os << ": " << Hex32((uint32_t(packet[1]) << 16) | packet[2]);
 						break;
 					default:
 						// output the register contents
@@ -409,6 +413,10 @@ namespace bitstream {
 			// handle sync words
 			} else if(packet.isSyncWord()) {
 				os << "SYNC" << std::endl;
+
+			// handle zero words
+			} else if(packet.getHeader() == 0) {
+				os << "ZERO" << std::endl;
 
 			// handle reserved packets
 			} else if(packet.isReserved()) {
@@ -581,6 +589,13 @@ namespace bitstream {
 					switch(address) {
 					case Virtex2::eRegisterFDRI:
 						os << ": " << Hex32(wordCount) << " words";
+						if(wordCount == 0) break;
+						// include the Auto CRC information
+						os << std::endl << "    ";
+						os << Hex32(rhs.getHeaderByteLength() + (cumulativeWordLength << 2)) 
+							<< ": Auto CRC: " << Hex16(p->getHeader());
+						cumulativeWordLength += 1;
+						p++;
 						break;
 					case Virtex2::eRegisterCMD: 
 						os << " " << Virtex2::sCommandName[word];
@@ -913,10 +928,10 @@ namespace bitstream {
 						oldRowValue = currentRowValue;
 						oldTopValue = currentTopValue;
 						oldBlockValue = currentBlockValue;
-						currentColumnValue = (word & Virtex6::eFarMaskMajor);
-						currentRowValue = (word & Virtex6::eFarMaskRow);
-						currentTopValue = (word & Virtex6::eFarMaskTopBottom);
-						currentBlockValue = (word & Virtex6::eFarMaskBlockType);
+						currentColumnValue = (word & Virtex5::eFarMaskMajor);
+						currentRowValue = (word & Virtex5::eFarMaskRow);
+						currentTopValue = (word & Virtex5::eFarMaskTopBottom);
+						currentBlockValue = (word & Virtex5::eFarMaskBlockType);
 						newColumn = (currentColumnValue != oldColumnValue);
 						newRow = (currentRowValue != oldRowValue);
 						newTop = (currentTopValue != oldTopValue);
@@ -1124,6 +1139,177 @@ namespace bitstream {
 	std::ostream& operator <<(std::ostream& os, const Virtex7& rhs) {
 		// insert the bitstream header
 		os << static_cast<const Bitstream>(rhs) << std::endl;
+		uint32_t cumulativeWordLength = 0;
+
+		// iterate over the packets
+		Virtex7::ERegister address = Virtex7::ERegister();
+		VirtexPacketVector::const_iterator p = rhs.begin();
+		VirtexPacketVector::const_iterator e = rhs.end();
+		bool synchronized = false;
+		bool newColumn = false;
+		bool newRow = false;
+		bool newTop = false;
+		bool newBlock = false;
+		uint32_t oldColumnValue = 0;
+		uint32_t oldRowValue = 0;
+		uint32_t oldTopValue = 0;
+		uint32_t oldBlockValue = 0;
+		uint32_t currentColumnValue = 0;
+		uint32_t currentRowValue = 0;
+		uint32_t currentTopValue = 0;
+		uint32_t currentBlockValue = 0;
+		while(p < e) {
+
+			// insert the byte address
+			os << "    " << Hex32(rhs.getHeaderByteLength() + (cumulativeWordLength << 2)) << ": ";
+			// look up the packet
+			const VirtexPacket& packet = *p++;
+			cumulativeWordLength += packet.getWordSize();
+
+			// catch bus sync words
+			if(!synchronized) {
+				if(packet.isBusWidthSyncWord()) {
+					os << "BUS WIDTH SYNC" << std::endl;
+					continue;
+				} else if(packet.isBusWidthDetectWord()) {
+					os << "BUS WIDTH DETECT" << std::endl;
+					continue;
+				}
+			}
+
+			// handle dummy words
+			if(packet.isDummyWord()) {
+				os << "DUMMY" << std::endl;
+
+			// handle sync words
+			} else if(packet.isSyncWord()) {
+				os << "SYNC" << std::endl;
+
+			// handle reserved packets
+			} else if(packet.isReserved()) {
+				os << Virtex7::sOpcodeName[packet.getOpcode()] << std::endl;
+
+			// handle NOP packets
+			} else if(packet.isNop()) {
+				int nops = 1;
+				while(p < e && p->isNop()) { nops++; p++; }
+				cumulativeWordLength += nops - 1;
+				os << "NOP x " << nops << std::endl;
+
+			// handle regular type 1 or type 2 packets
+			} else {
+
+				// look up the packet details
+				Virtex7::EPacketType type = packet.getType();
+				Virtex7::EOpcode opcode = packet.getOpcode();
+				uint32_t wordCount = packet.getWordCount();
+				const uint32_t word = packet[1];
+				// account for the packet type
+				os << Virtex7::sPacketTypeName[type];
+				switch(type) {
+				case Virtex7::ePacketType1: 
+					address = Virtex7::ERegister(packet.getAddress());
+					break;
+				case Virtex7::ePacketType2: 
+					break;
+				default: 
+					os << std::endl;
+					continue;
+				}
+
+				// handle read packets
+				if(opcode == packet.isRead()) {
+					os << " READ " << Virtex7::sRegisterName[address];
+
+				// handle write packets
+				} else if(opcode == Virtex7::eOpcodeWrite) {
+					os << " WRITE " << Virtex7::sRegisterName[address];
+					// process according to register address
+					switch(address) {
+					case Virtex7::eRegisterFDRI:
+						os << ": " << Hex32(wordCount) << " words";
+						break;
+					case Virtex7::eRegisterCMD: 
+						os << " " << Virtex7::sCommandName[word];
+						break;
+					case Virtex7::eRegisterCOR0:
+						os << ": " << Hex32(word);
+						Virtex7::writeSubfieldSettings(os, (uint32_t) word, Virtex7::sCOR0);
+						break;
+					case Virtex7::eRegisterCOR1:
+						os << ": " << Hex32(word);
+						Virtex7::writeSubfieldSettings(os, (uint32_t) word, Virtex7::sCOR1);
+						break;
+					case Virtex7::eRegisterSTAT:
+						os << ": " << Hex32(word);
+						Virtex7::writeSubfieldSettings(os, (uint32_t) word, Virtex7::sSTAT);
+						break;
+					case Virtex7::eRegisterCTL0:
+						os << ": " << Hex32(word);
+						Virtex7::writeSubfieldSettings(os, (uint32_t) word, Virtex7::sCTL0);
+						break;
+					case Virtex7::eRegisterCTL1:
+						os << ": " << Hex32(word);
+						Virtex7::writeSubfieldSettings(os, (uint32_t) word, Virtex7::sCTL1);
+						break;
+					case Virtex7::eRegisterMASK:
+						os << ": " << Hex32(word);
+						// we need to snoop the next packet, because the documented mask subfields 
+						// apply to CTL0 only, and not to CTL1 which is completely undefined
+						if(p < e) {
+							const VirtexPacket& nextPacket = *p;
+							if(nextPacket.isType1() && nextPacket.isWrite() 
+								&& nextPacket.getAddress() == Virtex7::eRegisterCTL1) {
+								os << " ()";
+								break;
+							}
+						}
+						Virtex7::writeSubfieldSettings(os, (uint32_t) word, Virtex7::sMASK0);
+						break;
+					case Virtex7::eRegisterWBSTAR:
+						os << ": " << Hex32(word);
+						Virtex7::writeSubfieldSettings(os, (uint32_t) word, Virtex7::sWBSTAR);
+						break;
+					case Virtex7::eRegisterTIMER:
+						os << ": " << Hex32(word);
+						Virtex7::writeSubfieldSettings(os, (uint32_t) word, Virtex7::sTIMER);
+						break;
+					case Virtex7::eRegisterBOOTSTS:
+						os << ": " << Hex32(word);
+						Virtex7::writeSubfieldSettings(os, (uint32_t) word, Virtex7::sBOOTSTS);
+						break;
+					// Added to make frame mapping debug easier
+					case Virtex7::eRegisterLOUT:
+						oldColumnValue = currentColumnValue;
+						oldRowValue = currentRowValue;
+						oldTopValue = currentTopValue;
+						oldBlockValue = currentBlockValue;
+						currentColumnValue = (word & Virtex7::eFarMaskMajor);
+						currentRowValue = (word & Virtex7::eFarMaskRow);
+						currentTopValue = (word & Virtex7::eFarMaskTopBottom);
+						currentBlockValue = (word & Virtex7::eFarMaskBlockType);
+						newColumn = (currentColumnValue != oldColumnValue);
+						newRow = (currentRowValue != oldRowValue);
+						newTop = (currentTopValue != oldTopValue);
+						newBlock = (currentBlockValue != oldBlockValue);
+						os << ": " << Hex32(word);
+						if(newColumn) std::cout << "\t\t\t!!!New Column!!!";
+						if(newRow) std::cout << "\t\t\t$$$New Row$$$";
+						if(newTop) std::cout << "\t\t\t&&&New Top&&&";
+						if(newBlock) std::cout << "\t\t\t\t\t***New Block***" << Hex32(currentBlockValue);
+						break;
+					default:
+						// output the register contents
+						os << ": " << Hex32(word);
+						break;
+					}
+
+					os << std::endl;
+				}
+
+			}
+
+		}
 
 		// return the stream reference
 		return os;

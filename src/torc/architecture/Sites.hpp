@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -30,6 +30,7 @@
 #include "torc/architecture/PrimitiveConn.hpp"
 #include "torc/architecture/PrimitiveDef.hpp"
 #include "torc/architecture/Site.hpp"
+#include "torc/architecture/DDBConsoleStreams.hpp"
 #include <boost/cstdint.hpp>
 #include <map>
 #include <set>
@@ -41,7 +42,7 @@ namespace architecture {
 	/// \details Each device has a collection of logic sites.  Those sites are instantiations of 
 	///		family defined site types, with each instance also including a mapping from site pin 
 	///		to Tilewire.
-	class Sites {
+	class Sites : DDBConsoleStreams {
 	// friends
 		/// \brief The database has access to our protected functions.
 		friend class DDB;
@@ -109,7 +110,7 @@ namespace architecture {
 			}
 			// update the name to index map
 			mSiteNameToSiteIndex.clear();
-			for (SiteIndex i; i < getSiteCount(); i++) {
+			for(SiteIndex i; i < getSiteCount(); i++) {
 				Site& site = const_cast<Site&>(mSites[i]);
 				mSiteNameToSiteIndex[site.mName] = i;
 			}

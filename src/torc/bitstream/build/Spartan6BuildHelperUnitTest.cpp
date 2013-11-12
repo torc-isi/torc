@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -28,6 +28,7 @@
 namespace torc {
 namespace bitstream {
 
+BOOST_AUTO_TEST_SUITE(regression)
 BOOST_AUTO_TEST_SUITE(bitstream)
 
 void buildSpartan6Partials(const std::string& inDeviceName, const boost::filesystem::path& inWorkingPath);
@@ -123,7 +124,8 @@ void buildSpartan6Partials(const std::string& inDeviceName, const boost::filesys
 /// \brief Unit test for the Spartan6BuildHelper class.
 BOOST_AUTO_TEST_CASE(Spartan6BuildHelperUnitTest) {
 
-	BOOST_REQUIRE(true);
+	// this unit test needs to be superseded by torc/trunk/devel/spartan6-debug-bitstream-generation
+	BOOST_REQUIRE(false);
 
 	// look up the command line arguments
 	int& argc = boost::unit_test::framework::master_test_suite().argc;
@@ -136,18 +138,6 @@ BOOST_AUTO_TEST_CASE(Spartan6BuildHelperUnitTest) {
 	// iterate over the Spartan6 devices
 	{
 		const torc::common::DeviceVector& devices = torc::common::Devices::getSpartan6Devices();
-		torc::common::DeviceVector::const_iterator dp = devices.begin();
-		torc::common::DeviceVector::const_iterator de = devices.end();
-		while(dp < de) {
-			const std::string& device = *dp++;
-			if(device.empty()) break;
-			buildSpartan6Partials(device, torc::common::DirectoryTree::getWorkingPath());
-		}
-	}
-
-	// iterate over the Spartan6L devices
-	{
-		const torc::common::DeviceVector& devices = torc::common::Devices::getSpartan6LDevices();
 		torc::common::DeviceVector::const_iterator dp = devices.begin();
 		torc::common::DeviceVector::const_iterator de = devices.end();
 		while(dp < de) {
@@ -174,8 +164,8 @@ BOOST_AUTO_TEST_CASE(Spartan6DumpPacketsUnitTest) {
 	std::string inDeviceName = "xc6slx4";
 	boost::filesystem::path regressionPath = torc::common::DirectoryTree::getWorkingPath() 
 		/ "torc" / "bitstream" / "regression";
-	boost::filesystem::path referencePathOdd = regressionPath / (inDeviceName + ".partial.odd.bit");
-	boost::filesystem::path referencePathEven = regressionPath / (inDeviceName + ".partial.even.bit");
+	boost::filesystem::path referencePathOdd = regressionPath / (inDeviceName + ".odd.bit");
+	boost::filesystem::path referencePathEven = regressionPath / (inDeviceName + ".even.bit");
 
 	{
 		// read the bitstream
@@ -201,6 +191,7 @@ BOOST_AUTO_TEST_CASE(Spartan6DumpPacketsUnitTest) {
 
 }
 
+BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE_END()
 
 } // namespace bitstream

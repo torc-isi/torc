@@ -1,0 +1,71 @@
+# Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
+# $HeadURL: https://svn.east.isi.edu/torc/trunk/src/torc/Makefile $
+# $Id: Makefile 1305 2013-02-26 03:10:28Z nsteiner $
+
+# This program is free software: you can redistribute it and/or modify it under the terms of the 
+# GNU General Public License as published by the Free Software Foundation, either version 3 of the 
+# License, or (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See 
+# the GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License along with this program.  If 
+# not, see <http://www.gnu.org/licenses/>.
+
+TORC_ARCHITECTURE = $(TORC_DIR)/architecture
+TORC_BITSTREAM = $(TORC_DIR)/bitstream
+TORC_COMMON = $(TORC_DIR)/common
+TORC_EXAMPLES = $(TORC_DIR)/examples
+TORC_EXTERNALS = $(TORC_DIR)/externals
+TORC_GENERIC = $(TORC_DIR)/generic
+TORC_PACKER = $(TORC_DIR)/packer
+TORC_PHYSICAL = $(TORC_DIR)/physical
+TORC_PLACER = $(TORC_DIR)/placer
+TORC_ROUTER = $(TORC_DIR)/router
+TORC_UTILS = $(TORC_DIR)/utils
+
+include $(TORC_ARCHITECTURE)/Makefile.objects
+include $(TORC_BITSTREAM)/Makefile.objects
+include $(TORC_COMMON)/Makefile.objects
+include $(TORC_EXAMPLES)/Makefile.objects
+include $(TORC_EXTERNALS)/Makefile.objects
+include $(TORC_GENERIC)/Makefile.objects
+include $(TORC_PACKER)/Makefile.objects
+include $(TORC_PHYSICAL)/Makefile.objects
+include $(TORC_PLACER)/Makefile.objects
+include $(TORC_ROUTER)/Makefile.objects
+include $(TORC_UTILS)/Makefile.objects
+
+# object files
+OBJS = \
+	Version.o \
+	$
+
+# torc objects for includes elsewhere in torc
+TORC_OBJS := \
+	$(patsubst %,$(TORC_DIR)/%,$(OBJS)) \
+	$(TORC_ARCHITECTURE_OBJS) \
+	$(TORC_BITSTREAM_OBJS) \
+	$(TORC_COMMON_OBJS) \
+	$(TORC_EXAMPLES_OBJS) \
+	$(TORC_EXTERNALS_OBJS) \
+	$(TORC_GENERIC_OBJS) \
+	$(TORC_PACKER_OBJS) \
+	$(TORC_PHYSICAL_OBJS) \
+	$(TORC_PLACER_OBJS) \
+	$(TORC_ROUTER_OBJS) \
+	$(TORC_UTILS_OBJS) \
+	$
+
+# Extra C++ Flags for OBJS
+$(patsubst %,$(TORC_DIR)/%,$(OBJS)): EXTRA_CCFLAGS = \
+	$
+
+# dependencies
+TORC_DEPS = $(TORC_OBJS:.o=.d)
+
+# generate object file lists for regular and test code
+TORC_REAL_OBJS = $(filter-out %Main.o %UnitTest.o %UnitTestMain.o %RegressionTest.o $(TORC_EXAMPLES_OBJS), $(TORC_OBJS))
+TORC_TEST_OBJS = $(filter %UnitTestMain.o %UnitTest.o %RegressionTest.o, $(TORC_OBJS))
+

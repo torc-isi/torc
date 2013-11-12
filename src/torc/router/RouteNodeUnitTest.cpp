@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the RouteNode unit test.
+/// \brief Unit test for the RouteNode class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/router/RouteNode.hpp"
@@ -42,8 +42,8 @@ BOOST_AUTO_TEST_CASE(RouteNodeT) {
 	// features tested:
 	//		sizeof(RouteNode)
 	BOOST_CHECK_EQUAL(sizeof(RouteNode), sizeof(architecture::Arc) + sizeof(RouteNode*)
-		+ sizeof(boost::int32_t));
-	BOOST_CHECK_EQUAL(sizeof(RouteNode), 28u);
+		+ (3 * sizeof(boost::int32_t)));
+	BOOST_CHECK_EQUAL(sizeof(RouteNode), 32u);
 
 	// functions tested:
 	//		RouteNode(void);

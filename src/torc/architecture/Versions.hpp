@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -21,6 +21,7 @@
 
 #include "torc/architecture/XilinxDatabaseTypes.hpp"
 #include "torc/architecture/DigestStream.hpp"
+#include "torc/architecture/DDBConsoleStreams.hpp"
 #include "torc/common/DottedVersion.hpp"
 
 namespace torc {
@@ -33,7 +34,7 @@ namespace architecture { class DigestStreamUnitTest; }
 	/// \details The format version information determines if and how DDB should read the database. 
 	///		The vendor vesion information indicates the version of the vendor tools that the 
 	///		database was generated from.
-	class Versions {
+	class Versions : DDBConsoleStreams {
 	// friends
 		/// \brief The database has access to our protected functions.
 		friend class DDB;

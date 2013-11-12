@@ -1,0 +1,139 @@
+# Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
+# $HeadURL: https://svn.east.isi.edu/torc/trunk/src/torc/externals/Makefile.verilator $
+# $Id: Makefile.verilator 1335 2013-03-26 20:13:27Z nsteiner $
+
+# This program is free software: you can redistribute it and/or modify it under the terms of the 
+# GNU General Public License as published by the Free Software Foundation, either version 3 of the 
+# License, or (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See 
+# the GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License along with this program.  If 
+# not, see <http://www.gnu.org/licenses/>.
+
+# Include subdirectories objects
+TORC_EXTERNALS_VERILATOR := $(TORC_DIR)/externals/verilator/src
+
+# Env. Assignments
+ASTGEN = astgen
+BISONPRE = bisonpre
+FLEXFIX = flexfix
+LFLAGS = -d
+PERL = perl
+YACC = bison
+HEADERS = $(wildcard V*.h v*.h)
+
+# Local object files
+OBJS = \
+	V3Active.o \
+	V3ActiveTop.o \
+	V3Assert.o \
+	V3AssertPre.o \
+	V3Ast.o \
+	V3AstNodes.o \
+	V3Begin.o \
+	V3Branch.o \
+	V3Broken.o \
+	V3Case.o \
+	V3Cast.o \
+	V3Cdc.o \
+	V3Changed.o \
+	V3Clean.o \
+	V3ClkGater.o \
+	V3Clock.o \
+	V3Combine.o \
+	V3Config.o \
+	V3Const__gen.o \
+	V3Coverage.o \
+	V3CoverageJoin.o \
+	V3Dead.o \
+	V3Delayed.o \
+	V3Depth.o \
+	V3DepthBlock.o \
+	V3Descope.o \
+	V3EmitC.o \
+	V3EmitCInlines.o \
+	V3EmitCSyms.o \
+	V3EmitMk.o \
+	V3EmitV.o \
+	V3Error.o \
+	V3Expand.o \
+	V3File.o \
+	V3Gate.o \
+	V3GenClk.o \
+	V3Graph.o \
+	V3GraphAcyc.o \
+	V3GraphAlg.o \
+	V3GraphDfa.o \
+	V3GraphTest.o \
+	V3Hashed.o \
+	V3Inline.o \
+	V3Inst.o \
+	V3Life.o \
+	V3LifePost.o \
+	V3Link.o \
+	V3LinkCells.o \
+	V3LinkDot.o \
+	V3LinkJump.o \
+	V3LinkLValue.o \
+	V3LinkLevel.o \
+	V3LinkParse.o \
+	V3LinkResolve.o \
+	V3Localize.o \
+	V3Name.o \
+	V3Number.o \
+	V3Options.o \
+	V3Order.o \
+	V3Param.o \
+	V3ParseGrammar.o \
+	V3ParseImp.o \
+	V3ParseLex.o \
+	V3PreProc.o \
+	V3PreShell.o \
+	V3Premit.o \
+	V3Scope.o \
+	V3Slice.o \
+	V3Split.o \
+	V3SplitAs.o \
+	V3Stats.o \
+	V3StatsReport.o \
+	V3Subst.o \
+	V3Table.o \
+	V3Task.o \
+	V3Trace.o \
+	V3TraceDecl.o \
+	V3Tristate.o \
+	V3Undriven.o \
+	V3Unknown.o \
+	V3Unroll.o \
+	V3Width.o \
+	V3WidthSel.o \
+	$
+
+# Prepend absolute path to all local objects
+TORC_EXTERNALS_VERILATOR_LOCAL_OBJS := $(patsubst %,$(TORC_EXTERNALS_VERILATOR)/%,$(OBJS))
+
+# torc/externals VERILATOR objects for includes elsewhere in torc                                              
+TORC_EXTERNALS_VERILATOR_OBJS := \
+    $(TORC_EXTERNALS_VERILATOR_LOCAL_OBJS) \
+    $
+
+# Extra C Flags for OBJS                                                                           
+ifneq (,$(findstring CYGWIN,$(shell uname)))
+$(TORC_EXTERNALS_VERILATOR_LOCAL_OBJS): EXTRA_CCFLAGS := \
+	-Wno-sign-compare \
+	-Wno-conversion-null \
+	-DYYDEBUG \
+    $
+else
+$(TORC_EXTERNALS_VERILATOR_LOCAL_OBJS): EXTRA_CCFLAGS := \
+	-Wno-sign-compare \
+	-Wno-conversion-null \
+	-DYYDEBUG \
+	$
+endif
+
+# dependencies
+DEPS = $(OBJS:.o=.d)

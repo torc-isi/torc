@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -248,8 +248,8 @@ namespace packer {
 			   || inPrimitiveStructure.mLUTs.find(elementName) 
 			   != inPrimitiveStructure.mLUTs.end()){
 				
-				for(it = inPrimitiveStructure.mPrincipalstoOrphans.begin(); 
-				    it != inPrimitiveStructure.mPrincipalstoOrphans.end(); it++){
+				for(it = inPrimitiveStructure.mPrincipalsToOrphans.begin(); 
+				    it != inPrimitiveStructure.mPrincipalsToOrphans.end(); it++){
 					if(it->first != elementName) continue;
 					for(std::vector<const PrimitiveElement*>
 						    ::const_iterator iter = it->second.begin(); 

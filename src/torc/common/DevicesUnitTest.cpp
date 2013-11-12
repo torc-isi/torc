@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -34,14 +34,11 @@ BOOST_AUTO_TEST_CASE(DevicesUnitTest) {
 	//		DeviceVector mVirtex4Devices;
 	//		DeviceVector mVirtex5Devices;
 	//		DeviceVector mVirtex6Devices;
-	//		DeviceVector mVirtex6LDevices;
-	//		DeviceVector mVirtex7Devices;
-	//		DeviceVector mVirtex7LDevices;
+	//		DeviceVector mArtix7Devices;
 	//		DeviceVector mKintex7Devices;
-	//		DeviceVector mKintex7LDevices;
+	//		DeviceVector mVirtex7Devices;
 	//		DeviceVector mSpartan3EDevices;
 	//		DeviceVector mSpartan6Devices;
-	//		DeviceVector mSpartan6LDevices;
 	// functions untested:
 	//		static const DeviceVector& getVirtexDevices(void);
 	//		static const DeviceVector& getVirtexEDevices(void);
@@ -50,14 +47,11 @@ BOOST_AUTO_TEST_CASE(DevicesUnitTest) {
 	//		static const DeviceVector& getVirtex4Devices(void);
 	//		static const DeviceVector& getVirtex5Devices(void);
 	//		static const DeviceVector& getVirtex6Devices(void);
-	//		static const DeviceVector& getVirtex6LDevices(void);
-	//		static const DeviceVector& getVirtex7Devices(void);
-	//		static const DeviceVector& getVirtex7LDevices(void);
+	//		static const DeviceVector& getArtix7Devices(void);
 	//		static const DeviceVector& getKintex7Devices(void);
-	//		static const DeviceVector& getKintex7LDevices(void);
+	//		static const DeviceVector& getVirtex7Devices(void);
 	//		static const DeviceVector& getSpartan3EDevices(void);
 	//		static const DeviceVector& getSpartan6Devices(void);
-	//		static const DeviceVector& getSpartan6LDevices(void);
 
 	// members tested:
 	//		static Devices sDevices;
@@ -178,38 +172,30 @@ BOOST_AUTO_TEST_CASE(DevicesUnitTest) {
 	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc6vlx760"), eXC6VLX760);
 	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc6vsx315t"), eXC6VSX315T);
 	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc6vsx475t"), eXC6VSX475T);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc6vlx75tl"), eXC6VLX75TL);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc6vlx130tl"), eXC6VLX130TL);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc6vlx195tl"), eXC6VLX195TL);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc6vlx240tl"), eXC6VLX240TL);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc6vlx365tl"), eXC6VLX365TL);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc6vlx550tl"), eXC6VLX550TL);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc6vlx760l"), eXC6VLX760L);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc6vsx315tl"), eXC6VSX315TL);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc6vsx475tl"), eXC6VSX475TL);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7v285t"), eXC7V285T);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7v450t"), eXC7V450T);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7v585t"), eXC7V585T);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7v855t"), eXC7V855T);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7v1500t"), eXC7V1500T);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7v2000t"), eXC7V2000T);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7vx485t"), eXC7VX485T);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7v285tl"), eXC7V285TL);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7v450tl"), eXC7V450TL);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7v585tl"), eXC7V585TL);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7v855tl"), eXC7V855TL);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7v1500tl"), eXC7V1500TL);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7v2000tl"), eXC7V2000TL);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7k30t"), eXC7K30T);
+	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7a100t"), eXC7A100T);
+	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7a200t"), eXC7A200T);
 	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7k70t"), eXC7K70T);
 	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7k160t"), eXC7K160T);
 	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7k325t"), eXC7K325T);
+	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7k355t"), eXC7K355T);
 	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7k410t"), eXC7K410T);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7k30tl"), eXC7K30TL);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7k70tl"), eXC7K70TL);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7k160tl"), eXC7K160TL);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7k325tl"), eXC7K325TL);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7k410tl"), eXC7K410TL);
+	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7k420t"), eXC7K420T);
+	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7k480t"), eXC7K480T);
+	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7v585t"), eXC7V585T);
+	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7v2000t"), eXC7V2000T);
+	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7vh580t"), eXC7VH580T);
+	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7vh870t"), eXC7VH870T);
+	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7vx330t"), eXC7VX330T);
+	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7vx415t"), eXC7VX415T);
+	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7vx485t"), eXC7VX485T);
+	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7vx550t"), eXC7VX550T);
+	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7vx690t"), eXC7VX690T);
+	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7vx980t"), eXC7VX980T);
+	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7vx1140t"), eXC7VX1140T);
+	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7z010"), eXC7Z010);
+	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7z020"), eXC7Z020);
+	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7z030"), eXC7Z030);
+	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc7z045"), eXC7Z045);
 	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc3s100e"), eXC3S100E);
 	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc3s250e"), eXC3S250E);
 	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc3s500e"), eXC3S500E);
@@ -228,14 +214,6 @@ BOOST_AUTO_TEST_CASE(DevicesUnitTest) {
 	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc6slx75t"), eXC6SLX75T);
 	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc6slx100t"), eXC6SLX100T);
 	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc6slx150t"), eXC6SLX150T);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc6slx4l"), eXC6SLX4L);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc6slx9l"), eXC6SLX9L);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc6slx16l"), eXC6SLX16L);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc6slx25l"), eXC6SLX25L);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc6slx45l"), eXC6SLX45L);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc6slx75l"), eXC6SLX75L);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc6slx100l"), eXC6SLX100L);
-	BOOST_CHECK_EQUAL(Devices::getDeviceEnum("xc6slx150l"), eXC6SLX150L);
 
 	// members tested:
 	//		DeviceVector mDeviceNames;
@@ -346,38 +324,30 @@ BOOST_AUTO_TEST_CASE(DevicesUnitTest) {
 	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC6VLX760), "xc6vlx760");
 	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC6VSX315T), "xc6vsx315t");
 	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC6VSX475T), "xc6vsx475t");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC6VLX75TL), "xc6vlx75tl");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC6VLX130TL), "xc6vlx130tl");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC6VLX195TL), "xc6vlx195tl");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC6VLX240TL), "xc6vlx240tl");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC6VLX365TL), "xc6vlx365tl");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC6VLX550TL), "xc6vlx550tl");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC6VLX760L), "xc6vlx760l");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC6VSX315TL), "xc6vsx315tl");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC6VSX475TL), "xc6vsx475tl");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7V285T), "xc7v285t");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7V450T), "xc7v450t");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7V585T), "xc7v585t");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7V855T), "xc7v855t");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7V1500T), "xc7v1500t");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7V2000T), "xc7v2000t");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7VX485T), "xc7vx485t");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7V285TL), "xc7v285tl");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7V450TL), "xc7v450tl");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7V585TL), "xc7v585tl");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7V855TL), "xc7v855tl");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7V1500TL), "xc7v1500tl");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7V2000TL), "xc7v2000tl");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7K30T), "xc7k30t");
+	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7A100T), "xc7a100t");
+	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7A200T), "xc7a200t");
 	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7K70T), "xc7k70t");
 	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7K160T), "xc7k160t");
 	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7K325T), "xc7k325t");
+	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7K355T), "xc7k355t");
 	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7K410T), "xc7k410t");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7K30TL), "xc7k30tl");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7K70TL), "xc7k70tl");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7K160TL), "xc7k160tl");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7K325TL), "xc7k325tl");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7K410TL), "xc7k410tl");
+	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7K420T), "xc7k420t");
+	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7K480T), "xc7k480t");
+	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7V585T), "xc7v585t");
+	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7V2000T), "xc7v2000t");
+	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7VH580T), "xc7vh580t");
+	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7VH870T), "xc7vh870t");
+	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7VX330T), "xc7vx330t");
+	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7VX415T), "xc7vx415t");
+	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7VX485T), "xc7vx485t");
+	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7VX550T), "xc7vx550t");
+	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7VX690T), "xc7vx690t");
+	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7VX980T), "xc7vx980t");
+	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7VX1140T), "xc7vx1140t");
+	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7Z010), "xc7z010");
+	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7Z020), "xc7z020");
+	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7Z030), "xc7z030");
+	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC7Z045), "xc7z045");
 	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC3S100E), "xc3s100e");
 	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC3S250E), "xc3s250e");
 	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC3S500E), "xc3s500e");
@@ -396,14 +366,6 @@ BOOST_AUTO_TEST_CASE(DevicesUnitTest) {
 	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC6SLX75T), "xc6slx75t");
 	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC6SLX100T), "xc6slx100t");
 	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC6SLX150T), "xc6slx150t");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC6SLX4L), "xc6slx4l");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC6SLX9L), "xc6slx9l");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC6SLX16L), "xc6slx16l");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC6SLX25L), "xc6slx25l");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC6SLX45L), "xc6slx45l");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC6SLX75L), "xc6slx75l");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC6SLX100L), "xc6slx100l");
-	BOOST_CHECK_EQUAL(Devices::getDeviceName(eXC6SLX150L), "xc6slx150l");
 
 }
 

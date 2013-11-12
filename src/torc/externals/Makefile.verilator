@@ -1,0 +1,213 @@
+# Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
+# $HeadURL$
+# $Id$
+
+# This program is free software: you can redistribute it and/or modify it under the terms of the 
+# GNU General Public License as published by the Free Software Foundation, either version 3 of the 
+# License, or (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See 
+# the GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License along with this program.  If 
+# not, see <http://www.gnu.org/licenses/>.
+
+THIS_DIR = torc/externals/verilator/src
+SRC_DIR = ../../../..
+
+# C++ flags
+CCFLAGS = \
+				-x c++ \
+				-g \
+				-Wall \
+				-Werror \
+				-Wno-sign-compare \
+				-I$(SRC_DIR) \
+				-DYYDEBUG \
+				$
+
+ASTGEN = astgen
+BISONPRE = bisonpre
+FLEXFIX = flexfix
+LFLAGS = -d
+PERL = perl
+LEX = flex
+YACC = bison
+HEADERS = $(wildcard V*.h v*.h)
+
+# object files
+# perhaps this would be the better choice: V3ParseImp.o V3ParseGrammar.o V3ParseLex.o V3PreProc.o Verilator.o V3Active.o V3ActiveTop.o V3Assert.o V3AssertPre.o V3Ast.o V3AstNodes.o V3Begin.o V3Branch.o V3Broken.o V3Case.o V3Cast.o V3Cdc.o V3Changed.o V3Clean.o V3ClkGater.o V3Clock.o V3Combine.o V3Config.o V3Const__gen.o V3Coverage.o V3CoverageJoin.o V3Dead.o V3Delayed.o V3Depth.o V3DepthBlock.o V3Descope.o V3EmitC.o V3EmitCInlines.o V3EmitCSyms.o V3EmitMk.o V3EmitV.o V3Error.o V3Expand.o V3File.o V3Gate.o V3GenClk.o V3Graph.o V3GraphAlg.o V3GraphAcyc.o V3GraphDfa.o V3GraphTest.o V3Hashed.o V3Inline.o V3Inst.o V3Life.o V3LifePost.o V3Link.o V3LinkCells.o V3LinkDot.o V3LinkJump.o V3LinkLValue.o V3LinkLevel.o V3LinkParse.o V3LinkResolve.o V3Localize.o V3Name.o V3Number.o V3Options.o V3Order.o V3Param.o V3PreShell.o V3Premit.o V3Scope.o V3Slice.o V3Split.o V3SplitAs.o V3Stats.o V3StatsReport.o V3Subst.o V3Table.o V3Task.o V3Trace.o V3TraceDecl.o V3Tristate.o V3Undriven.o V3Unknown.o V3Unroll.o V3Width.o V3WidthSel.o
+OBJS = \
+				V3Active.o \
+				V3ActiveTop.o \
+				V3Assert.o \
+				V3AssertPre.o \
+				V3Ast.o \
+				V3AstNodes.o \
+				V3Begin.o \
+				V3Branch.o \
+				V3Broken.o \
+				V3Case.o \
+				V3Cast.o \
+				V3Cdc.o \
+				V3Changed.o \
+				V3Clean.o \
+				V3ClkGater.o \
+				V3Clock.o \
+				V3Combine.o \
+				V3Config.o \
+				V3Const__gen.o \
+				V3Coverage.o \
+				V3CoverageJoin.o \
+				V3Dead.o \
+				V3Delayed.o \
+				V3Depth.o \
+				V3DepthBlock.o \
+				V3Descope.o \
+				V3EmitC.o \
+				V3EmitCInlines.o \
+				V3EmitCSyms.o \
+				V3EmitMk.o \
+				V3EmitV.o \
+				V3Error.o \
+				V3Expand.o \
+				V3File.o \
+				V3Gate.o \
+				V3GenClk.o \
+				V3Graph.o \
+				V3GraphAcyc.o \
+				V3GraphAlg.o \
+				V3GraphDfa.o \
+				V3GraphTest.o \
+				V3Hashed.o \
+				V3Inline.o \
+				V3Inst.o \
+				V3Life.o \
+				V3LifePost.o \
+				V3Link.o \
+				V3LinkCells.o \
+				V3LinkDot.o \
+				V3LinkJump.o \
+				V3LinkLValue.o \
+				V3LinkLevel.o \
+				V3LinkParse.o \
+				V3LinkResolve.o \
+				V3Localize.o \
+				V3Name.o \
+				V3Number.o \
+				V3Options.o \
+				V3Order.o \
+				V3Param.o \
+				V3ParseGrammar.o \
+				V3ParseImp.o \
+				V3ParseLex.o \
+				V3PreProc.o \
+				V3PreShell.o \
+				V3Premit.o \
+				V3Scope.o \
+				V3Slice.o \
+				V3Split.o \
+				V3SplitAs.o \
+				V3Stats.o \
+				V3StatsReport.o \
+				V3Subst.o \
+				V3Table.o \
+				V3Task.o \
+				V3Trace.o \
+				V3TraceDecl.o \
+				V3Tristate.o \
+				V3Undriven.o \
+				V3Unknown.o \
+				V3Unroll.o \
+				V3Width.o \
+				V3WidthSel.o \
+				$
+
+# dependencies
+DEPS = $(OBJS:.o=.d)
+
+# generate object file lists for regular and test code
+REAL_OBJS = $(filter-out %UnitTest.o %RegressionTest.o Verilator.o, $(OBJS))
+TEST_OBJS = $(filter %UnitTest.o %RegressionTest.o Verilator.o, $(OBJS))
+
+# not all targets are real
+.PHONY: all code clean
+
+# make everything
+all: code
+
+# Include automatically generated dependencies or silently make them.
+-include $(DEPS)
+
+# build the code
+code: V3ParseBison.h $(OBJS) RealObjectFileList TestObjectFileList
+
+# build the real object list
+RealObjectFileList: $(OBJS)
+	@echo $(REAL_OBJS:%=$(THIS_DIR)/%) > RealObjectFileList
+
+# build the test object list
+TestObjectFileList: $(OBJS)
+	@echo $(TEST_OBJS:%=$(THIS_DIR)/%) > TestObjectFileList
+
+# generate the AST helper classes
+V3Ast__gen_classes.h: $(ASTGEN) V3Ast.h V3AstNodes.h
+	$(PERL) $(ASTGEN) -I. --classes
+
+# generate the AST constants
+V3Const__gen.cpp: $(ASTGEN) V3Const.cpp
+	$(PERL) $(ASTGEN) -I. V3Const.cpp
+
+# the parser header file requires Bison generation of the source file
+V3ParseBison.h: V3ParseBison.c
+
+# generate the parser with Bison
+V3ParseBison.c: verilog.y $(BISONPRE)
+	$(PERL) $(BISONPRE) --yacc $(YACC) -d -v -o V3ParseBison.c $<
+
+# generate the lexer with Flex
+V3Lexer_pregen.yy.cpp: verilog.l V3ParseBison.h $(HEADERS)
+	${LEX} --version
+	${LEX} ${LFLAGS} -o$@ $<
+
+# fix the Flex output
+V3Lexer.yy.cpp: V3Lexer_pregen.yy.cpp $(FLEXFIX)
+	$(PERL) $(FLEXFIX) V3Lexer <$< >$@
+
+# the lexer source requires fixes to the Flex output
+V3ParseLex.cpp: V3Lexer.yy.cpp
+
+# generate the preprocessor lexer with Flex
+V3PreLex_pregen.yy.cpp: V3PreLex.l $(HEADERS)
+	${LEX} --version
+	${LEX} ${LFLAGS} -o$@ $<
+
+# fix the Flex output
+V3PreLex.yy.cpp: V3PreLex_pregen.yy.cpp $(FLEXFIX)
+	$(PERL) $(FLEXFIX) V3PreLex <$< >$@
+
+# the preprocessor lexer source requires fixes to the Flex output
+V3PreProc.cpp: V3PreLex.yy.cpp
+
+V3ParseLex.o: V3ParseLex.cpp
+	$(CC) $(CCFLAGS) -isystem ../../include -c -o $@ $<
+
+# compile c++ sources 
+%.o: %.cpp V3Ast__gen_classes.h 
+	$(CC) $(CCFLAGS) -c -o $@ $<
+
+# build dependency files
+%.d: %.cpp V3Ast__gen_classes.h 
+	@set -e; rm -f $@; \
+	$(CC) -MM $(CCFLAGS) $< |  \
+	sed -e '/boost/d' -e 's,\($*\)\.o[ :]*,\1.o $@ : ,g' > $@;
+
+# clean everything
+clean:
+	#rm -f V3ParseBison_pretmp.y V3ParseBison.output V3ParseBison.h V3ParseBison.c
+	#rm -f V3Lexer_pregen.yy.cpp V3Lexer.yy.cpp V3PreLex_pregen.yy.cpp V3PreLex.yy.cpp
+	#rm -f V3Ast__gen_visitor.h V3Ast__gen_types.h V3Ast__gen_interface.h V3Ast__gen_impl.h \
+	#	V3Ast__gen_classes.h V3Ast__gen_report.txt 
+	rm -f $(OBJS) $(DEPS)
+	rm -rf RealObjectFileList TestObjectFileList

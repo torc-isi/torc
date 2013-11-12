@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_CASE(FrameUnitTest) {
 		BOOST_CHECK_EQUAL(*(p1 + i), data[i]);
 	}
 	VirtexFrame virtexFrame2(length);
-	virtexFrame2.touch();
+	virtexFrame2.setDirty();
 	BOOST_CHECK_EQUAL(virtexFrame2.getLength(), length);
 	BOOST_CHECK_EQUAL(virtexFrame2.isUsed(), true);
 	BOOST_CHECK_EQUAL(virtexFrame2.isDirty(), true);

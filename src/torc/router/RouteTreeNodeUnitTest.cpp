@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -14,7 +14,7 @@
 // not, see <http://www.gnu.org/licenses/>.
 
 /// \file
-/// \brief Source for the RouteNode unit test.
+/// \brief Unit test for the RouteNode class.
 
 #include <boost/test/unit_test.hpp>
 #include "torc/router/RouteTreeNode.hpp"
@@ -39,10 +39,10 @@ BOOST_AUTO_TEST_CASE(RouteTreeNodeT) {
 	
 	// features tested:
 	//		sizeof(RouteNode)
-	BOOST_CHECK_EQUAL(sizeof(RouteTreeNode), sizeof(RouteNode) + sizeof(boost::int32_t)
+	BOOST_CHECK_EQUAL(sizeof(RouteTreeNode), sizeof(RouteNode)
 		+ sizeof(RouteTreeNode*) + sizeof(std::vector<RouteTreeNode*>*));
-	BOOST_CHECK_EQUAL(sizeof(RouteNode), 24u);
-	BOOST_CHECK_EQUAL(sizeof(RouteTreeNode), 44u);
+	BOOST_CHECK_EQUAL(sizeof(RouteNode), 32u);
+	BOOST_CHECK_EQUAL(sizeof(RouteTreeNode), 48u);
 	BOOST_CHECK_EQUAL(sizeof(RouteTreeNode*), 8u);
 	BOOST_CHECK_EQUAL(sizeof(std::vector<RouteTreeNode*>*), 8u);
 	BOOST_CHECK_EQUAL(sizeof(boost::int32_t), 4u);
@@ -81,7 +81,7 @@ BOOST_AUTO_TEST_CASE(RouteTreeNodeT) {
 	BOOST_CHECK_EQUAL(routenode2->getDepth() == 1, true);
 	BOOST_CHECK_EQUAL(routenode3->getDepth() == 2, true);
 	BOOST_CHECK_EQUAL(routenode4->getDepth() == 2, true);
-	BOOST_CHECK_EQUAL(routenode5->getDepth() == 0, true);
+	BOOST_CHECK_EQUAL(routenode5->getDepth() == -1, true);
 	BOOST_CHECK_EQUAL(routenode1->getNumChildren() == 1, true);
 	BOOST_CHECK_EQUAL(routenode2->getNumChildren() == 2, true);
 	BOOST_CHECK_EQUAL(routenode3->getNumChildren() == 0, true);
@@ -103,7 +103,7 @@ BOOST_AUTO_TEST_CASE(RouteTreeNodeT) {
 	BOOST_CHECK_EQUAL(routenode2->getDepth() == 2, true);
 	BOOST_CHECK_EQUAL(routenode3->getDepth() == 3, true);
 	BOOST_CHECK_EQUAL(routenode4->getDepth() == 3, true);
-	BOOST_CHECK_EQUAL(routenode5->getDepth() == 0, true);
+	BOOST_CHECK_EQUAL(routenode5->getDepth() == -1, true);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

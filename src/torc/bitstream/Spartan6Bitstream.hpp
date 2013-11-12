@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -29,7 +29,7 @@ namespace bitstream {
 namespace bitstream { class Spartan6BitstreamUnitTest; }
 
 	/// \brief Spartan-class bitstream.
-	class Spartan6Bitstream : public Bitstream, public Spartan6PacketVector, 
+	class Spartan6Bitstream : virtual public Bitstream, public Spartan6PacketVector, 
 		public Spartan6PacketConstants {
 		friend class torc::bitstream::bitstream::Spartan6BitstreamUnitTest;
 	protected:
@@ -37,6 +37,49 @@ namespace bitstream { class Spartan6BitstreamUnitTest; }
 		/// \brief Imported type name.
 		typedef boost::uint16_t uint16_t;
 		typedef boost::uint32_t uint32_t;
+	// inner classes
+		/// \brief CRC class for the Spartan6 architecture.
+		struct CRC {
+			/// \brief Length of the CRC calculation.
+			enum { eLen = 22 };
+			/// \brief CRC calculation bits.
+			uint8_t mBits[eLen];
+			/// \brief CRC calculation value.
+			uint32_t mValue;
+			/// \brief Default constructor.
+			CRC(void) { reset(); }
+			/// \brief Function to clear the CRC calculation.
+			void reset(void) { for(int32_t i = 0; i < eLen; i++) mBits[i] = 0; mValue = 0; }
+			/// \brief Update the CRC with new data.
+			void update(uint32_t inAddress, uint32_t inWord) {
+				uint8_t input[eLen];
+				uint8_t next[eLen];
+				// initialize the input with the current register address and data word
+				for(int32_t i = 21, mask = 0x20; i >= 16; i--, mask >>= 1) 
+					input[i] = (inAddress & mask) ? 1 : 0;
+				for(int32_t i = 15, mask = 0x8000; i >= 0; i--, mask >>= 1) 
+					input[i] = (inWord & mask) ? 1 : 0;
+				// update the CRC
+				for(int32_t i = 21; i >= 16; i--) next[i] = mBits[i - 1] ^ input[i];
+				next[15] = mBits[14] ^ input[15] ^ mBits[21];
+				for(int32_t i = 14; i >= 13; i--) next[i] = mBits[i - 1] ^ input[i];
+				next[12] = mBits[11] ^ input[12] ^ mBits[21];
+				for(int32_t i = 11; i >= 8; i--) next[i] = mBits[i - 1] ^ input[i];
+				next[7] = mBits[6] ^ input[7] ^ mBits[21];
+				for(int32_t i = 6; i >= 1; i--) next[i] = mBits[i - 1] ^ input[i];
+				next[0] = input[0] ^ mBits[21];
+				// copy the updated bits into place
+				mValue = 0;
+				for(int32_t i = 0, mask = 1; i < eLen; i++, mask <<= 1) {
+					mBits[i] = next[i];
+					mValue |= mBits[i] ? mask : 0;
+				}
+			}
+			/// \brief Index operator.
+			uint8_t& operator[] (int i) { return mBits[i]; }
+			/// \brief Cast operator to return the CRC as an integer.
+			operator uint32_t (void) const { return mValue; }
+		};
 	// members
 	public:
 	// constructors

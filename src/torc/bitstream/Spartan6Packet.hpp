@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -104,7 +104,7 @@ namespace bitstream { class Spartan6PacketUnitTest; }
 	public:
 	// constructors
 		/// \brief Null constructor.
-		Spartan6Packet(void) : mHeader(0), mCount(0), mWord(0), mWords(0), mType(EPacketType(0)), 
+		Spartan6Packet(void) : mHeader(0), mCount(0), mWord(0), mWords(), mType(EPacketType(0)), 
 			mOpcode(eOpcodeNOP), mAddress(0) {}
 		/// \brief Full constructor.
 		Spartan6Packet(uint16_t inHeader, uint32_t inCount, uint16_t inWord, 
@@ -114,11 +114,11 @@ namespace bitstream { class Spartan6PacketUnitTest; }
 		}
 		/// \brief Header plus single word constructor.
 		Spartan6Packet(uint16_t inHeader, uint16_t inWord) : mHeader(inHeader), mCount(1), 
-			mWord(inWord), mWords(0), mType(EPacketType(0)), mOpcode(eOpcodeNOP), mAddress(0) {
+			mWord(inWord), mWords(), mType(EPacketType(0)), mOpcode(eOpcodeNOP), mAddress(0) {
 			initialize();
 		}
 		/// \brief Header only constructor.
-		Spartan6Packet(uint16_t inHeader) : mHeader(inHeader), mCount(0), mWord(0), mWords(0), 
+		Spartan6Packet(uint16_t inHeader) : mHeader(inHeader), mCount(0), mWord(0), mWords(), 
 			mType(EPacketType(0)), mOpcode(eOpcodeNOP), mAddress(0) {
 			initialize();
 		}
@@ -168,7 +168,7 @@ namespace bitstream { class Spartan6PacketUnitTest; }
 			}
 			// read the packet payload
 			// Type1 Packet
-			if (type == ePacketType1) {
+			if(type == ePacketType1) {
 				if(count == 1) {
 					inStream.read((char*) &word, sizeof(word));
 					word = ntohs(word);
@@ -180,7 +180,7 @@ namespace bitstream { class Spartan6PacketUnitTest; }
 				}
 			}
 			// Type2 Packet
-			else if (type == ePacketType2) {
+			else if(type == ePacketType2) {
 				if(count == 1) {
 					inStream.read((char*) &word, sizeof(word));
 					word = ntohs(word);
@@ -214,50 +214,42 @@ namespace bitstream { class Spartan6PacketUnitTest; }
 				}
 			}
 		}
-		/// \brief Construct a null type 1 write packet.
-		/// \details A type 2 write packet to the FDRI register is generally only useful to specify 
-		///		the current register in preparation for a type 2 write.  The type 2 write header 
-		///		includes a size but specifies no target register, hence the prior null type 2 
-		///		packet.
-		static Spartan6Packet makeNullType2Write(uint16_t inAddress) {
-			return Spartan6Packet(makeHeader(ePacketType2, eOpcodeWrite, inAddress, 0), 0, 0, 0);
-		}
 		/// \brief Construct a type 1 write packet.
 		static Spartan6Packet makeType1Write(uint16_t inAddress, uint16_t inWord) {
-			return Spartan6Packet(makeHeader(ePacketType1, eOpcodeWrite, inAddress, 1), 1, inWord, 0);
+			return Spartan6Packet(makeHeader(ePacketType1, eOpcodeWrite, inAddress, 1), 1, inWord, 
+				0);
 		}
 		/// \brief Construct a type 1 write packet for two words.
 		static Spartan6Packet makeType1Write32(uint16_t inAddress, uint32_t inWord) {
-			// used to send two packets after header for packets like IDCODE, RDBK_SIGN, FARMAJ, and CRC
+			// used to send two packets after header for packets like IDCODE, FARMAJ, and CRC
 			uint16_t* words = new uint16_t[2];
 			words[0] = inWord >> 16;
 			words[1] = inWord & 0x0000ffff;
-			return Spartan6Packet(makeHeader(ePacketType1, eOpcodeWrite, inAddress, 2), 2, 0, words);
+			return Spartan6Packet(makeHeader(ePacketType1, eOpcodeWrite, inAddress, 2), 2, 0, 
+				words);
 		}
 		/// \brief Construct a type 1 write packet for two words.
-		static Spartan6Packet makeType1Write(uint16_t inAddress, uint16_t inWord1, uint16_t inWord2) {
-			// used to send two packets after header for packets like IDCODE, RDBK_SIGN, FARMAJ, and CRC
+		static Spartan6Packet makeType1Write(uint16_t inAddress, uint16_t inWord1, 
+			uint16_t inWord2) {
+			// used to send two packets after header for packets like IDCODE, FARMAJ, and CRC
 			uint16_t* words = new uint16_t[2];
 			words[0] = inWord1;
 			words[1] = inWord2;
-			return Spartan6Packet(makeHeader(ePacketType1, eOpcodeWrite, inAddress, 2), 2, 0, words);
+			return Spartan6Packet(makeHeader(ePacketType1, eOpcodeWrite, inAddress, 2), 2, 0, 
+				words);
 		}
 		/// \brief Construct a type 1 write packet for multiple words.
-		static Spartan6Packet makeType1Write(uint32_t inCount, uint16_t inAddress, uint16_t* inWords) {
-			return Spartan6Packet(makeHeader(ePacketType1, eOpcodeWrite, inAddress, inCount), inCount, 0, inWords);
+		static Spartan6Packet makeType1Write(uint32_t inCount, uint16_t inAddress, 
+			uint16_t* inWords) {
+			return Spartan6Packet(makeHeader(ePacketType1, eOpcodeWrite, inAddress, inCount), 
+				inCount, 0, inWords);
 		}
 		/// \brief Construct a type 2 write packet.
-		static Spartan6Packet makeType2Write(uint32_t inCount, uint16_t inAddress, uint16_t* inWords) {
-			return Spartan6Packet(makeHeader(ePacketType2, eOpcodeWrite, inAddress, 0), inCount, 0, inWords);
+		static Spartan6Packet makeType2Write(uint32_t inCount, uint16_t inAddress, 
+			uint16_t* inWords) {
+			return Spartan6Packet(makeHeader(ePacketType2, eOpcodeWrite, inAddress, 0), inCount, 0, 
+				inWords);
 		}
-//		/// \brief Construct a type 1 write packet header.
-//		static uint16_t makeType1WriteHeader(uint16_t inAddress, uint32_t inCount) {
-//			return makeHeader(ePacketType1, eOpcodeWrite, inAddress, inCount);
-//		}
-//		/// \brief Construct a type 2 write packet header.
-//		static uint16_t makeType2WriteHeader(uint32_t inCount) {
-//			return makeHeader(ePacketType2, eOpcodeWrite, 0, inCount);
-//		}
 		/// \brief Construct a packet header.
 		static uint16_t makeHeader(EPacketType inType, EOpcode inOpcode, uint16_t inAddress, 
 			uint32_t inCount) {
@@ -311,8 +303,10 @@ namespace bitstream { class Spartan6PacketUnitTest; }
 		bool isSyncWord1(void) const { return mHeader == eSynchronizationSync1; }
 		bool isBusWidthSyncWord0(void) const { return mHeader == eSynchronizationBusWidthSync0; }
 		bool isBusWidthSyncWord1(void) const { return mHeader == eSynchronizationBusWidthSync1; }
-		bool isBusWidthDetectWord0(void) const { return mHeader == eSynchronizationBusWidthDetect0; }
-		bool isBusWidthDetectWord1(void) const { return mHeader == eSynchronizationBusWidthDetect1; }
+		bool isBusWidthDetectWord0(void) const 
+			{ return mHeader == eSynchronizationBusWidthDetect0; }
+		bool isBusWidthDetectWord1(void) const 
+			{ return mHeader == eSynchronizationBusWidthDetect1; }
 	};
 
 	/// \brief Vector of Spartan 16 bit packets.

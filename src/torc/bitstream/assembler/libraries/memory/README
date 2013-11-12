@@ -1,0 +1,11 @@
+The .ll files in this directory were from Xilinx bitgen by adding parameter '-l' to bitgen command.  Invoke:
+
+    perl extract-bits-for-lut.pl lut-rom-map.ll
+    perl extract-bits-for-bram.pl bram-map.ll
+
+This will generate corresponding .bits files.  The RAMB .bits file contains pairs of bit counts 
+followed by frame-index + word-index + bit-index packed into 32-bit words as 16:8:8 bits.  The 
+entries begin with RAM bit 0 and increase sequentially.
+
+For LUTs, there is a .cbit file for each LUT in a slice - A, B, C and D. Format of cbit file is <word count><all the bit addressses>
+

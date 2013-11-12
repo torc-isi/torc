@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -19,16 +19,14 @@
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 #include <sstream>
-#include "torc/generic/decompiler/Decompiler.hpp"
-#include "torc/generic/om/ObjectFactory.hpp"
-#include "torc/generic/om/ScalarNet.hpp"
-#include "torc/generic/parser/Linker.hpp"
-#include "torc/generic/parser/ParserOptions.hpp"
-#include "torc/generic/parser/EdifParser.hpp"
-#include "torc/generic/util/MessageTable.hpp"
+#include "torc/generic/ObjectFactory.hpp"
+#include "torc/generic/ScalarNet.hpp"
+#include "torc/generic/edif/Decompiler.hpp"
+#include "torc/generic/edif/Linker.hpp"
+#include "torc/generic/edif/ParserOptions.hpp"
+#include "torc/generic/edif/EdifParser.hpp"
+#include "torc/generic/MessageTable.hpp"
 #include <boost/regex.hpp>
-
-//#include "torc/examples/PrintInfo.hpp"
 
 namespace torc {
 namespace generic {
@@ -50,7 +48,7 @@ BOOST_AUTO_TEST_SUITE(generic)
 			std::vector<PortSharedPtr>::const_iterator pe = ports.end();
 			while(pp < pe) {
 				const PortSharedPtr& portPtr = *pp++;
-				PortDirection direction = portPtr->getDirection();
+				EPortDirection direction = portPtr->getDirection();
 				switch(direction) {
 				case ePortDirectionIn: sources++; break;
 				case ePortDirectionOut: sinks++; break;
@@ -68,7 +66,7 @@ BOOST_AUTO_TEST_SUITE(generic)
 			while(rp < re) {
 				const PortReferenceSharedPtr& portRefPtr = *rp++;
 				const PortSharedPtr& portPtr = portRefPtr->getMaster();
-				PortDirection direction = portPtr->getDirection();
+				EPortDirection direction = portPtr->getDirection();
 				switch(direction) {
 				case ePortDirectionIn: sinks++; break;
 				case ePortDirectionOut: sources++; break;
@@ -175,7 +173,7 @@ BOOST_AUTO_TEST_CASE(Om1UnitTest) {
 
 	} catch(Error& e) {
 		std::cerr << MessageTable::instance()->getMessage(e.getErrorMessageId()) << std::endl;
-		const std::vector<Error::StackFrameInfo> &stack = e.getStackTrace();
+		const std::vector<Error::StackFrameInfo>& stack = e.getStackTrace();
 		for(std::vector<Error::StackFrameInfo>::const_iterator it = stack.begin(); 
 			it != stack.end(); it++) {
 			std::cerr << "    " << (*it).getFunction() << "() [" << (*it).getFile() << ":" 
@@ -199,7 +197,7 @@ BOOST_AUTO_TEST_CASE(Om1UnitTest) {
 //		decompiler();
 	} catch(Error& e) {
 		std::cerr << MessageTable::instance()->getMessage(e.getErrorMessageId()) << std::endl;
-		const std::vector<Error::StackFrameInfo> &stack = e.getStackTrace();
+		const std::vector<Error::StackFrameInfo>& stack = e.getStackTrace();
 		for(std::vector<Error::StackFrameInfo>::const_iterator it = stack.begin(); 
 			it != stack.end(); it++) {
 			std::cerr << "    " << (*it).getFunction() << "() [" << (*it).getFile() << ":" 

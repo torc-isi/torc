@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -16,8 +16,8 @@
 /// \file
 /// \brief Header for the Factory class.
 
-#ifndef TORC_BITSTREAM_BITSTREAMHELPER_HPP
-#define TORC_BITSTREAM_BITSTREAMHELPER_HPP
+#ifndef TORC_BITSTREAM_FACTORY_HPP
+#define TORC_BITSTREAM_FACTORY_HPP
 
 #include "torc/bitstream/Bitstream.hpp"
 #include <boost/filesystem.hpp>
@@ -34,10 +34,14 @@ namespace bitstream { class FactoryUnitTest; }
 	class Factory {
 		friend class torc::bitstream::bitstream::FactoryUnitTest;
 	public:
-		static BitstreamSharedPtr newBitstreamPtr(const boost::filesystem::path& inPath);
+		static BitstreamSharedPtr newBitstreamPtr(const boost::filesystem::path& inPath) {
+			return newBitstreamPtr(inPath.string().c_str());
+		}
+
+		static BitstreamSharedPtr newBitstreamPtr(const char* inFileName);
 	};
 
 } // namespace bitstream
 } // namespace torc
 
-#endif // TORC_BITSTREAM_BITSTREAMHELPER_HPP
+#endif // TORC_BITSTREAM_FACTORY_HPP

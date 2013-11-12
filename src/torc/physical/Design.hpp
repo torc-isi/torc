@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -90,7 +90,7 @@ namespace physical {
 		}
 		/// \brief Remove a module from the design.
 		/// \param inModulePtr The module to remove.
-		/// \returns true if the module was remove, or false if the module did not exist.
+		/// \returns true if the module was removed, or false if the module did not exist.
 		bool removeModule(ModuleSharedPtr& inModulePtr) {
 			/// \todo Acquire mutex.
 			ModuleSharedPtrVector::iterator e = mModules.end();

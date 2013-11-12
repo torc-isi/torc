@@ -1,0 +1,8 @@
+design "BUFR" xc5vfx30tff665-3 v3.2;
+inst "BUFR" "BUFR", placed HCLK_IOI_X0Y69 BUFR_X0Y6;
+net "BUFR",
+	outpin "BUFR" O,
+	inpin "BUFR" CE,
+	inpin "BUFR" CLR,
+	inpin "BUFR" I
+	;

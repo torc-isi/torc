@@ -1,0 +1,124 @@
+# Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
+# $HeadURL: https://svn.east.isi.edu/torc/trunk/src/torc/generic/Makefile $
+# $Id: Makefile 1222 2012-11-16 21:46:03Z nsteiner $
+
+# This program is free software: you can redistribute it and/or modify it under the terms of the 
+# GNU General Public License as published by the Free Software Foundation, either version 3 of the 
+# License, or (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See 
+# the GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License along with this program.  If 
+# not, see <http://www.gnu.org/licenses/>.
+
+# Include sudirectories objects
+TORC_GENERIC         := $(TORC_DIR)/generic
+TORC_GENERIC_EDIF    := $(TORC_GENERIC)/edif
+TORC_GENERIC_VERILOG := $(TORC_GENERIC)/verilog
+include $(TORC_GENERIC_EDIF)/Makefile.objects
+ifeq ($(TORC_1_0_ENABLE_VERILOG), 1)
+include $(TORC_GENERIC_VERILOG)/Makefile.objects
+endif
+
+# Local object files
+OBJS = \
+	Apply.o \
+	Cell.o \
+	Cloning.o \
+	Commentable.o \
+	Connectable.o \
+	ConnectionHandler.o \
+	Design.o \
+	DumpRestoreData.o \
+	EdifVersion.o \
+	Error.o \
+	Event.o \
+	Extern.o \
+	Flattening.o \
+	ForbiddenEvent.o \
+	Instance.o \
+	InstanceArray.o \
+	InstanceArrayMember.o \
+	InterfaceAttributes.o \
+	InterfaceJoinedInfo.o \
+	Library.o \
+	Log.o \
+	LogicElement.o \
+	LogicValue.o \
+	LogicValueAttributes.o \
+	LogicalResponse.o \
+	Message.o \
+	MessageTable.o \
+	Nameable.o \
+	Net.o \
+	NetAttributes.o \
+	NetBundle.o \
+	NetDelay.o \
+	Om1UnitTest.o \
+	ObjectFactory.o \
+	Parameter.o \
+	ParameterArray.o \
+	ParameterArrayElement.o \
+	ParameterMap.o \
+	PathDelay.o \
+	Permutable.o \
+	Port.o \
+	PortAttributes.o \
+	PortBundle.o \
+	PortBundleReference.o \
+	PortDelay.o \
+	PortElement.o \
+	PortList.o \
+	PortListAlias.o \
+	PortReference.o \
+	Property.o \
+	PropertyContainer.o \
+	Pruning.o \
+	Renamable.o \
+	Root.o \
+	ScalarNet.o \
+	ScalarPort.o \
+	ScalarPortReference.o \
+	ScaleFactor.o \
+	Simulate.o \
+	SimulationInfo.o \
+	SingleInstance.o \
+	SingleParameter.o \
+	Status.o \
+	StatusContainer.o \
+	TimeStamp.o \
+	Timing.o \
+	UserDataContainer.o \
+	Value.o \
+	ValueUnitTest.o \
+	VectorNet.o \
+	VectorNetBit.o \
+	VectorPort.o \
+	VectorPortBit.o \
+	VectorPortBitReference.o \
+	VectorPortReference.o \
+	View.o \
+	Visitable.o \
+	VisitorType.o \
+	WaveValue.o \
+	Written.o \
+	$
+
+# Prepend absolute path to all local objects
+TORC_GENERIC_LOCAL_OBJS := $(patsubst %,$(TORC_GENERIC)/%,$(OBJS))
+
+# torc/generic objects for includes elsewhere in torc                      
+TORC_GENERIC_OBJS := \
+	$(TORC_GENERIC_LOCAL_OBJS) \
+	$(TORC_GENERIC_EDIF_OBJS) \
+	$(TORC_GENERIC_VERILOG_OBJS) \
+    $
+
+# Extra C++ Flags for OBJS                                                      
+$(TORC_GENERIC_LOCAL_OBJS): EXTRA_CCFLAGS = \
+    $
+
+# dependencies
+DEPS = $(OBJS:.o=.d)

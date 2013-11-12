@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -54,7 +54,8 @@ namespace bitstream { void testVirtex2FullMapping(const boost::filesystem::path&
 		/// \see configuration registers: UG002, v2.2, November, 2007, Table 4-19.
 		enum ERegister { eRegisterCRC = 0, eRegisterFAR, eRegisterFDRI, eRegisterFDRO, 
 			eRegisterCMD, eRegisterCTL, eRegisterMASK, eRegisterSTAT, eRegisterLOUT, eRegisterCOR, 
-			eRegisterMFWR, eRegisterFLR, eRegisterKEY, eRegisterCBC, eRegisterIDCODE, eRegisterCount };
+			eRegisterMFWR, eRegisterFLR, eRegisterKEY, eRegisterCBC, eRegisterIDCODE, 
+			eRegisterCount };
 		//
 		/// \brief Configuration command enumeration for eRegisterCMD.
 		/// \see CMD register commands: UG002, v2.2, November, 2007, Table 4-23.
@@ -124,6 +125,8 @@ namespace bitstream { void testVirtex2FullMapping(const boost::filesystem::path&
 		/// \brief Return the masked value for a subfield of the specified register.
 		static uint32_t makeSubfield(ERegister inRegister, const std::string& inSubfield, 
 			const std::string& inSetting);
+		/// \note This function should be called after the bitstream header has been read.
+		virtual void readPackets(std::istream& inStream);
 	// functions
 		/// \brief Initialize the device information.
 		virtual void initializeDeviceInfo(const std::string& inDeviceName);
@@ -132,9 +135,9 @@ namespace bitstream { void testVirtex2FullMapping(const boost::filesystem::path&
 		virtual void initializeFrameMaps(void);
 		/// \brief Loads full bitstream frames into block data structure.
 		void initializeFullFrameBlocks(void);
-		/// \brief Returns frames for queried bitstream co-ordinates
+		/// \brief Returns frames for queried bitstream coordinates
 		VirtexFrameBlocks getBitstreamFrames(uint32_t inBlockCount, uint32_t inBitCol);
-		/// \brief Returns frames for queried xdl co-ordinates
+		/// \brief Returns frames for queried xdl coordinates
 		VirtexFrameBlocks getXdlFrames(uint32_t inBlockCount, uint32_t inXdlCol);
 	// inserters
 		/// \brief Insert the bitstream header into an output stream.
@@ -199,6 +202,8 @@ namespace bitstream { void testVirtex2FullMapping(const boost::filesystem::path&
 				default: return 0;
 			}
 		}
+		/// \brief Return the number of frame rows for the current device.
+		virtual uint32_t getFrameRowCount(void) const { return 0; }
 	protected:
 	// typedefs
 		/// \brief Map from frame index to frame address.
@@ -214,13 +219,13 @@ namespace bitstream { void testVirtex2FullMapping(const boost::filesystem::path&
 		/// \brief Map of frame addressee to frame indexes.
 		FrameAddressToIndex mFrameAddressToIndex;
 		/// \brief Vector to store frame indexes of XDL columns.
-		IndexVector mBitColumnIndexes [Virtex2::eFarBlockTypeCount];
+		IndexVector mBitColumnIndexes[Virtex2::eFarBlockTypeCount];
 		/// \brief Vector to store frame indexes of Bitstream columns.
-		IndexVector mXdlColumnIndexes [Virtex2::eFarBlockTypeCount];
+		IndexVector mXdlColumnIndexes[Virtex2::eFarBlockTypeCount];
 		/// \brief Array to hold frame index boundaries for blocks.
-		uint32_t mBlockFrameIndexBounds [Virtex2::eFarBlockTypeCount];
-		/// \brief Map of xdl columns to bit columns.
-		std::map<uint32_t, uint32_t> mXdlIndexToBitIndex;
+		uint32_t mBlockFrameIndexBounds[Virtex2::eFarBlockTypeCount];
+		/// \brief Map of XDL column indexes to bitstream column indexes.
+		std::map<uint32_t, uint32_t> mXdlColumnToBitColumn;
 	};
 
 } // namespace bitstream

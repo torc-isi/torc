@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -29,10 +29,11 @@ int main(int argc, char* argv[]) {
 	// build the file paths
 	(void) argc;
 	torc::common::DirectoryTree directoryTree(argv[0]);
-	boost::filesystem::path referencePath = torc::common::DirectoryTree::getExecutablePath() 
-		/ "regression" / "GenericExample.reference.edf";
-	boost::filesystem::path generatedPath = torc::common::DirectoryTree::getExecutablePath() 
-		/ "regression" / "GenericExample.generated.edf";
+	boost::filesystem::path executablePath = torc::common::DirectoryTree::getExecutablePath();
+	boost::filesystem::path referencePath = 
+		executablePath / "torc" / "examples" / "GenericExample.reference.edf";
+	boost::filesystem::path generatedPath = 
+		executablePath / "regression" / "GenericExample.generated.edf";
 
 	// import the EDIF design
 	string inFileName = referencePath.string();

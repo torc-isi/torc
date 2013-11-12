@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -21,7 +21,7 @@
 // ------------------------------------------------------------------------------------------------
 
 
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -619,15 +619,15 @@ optional_config
 					;
 
 config
-					: CFG { xdl.mConfigMap.clearConfig(); } '"' config_settings '"'
+					: CFG { xdl.mConfigMap.clearConfig(); } '"' config_tuples '"'
 					;
 
-config_settings
+config_tuples
 					: /* empty */
-					| config_settings config_setting
+					| config_tuples config_tuple
 					;
 
-config_setting
+config_tuple
 					: config_setting ':' config_name ':' config_value {
 							if(xdl.mConfigValue.compare("#OFF")) {
 								xdl.mConfigMap.setConfig(xdl.mConfigSetting, xdl.mConfigName, 

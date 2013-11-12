@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE(RouteNetT) {
 	BOOST_CHECK_EQUAL(sizeof(RouteNet), sizeof(string) + sizeof(TilewireVector)
 		+ sizeof(TilewireVector) + sizeof(ArcVector) + sizeof(RouteNodePtrVector)
 		+ sizeof(boost::unordered_map<boost::uint32_t, boost::any>));
-	BOOST_CHECK_EQUAL(sizeof(RouteNet), 160u);
+	//BOOST_CHECK_EQUAL(sizeof(RouteNet), 144u);
 	
 	// functions tested:
 	//		RouteNet(string& inName);

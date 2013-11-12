@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -68,6 +68,8 @@ namespace bitstream { void testVirtexEFullMapping(const boost::filesystem::path&
 				default: return 0;
 			}
 		}
+		/// \brief Return the number of frame rows for the current device.
+		virtual uint32_t getFrameRowCount(void) const { return 0; }
 	};
 
 } // namespace bitstream

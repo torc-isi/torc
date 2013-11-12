@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -32,14 +32,15 @@ namespace bitstream {
 	};
 
 	const char* Spartan6::sRegisterName[eRegisterCount] = {
-		"CRC", "FARMAJ", "FARMIN", "FDRI", "FDRO", "CMD", "CTL", "MASK", "STAT", "LOUT", "COR1", "COR2", "PWRDN_REG", "FLR",
-	 	"IDCODE", "CWDT", "HC_OPT_REG", "CSBO", "GENERAL1", "GENERAL2", "GENERAL3", "GENERAL4", "GENERAL5", "MODE_REG",
-		"PU_GWE", "PU_GTS", "MFWR", "CCLK_FREQ", "SEU_OPT", "EXP_SIGN", "RDBK_SIGN", "BOOSTS", "EYE_MASK", "CBC_REG"
+		"CRC", "FARMAJ", "FARMIN", "FDRI", "FDRO", "CMD", "CTL", "MASK", "STAT", "LOUT", "COR1", 
+		"COR2", "PWRDN_REG", "FLR", "IDCODE", "CWDT", "HC_OPT_REG", "[UNUSED REGISTER 17]", "CSBO", 
+		"GENERAL1", "GENERAL2", "GENERAL3", "GENERAL4", "GENERAL5", "MODE_REG", "PU_GWE", "PU_GTS", 
+		"MFWR", "CCLK_FREQ", "SEU_OPT", "EXP_SIGN", "RDBK_SIGN", "BOOSTS", "EYE_MASK", "CBC_REG"
 	};
 
 	const char* Spartan6::sCommandName[eCommandCount] = {
-		"NULL", "WCFG", "MFW", "LFRM", "RCFG", "START", "[UNKNOWN COMMAND 6]", "RCRC", "AGHIGH", "[UNKNOWN COMMAND 9]", 
-		"GRESTORE", "SHUTDOWN", "[UNKNOWN COMMAND 12]", "DESYNC", "IPROG"
+		"NULL", "WCFG", "MFW", "LFRM", "RCFG", "START", "[UNKNOWN COMMAND 6]", "RCRC", "AGHIGH", 
+		"[UNKNOWN COMMAND 9]", "GRESTORE", "SHUTDOWN", "[UNKNOWN COMMAND 12]", "DESYNC", "IPROG"
 	};
 
 #define VALUES (const char*[])
@@ -191,7 +192,8 @@ namespace bitstream {
 	/// \see Control Mask Register Description: Inferred from Table 5-34
 	const Bitstream::Subfield Spartan6::sMASK[] = { 
 		{0x0001,  0, "RESERVED", "RESERVED", 0, VALUES{"Protected", "Writable", 0}},
-		{0x0002,  1, "CRC_EXTSTAT_DISABLE", "CRC_EXTSTAT_DISABLE", 0, VALUES{"Protected", "Writable", 0}},
+		{0x0002,  1, "CRC_EXTSTAT_DISABLE", "CRC_EXTSTAT_DISABLE", 0, 
+			VALUES{"Protected", "Writable", 0}},
 		{0x0004,  2, "USE_EFUSE_KEY", "USE_EFUSE_KEY", 0, VALUES{"Protected", "Writable", 0}},
 		{0x0008,  3, "Persist", "PERSIST", 0, VALUES{"Protected", "Writable", 0}},
 		{0x0030,  4, "Security", "SBITS", 0, 
@@ -213,8 +215,8 @@ namespace bitstream {
 			VALUES{"0", "1", 0}},
 		{0x0010,  4, "EN_PGSR", "EN_PGSR", 0, 
 			// bitgen: No, Yes
-			// config: 0:"No GSR pulse during return from suspend", 1:"Generate GSR pulse during return from
-			// suspend"
+			// config: 0:"No GSR pulse during return from suspend", 1:"Generate GSR pulse during 
+			// return from suspend"
 			VALUES{"No", "Yes", 0}},
 		{0x0020,  5, "FILTER", "FILTER_B", 0, 
 			// bitgen: n/a

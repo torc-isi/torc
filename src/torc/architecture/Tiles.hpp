@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -24,6 +24,7 @@
 #include "torc/architecture/Array.hpp"
 #include "torc/architecture/WireInfo.hpp"
 #include "torc/architecture/TileInfo.hpp"
+#include "torc/architecture/DDBConsoleStreams.hpp"
 
 namespace torc {
 namespace architecture {
@@ -32,7 +33,7 @@ namespace architecture {
 	/// \details The tile map defines the tile layout for the current device.  Every tile is 
 	///		associated with a tile type that has been defined for the family.  The wire type 
 	///		information is likewise device independent, and is therefore included in this class.
-	class Tiles {
+	class Tiles : DDBConsoleStreams {
 	// friends
 		/// \brief The database has access to our protected functions.
 		friend class DDB;
@@ -141,6 +142,9 @@ namespace architecture {
 		/// \brief Returns the WireInfo object for the specified tile type and wire index.
 		const WireInfo& getWireInfo(TileTypeIndex inTileTypeIndex, WireIndex inWireIndex) const 
 			{ return mWires[inTileTypeIndex][inWireIndex]; }
+		/// \brief Returns the WireInfo object for the specified tile index and wire index.
+		const WireInfo& getWireInfo(TileIndex inTileIndex, WireIndex inWireIndex) const 
+			{ return mWires[mTiles[inTileIndex].mTypeIndex][inWireIndex]; }
 		/// \brief Returns the tile count for this device.
 		TileCount getTileCount(void) const { return mTileCount; }
 		/// \brief Returns the tile type count for this device.

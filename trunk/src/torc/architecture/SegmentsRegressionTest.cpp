@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -169,7 +169,7 @@ public:
 
 		// functions tested:
 		//		uint32_t getTotalWireCount(void) const;
-		BOOST_CHECK_EQUAL(mTilewireCount - mTilewiresPruned, mSegments.getTotalWireCount());
+		BOOST_CHECK_EQUAL(mTilewireCount - mTilewiresPruned, mSegments.getActualWireCount());
 		BOOST_CHECK(mTilewireMismatches == 0);
 	}
 	/// \brief Verifies and enforces segment ownership of the specified tilewire.

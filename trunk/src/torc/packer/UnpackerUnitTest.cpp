@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -38,15 +38,14 @@ BOOST_AUTO_TEST_SUITE(packer)
 /// \brief Unit test for the PrimitiveStructure class.
 BOOST_AUTO_TEST_CASE(UnpackerUnitTest) {
 
-	std::string xdls[] = {		
-		"regression/PathFinderRegression.Virtex5.Test1.xdl", 
+	std::string xdls[] = {
+		"torc/router/TraceRegressionTest.Virtex5.xdl", 
 		"", 
-//		"regression/cae_fpga_routed.xdl", 
-//		"regression/system.xdl", 
+		"torc/router/PathFinderRouter/PathFinderRegression.Virtex5.Test1.xdl",
+		"regression/PathFinderRegression.Virtex5.Test1.xdl", 
 		"system.xdl",
 		"regression/cae_fpga_routed.xdl",		
 		"regression/counter.xdl", 
-//		"regression/DesignUnitTest.generated.xdl", 
 		"regression/DesignUnitTest.reference.xdl", 
 		"regression/PathFinderRegression.Virtex5.Test1.xdl", 
 		"regression/TraceRegressionTest.Virtex5.xdl", 
@@ -89,12 +88,11 @@ BOOST_AUTO_TEST_CASE(UnpackerUnitTest) {
 	};
 
 	// create the appropriate file paths
-	boost::filesystem::path regressionPath 
-		= torc::common::DirectoryTree::getExecutablePath() / "regression";
-	boost::filesystem::path generatedPath 
-		= regressionPath / "DesignUnitTest.generated.xdl";
-	boost::filesystem::path referencePath 
-		= regressionPath / "PathFinderRegression.Virtex5.Test1.xdl";
+	boost::filesystem::path referencePath = torc::common::DirectoryTree::getExecutablePath()
+		/ "torc" / "router" / "PathFinderRouter" / "PathFinderRegression.Virtex5.Test1.xdl";
+	boost::filesystem::path generatedPath = torc::common::DirectoryTree::getExecutablePath()
+		/ "regression" / "UnpackerUnitTest.xdl";
+std::cout << referencePath << std::endl;
 
 	for(int i = 0; xdls[i].size(); i++) {
 		referencePath = xdls[i];
@@ -115,9 +113,7 @@ BOOST_AUTO_TEST_CASE(UnpackerUnitTest) {
 		unpacker.unpack();       
 
 		// export the XDL design
-		std::string outFileName 
-			= boost::filesystem::path(referencePath).replace_extension().string() + ".xdl.unpacked";
-		std::fstream xdlExport(outFileName.c_str(), std::ios_base::out);
+		std::fstream xdlExport(generatedPath.string().c_str(), std::ios_base::out);
 		torc::physical::XdlExporter fileExporter(xdlExport);
 		fileExporter(mDesignPtr);
 	}

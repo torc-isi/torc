@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -131,12 +131,13 @@ namespace bitstream { void testVirtexFullMapping(const boost::filesystem::path& 
 		virtual void initializeFrameMaps(void);
 		/// \brief Prepares the frames to load them at the correct frame indexes
 		typedef torc::common::EncapsulatedInteger<uint16_t> ColumnIndex;
-		void prepareFrames(ColumnIndex &inCol, int &inFrameCount, int &inFrameIndex, EFarBlockType &inBlockType, int &inFarMajor, int &inWidth);
+		void prepareFrames(ColumnIndex &inCol, int &inFrameCount, int &inFrameIndex, 
+			EFarBlockType &inBlockType, int &inFarMajor, int &inWidth);
 		/// \brief Loads full bitstream frames into block data structure.
 		void initializeFullFrameBlocks(void);
-		/// \brief Returns frames for queried bitstream co-ordinates
+		/// \brief Returns frames for queried bitstream coordinates
 		VirtexFrameBlocks getBitstreamFrames(uint32_t inBlockCount, uint32_t inBitCol);
-		/// \brief Returns frames for queried xdl co-ordinates
+		/// \brief Returns frames for queried xdl coordinates
 		VirtexFrameBlocks getXdlFrames(uint32_t inBlockCount, uint32_t inXdlCol);
 	// inserters
 		/// \brief Insert the bitstream header into an output stream.
@@ -190,6 +191,8 @@ namespace bitstream { void testVirtexFullMapping(const boost::filesystem::path& 
 				default: return 0;
 			}
 		}
+		/// \brief Return the number of frame rows for the current device.
+		virtual uint32_t getFrameRowCount(void) const { return 0; }
 	protected:
 	// typedefs
 		/// \brief Map from frame index to frame address.
@@ -205,15 +208,15 @@ namespace bitstream { void testVirtexFullMapping(const boost::filesystem::path& 
 		/// \brief Map of frame addressee to frame indexes.
 		FrameAddressToIndex mFrameAddressToIndex;
 		/// \brief Vector to store frame indexes of XDL columns.
-		IndexVector mBitColumnIndexes [Virtex::eFarBlockTypeCount];
+		IndexVector mBitColumnIndexes[Virtex::eFarBlockTypeCount];
 		/// \brief Vector to store frame indexes of Bitstream columns.
-		IndexVector mXdlColumnIndexes [Virtex::eFarBlockTypeCount];
+		IndexVector mXdlColumnIndexes[Virtex::eFarBlockTypeCount];
 		/// \brief Array to hold frame index boundaries for blocks.
-		uint32_t mBlockFrameIndexBounds [Virtex::eFarBlockTypeCount];
+		uint32_t mBlockFrameIndexBounds[Virtex::eFarBlockTypeCount];
 		/// \brief Frame index bounds count.
 		uint32_t mFrameIndexBounds;
-		/// \brief Map of xdl columns to bit columns.
-		std::map<uint32_t, uint32_t> mXdlIndexToBitIndex;
+		/// \brief Map of XDL column indexes to bitstream column indexes.
+		std::map<uint32_t, uint32_t> mXdlColumnToBitColumn;
 	};
 
 } // namespace bitstream

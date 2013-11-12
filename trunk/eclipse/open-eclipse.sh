@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
 # $HeadURL$
 # $Id$

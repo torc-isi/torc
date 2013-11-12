@@ -1,0 +1,67 @@
+design "Virtex7_CLBLL_R_SLICELO" xc7a100tfgg484-1 v3.2 ;
+
+inst "SLICEL" "SLICEL",placed DUMMY SLICE_X33Y150 ,
+cfg " A5FFINIT::INIT0 A5FFMUX::IN_A A5FFSR::SRLOW A5LUT::#LUT:O5=1
+       A6LUT::#LUT:O6=1 ACY0::O5 AFF::#FF AFFINIT::INIT0 AFFMUX::XOR AFFSR::SRLOW
+	   AOUTMUX::A5Q AUSED::0 
+	   B5FFINIT::INIT0 B5FFMUX::IN_A B5FFSR::SRLOW B5LUT::#LUT:O5=1 B6LUT::#LUT:O6=1
+       BCY0::O5 BFF::#FF BFFINIT::INIT0 BFFMUX::XOR BFFSR::SRLOW BOUTMUX::B5Q BUSED::0 
+	   C5FFINIT::INIT0 C5FFMUX::IN_A C5FFSR::SRLOW C5LUT::#LUT:O5=1
+       C6LUT::#LUT:O6=1 CCY0::O5 CEUSEDMUX::IN CFF::#FF
+       CFFINIT::INIT0 CFFMUX::XOR CFFSR::SRLOW CLKINV::CLK COUTMUX::C5Q
+       COUTUSED::0 CUSED::0 D5FFINIT::INIT0 D5FFMUX::IN_A D5FFSR::SRLOW
+       D5LUT::#LUT:O5=1 D6LUT::#LUT:O6=1
+       DCY0::O5 DFF::#FF DFFINIT::INIT0
+       DFFMUX::XOR DFFSR::SRLOW DOUTMUX::D5Q DUSED::0 PRECYINIT::0 SRUSEDMUX::IN
+       SYNC_ATTR::SYNC 
+	"
+  ;
+
+net "SLICEL",
+	outpin "SLICEL" A,
+	outpin "SLICEL" AMUX,
+	outpin "SLICEL" AQ,
+	outpin "SLICEL" B,
+	outpin "SLICEL" BMUX,
+	outpin "SLICEL" BQ,
+	outpin "SLICEL" C,
+	outpin "SLICEL" CMUX,
+	outpin "SLICEL" COUT,
+	outpin "SLICEL" CQ,
+	outpin "SLICEL" D,
+	outpin "SLICEL" DMUX,
+	outpin "SLICEL" DQ,
+	inpin "SLICEL" A1,
+	inpin "SLICEL" A2,
+	inpin "SLICEL" A3,
+	inpin "SLICEL" A4,
+	inpin "SLICEL" A5,
+	inpin "SLICEL" A6,
+	inpin "SLICEL" AX,
+	inpin "SLICEL" B1,
+	inpin "SLICEL" B2,
+	inpin "SLICEL" B3,
+	inpin "SLICEL" B4,
+	inpin "SLICEL" B5,
+	inpin "SLICEL" B6,
+	inpin "SLICEL" BX,
+	inpin "SLICEL" C1,
+	inpin "SLICEL" C2,
+	inpin "SLICEL" C3,
+	inpin "SLICEL" C4,
+	inpin "SLICEL" C5,
+	inpin "SLICEL" C6,
+	inpin "SLICEL" CE,
+	inpin "SLICEL" CIN,
+	inpin "SLICEL" CLK,
+	inpin "SLICEL" CX,
+	inpin "SLICEL" D1,
+	inpin "SLICEL" D2,
+	inpin "SLICEL" D3,
+	inpin "SLICEL" D4,
+	inpin "SLICEL" D5,
+	inpin "SLICEL" D6,
+	inpin "SLICEL" DX,
+	inpin "SLICEL" SR
+	;
+

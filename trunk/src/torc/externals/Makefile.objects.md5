@@ -1,0 +1,37 @@
+# Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
+# $HeadURL: https://svn.east.isi.edu/torc/trunk/src/torc/externals/md5/Makefile.md5 $
+# $Id: Makefile.md5 446 2011-04-15 19:15:30Z nsteiner $
+
+# This program is free software: you can redistribute it and/or modify it under the terms of the 
+# GNU General Public License as published by the Free Software Foundation, either version 3 of the 
+# License, or (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See 
+# the GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License along with this program.  If 
+# not, see <http://www.gnu.org/licenses/>.
+
+# Include subdirectories objects
+TORC_EXTERNALS_MD5 := $(TORC_DIR)/externals/md5
+
+# Local object files
+OBJS = \
+	md5.o \
+	$
+
+# Prepend absolute path to all local objects
+TORC_EXTERNALS_MD5_LOCAL_OBJS := $(patsubst %,$(TORC_EXTERNALS_MD5)/%,$(OBJS))
+
+# torc/externals MD5 objects for includes elsewhere in torc                                              
+TORC_EXTERNALS_MD5_OBJS := \
+    $(TORC_EXTERNALS_MD5_LOCAL_OBJS) \
+    $
+
+# Extra C++ Flags for OBJS                                                                           
+$(TORC_EXTERNALS_MD5_LOCAL_OBJS): EXTRA_CCFLAGS := \
+    $
+
+# dependencies
+DEPS = $(OBJS:.o=.d)

@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -35,11 +35,13 @@ namespace common {
 			eFamilyUnknown = 0,
 			// Spartan families
 			eFamilySpartan2, eFamilySpartan2E, eFamilySpartan3, eFamilySpartan3A, eFamilySpartan3E, 
-				eFamilySpartan6, eFamilySpartan6L, 
+				eFamilySpartan6, 
 			// Virtex families
 			eFamilyVirtex, eFamilyVirtexE, eFamilyVirtex2, eFamilyVirtex2P, eFamilyVirtex4, 
-				eFamilyVirtex5, eFamilyVirtex6, eFamilyVirtex6L, eFamilyVirtex7, eFamilyVirtex7L, 
-				eFamilyKintex7, eFamilyKintex7L
+				eFamilyVirtex5, eFamilyVirtex6, eFamilyArtix7, eFamilyKintex7, eFamilyVirtex7, 
+				eFamilyZynq7000, 
+			// number of defined families
+			eFamilyCount
 		};
 	protected:
 	// typedefs
@@ -65,7 +67,6 @@ namespace common {
 		static boost::regex sSpartan3ARegEx; ///< \brief Regular expression for Spartan3A devices.
 		static boost::regex sSpartan3ERegEx; ///< \brief Regular expression for Spartan3E devices.
 		static boost::regex sSpartan6RegEx; ///< \brief Regular expression for Spartan3E devices.
-		static boost::regex sSpartan6LRegEx; ///< \brief Regular expression for Spartan3E devices.
 		static boost::regex sVirtexRegEx; ///< \brief Regular expression for Virtex devices.
 		static boost::regex sVirtexERegEx; ///< \brief Regular expression for VirtexE devices.
 		static boost::regex sVirtex2RegEx; ///< \brief Regular expression for Virtex2 devices.
@@ -73,11 +74,10 @@ namespace common {
 		static boost::regex sVirtex4RegEx; ///< \brief Regular expression for Virtex4 devices.
 		static boost::regex sVirtex5RegEx; ///< \brief Regular expression for Virtex5 devices.
 		static boost::regex sVirtex6RegEx; ///< \brief Regular expression for Virtex6 devices.
-		static boost::regex sVirtex6LRegEx; ///< \brief Regular expression for Virtex6L devices.
-		static boost::regex sVirtex7RegEx; ///< \brief Regular expression for Virtex7 devices.
-		static boost::regex sVirtex7LRegEx; ///< \brief Regular expression for Virtex7L devices.
+		static boost::regex sArtix7RegEx; ///< \brief Regular expression for Artix7 devices.
 		static boost::regex sKintex7RegEx; ///< \brief Regular expression for Kintex7 devices.
-		static boost::regex sKintex7LRegEx; ///< \brief Regular expression for Kintex7L devices.
+		static boost::regex sVirtex7RegEx; ///< \brief Regular expression for Virtex7 devices.
+		static boost::regex sZynq7000RegEx; ///< \brief Regular expression for Zynq7000 devices.
 	public:
 	// constructors
 		/// \brief Basic constructor.

@@ -1,5 +1,5 @@
 /*
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -94,9 +94,9 @@ typedef torc::XdlParser::token_type token_type;
 %%
 
 
- /* ---------------------------------------------------------------------------------------------- */
- /* --------------------------------- scanner regular expressions -------------------------------- */
- /* ---------------------------------------------------------------------------------------------- */
+ /* --------------------------------------------------------------------------------------------- */
+ /* --------------------------------- scanner regular expressions ------------------------------- */
+ /* --------------------------------------------------------------------------------------------- */
 
 
  /** \brief Code belonging at the beginning of yylex(). **/
@@ -105,9 +105,9 @@ typedef torc::XdlParser::token_type token_type;
 %}
 
 
- /* ---------------------------------------------------------------------------------------------- */
- /* ------------------------------------ Begin XDL lexer rules ----------------------------------- */
- /* ---------------------------------------------------------------------------------------------- */
+ /* --------------------------------------------------------------------------------------------- */
+ /* ------------------------------------ Begin XDL lexer rules ---------------------------------- */
+ /* --------------------------------------------------------------------------------------------- */
 
 
 						// Symbol Description
@@ -117,8 +117,8 @@ typedef torc::XdlParser::token_type token_type;
 						//   =-   Bidirectional, buffered in both directions
 						//   ->   Directional, buffered
 ==						{ return token::BIDIRUNBUF; }	// == Bidirectional, unbuffered
-=>						{ return token::BIDIRUNIBUF; }	// => Bidirectional, buffered in one direction
-=-						{ return token::BIDIRBIBUF; }	// =- Bidirectional, buffered in both directions
+=>						{ return token::BIDIRUNIBUF; }	// => Bidirectional, buf in one direction
+=-						{ return token::BIDIRBIBUF; }	// =- Bidirectional, buf in both directions
 ->						{ return token::UNIDIRBUF; }	// -> Directional, buffered
 
 design					{ return token::DESIGN; }
@@ -128,8 +128,14 @@ port					{ return token::PORT; }
 (instance|inst)			{ return token::INST; }
 net						{ return token::NET; }
 
-cfg[ \t]+[""]			{ BEGIN CONFIGSTRING; colon = 0; yyless(yyleng-1); return token::CFG; }
-<CONFIGSTRING>[""]		{ return static_cast<token_type>('"'); }
+cfg[ \t]+[""]			{ 
+;						  BEGIN CONFIGSTRING; quote = colon = 0; yyless(yyleng-1); 
+;						  return token::CFG; 
+;						}
+<CONFIGSTRING>[""]		{ 
+;						  quote++; if(quote == 2) BEGIN INITIAL; /* must have been an empty config*/
+;						  return static_cast<token_type>('"'); 
+;						}
 <CONFIGSTRING>[ \t]+	{ /* discard whitespace */ }
 <CONFIGSTRING>\r?\n		{ yylloc->lines(); /* discard whitespace */ }
 <CONFIGSTRING>:			{ 
@@ -176,7 +182,7 @@ v[0-9]+\.[0-9]+			{ *yylval = yytext; return token::XDLVERSION;
 ;						  *yylval = ptr;
 ;						  return token::ROUTETHROUGH;
 ;						}
-#.*						{ // we have to be careful not to let _ROUTETHROUGH expressions pass for comments
+#.*						{ // be careful not to let _ROUTETHROUGH expressions pass for comments
 ;						  char* ptr = yytext + 1;
 ;						  char* end = ptr + yyleng;
 ;						  while((*ptr == ' ' || *ptr == '\t') && ptr < end) ptr++;
@@ -185,17 +191,28 @@ v[0-9]+\.[0-9]+			{ *yylval = yytext; return token::XDLVERSION;
 ;						  DEBUG(("COMMENT "));
 ;						}
 
-[""]					{ BEGIN DOUBLEQUOTE; in_double_quote = true; last_string = ""; return static_cast<token_type>(yytext[0]); /* enter exclusive quoted string state */ }
-<DOUBLEQUOTE>\\.		{ last_string += yytext; return token::STRING; /* append escaped characters to the input */ }
+[""]					{ 
+;						  BEGIN DOUBLEQUOTE; in_double_quote = true; last_string = ""; 
+;						  /* enter exclusive quoted string state */
+;						  return static_cast<token_type>(yytext[0]);
+;						}
+<DOUBLEQUOTE>\\.		{ 
+;						  last_string += yytext; 
+;						  return token::STRING; /* append escaped characters to the input */ 
+;						}
 <DOUBLEQUOTE>\r?\n		{ yylloc->lines(); /* ignore unescaped line breaks */ }
-<DOUBLEQUOTE>[^\\""\n\r]*	{ last_string += yytext; return token::STRING; /* append characters other than \, ", \n, \r */ }
+<DOUBLEQUOTE>[^\\""\n\r]*	{ 
+;						  last_string += yytext; 
+;						  return token::STRING; /* append characters other than \, ", \n, \r */ 
+;						}
 <DOUBLEQUOTE>[""]		{ if(!in_double_quote) {
 ;							BEGIN INITIAL; /* exit the exclusive quoted string state */
 ;							DEBUG(("\" "));
 ;							return static_cast<token_type>('"');
 ;						  }
 ;						  in_double_quote = false; /* we're no longer in double-quote mode */
-;						  yylloc->end.columns(-1); yyless(yyleng-1); /* push back the trailing double quote */
+;						  yylloc->end.columns(-1); 
+;						  yyless(yyleng-1); /* push back the trailing double quote */
 ;						  //DEBUG(("[%s: length %d]\n", last_string.c_str(), last_string.length()));
 ;						  return token::STRING; /* and return the STRING token */
 ;						}
@@ -206,9 +223,9 @@ v[0-9]+\.[0-9]+			{ *yylval = yytext; return token::XDLVERSION;
 
 
 
- /* ---------------------------------------------------------------------------------------------- */
- /* ------------------------------------- End XDL lexer rules ------------------------------------ */
- /* ---------------------------------------------------------------------------------------------- */
+ /* --------------------------------------------------------------------------------------------- */
+ /* ------------------------------------- End XDL lexer rules ----------------------------------- */
+ /* --------------------------------------------------------------------------------------------- */
 
 
 %%

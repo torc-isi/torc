@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -26,23 +26,93 @@ bool init_unit_test(void);
 #include "torc/common/DirectoryTree.hpp"
 #include <iostream>
 
-/// \brief Test suite visitor to disable regression tests
+/// \brief Test suite visitor to disable regression tests.
 class RegressionFilter : public boost::unit_test::test_tree_visitor {
+// typedefs
+	typedef boost::unit_test::test_suite test_suite; ///< Imported type.
+	typedef std::string string; ///< Imported type.
+// members
+	/// \brief Vector of test suite pointers.
+	std::vector<const test_suite*> mTestSuiteVector;
+	/// \brief Vector of test suite usage flags.
+	std::vector<bool> mTestSuiteUsed;
+	/// \brief Vector of test suites to remove.
+	std::vector<boost::unit_test::test_unit_id> mTestSuitePruningIDs;
 public:
-	virtual void visit(const boost::unit_test::test_case& inTestCase) {
-		if(inTestCase.p_name.get().find("Regression") != std::string::npos) {
-			inTestCase.p_enabled.set(false);
-			//std::cout << "    removing test " << inTestCase.p_name.get() << std::endl;
-			boost::unit_test::framework::master_test_suite().remove(inTestCase.p_id);
+	/// \brief Removes all test suites marked for pruning.
+	virtual ~RegressionFilter(void) {
+		for(size_t i = 0; i < mTestSuitePruningIDs.size(); i++) {
+			boost::unit_test::framework::master_test_suite().remove(mTestSuitePruningIDs[i]);
 		}
 	}
-	virtual bool test_suite_start(const boost::unit_test::test_suite& inTestSuite) {
-		if(inTestSuite.p_name.get().find("regression") != std::string::npos) {
-			inTestSuite.p_enabled.set(false);
-			//std::cout << "    removing test " << inTestSuite.p_name.get() << std::endl;
-			boost::unit_test::framework::master_test_suite().remove(inTestSuite.p_id);
+	/// \brief Returns the current fully qualified test suite path.
+	virtual string getFullyQualifiedPath(void) {
+		// assemble all of the test suite names
+		string name = "";
+		for(size_t i = 0; i < mTestSuiteVector.size(); i++) {
+			name += mTestSuiteVector[i]->p_name.get() + "/";
 		}
+		return name;
+	}
+	/// \brief Returns a fully qualified name for the given test case.
+	virtual string getFullyQualifiedName(const boost::unit_test::test_case& inTestCase) {
+		// assemble the fully qualified name
+		return getFullyQualifiedPath() + inTestCase.p_name.get();
+	}
+	/// \brief Flags the given test case and its parents as being used.
+	virtual void useTest(const boost::unit_test::test_case& inTestCase) {
+		// mark this suite and all parents as used
+		for(size_t i = 0; i < mTestSuiteVector.size(); i++) mTestSuiteUsed[i] = true;
+	}
+	/// \brief Determines whether or not to include the given test case.
+	virtual void visit(const boost::unit_test::test_case& inTestCase) {
+		string name = getFullyQualifiedName(inTestCase);
+		// determine whether to include the test
+		if(name.find("Regression") == string::npos && name.find("regression") == string::npos) {
+std::cout << "keeping case  " << name << std::endl;
+			useTest(inTestCase);
+		} else {
+			inTestCase.p_enabled.set(false);
+			boost::unit_test::framework::master_test_suite().remove(inTestCase.p_id);
+std::cout << "pruning case  " << name << std::endl;
+		}
+	}
+	/// \brief Enters a new test suite.
+	virtual bool test_suite_start(const boost::unit_test::test_suite& inTestSuite) {
+		// push the new suite information
+		mTestSuiteVector.push_back(&inTestSuite);
+		mTestSuiteUsed.push_back(false);
+//std::cout << "entering test suite " << getFullyQualifiedPath() << std::endl;
 		return true;
+	}
+	/// \brief Exits a test suite and prunes it if no test cases remain in it.
+	virtual void test_suite_finish(const boost::unit_test::test_suite& inTestSuite) {
+//std::cout << "leaving test suite " << getFullyQualifiedPath() << std::endl;
+		// if nobody needs this test suite, remove it
+		if(!mTestSuiteUsed.back()) {
+			inTestSuite.p_enabled.set(false);
+			mTestSuitePruningIDs.push_back(inTestSuite.p_id);
+			std::cout << "pruning suite " << getFullyQualifiedPath() << std::endl;
+		}
+		// pop the suite information
+		mTestSuiteVector.pop_back();
+		mTestSuiteUsed.pop_back();
+	}
+};
+
+/// \brief Test suite visitor to disable tests for debugging.
+class DebugFilter : public boost::unit_test::test_tree_visitor {
+public:
+	virtual void visit(const boost::unit_test::test_case& inTestCase) {
+		std::string enabled = 
+			"architecture/iterate_configmaps"
+			"bitstream/VirtexEMapUnitTest"
+		;
+		inTestCase.p_enabled.set((enabled.find(inTestCase.p_name.get()) != std::string::npos));
+	//	std::string disabled = 
+	//		"architecture/iterate_configmaps"
+	//	;
+	//	inTestCase.p_enabled.set((disabled.find(inTestCase.p_name.get()) == std::string::npos));
 	}
 };
 
@@ -76,6 +146,11 @@ struct TestFixture {
 				break;
 			}
 		}
+
+		// allow for special debug filtering
+		//DebugFilter debugTestFilter;
+		//boost::unit_test::traverse_test_tree(boost::unit_test::framework::master_test_suite(), 
+		//	debugTestFilter);
 
 		// disable all regression tests unless the user requested them
 		if(regressionRequested == false) {

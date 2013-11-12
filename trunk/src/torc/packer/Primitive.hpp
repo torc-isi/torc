@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -76,7 +76,7 @@ return result == e; // return true if we added the element
 }
 /// \brief Remove a element from the primitive.
 /// \param inElementPtr The element to remove.
-/// \returns true if the element was remove, or false if the element did not exist.
+/// \returns true if the element was removed, or false if the element did not exist.
 bool removeElement(ElementSharedPtr& inElementPtr) {
 /// \todo Acquire mutex.
 ElementSharedPtrVector::iterator e = mElements.end();

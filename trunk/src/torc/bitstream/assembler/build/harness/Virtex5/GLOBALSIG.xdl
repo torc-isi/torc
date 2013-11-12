@@ -1,0 +1,4 @@
+design "GLOBALSIG" xc5vfx30tff665-3 v3.2;
+inst "GLOBALSIG" "GLOBALSIG", placed HCLK_X0Y69 GLOBALSIG_X0Y3;
+net "GLOBALSIG"
+;

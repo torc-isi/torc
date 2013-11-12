@@ -1,0 +1,6 @@
+design "BUFIO" xc5vfx30tff665-3 v3.2;
+inst "BUFIO" "BUFIO", placed HCLK_IOI_X0Y69 BUFIO_X0Y12;
+net "BUFIO",
+	outpin "BUFIO" O,
+	inpin "BUFIO" I
+	;

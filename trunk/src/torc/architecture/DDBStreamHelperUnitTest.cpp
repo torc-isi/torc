@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -32,16 +32,16 @@ BOOST_AUTO_TEST_SUITE(architecture)
 /// \brief Unit test for the DDBStreamHelper class.
 BOOST_AUTO_TEST_CASE(DDBStreamHelperUnitTest) {
 	// functions tested:
-	//		static IWordIndex getIWordIndex(std::ostream& os);
+	//		std::ostream& operator <<(std::ostream& os, const class DDB& ddb);
 	//		static const class DDB* getDDBPtr(std::ostream& os);
 	DDB ddb("xc2vp2");
 	std::stringstream s;
 	s << ddb;
-	BOOST_CHECK(DDBStreamHelper::getIWordIndex(s) != 0);
 	BOOST_CHECK(DDBStreamHelper::getDDBPtr(s) == &ddb);
 
 	// functions tested:
 	//		std::ostream& operator <<(std::ostream& os, const DDB& ddb);
+	//		std::ostream& operator <<(std::ostream& os, const Tilewire& rhs);
 	s << ddb << Tilewire(TileIndex(1), WireIndex(0));
 	BOOST_CHECK_EQUAL(s.str(), "CNR_TBTERM_N6A1@[0,1] CNR_TTERM \"LIOITTERM\" (0@1)");
 }
@@ -50,4 +50,3 @@ BOOST_AUTO_TEST_SUITE_END()
 
 } // namespace architecture
 } // namespace torc
-

@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -51,9 +51,8 @@ BOOST_AUTO_TEST_CASE(XdlImporterUnitTest) {
 	//		virtual void bind(torc::physical::Pip&, EPipType);
 
 	// create the appropriate file paths
-	boost::filesystem::path regressionPath = 
-		torc::common::DirectoryTree::getExecutablePath() / "regression";
-	boost::filesystem::path referencePath = regressionPath / "DesignUnitTest.reference.xdl";
+	boost::filesystem::path referencePath = torc::common::DirectoryTree::getExecutablePath() 
+		/ "torc" / "physical" / "DesignUnitTest.reference.xdl";
 
 	// functions tested:
 	//		XdlImporter(void);

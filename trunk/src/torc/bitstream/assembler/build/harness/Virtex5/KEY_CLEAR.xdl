@@ -1,0 +1,5 @@
+design "KEY_CLEAR" xc5vfx30tff665-3 v3.2;
+inst "KEY_CLEAR" "KEY_CLEAR", placed CFG_CENTER_X63Y44 KEY_CLEAR;
+net "KEY_CLEAR",
+	inpin "KEY_CLEAR" KEYCLEARB
+	;

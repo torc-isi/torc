@@ -1,0 +1,14 @@
+design "PMV" xc5vfx30tff665-3 v3.2;
+inst "PMV" "PMV", placed CFG_CENTER_X63Y44 PMV;
+net "PMV",
+	outpin "PMV" O,
+	outpin "PMV" ODIV2,
+	outpin "PMV" ODIV4,
+	inpin "PMV" A0,
+	inpin "PMV" A1,
+	inpin "PMV" A2,
+	inpin "PMV" A3,
+	inpin "PMV" A4,
+	inpin "PMV" A5,
+	inpin "PMV" EN
+	;

@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -35,6 +35,7 @@
 #include "torc/physical/InstancePin.hpp"
 #include "torc/physical/InstanceReference.hpp"
 #include "torc/physical/Module.hpp"
+#include "torc/physical/ModuleTransformer.hpp"
 #include "torc/physical/Named.hpp"
 #include "torc/physical/Net.hpp"
 #include "torc/physical/OutputStreamHelpers.hpp"

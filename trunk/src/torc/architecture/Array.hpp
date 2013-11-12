@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -21,6 +21,7 @@
 
 #include <boost/cstdint.hpp>
 #include <boost/type_traits.hpp>
+#include <boost/noncopyable.hpp>
 #include <stdexcept>
 #include <cstdio>
 
@@ -35,7 +36,7 @@ namespace architecture {
 	///		<p>
 	///		Arrays can be resized, but their contents are not retained when resized, nor are the 
 	///		contents cleared upon initialization.
-	template <class T> class Array {
+	template <class T> class Array : private boost::noncopyable {
 	protected:
 	// types
 		/// \brief Imported type name.

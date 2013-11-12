@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -32,13 +32,15 @@ namespace bitstream {
 //// To include once the UnitTest is set up
 namespace bitstream { class Virtex7UnitTest; }    
 namespace bitstream { class Virtex7FarUnitTest; }    
+namespace bitstream { class Zynq7000DebugUnitTest; }    
 namespace bitstream { void testVirtex7Device(const std::string& inDeviceName,             
 	const boost::filesystem::path& inWorkingPath); }
   
-	/// \brief Virtex7 bitstream.   
+	/// \brief Virtex7 bitstream.
 	class Virtex7 : public VirtexBitstream {      
 		friend class torc::bitstream::bitstream::Virtex7UnitTest;      
 		friend class torc::bitstream::bitstream::Virtex7FarUnitTest;      
+		friend class torc::bitstream::bitstream::Zynq7000DebugUnitTest;      
 		friend void torc::bitstream::bitstream::testVirtex7Device(const std::string& inDeviceName,
 			const boost::filesystem::path& inWorkingPath); 
 	protected:
@@ -92,12 +94,18 @@ namespace bitstream { void testVirtex7Device(const std::string& inDeviceName,
 		/// \brief Major Column Types.
 		/// \details These are defined and used for internal purposes only, and are not derived 
 		///		from any Xilinx documentation.
-		// Don't know what column types yet, so commenting out the enumeration  
-		enum EColumnType { eColumnTypeEmpty = 0 }; 
+		enum EColumnType { eColumnTypeEmpty = 0, eColumnTypeInt, eColumnTypeBram, eColumnTypeCfg, 
+			eColumnTypeClb, eColumnTypeClock, eColumnTypeCmt, eColumnTypeDsp, eColumnTypeGtx, 
+			eColumnTypeIoi, eColumnTypeVframe, eColumnTypePss, eColumnTypeCount };
 		/// \brief Frame length.
 		/// \details Constant frame length of 101 32-bit words for the entire Virtex7 family.
 		/// \see Frame Address Register (00001): UG470, v1.1, March 28, 2011.
 		enum { eFrameLength = 101 };
+		/// \brief Number of pad frames after each frame row.
+		/// \details The configuration controller expects two frames of NOPs after each frame row.
+		enum { eRowPadFrames = 2 };
+		/// \brief Number of rows in a clock region.
+		enum { eClockRegionRows = 52 };
 	protected:
 	// members  
 		/// \brief Configuration controller registers.  
@@ -134,33 +142,158 @@ namespace bitstream { void testVirtex7Device(const std::string& inDeviceName,
 		uint32_t mBottomRowCount;
 	// functions  
 		///\brief Set the number of top and bottom bitstream rows.  
-		//void setRowCounts (const string& inDeviceName);  
+		void setRowCounts (const string& inDeviceName);  
 		//string mPrivateDeviceName;
 	public:  
 	// constructors  
 		///\brief Basic Constructor.     
-		//Virtex7(void) : VirtexBitstream(), mTopRowCount(0), mBottomRowCount(0) {     
-			//for(int i = 0; i < eRegisterCount; i++) mRegister[i] =0;     
-			// initialize the column type widths for this family     
-			//mColumnDefs.resize(eColumnTypeCount);
-	    
-			//we don't have the column types yet, so leaving this empty
-     
-		// }
+		Virtex7(void) : VirtexBitstream(), mTopRowCount(0), mBottomRowCount(0), mFrameRowCount(0) {     
+//			for(int i = 0; i < eRegisterCount; i++) mRegister[i] =0;
+			for(int i = 0; i < eFarBlockTypeCount; i++) mBlockFrameIndexBounds[i] = 0;
+			// initialize miscellaneous variables
+			mFrameRowCount = 0;
+			// initialize the column type widths for this family
+			mColumnDefs.resize(eColumnTypeCount);
+			mColumnDefs[eColumnTypeEmpty] 	= ColumnDef("Empty",    0,  0,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeInt] 	= ColumnDef("Int",      0,  0,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeBram]	= ColumnDef("Bram",    28,128,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeCfg]		= ColumnDef("Cfg",     36,  0,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeClb]		= ColumnDef("Clb",     36,  0,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeClock] 	= ColumnDef("Clock",   30,  0,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeCmt]		= ColumnDef("Cmt",     30,  0,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeDsp]		= ColumnDef("Dsp",     28,  0,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeGtx]		= ColumnDef("Gtx",     32,  0,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeIoi]		= ColumnDef("Ioi",     42,  0,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeVframe]	= ColumnDef("Vframe",  30,  0,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypePss]		= ColumnDef("Pss",      0,  0,  0,  0,  0,  0,  0,  0);
+			// map type type names to column types
+			mTileTypeNameToColumnType["INT_L"]		= eColumnTypeInt;
+			mTileTypeNameToColumnType["INT_R"]		= eColumnTypeInt;
+			mTileTypeNameToColumnType["BRAM_L"]		= eColumnTypeBram;
+			mTileTypeNameToColumnType["BRAM_R"]		= eColumnTypeBram;
+			mTileTypeNameToColumnType["CFG_CENTER_TOP"]	= eColumnTypeCfg;
+			mTileTypeNameToColumnType["CFG_CENTER_BOT"]	= eColumnTypeCfg;
+			mTileTypeNameToColumnType["MONITOR_TOP_PELE1"] = eColumnTypeCfg;
+			mTileTypeNameToColumnType["CLBLL_L"]	= eColumnTypeClb;
+			mTileTypeNameToColumnType["CLBLL_R"]	= eColumnTypeClb;
+			mTileTypeNameToColumnType["CLBLM_L"]	= eColumnTypeClb;
+			mTileTypeNameToColumnType["CLBLM_R"]	= eColumnTypeClb;
+			mTileTypeNameToColumnType["INT_FEEDTHRU_1"] = eColumnTypeClb;
+			mTileTypeNameToColumnType["CMT_FIFO_L"]	= eColumnTypeCmt;
+			mTileTypeNameToColumnType["CMT_FIFO_R"]	= eColumnTypeCmt;
+			mTileTypeNameToColumnType["CLK_FEED"]	= eColumnTypeClock;
+			mTileTypeNameToColumnType["DSP_L"]		= eColumnTypeDsp;
+			mTileTypeNameToColumnType["DSP_R"]		= eColumnTypeDsp;
+			mTileTypeNameToColumnType["GTP_COMMON"]	= eColumnTypeGtx;
+			mTileTypeNameToColumnType["GTP_COMMON_MID_LEFT"] = eColumnTypeGtx;
+			mTileTypeNameToColumnType["GTP_COMMON_MID_RIGHT"] = eColumnTypeGtx;
+			mTileTypeNameToColumnType["GTX_COMMON"]	= eColumnTypeGtx;
+			mTileTypeNameToColumnType["GTH_COMMON"]	= eColumnTypeGtx;
+			mTileTypeNameToColumnType["HCLK_IOI"]	= eColumnTypeIoi;
+			mTileTypeNameToColumnType["HCLK_IOI3"]	= eColumnTypeIoi;
+			mTileTypeNameToColumnType["VFRAME"]		= eColumnTypeVframe;
+			mTileTypeNameToColumnType["PSS1"]		= eColumnTypePss;
+			mTileTypeNameToColumnType["PSS4"]		= eColumnTypePss;
+		}
 	// functions  
 		///\brief Return the masked value for a subfield of the specified register.
 		static uint32_t makeSubfield(ERegister inRegister, const std::string& inSubfield, 
 			const std::string& inSetting);
 		///\brief Initialize the Device Information.  
 		virtual void initializeDeviceInfo(const std::string& inDeviceName);  
-		/* We're not ready to use these functions yet, commenting them out  
 		///\brief Initialize the maps between frame indexes and frame addresses.  
 		///\detail This is generally useful only for internal purposes.  
 		virtual void initializeFrameMaps(void);  
-		*/
+		/// \brief Read frame data into the frame blocks structure.
+		virtual void readFramePackets(void);
+		/// \brief Update the bitstream packets to include full frame data.
+/* no longer needed
+		virtual void updateFullBitstreamPackets(void);
+		/// \brief Update the bitstream packets to include partial frame data.
+		/// \param inBitstreamType The type of partial bitstream to generate: active or shutdown.
+		/// \param inFrameInclusion The type of frames to include: only dirty frames or all frames.
+		virtual void updatePartialBitstreamPackets(EBitstreamType inBitstreamType, 
+			EFrameInclude inFrameInclusion);
+		/// \brief Discard existing packets and generate bitstream packets for a full bitstream.
+		virtual void generateFullBitstreamPackets(void);
+		/// \brief Discard existing packets and generate bitstream packets for a partial bitstream.
+		/// \param inBitstreamType The type of partial bitstream to generate: active or shutdown.
+		/// \param inFrameInclusion The type of frames to include: only dirty frames or all frames.
+		virtual void generatePartialBitstreamPackets(EBitstreamType inBitstreamType, 
+			EFrameInclude inFrameInclusion);
+*/
+		/// \brief Discard the existing frame packets and return an iterator to the start position.
+		virtual VirtexPacketVector::iterator deleteFramePackets(void);
+		/// \brief Return a packet vector with full frame data.
+		virtual VirtexPacketVector generateFullBitstreamPackets(void);
+		/// \brief Return a packet vector with the full bitstream prefix.
+		virtual VirtexPacketVector generateFullBitstreamPrefix(void);
+		/// \brief Return a packet vector with the full bitstream suffix.
+		virtual VirtexPacketVector generateFullBitstreamSuffix(void);
+		/// \brief Return a packet vector with partial frame data.
+		/// \param inFrameInclusion The type of frames to include: only dirty frames or all frames.
+		virtual VirtexPacketVector generatePartialBitstreamPackets(EFrameInclude inFrameInclusion);
+		/// \brief Return a packet vector with the partial bitstream prefix.
+		/// \param inBitstreamType The type of partial bitstream to generate: active or shutdown.
+		virtual VirtexPacketVector generatePartialBitstreamPrefix(EBitstreamType inBitstreamType);
+		/// \brief Return a packet vector with the partial bitstream suffix.
+		/// \param inBitstreamType The type of partial bitstream to generate: active or shutdown.
+		virtual VirtexPacketVector generatePartialBitstreamSuffix(EBitstreamType inBitstreamType);
+		/// \brief Returns frames for specified bitstream tile column.
+		/// \parameter inTopBottom The top or bottom half of the device: eFarTop or eFarBottom.
+		/// \parameter inFrameRow The frame or clock region row in the area specified by 
+		///		inTopBottom.
+		/// \parameter inBitCol The bitstream column coordinate (different than the XDL column 
+		///		coordinate).
+		/// \parameter inBlockCount The highest block type requested (8 for Xilinx architectures).
+		VirtexFrameBlocks getBitstreamFrames(EFarTopBottom inTopBottom, uint32_t inFrameRow, 
+			uint32_t inBitCol, uint32_t inBlockCount = eBlockTypeCount);
+		/// \brief Returns frames for specified bitstream tile column.
+		/// \parameter inBitRow The bitstream row coordinate (same as the XDL row coordinate).
+		/// \parameter inBitCol The bitstream column coordinate (different than the XDL column 
+		///		coordinate).
+		/// \parameter outBeginBit The bit index of the beginning of the requested tile.
+		/// \parameter outEndBit The bit index of the end of the requested tile.
+		/// \parameter inBlockCount The highest block type requested (8 for Xilinx architectures).
+		VirtexFrameBlocks getBitstreamFrames(uint32_t inBitRow, uint32_t inBitCol, 
+			uint32_t& outBeginBit, uint32_t& outEndBit, uint32_t inBlockCount = eBlockTypeCount);
+		/// \brief Returns frames for specified XDL tile coordinates.
+		/// \parameter inXldRow The XDL row coordinate.
+		/// \parameter inXdlCol The XDL column coordinate.
+		/// \parameter outBeginBit The bit index of the beginning of the requested tile.
+		/// \parameter outEndBit The bit index of the end of the requested tile.
+		/// \parameter inBlockCount The highest block type requested (8 for Xilinx architectures).
+		VirtexFrameBlocks getXdlFrames(uint32_t inXdlRow, uint32_t inXdlCol, uint32_t& outBeginBit, 
+			uint32_t& outEndBit, uint32_t inBlockCount = eBlockTypeCount);
+		/// \brief Returns the primary column corresponding to the given tile.
+		/// \detail If the specified tile falls in an INT_L or INT_R tile, this function returns 
+		///		the index of the corresponding primary XDL column.
+		/// \parameter inXdlCol The XDL column coordinate.
+		uint32_t getPrimaryXdlColumn(uint32_t inXdlRow, uint32_t inXdlCol);
+		/// \brief Split the given frame index into the base index of the major frame and the index 
+		///		of the minor frame.
+		virtual void splitFrameIndex(uint32_t inFrameIndex, uint32_t& outMajorIndex, 
+			uint32_t& outMinorIndex) {
+			outMinorIndex = mFrameIndexToAddress[inFrameIndex].mMinor;
+			outMajorIndex = inFrameIndex - outMinorIndex;
+		}
+	// deprecation macro
+		/// \cond OMIT_FROM_DOXYGEN
+		// Doxygen gets confused by the explicit "__attribute__ ((deprecated))" so we used this
+		#define DEPRECATED __attribute__ ((deprecated))
+		/// \endcond
+	// deprecated functions
+		/// \brief Loads full bitstream frames into block data structure.
+		DEPRECATED void initializeFullFrameBlocks(void);
+		/// \brief Transfers frame block data into the full bitstream frame packet
+		DEPRECATED void updateFullFrameBlocks(void);
 	// accessors
+		/// \brief Return the number of frame rows for the current device.
+		virtual uint32_t getFrameRowCount(void) const { return mFrameRowCount; }
 		/// \brief Return the frame length for the current device.
 		virtual uint32_t getFrameLength(void) const { return eFrameLength; }
+		/// \brief Return the number of pad frames after each row.
+		virtual uint32_t getRowPadFrames(void) const { return eRowPadFrames; }
 	// inserters  
 		/// \brief Insert the bitstream header into and output stream.  
 		friend std::ostream& operator<< (std::ostream& os, const Virtex7& rhs);
@@ -190,7 +323,7 @@ namespace bitstream { void testVirtex7Device(const std::string& inDeviceName,
 				return mTopBottom == rhs.mTopBottom && mBlockType == rhs.mBlockType && 
 					mRow == rhs.mRow &&mMajor == rhs.mMajor && mMinor == rhs.mMinor; 
 			}    
-			bool operator< (const FrameAddress& rhs) const{      
+			bool operator< (const FrameAddress& rhs) const {      
 				int diffBlockType = mBlockType - rhs.mBlockType;      
 				if(diffBlockType) return diffBlockType < 0;      
 				int diffTopBottom = mTopBottom - rhs.mTopBottom;      
@@ -201,28 +334,82 @@ namespace bitstream { void testVirtex7Device(const std::string& inDeviceName,
 				if(diffMajor) return diffMajor < 0;      
 				return mMinor < rhs.mMinor;      
 			}
-		private:    
-			//operator uint32_t (void) const {    
-			//      return     
-			//              ((mTopBottom << eFarShiftTopBottom) & eFarMaskTopBottom) |     
-			//              ((mBlockType << eFarShiftBlockType) & eFarMaskBlockType) |    
-			//              ((mRow << eFarShiftRow) & eFarMaskRow) |     
-			//              ((mMajor << eFarShiftMajor) & eFarMaskMajor) |     
-			//              ((mMinor << eFarShiftMinor) & eFarMaskMinor);    
-			//}  
+			operator uint32_t (void) const {    
+				return     
+					((mTopBottom << eFarShiftTopBottom) & eFarMaskTopBottom) |     
+					((mBlockType << eFarShiftBlockType) & eFarMaskBlockType) |    
+					((mRow << eFarShiftRow) & eFarMaskRow) |     
+					((mMajor << eFarShiftMajor) & eFarMaskMajor) |     
+					((mMinor << eFarShiftMinor) & eFarMaskMinor);    
+			}  
 		};
-	protected:  
+	protected:
+	// inner classes
+		/// \brief Frame row designator: top/bottom flag and row index.
+		struct FrameRowDesignator {
+			/// \brief Top/bottom flag.
+			EFarTopBottom mTopBottom;
+			/// \brief Frame row.
+			uint32_t mFrameRow;
+			/// \brief Base XDL row.
+			uint32_t mXdlBaseRow;
+			/// \brief Offset for this row into the column type vector.
+			uint32_t mColumnVectorBase;
+			/// \brief Default constructor.
+			FrameRowDesignator(void) : mTopBottom(eFarTop), mFrameRow(0), mXdlBaseRow(0), 
+				mColumnVectorBase(0) {}
+			/// \brief Constructor.
+			FrameRowDesignator(EFarTopBottom inTopBottom, uint32_t inFrameRow, 
+				uint32_t inXdlBaseRow, uint32_t inColumnVectorBase) : mTopBottom(inTopBottom), 
+				mFrameRow(inFrameRow), mXdlBaseRow(inXdlBaseRow), 
+				mColumnVectorBase(inColumnVectorBase) {}
+			/// \brief Comparison operator (for map operations).
+			bool operator< (const FrameRowDesignator& rhs) const {
+				if(mTopBottom < rhs.mTopBottom) return true;
+				return mFrameRow < rhs.mFrameRow;
+			}
+		};
 	// typedefs  
 		/// \brief Map from frame index to frame address.  
 		typedef std::map<uint32_t, Virtex7::FrameAddress> FrameIndexToAddress;  
-		/// \brief Map from frame address to frame index  
+		/// \brief Map from frame address to frame index.
 		typedef std::map<Virtex7::FrameAddress, uint32_t> FrameAddressToIndex;  
+		/// \brief Vector of frame indexes.
+		typedef std::vector<uint32_t> IndexVector;
+		/// \brief Map from bitstream column index to XDL column index.
+		typedef std::map<uint32_t, uint32_t> BitColumnToXdlColumn;
+		/// \brief Vector of FrameRowDesignator entries.
+		typedef std::vector<FrameRowDesignator> FrameRowDesignatorVector;
+	// functions
+		/// \brief Returns frames for queried bitstream coordinates
+		/// \parameter inSerialFrameRow The frame row as indexed starting from top row zero and 
+		///		incrementing toward the top of the device, and then continuing from bottom row zero 
+		///		and incrementing toward the bottom of the device.
+		VirtexFrameBlocks getBitstreamFrames(uint32_t inSerialFrameRow, uint32_t inBitCol, 
+			uint32_t inBlockCount = eBlockTypeCount);
+		/// \brief Returns frames for queried XDL coordinates
+		/// \parameter inSerialFrameRow The frame row as indexed starting from top row zero and 
+		///		incrementing toward the top of the device, and then continuing from bottom row zero 
+		///		and incrementing toward the bottom of the device.
+		VirtexFrameBlocks getXdlFrames(uint32_t inSerialFrameRow, uint32_t inColumnVectorBase, 
+			uint32_t inXdlCol, uint32_t inBlockCount = eBlockTypeCount);
 	// members  
 		/// \brief Map of frame indexes to frame addresses.  
 		FrameIndexToAddress mFrameIndexToAddress;  
 		/// \brief Map of frame addresses to frame indexes.  
 		FrameAddressToIndex mFrameAddressToIndex;
-
+		/// \brief Vector to store frame indexes of XDL columns.
+		IndexVector mBitColumnIndexes[Virtex7::eFarBlockTypeCount];
+		/// \brief Vector to store frame indexes of Bitstream columns.
+		IndexVector mXdlColumnIndexes[Virtex7::eFarBlockTypeCount];
+		/// \brief Array to hold frame index boundaries for blocks.
+		uint32_t mBlockFrameIndexBounds[Virtex7::eFarBlockTypeCount];
+		/// \brief Map of bitstream column indexes to XDL column indexes.
+		BitColumnToXdlColumn mBitColumnToXdlColumn;
+		/// \brief Number of frame rows.
+		uint32_t mFrameRowCount;
+		/// \brief Vector of FrameRowDesignator entries for each XDL row.
+		FrameRowDesignatorVector mXdlRowToFrameRowDesignator;
 	};
   
 } // namespace bitstream

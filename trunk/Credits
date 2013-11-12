@@ -6,7 +6,9 @@ Strategy, management, and architecture:
 Core development (architecture, bitstream, devices, packer, physical, placer, router, ...):
 
 	Prabhaav Bhardwaj, USC Information Sciences Institute
+	Andrew G. Schmidt, USC Information Sciences Institute
 	Hamid Shojaei, University of Wisconsin
+	Ritesh Kumar Soni, Virginia Tech
 	Neil Steiner, USC Information Sciences Institute
 	Aaron Wood, USC Information Sciences Institute
 
@@ -15,14 +17,17 @@ EDIF development (generic):
 	Samiran Chattopadhyay, Interra Systems
 	Niladri Sekhar Das, Interra Systems
 	Partha Pratim Das, Interra Systems
+	Himadri Sekhar Paul, Interra Systems
 	Santanu Sinha, Interra Systems
 
 Other contributors, developers, and early adopters:
 
 	Jacob Couch, Virginia Tech
 	Tannous "Tony" Frangieh, Virginia Tech
+	Krzysztof Kepa, Virginia Tech
 	Chris Lavin, Brigham Young University
 	Andrew Love, Virginia Tech
+	Ali Sohangpurwala, Virginia Tech
 	Wenwei Zha, Virginia Tech
 
 Special thanks to:
@@ -32,3 +37,9 @@ Special thanks to:
 	Peter Athanas, Virginia Tech
 	Brad Hutchings, Brigham Young University
 	Brent Nelson, Brigham Young University
+
+Externals (incorporated into Torc):
+
+	md5 was written by L. Peter Deutsch
+	zlib (http://zlib.net) was written by Jean-loup Gailly and Mark Adler
+	Verilator (http://www.veripool.org/wiki/verilator) was written by Wilson Snyder

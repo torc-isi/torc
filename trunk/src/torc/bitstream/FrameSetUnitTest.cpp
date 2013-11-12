@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -49,8 +49,8 @@ BOOST_AUTO_TEST_CASE(FrameBlocksUnitTest) {
 	//		mBlock[];
 	const boost::uint32_t length = 0x41;
 	VirtexFrameBlocks blocks;
-	int count[VirtexFrameBlocks::eBlockTypeCount] = { 1000, 1000, 500 };
-	for(int i = 0; i < VirtexFrameBlocks::eBlockTypeCount; i++) {
+	int count[Bitstream::eBlockTypeCount] = { 1000, 1000, 500 };
+	for(int i = 0; i < Bitstream::eBlockTypeCount; i++) {
 		for(int j = 0; j < count[i]; j++) {
 			blocks.mBlock[i].push_back(
 				VirtexFrameSet::FrameSharedPtr(new VirtexFrame(length)));

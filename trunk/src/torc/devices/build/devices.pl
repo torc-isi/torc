@@ -1,4 +1,4 @@
-# Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+# Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 # $HeadURL$
 # $Id$
 
@@ -64,25 +64,40 @@ if(1) {
 	xc6vsx315t xc6vsx475t
 	/;
 
-@devices::virtex6l = qw/
-	xc6vlx75tl xc6vlx130tl xc6vlx195tl xc6vlx240tl xc6vlx365tl xc6vlx550tl xc6vlx760l 
-	xc6vsx315tl xc6vsx475tl 
+# Artix7 devices under ISE 14.5
+@devices::artix7 = qw/
+	xc7a100t xc7a200t
 	/;
+# Artix7 devices under ISE 13.1
+#@devices::artix7 = qw/
+#	xc7a8 xc7a15 xc7a30t xc7a50t xc7a100t xc7a200t xc7a350t
+#	/;
 
-@devices::virtex7 = qw/
-	xc7v285t xc7v450t xc7vx485t xc7v585t xc7v855t xc7v1500t xc7v2000t
-	/;
-
-@devices::virtex7l = qw/
-	xc7v285tl xc7v450tl xc7v585tl xc7v855tl xc7v1500tl xc7v2000tl
-	/;
-
+# Kintex7 devices under ISE 13.1 - 14.5: xc7k30t xc7k70t xc7k160t xc7k325t xc7k410t
 @devices::kintex7 = qw/
-	xc7k30t xc7k70t xc7k160t xc7k325t xc7k410t
+	xc7k70t xc7k160t xc7k325t xc7k355t xc7k410t xc7k420t xc7k480t
 	/;
 
-@devices::kintex7l = qw/
-	xc7k30tl xc7k70tl xc7k160tl xc7k325tl xc7k410tl
+# Virtex7 devices under ISE 14.5: xc7v285t xc7v450t xc7vx485t xc7v585t xc7v855t xc7v1500t xc7v2000t
+@devices::virtex7 = qw/
+	xc7v585t xc7v2000t xc7vh580t xc7vh870t xc7vx330t xc7vx415t xc7vx485t xc7vx550t xc7vx690t 
+		xc7vx980t xc7vx1140t
+	/;
+# Virtex7 devices under ISE 13.1: xc7v285t xc7v450t xc7vx485t xc7v585t xc7v855t xc7v1500t xc7v2000t
+#@devices::virtex7 = qw/
+#	xc7vx330t xc7vx415t xc7vx485t xc7vx550t xc7v585t xc7vx690t xc7vx980t xc7vx1140t xc7v1500t 
+#		xc7v2000t
+#	/;
+
+# Virtex7 devices under ISE 14.5: xc7v585t xc7v1500t xc7v2000t xc7vh580t xc7vh870t xc7vx330t xc7vx415t
+#	xc7vx485t xc7vx550t xc7vx690t xc7vx980t xc7vx1140t
+@devices::virtex7 = qw/
+	xc7v585t xc7v1500t xc7v2000t xc7vh580t xc7vh870t xc7vx330t xc7vx415t xc7vx485t xc7vx550t 
+		xc7vx690t xc7vx980t xc7vx1140t
+	/;
+
+@devices::zynq7000 = qw/
+	xc7z010 xc7z020 xc7z030 xc7z045 
 	/;
 
 @devices::spartan3e = qw/
@@ -94,9 +109,9 @@ if(1) {
 	xc6slx25t xc6slx45t xc6slx75t xc6slx100t xc6slx150t
 	/;
 
-@devices::spartan6l = qw/
-	xc6slx4l xc6slx9l xc6slx16l xc6slx25l xc6slx45l xc6slx75l xc6slx100l xc6slx150l
-	/;
+#@devices::spartan6l = qw/
+#	xc6slx4l xc6slx9l xc6slx16l xc6slx25l xc6slx45l xc6slx75l xc6slx100l xc6slx150l
+#	/;
 
 } else {
 
@@ -125,6 +140,10 @@ if(1) {
 	@devices::kintex7 = qw//;
 
 	@devices::kintex7l = qw//;
+
+	@devices::artix7 = qw//;
+
+	@devices::zynq = qw//;
 
 	@devices::spartan3e = qw//;
 

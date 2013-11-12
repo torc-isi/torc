@@ -1,0 +1,66 @@
+# Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
+# $HeadURL$
+# $Id$
+
+# This program is free software: you can redistribute it and/or modify it under the terms of the 
+# GNU General Public License as published by the Free Software Foundation, either version 3 of the 
+# License, or (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See 
+# the GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License along with this program.  If 
+# not, see <http://www.gnu.org/licenses/>.
+
+# Include subdirectories objects
+TORC_ROUTER := $(TORC_DIR)/router
+
+# object files
+OBJS = \
+	NetRouter.o \
+	NetRouterBase.o \
+	NetRouterHeuristic.o \
+	NetRouterHeuristicBase.o \
+	NetRouterHeuristicUnitTest.o \
+	NetRouterUnitTest.o \
+	NetVectorRouterBase.o \
+	NetVectorRouterHeuristicBase.o \
+	PathFinder.o \
+	PathFinderHeuristic.o \
+	PathFinderHeuristicUnitTest.o \
+	PathFinderNetRouterHeuristic.o \
+	PathFinderRegressionTest.o \
+	PathFinderUnitTest.o \
+	RouteNet.o \
+	RouteNetUnitTest.o \
+	RouteNode.o \
+	RouteNodeUnitTest.o \
+	RouteTreeNode.o \
+	RouteTreeNodeUnitTest.o \
+	RouteUtilities.o \
+	RouterHeuristicBase.o \
+	RouterStatistics.o \
+	Trace.o \
+	TraceNode.o \
+	TraceNodeUnitTest.o \
+	TraceRegressionTest.o \
+	TraceUnitTest.o \
+	Unrouter.o \
+	UnrouterUnitTest.o \
+	$
+
+# Prepend absolute path to all local objects
+TORC_ROUTER_LOCAL_OBJS := $(patsubst %,$(TORC_ROUTER)/%,$(OBJS))
+
+# torc/common objects for includes elsewhere in torc
+TORC_ROUTER_OBJS := \
+	$(TORC_ROUTER_LOCAL_OBJS) \
+	$
+
+# Extra C++ Flags for OBJS
+$(TORC_ROUTER_LOCAL_OBJS): EXTRA_CCFLAGS := \
+	$
+
+# dependencies
+DEPS = $(OBJS:.o=.d)

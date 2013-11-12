@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -24,10 +24,8 @@ namespace architecture {
 
 	std::size_t hash_value(const Arc& inArc) {
 		std::size_t seed = 0;
-		boost::hash_combine(seed, inArc.getSourceTilewire().getTileIndex());
-		boost::hash_combine(seed, inArc.getSourceTilewire().getWireIndex());
-		boost::hash_combine(seed, inArc.getSinkTilewire().getTileIndex());
-		boost::hash_combine(seed, inArc.getSinkTilewire().getWireIndex());
+		boost::hash_combine(seed, inArc.getSourceTilewire());
+		boost::hash_combine(seed, inArc.getSinkTilewire());
 		return seed;
 	}
 } // namespace architecture

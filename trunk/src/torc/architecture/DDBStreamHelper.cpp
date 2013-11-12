@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -22,12 +22,21 @@
 namespace torc {
 namespace architecture {
 
-	DDBStreamHelper::OStreamToIntMap DDBStreamHelper::sIWordIndexes;
+	DDBStreamHelper::OStreamToDDBMap DDBStreamHelper::sStreamToDatabase;
 
 	std::ostream& operator <<(std::ostream& os, const DDB& ddb) {
-		os.pword(DDBStreamHelper::getIWordIndex(os)) = &const_cast<DDB&>(ddb);
+		// check to see whether there is an existing database association for this stream
+		typedef std::map<std::ostream*, const class DDB*> OStreamToDDBMap;
+		OStreamToDDBMap::const_iterator p = DDBStreamHelper::sStreamToDatabase.find(&os);		
+		if(p == DDBStreamHelper::sStreamToDatabase.end()) {
+			// if no association exists, create a new association between the stream and database
+			std::pair<OStreamToDDBMap::iterator, bool> inserted
+				= DDBStreamHelper::sStreamToDatabase.insert(std::make_pair(&os, &ddb));
+			p = inserted.first; // implicitly assuming that insertion always succeeds
+		}
 		return os;
 	}
 
 } // namespace architecture
 } // namespace torc
+

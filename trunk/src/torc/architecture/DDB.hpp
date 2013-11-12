@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -28,6 +28,7 @@
 #include "torc/architecture/WireUsage.hpp"
 #include "torc/architecture/ExtendedWireInfo.hpp"
 #include "torc/architecture/DDBStreamHelper.hpp"
+#include "torc/architecture/DDBConsoleStreams.hpp"
 #include "torc/common/DeviceDesignator.hpp"
 #include <string>
 #include <map>
@@ -36,7 +37,9 @@ namespace torc {
 namespace architecture {
 
 	/// \brief Device database, including complete wiring and logic support.
-	class DDB {
+	/// \note The DDBConsoleStreams superclass is a utility class that allows for console 
+	///		stream redirection.
+	class DDB : DDBConsoleStreams {
 	protected:
 	// types
 		typedef std::string string; ///< \brief Imported type name.
@@ -51,6 +54,10 @@ namespace architecture {
 		string mDeviceName;
 		/// \brief The name of the family.
 		string mFamilyName;
+		/// \brief the device database path.
+		boost::filesystem::path mDevicePath;
+		/// \brief the family database path.
+		boost::filesystem::path mFamilyPath;
 		/// \brief The device database version.
 		Versions mDeviceVersion;
 		/// \brief The family database version.
@@ -92,12 +99,32 @@ namespace architecture {
 		/// \param inDeviceName The name of the device to open.  This name should not include any 
 		///		package or speed grade information, nor any extension.  Examples are xc2vp100, 
 		///		xc4vfx60, xc5vlx30, et cetera.
-		DDB(const string& inDeviceName, const string& inPackageName = "") : mArcUsage(mTiles), 
-			mWireUsage(mTiles) { initialize(inDeviceName, inPackageName); }
+		/// \param inDDBConsoleStreams The console streams that the database should use.
+		DDB(const string& inDeviceName, DDBConsoleStreams inDDBConsoleStreams = DDBConsoleStreams())
+			: mArcUsage(mTiles), mWireUsage(mTiles) 
+			{ setConsoleStreams(inDDBConsoleStreams); initialize(inDeviceName, string()); }
 		/// \brief Public constructor.
-		DDB(const torc::common::DeviceDesignator& inDeviceDesignator) : mArcUsage(mTiles), 
-			mWireUsage(mTiles) {
+		/// \param inDeviceName The name of the device to open.  This name should not include any 
+		///		package or speed grade information, nor any extension.  Examples are xc2vp100, 
+		///		xc4vfx60, xc5vlx30, et cetera.
+		/// \param inPackageName The name of the package to use.
+		/// \param inDDBConsoleStreams The console streams that the database should use.
+		DDB(const string& inDeviceName, const string& inPackageName, 
+			DDBConsoleStreams inDDBConsoleStreams = DDBConsoleStreams()) 
+			: mArcUsage(mTiles), mWireUsage(mTiles) 
+			{ setConsoleStreams(inDDBConsoleStreams); initialize(inDeviceName, inPackageName); }
+		/// \brief Public constructor.
+		/// \param inDeviceDesignator A designator for the device to open.
+		/// \param inDDBConsoleStreams The console streams that the database should use.
+		DDB(const torc::common::DeviceDesignator& inDeviceDesignator, 
+			DDBConsoleStreams inDDBConsoleStreams = DDBConsoleStreams()) 
+			: mArcUsage(mTiles), mWireUsage(mTiles) {
+			setConsoleStreams(inDDBConsoleStreams); 
 			initialize(inDeviceDesignator.getDeviceName(), inDeviceDesignator.getDevicePackage());
+		}
+		/// \brief Destructor.
+		~DDB(void) {
+			DDBStreamHelper::dissociate(*this);
 		}
 	// iterators
 	// accessors
@@ -105,6 +132,10 @@ namespace architecture {
 		const string& getDeviceName(void) const { return mDeviceName; }
 		/// \brief Returns the family name.
 		const string& getFamilyName(void) const { return mFamilyName; }
+		/// \brief Returns the device database path.
+		const boost::filesystem::path& getDevicePath(void) const { return mDevicePath; }
+		/// \brief Returns the family database path.
+		const boost::filesystem::path& getFamilyPath(void) const { return mFamilyPath; }
 		/// \brief Returns a constant reference to a vector of speed grades.
  		const StringVector& getSpeedGrades(void) const { return mSpeedGrades; }
 		/// \brief Returns a constant reference to the device segment data.
@@ -117,6 +148,21 @@ namespace architecture {
 		ArcUsage& getArcUsage(void) { return mArcUsage; }
 		/// \brief Returns a constant reference to the design wire usage.
 		WireUsage& getWireUsage(void) { return mWireUsage; }
+		/// \brief Sets all of the database console streams.
+		virtual void setConsoleStreams(DDBConsoleStreams inConsoleStreams) {
+			setConsoleStreams(inConsoleStreams.mIn(), inConsoleStreams.mOut(), 
+				inConsoleStreams.mErr(), inConsoleStreams.mLog());
+		}
+		/// \brief Sets all of the database console streams.
+		virtual void setConsoleStreams(istream& inIn, ostream& inOut, ostream& inErr, 
+			ostream& inLog) { 
+			DDBConsoleStreams::setConsoleStreams(inIn, inOut, inErr, inLog);
+			mSegments.setConsoleStreams(inIn, inOut, inErr, inLog);
+			mSites.setConsoleStreams(inIn, inOut, inErr, inLog);
+			mTiles.setConsoleStreams(inIn, inOut, inErr, inLog);
+			mDeviceVersion.setConsoleStreams(inIn, inOut, inErr, inLog);
+			mFamilyVersion.setConsoleStreams(inIn, inOut, inErr, inLog);
+		}
 	// functions
 		/// \brief Clears all arc and wire usage, effectively restaring with an empty device.
 		void clearUsage(void) {

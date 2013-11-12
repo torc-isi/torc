@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -88,10 +88,10 @@ BOOST_AUTO_TEST_CASE(PrimitiveStructureInstancePinsUnitTest) {
 
 	using namespace torc::architecture;
 	// create the appropriate file paths
-	boost::filesystem::path regressionPath 
-		= torc::common::DirectoryTree::getExecutablePath() / "regression";
-	boost::filesystem::path generatedPath = regressionPath / "DesignUnitTest.generated.xdl";
-	boost::filesystem::path referencePath = regressionPath / "DesignUnitTest.reference.xdl";
+	boost::filesystem::path referencePath = torc::common::DirectoryTree::getExecutablePath()
+		/ "torc" / "physical" / "DesignUnitTest.reference.xdl";
+	boost::filesystem::path generatedPath = torc::common::DirectoryTree::getExecutablePath()
+		/ "regression" / "DesignUnitTest.generated.xdl";
 
 	// import the XDL design
 	std::fstream fileStream(referencePath.string().c_str());

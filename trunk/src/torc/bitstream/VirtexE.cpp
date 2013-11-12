@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -185,15 +185,15 @@ namespace bitstream {
 			// Extended memory devices have different frame mapping
 			if(mDevice == torc::common::eXCV405E || mDevice == torc::common::eXCV812E) {
 				// CLB Columns alternate around the clock column
-				for (int j = 1; j < center; j++) {
-					for (int k = -1; k < 2; k += 2) {
+				for(int j = 1; j < center; j++) {
+					for(int k = -1; k < 2; k += 2) {
 						col = center - (j * k);
 						if(columnTypes[col] == eColumnTypeClb) {
 						  prepareFrames(col, frameCount, frameIndex, blockType, farMajor, width);
 						}
 						//Indexes for Bitstream Columns, only stores non-empty tile types
 						if(mDeviceInfo.getColumnTypes()[col] != Virtex::eColumnTypeEmpty) {
-							mXdlIndexToBitIndex[bitColumnCount] = xdlColumnCount;
+							mXdlColumnToBitColumn[xdlColumnCount] = bitColumnCount;
 							bitColumnCount++;
 							bitIndex += width;
 							mBitColumnIndexes[i].push_back(bitIndex);
@@ -215,13 +215,13 @@ namespace bitstream {
 					}
 				}
 				// IOB Columns alternate after the CLB's
-				for (int j = center; j < (center + 1); j++) {
-					for (int k = -1; k < 2; k += 2) {
+				for(int j = center; j < (center + 1); j++) {
+					for(int k = -1; k < 2; k += 2) {
 						col = center - (j * k);
 						prepareFrames(col, frameCount, frameIndex, blockType, farMajor, width);
 						//Indexes for Bitstream Columns, only stores non-empty tile types
 						if(mDeviceInfo.getColumnTypes()[col] != Virtex::eColumnTypeEmpty) {
-							mXdlIndexToBitIndex[bitColumnCount] = xdlColumnCount;
+							mXdlColumnToBitColumn[xdlColumnCount] = bitColumnCount;
 							bitColumnCount++;
 							bitIndex += width;
 							mBitColumnIndexes[i].push_back(bitIndex);
@@ -243,15 +243,15 @@ namespace bitstream {
 					}
 				}
 				// BRAM Columns alternate after the IOB's
-				for (int j = 1; j < center; j++) {
-					for (int k = -1; k < 2; k += 2) {
+				for(int j = 1; j < center; j++) {
+					for(int k = -1; k < 2; k += 2) {
 						col = center - (j * k);
 						if(columnTypes[col] == eColumnTypeBram) {
 						  prepareFrames(col, frameCount, frameIndex, blockType, farMajor, width);
 						}
 						//Indexes for Bitstream Columns, only stores non-empty tile types
 						if(mDeviceInfo.getColumnTypes()[col] != Virtex::eColumnTypeEmpty) {
-							mXdlIndexToBitIndex[bitColumnCount] = xdlColumnCount;
+							mXdlColumnToBitColumn[xdlColumnCount] = bitColumnCount;
 							bitColumnCount++;
 							bitIndex += width;
 							mBitColumnIndexes[i].push_back(bitIndex);
@@ -275,13 +275,13 @@ namespace bitstream {
 			}
 			else {
 				// CLB and BRAM Columns alternate around the clock column
-				for (int j = 1; j <= (numClbs + numBrams) / 2; j++) {
-					for (int k = -1; k < 2; k += 2) {
+				for(int j = 1; j <= (numClbs + numBrams) / 2; j++) {
+					for(int k = -1; k < 2; k += 2) {
 						col = center - (j * k);
 						prepareFrames(col, frameCount, frameIndex, blockType, farMajor, width);
 						//Indexes for Bitstream Columns, only stores non-empty tile types
 						if(mDeviceInfo.getColumnTypes()[col] != Virtex::eColumnTypeEmpty) {
-							  mXdlIndexToBitIndex[bitColumnCount] = xdlColumnCount;
+							  mXdlColumnToBitColumn[xdlColumnCount] = bitColumnCount;
 							  bitColumnCount++;
 							  bitIndex += width;
 							  mBitColumnIndexes[i].push_back(bitIndex);
@@ -303,13 +303,13 @@ namespace bitstream {
 					}
 				}
 				// IOB Columns alternate after the CLB's
-				for (int j = center; j < (center + 1); j++) {
-					for (int k = -1; k < 2; k += 2) {
+				for(int j = center; j < (center + 1); j++) {
+					for(int k = -1; k < 2; k += 2) {
 						col = center - (j * k);
 						prepareFrames(col, frameCount, frameIndex, blockType, farMajor, width);
 						//Indexes for Bitstream Columns, only stores non-empty tile types
 						if(mDeviceInfo.getColumnTypes()[col] != Virtex::eColumnTypeEmpty) {
-							  mXdlIndexToBitIndex[bitColumnCount] = xdlColumnCount;
+							  mXdlColumnToBitColumn[xdlColumnCount] = bitColumnCount;
 							  bitColumnCount++;
 							  bitIndex += width;
 							  mBitColumnIndexes[i].push_back(bitIndex);
@@ -333,10 +333,10 @@ namespace bitstream {
 			}
 			//stores frame index bounds for each block type
 			mBlockFrameIndexBounds[i] = mFrameIndexBounds;
-			if (debug) std::cout << "***Block frame index bounds: " << mBlockFrameIndexBounds[i] << std::endl;
+			if(debug) std::cout << "***Block frame index bounds: " << mBlockFrameIndexBounds[i] << std::endl;
 		}
 		//Test to check proper indexing
-		if (debug) {
+		if(debug) {
   		    for(uint32_t i = 0; i < Virtex::eFarBlockTypeCount; i++) {
   			    for(uint32_t j = 0; j < mBitColumnIndexes[i].size(); j++) 
 			        std::cout << "Bit Value at index: (" << i << ", " << j << ") : " << mBitColumnIndexes[i][j] << std::endl;

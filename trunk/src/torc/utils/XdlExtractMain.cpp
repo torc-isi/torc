@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
 	
 	std::cout << "XDL Extracter: " << __DATE__ << " " << __TIME__ << std::endl;	
 	
-	if (argc != 4) {
+	if(argc != 4) {
 		std::cout << "Usage: " << argv[0] << " <pattern> <xdlfile> <outxdlfile>" << std::endl;
 		return 1;
 	}

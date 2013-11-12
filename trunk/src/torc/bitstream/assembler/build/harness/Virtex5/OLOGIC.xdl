@@ -1,0 +1,26 @@
+design "OLOGIC" xc5vfx30tff665-3 v3.2;
+inst "OLOGIC" "OLOGIC", placed IOI_X0Y79 OLOGIC_X0Y158;
+net "OLOGIC",
+	outpin "OLOGIC" OQ,
+	outpin "OLOGIC" SHIFTOUT1,
+	outpin "OLOGIC" SHIFTOUT2,
+	outpin "OLOGIC" TQ,
+	inpin "OLOGIC" CLK,
+	inpin "OLOGIC" CLKDIV,
+	inpin "OLOGIC" D1,
+	inpin "OLOGIC" D2,
+	inpin "OLOGIC" D3,
+	inpin "OLOGIC" D4,
+	inpin "OLOGIC" D5,
+	inpin "OLOGIC" D6,
+	inpin "OLOGIC" OCE,
+	inpin "OLOGIC" REV,
+	inpin "OLOGIC" SHIFTIN1,
+	inpin "OLOGIC" SHIFTIN2,
+	inpin "OLOGIC" SR,
+	inpin "OLOGIC" T1,
+	inpin "OLOGIC" T2,
+	inpin "OLOGIC" T3,
+	inpin "OLOGIC" T4,
+	inpin "OLOGIC" TCE
+	;

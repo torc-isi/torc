@@ -1,0 +1,6 @@
+design "CAPTURE" xc5vfx30tff665-3 v3.2;
+inst "CAPTURE" "CAPTURE", placed CFG_CENTER_X63Y44 CAPTURE;
+net "CAPTURE",
+	inpin "CAPTURE" CAP,
+	inpin "CAPTURE" CLK
+	;

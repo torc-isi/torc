@@ -1,0 +1,49 @@
+# Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
+# $HeadURL: https://svn.east.isi.edu/torc/trunk/src/torc/bitstream/Makefile $
+# $Id: Makefile 1051 2012-06-22 21:02:08Z nsteiner $
+
+# This program is free software: you can redistribute it and/or modify it under the terms of the 
+# GNU General Public License as published by the Free Software Foundation, either version 3 of the 
+# License, or (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See 
+# the GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License along with this program.  If 
+# not, see <http://www.gnu.org/licenses/>.
+
+# Include subdirectories objects
+TORC_BITSTREAM_ASSEMBLER       := $(TORC_DIR)/bitstream/assembler
+TORC_BITSTREAM_ASSEMBLER_BUILD := $(TORC_BITSTREAM_ASSEMBLER)/build
+TORC_BITSTREAM_ASSEMBLER_LUT   := $(TORC_BITSTREAM_ASSEMBLER)/lut
+include $(TORC_BITSTREAM_ASSEMBLER_BUILD)/Makefile.objects
+include $(TORC_BITSTREAM_ASSEMBLER_LUT)/Makefile.objects
+
+# Local object files
+OBJS = \
+	Assembler.o \
+	AssemblerFactory.o \
+	VirtexAssembler.o \
+	Virtex5Assembler.o \
+	Virtex7Assembler.o \
+	Virtex5AssemblerUnitTest.o \
+	$
+
+# Prepend absolute path to all local objects
+TORC_BITSTREAM_ASSEMBLER_LOCAL_OBJS := $(patsubst %,$(TORC_BITSTREAM_ASSEMBLER)/%,$(OBJS))
+
+# torc/bitstream/assembler objects for includes elsewhere in torc
+TORC_BITSTREAM_ASSEMBLER_OBJS := \
+	$(TORC_BITSTREAM_ASSEMBLER_LOCAL_OBJS) \
+	$(TORC_BITSTREAM_ASSEMBLER_BUILD_OBJS) \
+	$(TORC_BITSTREAM_ASSEMBLER_LUT_OBJS) \
+	$
+
+# Extra C++ Flags for local objects
+$(TORC_BITSTREAM_ASSEMBLER_LOCAL_OBJS): EXTRA_CCFLAGS := \
+	-O1 \
+	$
+
+# local dependencies
+DEPS = $(OBJS:.o=.d)

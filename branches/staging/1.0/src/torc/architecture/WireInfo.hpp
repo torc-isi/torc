@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -138,6 +138,12 @@ namespace architecture {
 		bool isRemoteNodeCapable(void) const { return isRemoteNodeCapable(mFlags); }
 		/// \brief Returns true if the wire may be referenced by a remote arc.
 		bool isRemoteArcCapable(void) const { return isRemoteArcCapable(mFlags); }
+		/// \brief Returns true if the wire has any sinks.
+		bool hasSinks(void) const { return mTiedSinks.getSize() || mSinks.getSize() 
+			|| mIrregularSinks.getSize() || mRoutethroughSinks.getSize(); }
+		/// \brief Returns true if the wire has any sources.
+		bool hasSources(void) const { return mTiedSources.getSize() || mSources.getSize() 
+			|| mIrregularSources.getSize() || mRoutethroughSources.getSize(); }
 	// static
 		/// \brief Returns true if the wire is hidden in traces.
 		static bool isHidden(WireFlags inWireFlags) 

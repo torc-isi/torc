@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -191,9 +191,9 @@ namespace bitstream { void testSpartan3EDevice(const std::string& inDeviceName,
 		/// \brief Map of frame addressee to frame indexes.
 		FrameAddressToIndex mFrameAddressToIndex;
 		/// \brief Vector to store frame indexes of XDL columns.
-		ColumnIndexVector mBitColumnIndexes [Spartan3E::eFarBlockTypeCount];
+		ColumnIndexVector mBitColumnIndexes[Spartan3E::eFarBlockTypeCount];
 		/// \brief Vector to store frame indexes of Bitstream columns.
-		ColumnIndexVector mXdlColumnIndexes [Spartan3E::eFarBlockTypeCount];
+		ColumnIndexVector mXdlColumnIndexes[Spartan3E::eFarBlockTypeCount];
 	};
 
 } // namespace bitstream

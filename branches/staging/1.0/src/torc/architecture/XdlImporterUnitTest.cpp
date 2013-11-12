@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -26,16 +26,17 @@
 namespace torc {
 namespace architecture {
 
+BOOST_AUTO_TEST_SUITE(regression)
 BOOST_AUTO_TEST_SUITE(architecture)
 
 /// \brief Unit test for the device-aware XdlImporter class.
 
 BOOST_AUTO_TEST_CASE(XdlImporterUnitTest) {
 	// create the appropriate file paths
-	boost::filesystem::path regressionPath 
-		= torc::common::DirectoryTree::getExecutablePath() / "regression";
-	boost::filesystem::path generatedPath = regressionPath / "DesignUnitTest.generated.xdl";
-	boost::filesystem::path referencePath = regressionPath / "DesignUnitTest.reference.xdl";
+	boost::filesystem::path referencePath = torc::common::DirectoryTree::getExecutablePath()
+		/ "torc" / "physical" / "DesignUnitTest.reference.xdl";
+	boost::filesystem::path generatedPath = torc::common::DirectoryTree::getExecutablePath()
+		/ "regression" / "DesignUnitTest.generated.xdl";
 
 	// import the XDL design
 	std::fstream fileStream(referencePath.string().c_str());
@@ -46,7 +47,7 @@ BOOST_AUTO_TEST_CASE(XdlImporterUnitTest) {
 	// look up the design (and do something with it ...)
 	torc::physical::DesignSharedPtr designPtr = importer.getDesignPtr();
 	BOOST_REQUIRE(designPtr.get() != 0);
-	BOOST_REQUIRE(false);
+	BOOST_REQUIRE(false); // we haven't actually tested anything yet
 	BOOST_TEST_MESSAGE("Need to fix XdlImporter::bind(torc::physical::Pip& inPip, EPipType inPipType) and XDL design regression test files for directionality of pips.");
 
 	// look up the device database (and do something with it ...)
@@ -54,6 +55,7 @@ BOOST_AUTO_TEST_CASE(XdlImporterUnitTest) {
 	(void) ddbPtr;
 }
 
+BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE_END()
 
 } // namespace architecture

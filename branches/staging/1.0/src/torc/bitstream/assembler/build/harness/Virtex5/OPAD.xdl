@@ -1,0 +1,5 @@
+design "OPAD" xc5vfx30tff665-3 v3.2;
+inst "OPAD" "OPAD", placed GTX_X49Y69 C2;
+net "OPAD",
+	inpin "OPAD" I
+	;

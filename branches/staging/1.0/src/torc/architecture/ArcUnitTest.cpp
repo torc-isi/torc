@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -38,12 +38,16 @@ BOOST_AUTO_TEST_CASE(ArcUnitTest) {
 	//		Arc(void);
 	//		Arc(const Tilewire& inSourceTilewire, const Tilewire& inSinkTilewire);
 	//		bool operator ==(const Arc& rhs) const;
+	//		bool operator <(const Arc& rhs) const;
 	//		bool isUndefined(void) const;
 	Arc arc1;
 	Arc arc2;
 	Arc arc3(tilewire1, tilewire2);
+	Arc arc4(tilewire2, tilewire1);
 	BOOST_CHECK((arc1 == arc2) == true);
 	BOOST_CHECK((arc1 == arc3) == false);
+	BOOST_CHECK((arc3 < arc4) == true);
+	BOOST_CHECK((arc4 < arc3) == false);
 	BOOST_CHECK(arc1.isUndefined());
 
 	// functions tested:

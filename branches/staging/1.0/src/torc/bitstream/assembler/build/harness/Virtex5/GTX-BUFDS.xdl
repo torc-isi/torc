@@ -1,0 +1,7 @@
+design "BUFDS" xc5vfx30tff665-3 v3.2;
+inst "BUFDS" "BUFDS", placed GTX_X49Y69 BUFDS_X0Y3;
+net "BUFDS",
+	outpin "BUFDS" O,
+	inpin "BUFDS" IN,
+	inpin "BUFDS" IP
+	;

@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -18,6 +18,8 @@
 
 #ifndef TORC_COMMON_ENCAPSULATEDINTEGER_HPP
 #define TORC_COMMON_ENCAPSULATEDINTEGER_HPP
+
+#include "boost/functional/hash.hpp"
 
 namespace torc {
 namespace common {
@@ -51,6 +53,9 @@ namespace common {
 		operator const T&(void) const { return m; }
 		/// \brief Non-constant cast operator.
 		operator T&(void) { return m; }
+	// friends
+		/// \brief Return a hash value for the specified encapsulated integer.
+		friend std::size_t hash_value(const type& rhs) { return boost::hash_value(rhs.m); }
 	// functions
 		static inline pod undefined(void) { return static_cast<pod>(-1); }
 		inline bool isUndefined(void) const { return m == static_cast<pod>(-1); }

@@ -1,0 +1,13 @@
+design "IODELAY" xc5vfx30tff665-3 v3.2;
+inst "IODELAY" "IODELAY", placed IOI_X0Y79 IODELAY_X0Y158;
+net "IODELAY",
+	outpin "IODELAY" DATAOUT,
+	inpin "IODELAY" C,
+	inpin "IODELAY" CE,
+	inpin "IODELAY" DATAIN,
+	inpin "IODELAY" IDATAIN,
+	inpin "IODELAY" INC,
+	inpin "IODELAY" ODATAIN,
+	inpin "IODELAY" RST,
+	inpin "IODELAY" T
+	;

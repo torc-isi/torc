@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -33,16 +33,6 @@ namespace torc {
 namespace bitstream {
 
 BOOST_AUTO_TEST_SUITE(bitstream)
-
-/// \brief Unit test for the Virtex4 CRC
-BOOST_AUTO_TEST_CASE(Virtex4CrcUnitTest) {
-	std::fstream fileStream("Virtex4UnitTest.reference.bit", std::ios::binary | std::ios::in);
-	Virtex4 bitstream;
-	bitstream.read(fileStream, false);
-	std::cout << bitstream << std::endl;
-	bitstream.preflightPackets();
-	BOOST_REQUIRE(true);
-}
 
 /// \brief Unit test for the Virtex4 class.
 BOOST_AUTO_TEST_CASE(Virtex4UnitTest) {
@@ -132,10 +122,10 @@ BOOST_AUTO_TEST_CASE(Virtex4UnitTest) {
 	BOOST_CHECK_EQUAL(uint32_t(Virtex4::FrameAddress(u6)), u6);
 
 	// build the file paths
-	boost::filesystem::path regressionPath 
-		= torc::common::DirectoryTree::getExecutablePath() / "regression";
-	boost::filesystem::path generatedPath = regressionPath / "Virtex4UnitTest.generated.bit";
-	boost::filesystem::path referencePath = regressionPath / "Virtex4UnitTest.reference.bit";
+	boost::filesystem::path referencePath = torc::common::DirectoryTree::getExecutablePath()
+		/ "torc" / "bitstream" / "Virtex4UnitTest.reference.bit";
+	boost::filesystem::path generatedPath = torc::common::DirectoryTree::getExecutablePath()
+		/ "regression" / "Virtex4UnitTest.generated.bit";
 
 	// read the bitstream
 	std::fstream fileStream(referencePath.string().c_str(), std::ios::binary | std::ios::in);
@@ -366,10 +356,10 @@ BOOST_AUTO_TEST_CASE(Virtex4MapUnitTest) {
 
 void testVirtex4FullMapping(const boost::filesystem::path& inWorkingPath) {
 	// build the file paths
-	boost::filesystem::path regressionPath 
-		= torc::common::DirectoryTree::getExecutablePath() / "regression";
-	boost::filesystem::path generatedPath = regressionPath / "Virtex4UnitTest.generatedFull.bit";
-	boost::filesystem::path referencePath = regressionPath / "Virtex4UnitTest.reference.bit";
+	boost::filesystem::path referencePath = torc::common::DirectoryTree::getExecutablePath()
+		/ "torc" / "bitstream" / "Virtex4UnitTest.reference.bit";
+	boost::filesystem::path generatedPath = torc::common::DirectoryTree::getExecutablePath()
+		/ "regression" / "Virtex4MapUnitTest.generated.bit";
 
 	// read the bitstream
 	std::fstream fileStream(referencePath.string().c_str(), std::ios::binary | std::ios::in);
@@ -390,15 +380,15 @@ void testVirtex4FullMapping(const boost::filesystem::path& inWorkingPath) {
 	typedef boost::shared_array<uint32_t> WordSharedArray;
 	Virtex4::iterator p = bitstream.begin();
 	Virtex4::iterator e = bitstream.end();
-	while (p < e) {
+	while(p < e) {
 		const VirtexPacket& packet = *p++;
-		if (packet.isType2()) {
+		if(packet.isType2()) {
 			WordSharedArray words = packet.getWords();
 			uint32_t* ptr = words.get();
-			for (uint32_t block = 0; block < 8; block++) {
-				for (uint32_t frame = 0; frame < bitstream.mBlockFrameIndexBounds[block]; frame++) {
+			for(uint32_t block = 0; block < 8; block++) {
+				for(uint32_t frame = 0; frame < bitstream.mBlockFrameIndexBounds[block]; frame++) {
 					VirtexFrameBlocks::word_t* words = const_cast<VirtexFrameBlocks::word_t*>(bitstream.mFrameBlocks.mBlock[block][frame]->getWords());
-					for (uint32_t index = 0; index < frameLength; index++) {
+					for(uint32_t index = 0; index < frameLength; index++) {
 						*ptr++ = words[index];
 					}
 				}
@@ -414,21 +404,6 @@ void testVirtex4FullMapping(const boost::filesystem::path& inWorkingPath) {
 
 	return;
 }
-
-
-
-
-
-/*
-/// \brief Unit test for the Virtex4 static device info generation.
-BOOST_AUTO_TEST_CASE(Virtex4GenerateUnitTest) {
-
-	Virtex4 bitstream;
-	DeviceInfoHelper::buildFamilyDeviceInfo("Virtex4", "Virtex4DeviceInfo.template", 
-		"Virtex4DeviceInfo.cpp", torc::common::Devices::getVirtex4Devices(), bitstream);
-
-}
-*/
 
 BOOST_AUTO_TEST_SUITE_END()
 

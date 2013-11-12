@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -62,7 +62,7 @@ namespace packer {
 		typedef torc::architecture::PrimitiveElement PrimitiveElement;
 		/// \brief Mapping from element name to element pointer.
 		typedef std::map<string, const PrimitiveElement*> NameToElementPtrMap;
-		/// \brief Mapping from principal element name to orphan element pointer.
+		/// \brief Mapping from principal element name to an orphan element pointer vector.
 		typedef std::map<string, std::vector<const PrimitiveElement*> > PrincipalToOrphanPtrMap;
 		/// \brief A set of configuration values.
 		typedef std::set<const torc::architecture::PrimitiveElementPin*> ElementPinPtrSet;
@@ -106,8 +106,8 @@ namespace packer {
 		NameToElementPtrMap mGround;
 		/// \brief Map of all routethroughs.
 		NameToElementPtrMap mRoutethroughs;
-                /// \brief Map of principals to orphans .
-		PrincipalToOrphanPtrMap mPrincipalstoOrphans;
+		/// \brief Map of principals to orphans.
+		PrincipalToOrphanPtrMap mPrincipalsToOrphans;
 	// statics
 		/// \brief Regular expression for routethroughs.
 		static boost::regex sRoutethroughRegEx;
@@ -126,7 +126,21 @@ namespace packer {
 	// functions
 		/// \brief Initialize this object based on the PrimitiveDef information.
 		virtual void initialize(void);
-		/// \brief Return true if the elemtn has been preclassified (typically by a subclass).
+	public:
+	// constructors
+		/// \brief Default constructor.
+		PrimitiveStructure(const PrimitiveDef* inPrimitiveDefPtr) 
+			: mPrimitiveDefPtr(inPrimitiveDefPtr) {
+			initialize();
+		}
+		/// \brief Null constructor.
+		PrimitiveStructure(void) : mPrimitiveDefPtr(0) {};
+		/// \brief Virtual destructor.
+		virtual ~PrimitiveStructure(void) {}
+	// functions
+		/// \brief Prints out debugging information for the specified element.
+		void debug(const PrimitiveElement& inPrimitiveElement);
+		/// \brief Return true if the element has been preclassified (typically by a subclass).
 		virtual bool isPreclassified(const PrimitiveElement& inElement);
 		/// \brief Return true if the element is the principal element (a parent to the orphans).
 		virtual bool isPrincipal(const PrimitiveElement& inElement);
@@ -146,20 +160,6 @@ namespace packer {
 		virtual bool isFlop(const PrimitiveElement& inElement, const string& inConfig);
 		/// \brief Return true if the element is a routethrough.
 		virtual bool isRoutethrough(const PrimitiveElement& inElementPtr);
-	public:
-	// constructors
-		/// \brief Default constructor.
-		PrimitiveStructure(const PrimitiveDef* inPrimitiveDefPtr) 
-			: mPrimitiveDefPtr(inPrimitiveDefPtr) {
-			initialize();
-		}
-		/// \brief Null constructor.
-		PrimitiveStructure(void) : mPrimitiveDefPtr(0) {};
-		/// \brief Virtual destructor.
-		virtual ~PrimitiveStructure(void) {}
-	// functions
-		/// \brief Prints out debugging information for the specified element.
-		void debug(const PrimitiveElement& inPrimitiveElement);
 	// accessors
 		/// \brief Returns a pointer to the associated primitive definition.
 		const PrimitiveDef* getPrimitiveDefPtr(void) const { return mPrimitiveDefPtr; }

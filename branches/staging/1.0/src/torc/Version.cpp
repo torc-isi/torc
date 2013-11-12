@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -20,8 +20,8 @@
 
 namespace torc {
 
-	const torc::common::DottedVersion cTorcVersion(0, 9, 0);
+	const torc::common::DottedVersion cTorcVersion(1, 0, 0);
 
-	const std::string cTorcVersionString = "0.9.0";
+	const std::string cTorcVersionString = "1.0.0";
 
 } // namespace torc

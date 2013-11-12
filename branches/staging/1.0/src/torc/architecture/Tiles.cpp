@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -37,7 +37,7 @@ namespace architecture {
 		// initialize the tile type array
 		inStream.read(mTileTypeCount);
 		mTileTypeNames.setSize(mTileTypeCount);
-		std::cout << "\tReading " << mTileTypeCount << " tile types..." << std::endl;
+		mOut() << "\tReading " << mTileTypeCount << " tile types..." << std::endl;
 		// loop through each tile type
 		for(TileTypeCount i; i < mTileTypeCount; i++) {
 			// read the tile type name
@@ -47,7 +47,7 @@ namespace architecture {
 			inStream.read(scratch, nameLength);
 			scratch[nameLength] = 0;
 			const_cast<CharStringWrapper&>(mTileTypeNames[i]) = scratch;
-			//std::cerr << "\t\t" << mTileTypeNames[i] << ": " 
+			//mErr() << "\t\t" << mTileTypeNames[i] << ": " 
 			//	<< (void*) (const char*) mTileTypeNames[i] << std::endl;
 		}
 
@@ -78,11 +78,11 @@ namespace architecture {
 		if(typeCount != mTileTypeCount) throw -1;
 		mWires.setSize(mTileTypeCount);
 		mOrderedWireNames.setSize(mTileTypeCount);
-		std::cout << "\tReading wire info for " << mTileTypeCount << " tile types..." 
+		mOut() << "\tReading wire info for " << mTileTypeCount << " tile types..." 
 			<< std::endl;
 		// loop through each tile type
 		for(TileTypeCount i; i < mTileTypeCount; i++) {
-			//std::cerr << "\t\t" << mTileTypeNames[i] << ":" << std::endl;
+			//mErr() << "\t\t" << mTileTypeNames[i] << ":" << std::endl;
 			offset = 0;
 			// read the wire count
 			inStream.read(wireCount);
@@ -249,7 +249,7 @@ namespace architecture {
 		mTileMap = new TileIndex*[static_cast<TileRow::pod>(mRowCount)];
 		mTileMap[0] = new TileIndex[static_cast<TileCount::pod>(mTileCount)];
 		for(TileRow i(1); i < mRowCount; i++) mTileMap[i] = mTileMap[i-1] + mColCount;
-		std::cout << "\tReading tile map for " << mTileCount << " tiles (" << mRowCount 
+		mOut() << "\tReading tile map for " << mTileCount << " tiles (" << mRowCount 
 			<< " rows x " << mColCount << " columns)..." << std::endl;
 		// loop through each tile
 		for(TileIndex i; i < mTileCount; i++) {
@@ -265,7 +265,7 @@ namespace architecture {
 			// and store the info
 			const_cast<TileInfo&>(mTiles[i]).set(type, row, col, scratch);
 			mTileMap[row][col] = i; // point back to the tile index
-			//std::cerr << "\t\t" << i << ": [" << row << "," << col << "]: \"" << scratch 
+			//mErr() << "\t\t" << i << ": [" << row << "," << col << "]: \"" << scratch 
 			//	<< "\" (" << mTileTypeNames[type] << ")" << std::endl;
 			// also add the entry to the ordered tile names array
 			const_cast<TileNameIndexPair&>(mOrderedTileNames[i]) 

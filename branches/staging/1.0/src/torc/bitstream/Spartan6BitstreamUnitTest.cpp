@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -20,6 +20,7 @@
 #include "torc/bitstream/Spartan6Bitstream.hpp"
 #include "torc/bitstream/Spartan6Packet.hpp"
 #include "torc/bitstream/Spartan6.hpp"
+#include "torc/bitstream/TestHelpers.hpp"
 #include "torc/common/DeviceDesignator.hpp"
 #include "torc/bitstream/OutputStreamHelpers.hpp"
 #include "torc/common/TestHelpers.hpp"
@@ -32,23 +33,22 @@ namespace bitstream {
 
 BOOST_AUTO_TEST_SUITE(bitstream)
 
-/// \brief Unit test for the Spartan6Bitstream class.
+/// \brief Unit test for the SpartanBitstream class.
 BOOST_AUTO_TEST_CASE(Spartan6BitstreamCrcUnitTest) {
-	std::fstream fileStream("Spartan6UnitTest.reference.bit", std::ios::binary | std::ios::in);
-	Spartan6 bitstream;
-	bitstream.read(fileStream, false);
-	std::cout << bitstream << std::endl;
-	bitstream.preflightPackets();
-	BOOST_REQUIRE(true);
+	// check the CRC generation
+	boost::filesystem::path regressionPath = torc::common::DirectoryTree::getExecutablePath() 
+		/ "torc" / "bitstream" / "Spartan6UnitTest.reference.bit";
+	BOOST_CHECK(checkCRC<Spartan6>(regressionPath, true));
 }
+
 /// \brief Unit test for the Spartan6Bitstream class.
 BOOST_AUTO_TEST_CASE(Spartan6BistreamUnitTest) {
 
 	// build the file paths
-	boost::filesystem::path regressionPath 
-		= torc::common::DirectoryTree::getExecutablePath() / "regression";
-	boost::filesystem::path generatedPath = regressionPath / "Spartan6UnitTest.generated.bit";
-	boost::filesystem::path referencePath = regressionPath / "Spartan6UnitTest.reference.bit";
+	boost::filesystem::path referencePath = torc::common::DirectoryTree::getExecutablePath()
+		/ "torc" / "bitstream" / "Spartan6UnitTest.reference.bit";
+	boost::filesystem::path generatedPath = torc::common::DirectoryTree::getExecutablePath()
+		/ "regression" / "Spartan6BistreamUnitTest.generated.bit";
 
 	// read the reference bitstream
 	std::fstream fileStream1(referencePath.string().c_str(), std::ios::binary | std::ios::in);

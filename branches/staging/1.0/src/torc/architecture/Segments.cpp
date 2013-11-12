@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -25,9 +25,9 @@ namespace architecture {
 	const Segments::SegmentReference Segments::SegmentReference::sTrivialSegmentReference;
 
 	Segments::Segments(void) : mCompactSegments(), mTilewireSegments(), mIrregularArcs(), 
-		mCompactSegmentCount(), mIrregularArcCount(), mTotalWireCount(), mTotalSegmentCount() {
-		std::cerr << "WARNING: Need to check segment packing." << std::endl;
-	}
+		mCompactSegmentCount(), mIrregularArcCount(), mTotalWireCount(), mPrunedWireCount(), 
+		mActualWireCount(), mTrivialSegmentCount(), mNonTrivialSegmentCount(), mTotalSegmentCount() 
+		{}
 
 	size_t Segments::readTilewireSegments(DigestStream& inStream) {
 		// prepare to read from the stream
@@ -37,7 +37,7 @@ namespace architecture {
 		uint16_t extraWireCount = 0;	// number of extra wires in the current tile
 		WireIndex wireIndex;			// index of extra wire
 
-		//std::cerr << "NOTICE: Remove unnecessary clearing of mTilewireSegment wires." 
+		//mErr() << "NOTICE: Remove unnecessary clearing of mTilewireSegment wires." 
 		//	<< std::endl;
 		// read the section header
 		string sectionName;
@@ -48,7 +48,7 @@ namespace architecture {
 		// initialize the tile segment array
 		inStream.read(tileCount);
 		mTilewireSegments.setSize(tileCount);
-		std::cout << "\tReading " << tileCount << " tiles..." << std::endl;
+		mOut() << "\tReading " << tileCount << " tiles..." << std::endl;
 		// loop through each tile
 		for(TileIndex i; i < tileCount; i++) {
 			// initialize each tile sub-array
@@ -59,25 +59,28 @@ namespace architecture {
 			//		mTilewireSegments[i][j] = SegmentReference();
 			// read the extra wires that we can't infer from the segments
 			inStream.read(extraWireCount);
-			// std::cerr << i << "#" << tileWireCount << ":" << extraWireCount << "=" 
-			//	<< mTotalWireCount << " ";
-			mTotalWireCount += tileWireCount - extraWireCount;
-			// std::cerr << "\t" << i << ": ";
+			// mErr() << i << "#" << tileWireCount << ":" << extraWireCount << "=" 
+			//	<< mActualWireCount << " ";
+			mTotalWireCount += tileWireCount;
+			mActualWireCount += tileWireCount - extraWireCount;
+			mPrunedWireCount += extraWireCount;
+			// mErr() << "\t" << i << ": ";
 			for(WireIndex j; j < extraWireCount; j++) {
 				// read the wire index
 				inStream.read(wireIndex);
 				// the current database implicitly assumes that only -1 (non-existent) wires are 
 				// encoded, so we don't need to read the segment index; that assumption would not 
-				// hold if we had to handle remove wires.
+				// hold if we had to handle removed wires.
 				//// read the segment value
 				//inStream.read(segmentIndex);
 				// store the data
 				mTilewireSegments[i][wireIndex].undefine();
-				// std::cerr << wireIndex << " ";
+				// mErr() << wireIndex << " ";
 			}
-			// std::cerr << std::endl;
+			// mErr() << std::endl;
+			mTotalSegmentCount += tileWireCount - extraWireCount;
 		}
-		//std::cout << "\t" << mTotalWireCount << " total wires" << std::endl;
+		//mOut() << "\t" << mActualWireCount << " total wires" << std::endl;
 
 		// return the number of bytes read
 		return inStream.getBytesRead() - bytesReadOffset;
@@ -101,7 +104,7 @@ namespace architecture {
 		// initialize the tile segment array
 		inStream.read(mCompactSegmentCount);
 		mCompactSegments.setSize(mCompactSegmentCount);
-		std::cout << "\tReading " << mCompactSegmentCount << " segments..." << std::endl;
+		mOut() << "\tReading " << mCompactSegmentCount << " segments..." << std::endl;
 		// loop through each segment (except segment zero)
 		for(CompactSegmentIndex i; i < mCompactSegmentCount; i++) {
 			// initialize each segment sub-array
@@ -127,7 +130,7 @@ namespace architecture {
 			}
 			// loop through each offset for this segment
 			for(uint32_t j = 0; j < offsetCount; j++) {
-				mTotalSegmentCount++;
+				mNonTrivialSegmentCount++;
 				// read the root tile
 				inStream.read(rootTileIndex);
 				// expand the data into each applicable tile
@@ -137,7 +140,7 @@ namespace architecture {
 					WireIndex wireIndex = compactSegmentTilewire.getWireIndex();
 const SegmentReference& existing = mTilewireSegments[tileIndex][wireIndex];
 if(existing.getCompactSegmentIndex() != 0 || existing.getAnchorTileIndex() != 0) {
-	std::cerr << "WARNING: Overwriting mTilewireSegments[" << tileIndex << "][" << wireIndex << "]: "
+	mErr() << "WARNING: Overwriting mTilewireSegments[" << tileIndex << "][" << wireIndex << "]: "
 		<< "conflict is " << i << "@" << rootTileIndex << " versus " << existing.getCompactSegmentIndex()
 		<< "@" << existing.getAnchorTileIndex() << std::endl;
 }
@@ -145,7 +148,23 @@ if(existing.getCompactSegmentIndex() != 0 || existing.getAnchorTileIndex() != 0)
 				}
 			}
 		}
-		std::cout << "\t" << mTotalSegmentCount << " total segments" << std::endl;
+
+		// clear the usage information for all tilewires
+		TileCount tileCount(mTilewireSegments.getSize());
+		for(TileIndex tileIndex; tileIndex < tileCount; tileIndex++) {
+			const Array<SegmentReference>& tilewireSegments = mTilewireSegments[tileIndex];
+			Array<SegmentReference>::const_iterator p = tilewireSegments.begin();
+			Array<SegmentReference>::const_iterator e = tilewireSegments.end();
+			while(p < e) {
+				const SegmentReference& segmentReference = *p++;
+				if(segmentReference.isTrivial()) mTrivialSegmentCount++;
+			}
+		}
+
+		// be sure to add up the total segment count
+		mTotalSegmentCount = mTrivialSegmentCount + mNonTrivialSegmentCount;
+		mOut() << "\t" << mTotalSegmentCount << " total segments" << " (" << (mTrivialSegmentCount) 
+			<< " trivial + " << mNonTrivialSegmentCount << " non-trivial)" << std::endl;
 
 		// return the number of bytes read
 		return inStream.getBytesRead() - bytesReadOffset;
@@ -168,7 +187,7 @@ if(existing.getCompactSegmentIndex() != 0 || existing.getAnchorTileIndex() != 0)
 		// initialize the irregular arc array
 		inStream.read(tileCount);
 		mIrregularArcs.setSize(tileCount);
-		std::cout << "\tReading irregular arcs for " << tileCount << " tiles..." << std::endl;
+		mOut() << "\tReading irregular arcs for " << tileCount << " tiles..." << std::endl;
 		// loop through each tile
 		for(TileIndex i; i < tileCount; i++) {
 			Array<IrregularArc>& irregularArcs = mIrregularArcs[i];

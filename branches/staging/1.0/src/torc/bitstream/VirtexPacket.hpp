@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -105,7 +105,7 @@ namespace bitstream { class VirtexPacketUnitTest; }
 	public:
 	// constructors
 		/// \brief Null constructor.
-		VirtexPacket(void) : mHeader(0), mCount(0), mWord(0), mWords(0), mType(EPacketType(0)), 
+		VirtexPacket(void) : mHeader(0), mCount(0), mWord(0), mWords(), mType(EPacketType(0)), 
 			mOpcode(eOpcodeNOP), mAddress(0) {}
 		/// \brief Full constructor.
 		VirtexPacket(uint32_t inHeader, uint32_t inCount, uint32_t inWord, uint32_t* inWords) 
@@ -115,11 +115,11 @@ namespace bitstream { class VirtexPacketUnitTest; }
 		}
 		/// \brief Header plus single word constructor.
 		VirtexPacket(uint32_t inHeader, uint32_t inWord) : mHeader(inHeader), mCount(1), 
-			mWord(inWord), mWords(0), mType(EPacketType(0)), mOpcode(eOpcodeNOP), mAddress(0) {
+			mWord(inWord), mWords(), mType(EPacketType(0)), mOpcode(eOpcodeNOP), mAddress(0) {
 			initialize();
 		}
 		/// \brief Header only constructor.
-		VirtexPacket(uint32_t inHeader) : mHeader(inHeader), mCount(0), mWord(0), mWords(0), 
+		VirtexPacket(uint32_t inHeader) : mHeader(inHeader), mCount(0), mWord(0), mWords(), 
 			mType(EPacketType(0)), mOpcode(eOpcodeNOP), mAddress(0) {
 			initialize();
 		}
@@ -191,6 +191,12 @@ namespace bitstream { class VirtexPacketUnitTest; }
 		/// \brief Construct a type 1 write packet.
 		static VirtexPacket makeType1Write(uint32_t inAddress, uint32_t inWord) {
 			return VirtexPacket(makeHeader(ePacketType1, eOpcodeWrite, inAddress, 1), 1, inWord, 0);
+		}
+		/// \brief Construct a multi-word type 1 write packet.
+		static VirtexPacket makeType1Write(uint32_t inAddress, uint32_t inCount, uint32_t* inWords) 
+		{
+			return VirtexPacket(makeHeader(ePacketType1, eOpcodeWrite, inAddress, inCount), 
+				inCount, 0, inWords);
 		}
 		/// \brief Construct a type 2 write packet.
 		static VirtexPacket makeType2Write(uint32_t inCount, uint32_t* inWords) {

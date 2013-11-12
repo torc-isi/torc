@@ -1,4 +1,4 @@
-# Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+# Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 # $HeadURL$
 # $Id$
 
@@ -13,84 +13,18 @@
 # You should have received a copy of the GNU General Public License along with this program.  If 
 # not, see <http://www.gnu.org/licenses/>.
 
-THIS_DIR = torc/physical/xdl
+# Relative Path to Torc's src directory
 SRC_DIR = ../../..
-BOOST_INCLUDE_DIR = /usr/local/include/boost-1_42
 
-# C++ flags
-CCFLAGS = \
-				-x c++ \
-				-g \
-				-Wno-trigraphs \
-				-Wall \
-				-Werror \
-				-I$(SRC_DIR) \
-				-I$(BOOST_INCLUDE_DIR) \
-				-isystem $(SRC_DIR)/$(THIS_DIR) \
-				$
+# Include TORC & Boost enviornment variables
+-include $(SRC_DIR)/Makefile.local
+TORC_DIR ?= $(shell pwd)/$(SRC_DIR)/torc
 
-# object files
-OBJS = \
-				XdlScanner.o \
-				XdlParser.o \
-				$
+# Objects list / CFLAGS
+include Makefile.objects
 
-# dependencies
-DEPS = $(OBJS:.o=.d)
+# Objects for this directory
+OBJS := $(TORC_PHYSICAL_XDL_OBJS)
 
-# generate object file lists for regular and test code
-REAL_OBJS = $(filter-out %UnitTest.o %RegressionTest.o, $(OBJS))
-TEST_OBJS = $(filter %UnitTest.o %RegressionTest.o, $(OBJS))
-
-# not all targets are real
-.PHONY: all flex-bison code clean
-
-# make everything
-all: code # flex-bison
-
-# Include automatically generated dependencies or silently make them.
-#-include $(DEPS)
-
-# make the scanner and parser
-#flex-bison: XdlScanner.cpp XdlParser.cpp
-flex-bison:
-
-## generate the parser with bison
-#XdlParser.cpp: parser.yy
-#	/bin/sh ylwrap parser.yy y.tab.c XdlParser.cpp y.tab.h XdlParser.hpp y.output parser.output -- bison -y
-#
-## generate the scanner with flex
-#XdlScanner.cpp: scanner.ll
-#	/bin/sh ylwrap scanner.ll lex.yy.c XdlScanner.cpp -- flex -olex.yy.c
-
-# compile the code
-code: $(OBJS) RealObjectFileList TestObjectFileList
-
-# build the code
-code: $(OBJS) RealObjectFileList TestObjectFileList
-
-# build the real object list
-RealObjectFileList: $(OBJS)
-	@echo $(REAL_OBJS:%=$(THIS_DIR)/%) > RealObjectFileList
-
-# build the test object list
-TestObjectFileList: $(OBJS)
-	@echo $(TEST_OBJS:%=$(THIS_DIR)/%) > TestObjectFileList
-
-# compile c++ sources 
-%.o: %.cpp
-	$(CC) $(CCFLAGS) -c -o $@ $<
-
-# build dependency files
-%.d: %.cpp
-	@set -e; rm -f $@; \
-	$(CC) -MM $(CCFLAGS) $< |  \
-	sed -e '/boost/d' -e 's,\($*\)\.o[ :]*,\1.o $@ : ,g' > $@;
-
-# remove everything that was built
-clean:
-	rm -f parser.cc parser.h
-	rm -f scanner.cc
-	rm -f $(OBJS) $(DEPS)
-	rm -f ObjectFileList RealObjectFileList TestObjectFileList
-
+# Make targets
+include $(TORC_DIR)/Makefile.targets

@@ -1,0 +1,11 @@
+design "IOBM" xc5vfx130tff1738-2 v3.2;
+inst "IOBM" "IOBM", placed LIOB_X0Y79 AL6;
+net "IOBM",
+	outpin "IOBM" DIFFO_OUT,
+	outpin "IOBM" I,
+	outpin "IOBM" PADOUT,
+	inpin "IOBM" DIFFI_IN,
+	inpin "IOBM" DIFFO_IN,
+	inpin "IOBM" O,
+	inpin "IOBM" T
+	;

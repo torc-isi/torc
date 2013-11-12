@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -34,10 +34,10 @@ namespace bitstream {
 
 	using torc::common::DeviceDesignator;
 
-	BitstreamSharedPtr Factory::newBitstreamPtr(const boost::filesystem::path& inPath) {
+	BitstreamSharedPtr Factory::newBitstreamPtr(const char* inFileName) {
 		// open the file as a stream
 		BitstreamSharedPtr bitstreamPtr;
-		std::fstream fileStream(inPath.string().c_str(), std::ios::binary | std::ios::in);
+		std::fstream fileStream(inFileName, std::ios::binary | std::ios::in);
 		if(!fileStream.good()) return bitstreamPtr;
 
 		// read the header and determine the device family
@@ -60,17 +60,15 @@ namespace bitstream {
 		case DeviceDesignator::eFamilyVirtex5:
 			bitstreamPtr = BitstreamSharedPtr(new Virtex5()); break;
 		case DeviceDesignator::eFamilyVirtex6:
-		case DeviceDesignator::eFamilyVirtex6L:
 			bitstreamPtr = BitstreamSharedPtr(new Virtex6()); break;
-		case DeviceDesignator::eFamilyVirtex7:
-		case DeviceDesignator::eFamilyVirtex7L:
+		case DeviceDesignator::eFamilyArtix7:
 		case DeviceDesignator::eFamilyKintex7:
-		case DeviceDesignator::eFamilyKintex7L:
+		case DeviceDesignator::eFamilyVirtex7:
+		case DeviceDesignator::eFamilyZynq7000:
 			bitstreamPtr = BitstreamSharedPtr(new Virtex7()); break;
 		case DeviceDesignator::eFamilySpartan3E:
 			bitstreamPtr = BitstreamSharedPtr(new Spartan3E()); break;
 		case DeviceDesignator::eFamilySpartan6:
-		case DeviceDesignator::eFamilySpartan6L:
 			bitstreamPtr = BitstreamSharedPtr(new Spartan6()); break;
 		default:
 			return bitstreamPtr;

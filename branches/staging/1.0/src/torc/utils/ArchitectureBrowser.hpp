@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -496,10 +496,22 @@ public:
 			architecture::ExtendedWireInfo ewi(mDB, segmentWires[i]);
 			cout << "|\t" << ewi << endl;
 			sourceWires.clear();
-			mDB.expandTilewireSources(segmentWires[i], sourceWires);
+			mDB.expandTilewireSources(segmentWires[i], sourceWires, false, true, false, false);
 			for (uint32_t j = 0; j < sourceWires.size(); j++) {
 				architecture::ExtendedWireInfo ewi2(mDB, sourceWires[j]);
 				cout << "|<--\t\t" << ewi2 << endl;
+			}
+			sourceWires.clear();
+			mDB.expandTilewireSources(segmentWires[i], sourceWires, false, false, true, false);
+			for (uint32_t j = 0; j < sourceWires.size(); j++) {
+				architecture::ExtendedWireInfo ewi2(mDB, sourceWires[j]);
+				cout << "|<--\t\t" << ewi2 << " - IRREGULAR" << endl;
+			}
+			sourceWires.clear();
+			mDB.expandTilewireSources(segmentWires[i], sourceWires, false, false, false, true);
+			for (uint32_t j = 0; j < sourceWires.size(); j++) {
+				architecture::ExtendedWireInfo ewi2(mDB, sourceWires[j]);
+				cout << "|<--\t\t" << ewi2 << " - ROUTETHROUGH" << endl;
 			}
 		}
 	}
@@ -521,10 +533,22 @@ public:
 			architecture::ExtendedWireInfo ewi(mDB, segmentWires[i]);
 			cout << "|\t" << ewi << endl;
 			sinkWires.clear();
-			mDB.expandTilewireSinks(segmentWires[i], sinkWires);
+			mDB.expandTilewireSinks(segmentWires[i], sinkWires, false, true, false, false);
 			for (uint32_t j = 0; j < sinkWires.size(); j++) {
 				architecture::ExtendedWireInfo ewi2(mDB, sinkWires[j]);
 				cout << "|-->\t\t" << ewi2 << endl;
+			}
+			sinkWires.clear();
+			mDB.expandTilewireSinks(segmentWires[i], sinkWires, false, false, true, false);
+			for (uint32_t j = 0; j < sinkWires.size(); j++) {
+				architecture::ExtendedWireInfo ewi2(mDB, sinkWires[j]);
+				cout << "|-->\t\t" << ewi2 << " - IRREGULAR" << endl;
+			}
+			sinkWires.clear();
+			mDB.expandTilewireSinks(segmentWires[i], sinkWires, false, false, false, true);
+			for (uint32_t j = 0; j < sinkWires.size(); j++) {
+				architecture::ExtendedWireInfo ewi2(mDB, sinkWires[j]);
+				cout << "|-->\t\t" << ewi2 << " - ROUTETHROUGH" << endl;
 			}
 		}
 	}

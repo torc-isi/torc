@@ -1,0 +1,9 @@
+design "PMVBRAM" xc5vfx30tff665-3 v3.2;
+inst "PMVBRAM" "PMVBRAM", placed HCLK_BRAM_X5Y69 PMVBRAM_X0Y3;
+net "PMVBRAM",
+	outpin "PMVBRAM" O,
+	outpin "PMVBRAM" ODIV2,
+	outpin "PMVBRAM" ODIV4,
+	inpin "PMVBRAM" DISABLE0,
+	inpin "PMVBRAM" DISABLE1
+	;

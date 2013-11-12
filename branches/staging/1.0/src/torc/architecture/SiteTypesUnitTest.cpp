@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -46,10 +46,8 @@ BOOST_AUTO_TEST_CASE(iterate_configmaps) {
 	using namespace torc::physical;
 
 	// create the appropriate file paths                                                                
-	boost::filesystem::path regressionPath
-	    = torc::common::DirectoryTree::getExecutablePath() / "regression";
-	boost::filesystem::path generatedPath = regressionPath / "DesignUnitTest.generated.xdl";
-	boost::filesystem::path referencePath = regressionPath / "DesignUnitTest.reference.xdl";
+	boost::filesystem::path referencePath = torc::common::DirectoryTree::getExecutablePath()
+		/ "torc" / "physical" / "DesignUnitTest.reference.xdl";
   
 	// import the XDL design                                                                            
 	std::fstream fileStream(referencePath.string().c_str());
@@ -65,12 +63,12 @@ BOOST_AUTO_TEST_CASE(iterate_configmaps) {
 	Circuit::InstanceSharedPtrConstIterator p = designPtr->instancesBegin();
 	Circuit::InstanceSharedPtrConstIterator e = designPtr->instancesEnd();
 
-	while(p < e){ 
+	while(p < e) { 
 		InstanceSharedPtr instancePtr = *p++;
 		std::cout << "Instance:" << instancePtr->getName() << std::endl;
 		ConfigMap::const_iterator cp = instancePtr->configBegin();
 		ConfigMap::const_iterator ce = instancePtr->configEnd();
-		while (cp != ce){	
+		while(cp != ce) {	
 			std::cout << "\tConfig:" << cp->first << "---->" << cp->second.getName() << ":" << cp->second.getValue() << std::endl;
 			cp++;
 		}
@@ -266,7 +264,7 @@ BOOST_AUTO_TEST_CASE(classify_elements){
 							const std::string& isit = *cp++; 	      
 							//Check if the pin names and cfgs match 	      
 							if(elementPin.getName() == isit){		
-								if (findINV(isit) == 1){		  
+								if(findINV(isit) == 1){		  
 									elementPinNames.push_back(elementPin.getName());		  
 									isINV = 1;		  
 									countPins++;		
@@ -316,7 +314,7 @@ BOOST_AUTO_TEST_CASE(classify_elements){
 					}	  	  
 					//std::cout << countPins << "    "; // << std::endl;	  
 					//print the PINs that are matched with cfg within that element	  
-					for (std::vector<std::string>::const_iterator b = elementPinNames.begin(); b != elementPinNames.end(); b++) {	    
+					for(std::vector<std::string>::const_iterator b = elementPinNames.begin(); b != elementPinNames.end(); b++) {	    
 						//std::cout << *b << "    ";	    
 					}
 					// check if the number of pins is equal to the number of cfgs 
@@ -354,7 +352,7 @@ BOOST_AUTO_TEST_CASE(classify_elements){
 					allGnds[element.getName()] = const_cast <PrimitiveElement*>(&element); //element.getName(); 
 					allElements.erase(element.getName());
 				}
-				for (std::vector<std::string>::const_iterator s = primitivePinNames.begin(); s != primitivePinNames.end(); s++) {	    
+				for(std::vector<std::string>::const_iterator s = primitivePinNames.begin(); s != primitivePinNames.end(); s++) {	    
 					if(element.getName() == *s){
 						//std::cout << "\tTERMINAL:" << element.getName() << std::endl;
 						allTerminals[element.getName()] = const_cast <PrimitiveElement*>(&element); //element.getName(); 

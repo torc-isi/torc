@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -94,13 +94,16 @@ namespace bitstream { void testVirtex5PartialMapping(const boost::filesystem::pa
 		/// \brief Major column types.
 		/// \details These are defined and used for internal purposes only, and are not derived 
 		///		from any Xilinx documentation.
-		enum EColumnType { eColumnTypeEmpty = 0, eColumnTypeBram, eColumnTypeClb, eColumnTypeClock,
-			eColumnTypeDsp, eColumnTypeGtx, eColumnTypeIob, eColumnTypeCount };
+		enum EColumnType { eColumnTypeEmpty = 0, eColumnTypeInt, eColumnTypeBram, eColumnTypeClb, 
+			eColumnTypeClock, eColumnTypeDsp, eColumnTypeGtx, eColumnTypeIoi, eColumnTypeCount };
 		/// \brief Frame length.
 		/// \details Constant frame length of 41 32-bit words for the entire Virtex5 family.
 		/// \see Virtex-5 Frame Count, Frame Length, Overhead, and Bitstream Size: UG191, v.3.7, 
 		///		June 24, 2009, Table 6-1.
 		enum { eFrameLength = 41 };
+		/// \brief Number of pad frames after each frame row.
+		/// \details The configuration controller expects two frames of NOPs after each frame row.
+		enum { eRowPadFrames = 2 };
 	protected:
 	// enumerations
 	// static variables
@@ -140,16 +143,20 @@ namespace bitstream { void testVirtex5PartialMapping(const boost::filesystem::pa
 		/// \brief Basic constructor.
 		Virtex5(void) : VirtexBitstream() {
 //			for(int i = 0; i < eRegisterCount; i++) mRegister[i] = 0;
+			// initialize miscellaneous variables
+			mFrameRowCount = 0;
 			// initialize the column type widths for this family
 			mColumnDefs.resize(eColumnTypeCount);
 			mColumnDefs[eColumnTypeEmpty] 	= ColumnDef("Empty",    0,  0,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeInt] 	= ColumnDef("Int",      0,  0,  0,  0,  0,  0,  0,  0);
 			mColumnDefs[eColumnTypeBram]	= ColumnDef("Bram",    30,128,  0,  0,  0,  0,  0,  0);
 			mColumnDefs[eColumnTypeClb]		= ColumnDef("Clb",     36,  0,  0,  0,  0,  0,  0,  0);
 			mColumnDefs[eColumnTypeClock] 	= ColumnDef("Clock",    4,  0,  0,  0,  0,  0,  0,  0);
 			mColumnDefs[eColumnTypeDsp]		= ColumnDef("Dsp",     28,  0,  0,  0,  0,  0,  0,  0);
 			mColumnDefs[eColumnTypeGtx]		= ColumnDef("Gtx",     32,  0,  0,  0,  0,  0,  0,  0);
-			mColumnDefs[eColumnTypeIob]		= ColumnDef("Iob",     54,  0,  0,  0,  0,  0,  0,  0);
+			mColumnDefs[eColumnTypeIoi]		= ColumnDef("Ioi",     54,  0,  0,  0,  0,  0,  0,  0);
 			// map type type names to column types
+			mTileTypeNameToColumnType["INT"]		= eColumnTypeInt;
 			mTileTypeNameToColumnType["BRAM"]		= eColumnTypeBram;
 			mTileTypeNameToColumnType["PCIE_BRAM"]	= eColumnTypeBram;
 			mTileTypeNameToColumnType["CLBLL"]		= eColumnTypeClb;
@@ -159,9 +166,7 @@ namespace bitstream { void testVirtex5PartialMapping(const boost::filesystem::pa
 			mTileTypeNameToColumnType["GTX"]		= eColumnTypeGtx;
 			mTileTypeNameToColumnType["GTX_LEFT"]	= eColumnTypeGtx;
 			mTileTypeNameToColumnType["GT3"]		= eColumnTypeGtx;
-			mTileTypeNameToColumnType["CIOB"]		= eColumnTypeIob;
-			mTileTypeNameToColumnType["LIOB"]		= eColumnTypeIob;
-			mTileTypeNameToColumnType["RIOB"]		= eColumnTypeIob;
+			mTileTypeNameToColumnType["IOI"]		= eColumnTypeIoi;
 		}
 	// functions
 		/// \brief Return the masked value for a subfield of the specified register.
@@ -170,19 +175,67 @@ namespace bitstream { void testVirtex5PartialMapping(const boost::filesystem::pa
 		/// \brief Initialize the device information.
 		virtual void initializeDeviceInfo(const std::string& inDeviceName);
 		/// \brief Initialize the maps between frame indexes and frame addresses.
-		/// \detail This is generally only useful for internal purposes.
+		/// \details This is generally only useful for internal purposes.
 		virtual void initializeFrameMaps(void);
 		/// \brief Loads full bitstream frames into block data structure.
 		void initializeFullFrameBlocks(void);
 		/// \brief Loads partial bitstream frames into block data structure.
 		//void initializePartialFrameBlocks(void);
-		/// \brief Returns frames for queried bitstream co-ordinates
-		VirtexFrameBlocks getBitstreamFrames(uint32_t inBlockCount, uint32_t inBitCol);
-		/// \brief Returns frames for queried xdl co-ordinates
-		VirtexFrameBlocks getXdlFrames(uint32_t inBlockCount, uint32_t inXdlCol);
+		/// \brief Transfers frame block data into the full bitstream frame packet
+		void updateFullFrameBlocks(void);
+//#ifdef DEPRECATED
+//		/// \brief Returns frames for queried bitstream coordinates
+//		VirtexFrameBlocks getBitstreamFrames(uint32_t inBlockCount, uint32_t inBitCol, 
+//			uint32_t inFrameRow = 0);
+//		/// \brief Returns frames for queried XDL coordinates
+//		VirtexFrameBlocks getXdlFrames(uint32_t inBlockCount, uint32_t inXdlCol, 
+//			uint32_t inFrameRow = 0);
+//#endif
+		/// \brief Returns frames for specified bitstream tile column.
+		/// \parameter inTopBottom The top or bottom half of the device: eFarTop or eFarBottom.
+		/// \parameter inFrameRow The frame or clock region row in the area specified by 
+		///		inTopBottom.
+		/// \parameter inBitCol The bitstream column coordinate (different than the XDL column 
+		///		coordinate).
+		/// \parameter inBlockCount The highest block type requested (8 for Xilinx architectures).
+		VirtexFrameBlocks getBitstreamFrames(EFarTopBottom inTopBottom, uint32_t inFrameRow, 
+			uint32_t inBitCol, uint32_t inBlockCount = eBlockTypeCount);
+		/// \brief Returns frames for specified bitstream tile column.
+		/// \parameter inBitRow The bitstream row coordinate (same as the XDL row coordinate).
+		/// \parameter inBitCol The bitstream column coordinate (different than the XDL column 
+		///		coordinate).
+		/// \parameter outBeginBit The bit index of the beginning of the requested tile.
+		/// \parameter outEndBit The bit index of the end of the requested tile.
+		/// \parameter inBlockCount The highest block type requested (8 for Xilinx architectures).
+		VirtexFrameBlocks getBitstreamFrames(uint32_t inBitRow, uint32_t inBitCol, 
+			uint32_t& outBeginBit, uint32_t& outEndBit, uint32_t inBlockCount = eBlockTypeCount);
+		/// \brief Returns frames for specified XDL tile coordinates.
+		/// \parameter inXldRow The XDL row coordinate.
+		/// \parameter inXdlCol The XDL column coordinate.
+		/// \parameter outBeginBit The bit index of the beginning of the requested tile.
+		/// \parameter outEndBit The bit index of the end of the requested tile.
+		/// \parameter inBlockCount The highest block type requested (8 for Xilinx architectures).
+		VirtexFrameBlocks getXdlFrames(uint32_t inXdlRow, uint32_t inXdlCol, uint32_t& outBeginBit, 
+			uint32_t& outEndBit, uint32_t inBlockCount = eBlockTypeCount);
+		/// \brief Returns the primary column corresponding to the given column.  If immediately to  
+		///		the left of a BRAM, CLB, DSP, GTX, or IOI column, return that column.  In all other 
+		///		cases, return the given column.
+		/// \parameter inXdlCol The XDL column coordinate.
+		uint32_t getPrimaryXdlColumn(uint32_t inXdlCol);
+		/// \brief Split the given frame index into the base index of the major frame and the index 
+		///		of the minor frame.
+		virtual void splitFrameIndex(uint32_t inFrameIndex, uint32_t& outMajorIndex, 
+			uint32_t& outMinorIndex) {
+			outMinorIndex = mFrameIndexToAddress[inFrameIndex].mMinor;
+			outMajorIndex = inFrameIndex - outMinorIndex;
+		}
 	// accessors
+		/// \brief Return the number of frame rows for the current device.
+		virtual uint32_t getFrameRowCount(void) const { return mFrameRowCount; }
 		/// \brief Return the frame length for the current device.
 		virtual uint32_t getFrameLength(void) const { return eFrameLength; }
+		/// \brief Return the number of pad frames after each row.
+		virtual uint32_t getRowPadFrames(void) const { return eRowPadFrames; }
 	// inserters
 		/// \brief Insert the bitstream header into an output stream.
 		friend std::ostream& operator<< (std::ostream& os, const Virtex5& rhs);
@@ -249,7 +302,33 @@ namespace bitstream { void testVirtex5PartialMapping(const boost::filesystem::pa
 		typedef std::map<Virtex5::FrameAddress, uint32_t> FrameAddressToIndex;
 		/// \brief Array of vectors to store frame indexes of each block type
 		typedef std::vector<uint32_t> IndexVector;
-
+		/// \brief Frame row designator: top/bottom flag and row index.
+		struct FrameRowDesignator {
+			/// \brief Top/bottom flag.
+			EFarTopBottom mTopBottom;
+			/// \brief Frame row.
+			uint32_t mFrameRow;
+			/// \brief Base XDL row.
+			uint32_t mXdlBaseRow;
+			/// \brief Default constructor.
+			FrameRowDesignator(void) : mTopBottom(eFarTop), mFrameRow(0), mXdlBaseRow(0) {}
+			/// \brief Constructor.
+			FrameRowDesignator(EFarTopBottom inTopBottom, uint32_t inFrameRow, 
+				uint32_t inXdlBaseRow) : mTopBottom(inTopBottom), mFrameRow(inFrameRow), 
+				mXdlBaseRow(inXdlBaseRow) {}
+			/// \brief Comparison operator (for map operations).
+			bool operator< (const FrameRowDesignator& rhs) const {
+				if(mTopBottom < rhs.mTopBottom) return true;
+				return mFrameRow < rhs.mFrameRow;
+			}
+		};
+	// functions
+		/// \brief Returns frames for queried bitstream coordinates
+		VirtexFrameBlocks getBitstreamFrames(uint32_t inFrameRow, uint32_t inBitCol, 
+			uint32_t inBlockCount = eBlockTypeCount);
+		/// \brief Returns frames for queried XDL coordinates
+		VirtexFrameBlocks getXdlFrames(uint32_t inFrameRow, uint32_t inXdlCol, 
+			uint32_t inBlockCount = eBlockTypeCount);
 	// members
 		/// \brief Map of frame indexes to frame addresses.
 		FrameIndexToAddress mFrameIndexToAddress;
@@ -261,8 +340,12 @@ namespace bitstream { void testVirtex5PartialMapping(const boost::filesystem::pa
 		IndexVector mXdlColumnIndexes [Virtex5::eFarBlockTypeCount];
 		/// \brief Array to hold frame index boundaries for blocks.
 		uint32_t mBlockFrameIndexBounds [Virtex5::eFarBlockTypeCount];
-		/// \brief Map of xdl columns to bit columns.
-		std::map<uint32_t, uint32_t> mXdlIndexToBitIndex;
+		/// \brief Map of bitstream column indexes to XDL column indexes.
+		std::map<uint32_t, uint32_t> mBitColumnToXdlColumn;
+		/// \brief Number of frame rows.
+		uint32_t mFrameRowCount;
+		/// \brief Map of XDL tile rows to frame designators.
+		std::map<uint32_t, FrameRowDesignator> mXdlRowToFrameRowDesignator;
 	};
 
 } // namespace bitstream

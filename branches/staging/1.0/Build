@@ -46,3 +46,48 @@ The Doxygen documentation can be built as follows:
 	doxygen Doxyfile
 
 Doxygen is available from http://www.stack.nl/~dimitri/doxygen/.
+
+Writing Your Own Code
+=====================
+
+You can use Torc with your own code, whether writing an application with built on Torc, or trying to
+link Torc into a larger program.
+
+0.  It is generally advisable to create a separate directory outside the Torc tree, if not already 
+	available:
+
+	mkdir /path-to/mydirectory
+
+1.  Copy torc/trunk/Makefile.user as Makefile into your separate directory:
+
+	cp /path-to/torc/trunk/Makefile.user /path-to/mydirectory/Makefile
+
+2.  If you expect to open any Torc device database files or reference files, you should create a 
+	symbolic link to the torc/trunk/src/torc directory:
+
+	cd /path-to/mydirectory
+	ln -s /path-to/torc/trunk/src/torc
+
+3.  Define SRC_DIR as an environment variable (for example, /path-to/torc/trunk/src), or open 
+	the Makefile and set the SRC_DIR variable at the beginning of that file.
+
+	bash: export SRC_DIR=/path-to/torc/trunk/src
+	tcsh: setenv SRC_DIR /path-to/torc/trunk/src
+	make: SRC_DIR = /path-to/torc/trunk/src
+
+4.  Edit the USER_EXAMPLE_EXEC and USER_EXAMPLE_OBJS variables in the Makefile to specify the name 
+	of your application and of your object file(s).
+
+	make: USER_EXAMPLE_EXEC = myexample
+	make: USER_EXAMPLE_OBJS = myexample.o
+
+5.  Create your source file, if it doesn't already exist, or borrow code from any of the torc or 
+	sandbox examples:
+
+	cp /path-to/torc/trunk/sandbox/ArchitectureExample.cpp /path-to/mydirectory/myexample.cpp
+
+6.  Build your application by invoking make.  If you see an error message telling you to declare 
+	BOOST_INCLUDE_DIR and BOOST_LIB_DIR, you will need to define those variables in your local 
+	environment or in the newly created /path-to/torc/trunk/src/Makefile.local:
+
+	make

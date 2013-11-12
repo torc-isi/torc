@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -31,7 +31,6 @@ namespace bitstream {
 
 BOOST_AUTO_TEST_SUITE(bitstream)
 
-
 /// \brief Unit test for the Spartan6 class.
 BOOST_AUTO_TEST_CASE(Spartan6UnitTest) {
 
@@ -57,8 +56,8 @@ BOOST_AUTO_TEST_CASE(Spartan6UnitTest) {
 	// members tested:
 	//		Spartan6::sPacketTypeName and EPacketTypeName
 	BOOST_CHECK_EQUAL(Spartan6::sPacketTypeName[0],							"[UNKNOWN TYPE 0]");
-	BOOST_CHECK_EQUAL(Spartan6::sPacketTypeName[Spartan6::ePacketType1],		"TYPE1");
-	BOOST_CHECK_EQUAL(Spartan6::sPacketTypeName[Spartan6::ePacketType2],		"TYPE2");
+	BOOST_CHECK_EQUAL(Spartan6::sPacketTypeName[Spartan6::ePacketType1],	"TYPE1");
+	BOOST_CHECK_EQUAL(Spartan6::sPacketTypeName[Spartan6::ePacketType2],	"TYPE2");
 	BOOST_CHECK_EQUAL(Spartan6::sPacketTypeName[3],							"[UNKNOWN TYPE 3]");
 	BOOST_CHECK_EQUAL(Spartan6::sPacketTypeName[4],							"[UNKNOWN TYPE 4]");
 	BOOST_CHECK_EQUAL(Spartan6::sPacketTypeName[5],							"[UNKNOWN TYPE 5]");
@@ -69,14 +68,14 @@ BOOST_AUTO_TEST_CASE(Spartan6UnitTest) {
 	//		Spartan6::sOpcodeName and EOpcode
 	BOOST_CHECK_EQUAL(Spartan6::sOpcodeName[Spartan6::eOpcodeNOP],			"NOP");
 	BOOST_CHECK_EQUAL(Spartan6::sOpcodeName[Spartan6::eOpcodeRead],			"READ");
-	BOOST_CHECK_EQUAL(Spartan6::sOpcodeName[Spartan6::eOpcodeWrite],			"WRITE");
+	BOOST_CHECK_EQUAL(Spartan6::sOpcodeName[Spartan6::eOpcodeWrite],		"WRITE");
 	BOOST_CHECK_EQUAL(Spartan6::sOpcodeName[Spartan6::eOpcodeReserved],		"RESERVED");
 
 	// members tested:
 	//		Spartan6::sRegisterName and ERegister
 	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterCRC],		"CRC");
-	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterFARMAJ],		"FARMAJ");
-	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterFARMIN],		"FARMIN");
+	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterFARMAJ],	"FARMAJ");
+	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterFARMIN],	"FARMIN");
 	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterFDRI],		"FDRI");
 	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterFDRO],		"FDRO");
 	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterCMD],		"CMD");
@@ -86,52 +85,51 @@ BOOST_AUTO_TEST_CASE(Spartan6UnitTest) {
 	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterLOUT],		"LOUT");
 	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterCOR1],		"COR1");
 	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterCOR2],		"COR2");
-	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterPWRDN_REG],		"PWRDN_REG");
+	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterPWRDN_REG],"PWRDN_REG");
 	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterFLR],		"FLR");
-	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterIDCODE],		"IDCODE");
+	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterIDCODE],	"IDCODE");
 	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterCWDT],		"CWDT");
-	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterHC_OPT_REG],		"HC_OPT_REG");
+	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterHC_OPT_REG],"HC_OPT_REG");
 	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterCSBO],		"CSBO");
-	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterGENERAL1],		"GENERAL1");
-	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterGENERAL2],		"GENERAL2");
-	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterGENERAL3],		"GENERAL3");
-	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterGENERAL4],		"GENERAL4");
-	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterGENERAL5],		"GENERAL5");
-	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterMODE_REG],		"MODE_REG");
-	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterPU_GWE],		"PU_GWE");
-	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterPU_GTS],		"PU_GTS");
+	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterGENERAL1],	"GENERAL1");
+	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterGENERAL2],	"GENERAL2");
+	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterGENERAL3],	"GENERAL3");
+	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterGENERAL4],	"GENERAL4");
+	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterGENERAL5],	"GENERAL5");
+	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterMODE_REG],	"MODE_REG");
+	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterPU_GWE],	"PU_GWE");
+	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterPU_GTS],	"PU_GTS");
 	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterMFWR],		"MFWR");
-	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterCCLK_FREQ],		"CCLK_FREQ");
-	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterSEU_OPT],		"SEU_OPT");
-	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterEXP_SIGN],		"EXP_SIGN");
-	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterRDBK_SIGN],		"RDBK_SIGN");
-	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterBOOSTS],		"BOOSTS");
-	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterEYE_MASK],		"EYE_MASK");
-	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterCBC_REG],		"CBC_REG");
+	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterCCLK_FREQ],"CCLK_FREQ");
+	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterSEU_OPT],	"SEU_OPT");
+	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterEXP_SIGN],	"EXP_SIGN");
+	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterRDBK_SIGN],"RDBK_SIGN");
+	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterBOOSTS],	"BOOSTS");
+	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterEYE_MASK],	"EYE_MASK");
+	BOOST_CHECK_EQUAL(Spartan6::sRegisterName[Spartan6::eRegisterCBC_REG],	"CBC_REG");
 
 	// members tested:
 	//		Spartan6::sCommandName and ECommand
-	BOOST_CHECK_EQUAL(Spartan6::sCommandName[Spartan6::eCommandNULL],			"NULL");
-	BOOST_CHECK_EQUAL(Spartan6::sCommandName[Spartan6::eCommandWCFG],			"WCFG");
-	BOOST_CHECK_EQUAL(Spartan6::sCommandName[Spartan6::eCommandMFW],			"MFW");
-	BOOST_CHECK_EQUAL(Spartan6::sCommandName[Spartan6::eCommandLFRM],			"LFRM");
-	BOOST_CHECK_EQUAL(Spartan6::sCommandName[Spartan6::eCommandRCFG],			"RCFG");
+	BOOST_CHECK_EQUAL(Spartan6::sCommandName[Spartan6::eCommandNULL],		"NULL");
+	BOOST_CHECK_EQUAL(Spartan6::sCommandName[Spartan6::eCommandWCFG],		"WCFG");
+	BOOST_CHECK_EQUAL(Spartan6::sCommandName[Spartan6::eCommandMFW],		"MFW");
+	BOOST_CHECK_EQUAL(Spartan6::sCommandName[Spartan6::eCommandLFRM],		"LFRM");
+	BOOST_CHECK_EQUAL(Spartan6::sCommandName[Spartan6::eCommandRCFG],		"RCFG");
 	BOOST_CHECK_EQUAL(Spartan6::sCommandName[Spartan6::eCommandSTART],		"START");
-	BOOST_CHECK_EQUAL(Spartan6::sCommandName[6],			"[UNKNOWN COMMAND 6]");
-	BOOST_CHECK_EQUAL(Spartan6::sCommandName[Spartan6::eCommandRCRC],			"RCRC");
+	BOOST_CHECK_EQUAL(Spartan6::sCommandName[6],							"[UNKNOWN COMMAND 6]");
+	BOOST_CHECK_EQUAL(Spartan6::sCommandName[Spartan6::eCommandRCRC],		"RCRC");
 	BOOST_CHECK_EQUAL(Spartan6::sCommandName[Spartan6::eCommandAGHIGH],		"AGHIGH");
-	BOOST_CHECK_EQUAL(Spartan6::sCommandName[9],		  "[UNKNOWN COMMAND 9]");
-	BOOST_CHECK_EQUAL(Spartan6::sCommandName[Spartan6::eCommandGRESTORE],		"GRESTORE");
-	BOOST_CHECK_EQUAL(Spartan6::sCommandName[Spartan6::eCommandSHUTDOWN],		"SHUTDOWN");
+	BOOST_CHECK_EQUAL(Spartan6::sCommandName[9],							"[UNKNOWN COMMAND 9]");
+	BOOST_CHECK_EQUAL(Spartan6::sCommandName[Spartan6::eCommandGRESTORE],	"GRESTORE");
+	BOOST_CHECK_EQUAL(Spartan6::sCommandName[Spartan6::eCommandSHUTDOWN],	"SHUTDOWN");
 	BOOST_CHECK_EQUAL(Spartan6::sCommandName[Spartan6::eCommandDESYNC],		"DESYNC");
 	BOOST_CHECK_EQUAL(Spartan6::sCommandName[Spartan6::eCommandIPROG],		"IPROG");
 
 	// build the file paths
-	boost::filesystem::path regressionPath 
-		= torc::common::DirectoryTree::getExecutablePath() / "regression";
-	boost::filesystem::path generatedPath = regressionPath / "Spartan6UnitTest.generated.bit";
-	//boost::filesystem::path generatedPath = regressionPath / "xc6slx4.partial.even.bit";
-	boost::filesystem::path referencePath = regressionPath / "Spartan6UnitTest.reference.bit";
+	boost::filesystem::path referencePath = torc::common::DirectoryTree::getExecutablePath()
+		/ "torc" / "bitstream" / "Spartan6UnitTest.reference.bit";
+	boost::filesystem::path generatedPath = torc::common::DirectoryTree::getExecutablePath()
+		/ "regression" / "Spartan6UnitTest.generated.bit";
 
 	// read the bitstream
 	std::fstream fileStream(referencePath.string().c_str(), std::ios::binary | std::ios::in);
@@ -158,6 +156,7 @@ BOOST_AUTO_TEST_CASE(Spartan6UnitTest) {
 	// compare the reference and generated XDL
 	BOOST_CHECK(torc::common::fileContentsAreEqual(generatedPath, referencePath));
 }
+
 BOOST_AUTO_TEST_SUITE_END()
 
 } // namespace bitstream

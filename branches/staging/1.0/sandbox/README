@@ -1,7 +1,7 @@
 The source files in this directory were taken directly from trunk/src/torc/examples, and may be 
 modified at will.  To build the executables, invoke the following:
 
-    make sandbox
+    make
 
 If the remainder of the Torc code has not yet been built, it will be compiled before the sandbox 
 code.

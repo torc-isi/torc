@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -20,6 +20,7 @@
 #define TORC_BITSTREAM_FRAMESET_HPP
 
 #include "torc/bitstream/Frame.hpp"
+#include "torc/bitstream/Bitstream.hpp"
 #include "torc/bitstream/VirtexFrameAddress.hpp"
 
 namespace torc {
@@ -53,17 +54,19 @@ namespace bitstream {
 		/// \var inFrameCount The number of frames in the set.
 		FrameSet(uint32_t inFrameLength, uint32_t inFrameCount) {
 		  	for(uint32_t i = 0; i < inFrameCount; i++)
-				push_back(FrameSharedPtr(new FRAME_TYPE(inFrameLength)));
+				this->push_back(FrameSharedPtr(new FRAME_TYPE(inFrameLength)));
 		}
 		/// \brief Basic constructor for partial bitstream.
 		/// \var inFrameLength The default length of each frame in the set.
 		/// \var inFrameCount The number of frames in the set.
 		/// \var inWords The frame words
 		/// \var inFar Address of the frames in the set
-		FrameSet(uint32_t inFrameLength, uint32_t inFrameCount, WordSharedArray inWords, VirtexFrameAddress& inFar) {
+		FrameSet(uint32_t inFrameLength, uint32_t inFrameCount, WordSharedArray inWords, 
+			VirtexFrameAddress& inFar) {
 		    VirtexFarSharedPtr farPtr = inFar;
 		  	for(uint32_t i = 0; i < inFrameCount; i++)
-				push_back(FrameSharedPtr(new FRAME_TYPE(inFrameLength, &inWords[i*inFrameLength])));
+				this->push_back(FrameSharedPtr(new FRAME_TYPE(inFrameLength, 
+					&inWords[i*inFrameLength])));
 		}
 	};
 
@@ -75,9 +78,6 @@ namespace bitstream {
 	template <typename FRAME_TYPE> class FrameBlocks {
 	protected:
 	public:
-	// enumerations
-		/// \brief The block type count is fixed at eight across all Xilinx architectures.
-		enum { eBlockTypeCount = 8 };
 	// typedefs
 		/// \brief FrameSet frame type.
 		typedef FRAME_TYPE frame_t;
@@ -85,7 +85,7 @@ namespace bitstream {
 		typedef typename FRAME_TYPE::word_t word_t;
 	// members
 		/// \brief FrameSets for each of the eight block types.
-		FrameSet<FRAME_TYPE> mBlock[eBlockTypeCount];
+		FrameSet<FRAME_TYPE> mBlock[Bitstream::eBlockTypeCount];
 	};
 
 	typedef FrameBlocks<VirtexFrame> VirtexFrameBlocks;		///< \brief Virtex frame blocks type.

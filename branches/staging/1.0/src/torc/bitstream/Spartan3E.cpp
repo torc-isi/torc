@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -373,7 +373,7 @@ namespace bitstream {
 
 		//Test to check proper indexing
 		bool debug = false;
-		if (debug) {
+		if(debug) {
   		  for(uint32_t i = 0; i < Spartan3E::eFarBlockTypeCount; i++) {
   			for(uint32_t j = 0; j < mBitColumnIndexes[i].size(); j++) 
 			  std::cout << "Bit Value at index: (" << i << ", " << j << ") : " << mBitColumnIndexes[i][j] << std::endl;

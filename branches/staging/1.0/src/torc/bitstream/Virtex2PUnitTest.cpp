@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -34,16 +34,6 @@ namespace bitstream {
 
 BOOST_AUTO_TEST_SUITE(bitstream)
 
-/// \brief Unit test for the Virtex2 CRC
-BOOST_AUTO_TEST_CASE(Virtex2PCrcUnitTest) {
-	std::fstream fileStream("Virtex2PUnitTest.reference.bit", std::ios::binary | std::ios::in);
-	Virtex2P bitstream;
-	bitstream.read(fileStream, false);
-	std::cout << bitstream << std::endl;
-	bitstream.preflightPackets();
-	BOOST_REQUIRE(true);
-}
-
 /// \brief Unit test for the Virtex2p class.
 BOOST_AUTO_TEST_CASE(Virtex2PUnitTest) {
 
@@ -67,8 +57,8 @@ BOOST_AUTO_TEST_CASE(Virtex2PUnitTest) {
 	// members tested:
 	//		Virtex2P::sPacketTypeName and EPacketTypeName
 	BOOST_CHECK_EQUAL(Virtex2P::sPacketTypeName[0],							"[UNKNOWN TYPE 0]");
-	BOOST_CHECK_EQUAL(Virtex2P::sPacketTypeName[Virtex2P::ePacketType1],		"TYPE1");
-	BOOST_CHECK_EQUAL(Virtex2P::sPacketTypeName[Virtex2P::ePacketType2],		"TYPE2");
+	BOOST_CHECK_EQUAL(Virtex2P::sPacketTypeName[Virtex2P::ePacketType1],	"TYPE1");
+	BOOST_CHECK_EQUAL(Virtex2P::sPacketTypeName[Virtex2P::ePacketType2],	"TYPE2");
 	BOOST_CHECK_EQUAL(Virtex2P::sPacketTypeName[3],							"[UNKNOWN TYPE 3]");
 	BOOST_CHECK_EQUAL(Virtex2P::sPacketTypeName[4],							"[UNKNOWN TYPE 4]");
 	BOOST_CHECK_EQUAL(Virtex2P::sPacketTypeName[5],							"[UNKNOWN TYPE 5]");
@@ -79,7 +69,7 @@ BOOST_AUTO_TEST_CASE(Virtex2PUnitTest) {
 	//		Virtex2P::sOpcodeName and EOpcode
 	BOOST_CHECK_EQUAL(Virtex2P::sOpcodeName[Virtex2P::eOpcodeNOP],			"NOP");
 	BOOST_CHECK_EQUAL(Virtex2P::sOpcodeName[Virtex2P::eOpcodeRead],			"READ");
-	BOOST_CHECK_EQUAL(Virtex2P::sOpcodeName[Virtex2P::eOpcodeWrite],			"WRITE");
+	BOOST_CHECK_EQUAL(Virtex2P::sOpcodeName[Virtex2P::eOpcodeWrite],		"WRITE");
 	BOOST_CHECK_EQUAL(Virtex2P::sOpcodeName[Virtex2P::eOpcodeReserved],		"RESERVED");
 
 	// members tested:
@@ -98,29 +88,29 @@ BOOST_AUTO_TEST_CASE(Virtex2PUnitTest) {
 	BOOST_CHECK_EQUAL(Virtex2P::sRegisterName[Virtex2P::eRegisterFLR],		"FLR");
 	BOOST_CHECK_EQUAL(Virtex2P::sRegisterName[Virtex2P::eRegisterKEY],		"KEY");
 	BOOST_CHECK_EQUAL(Virtex2P::sRegisterName[Virtex2P::eRegisterCBC],		"CBC");
-	BOOST_CHECK_EQUAL(Virtex2P::sRegisterName[Virtex2P::eRegisterIDCODE],		"IDCODE");
+	BOOST_CHECK_EQUAL(Virtex2P::sRegisterName[Virtex2P::eRegisterIDCODE],	"IDCODE");
 
 	// members tested:
 	//		Virtex2P::sCommandName and ECommand
-	BOOST_CHECK_EQUAL(Virtex2P::sCommandName[Virtex2P::eCommandWCFG],			"WCFG");
-	BOOST_CHECK_EQUAL(Virtex2P::sCommandName[Virtex2P::eCommandMFWR],			"MFWR");
-	BOOST_CHECK_EQUAL(Virtex2P::sCommandName[Virtex2P::eCommandLFRM],			"LFRM");
-	BOOST_CHECK_EQUAL(Virtex2P::sCommandName[Virtex2P::eCommandRCFG],			"RCFG");
+	BOOST_CHECK_EQUAL(Virtex2P::sCommandName[Virtex2P::eCommandWCFG],		"WCFG");
+	BOOST_CHECK_EQUAL(Virtex2P::sCommandName[Virtex2P::eCommandMFWR],		"MFWR");
+	BOOST_CHECK_EQUAL(Virtex2P::sCommandName[Virtex2P::eCommandLFRM],		"LFRM");
+	BOOST_CHECK_EQUAL(Virtex2P::sCommandName[Virtex2P::eCommandRCFG],		"RCFG");
 	BOOST_CHECK_EQUAL(Virtex2P::sCommandName[Virtex2P::eCommandSTART],		"START");
-	BOOST_CHECK_EQUAL(Virtex2P::sCommandName[Virtex2P::eCommandRCAP],			"RCAP");
-	BOOST_CHECK_EQUAL(Virtex2P::sCommandName[Virtex2P::eCommandRCRC],			"RCRC");
+	BOOST_CHECK_EQUAL(Virtex2P::sCommandName[Virtex2P::eCommandRCAP],		"RCAP");
+	BOOST_CHECK_EQUAL(Virtex2P::sCommandName[Virtex2P::eCommandRCRC],		"RCRC");
 	BOOST_CHECK_EQUAL(Virtex2P::sCommandName[Virtex2P::eCommandAGHIGH],		"AGHIGH");
 	BOOST_CHECK_EQUAL(Virtex2P::sCommandName[Virtex2P::eCommandSWITCH],		"SWITCH");
-	BOOST_CHECK_EQUAL(Virtex2P::sCommandName[Virtex2P::eCommandGRESTORE],		"GRESTORE");
-	BOOST_CHECK_EQUAL(Virtex2P::sCommandName[Virtex2P::eCommandSHUTDOWN],		"SHUTDOWN");
-	BOOST_CHECK_EQUAL(Virtex2P::sCommandName[Virtex2P::eCommandGCAPTURE],		"GCAPTURE");
-	BOOST_CHECK_EQUAL(Virtex2P::sCommandName[Virtex2P::eCommandDESYNCH],		"DESYNCH");
+	BOOST_CHECK_EQUAL(Virtex2P::sCommandName[Virtex2P::eCommandGRESTORE],	"GRESTORE");
+	BOOST_CHECK_EQUAL(Virtex2P::sCommandName[Virtex2P::eCommandSHUTDOWN],	"SHUTDOWN");
+	BOOST_CHECK_EQUAL(Virtex2P::sCommandName[Virtex2P::eCommandGCAPTURE],	"GCAPTURE");
+	BOOST_CHECK_EQUAL(Virtex2P::sCommandName[Virtex2P::eCommandDESYNCH],	"DESYNCH");
 
 	// build the file paths
-	boost::filesystem::path regressionPath 
-		= torc::common::DirectoryTree::getExecutablePath() / "regression";
-	boost::filesystem::path generatedPath = regressionPath / "Virtex2PUnitTest.generated.bit";
-	boost::filesystem::path referencePath = regressionPath / "Virtex2PUnitTest.reference.bit";
+	boost::filesystem::path referencePath = torc::common::DirectoryTree::getExecutablePath()
+		/ "torc" / "bitstream" / "Virtex2PUnitTest.reference.bit";
+	boost::filesystem::path generatedPath = torc::common::DirectoryTree::getExecutablePath()
+		/ "regression" / "Virtex2PUnitTest.generated.bit";
 
 	// read the bitstream
 	std::fstream fileStream(referencePath.string().c_str(), std::ios::binary | std::ios::in);
@@ -287,10 +277,10 @@ BOOST_AUTO_TEST_CASE(Virtex2PMapUnitTest) {
 
 void testVirtex2PFullMapping(const boost::filesystem::path& inWorkingPath) {
 	// build the file paths
-	boost::filesystem::path regressionPath 
-		= torc::common::DirectoryTree::getExecutablePath() / "regression";
-	boost::filesystem::path generatedPath = regressionPath / "Virtex2PUnitTest.generatedFull.bit";
-	boost::filesystem::path referencePath = regressionPath / "Virtex2PUnitTest.reference.bit";
+	boost::filesystem::path referencePath = torc::common::DirectoryTree::getExecutablePath()
+		/ "torc" / "bitstream" / "Virtex2PUnitTest.reference.bit";
+	boost::filesystem::path generatedPath = torc::common::DirectoryTree::getExecutablePath()
+		/ "regression" / "Virtex2PMapUnitTest.generated.bit";
 
 	// read the bitstream
 	std::fstream fileStream(referencePath.string().c_str(), std::ios::binary | std::ios::in);
@@ -311,15 +301,15 @@ void testVirtex2PFullMapping(const boost::filesystem::path& inWorkingPath) {
 	typedef boost::shared_array<uint32_t> WordSharedArray;
 	Virtex2P::iterator p = bitstream.begin();
 	Virtex2P::iterator e = bitstream.end();
-	while (p < e) {
+	while(p < e) {
 		const VirtexPacket& packet = *p++;
-		if (packet.isType2()) {
+		if(packet.isType2()) {
 			WordSharedArray words = packet.getWords();
 			uint32_t* ptr = words.get();
-			for (uint32_t block = 0; block < 8; block++) {
-				for (uint32_t frame = 0; frame < bitstream.mBlockFrameIndexBounds[block]; frame++) {
+			for(uint32_t block = 0; block < 8; block++) {
+				for(uint32_t frame = 0; frame < bitstream.mBlockFrameIndexBounds[block]; frame++) {
 					VirtexFrameBlocks::word_t* words = const_cast<VirtexFrameBlocks::word_t*>(bitstream.mFrameBlocks.mBlock[block][frame]->getWords());
-					for (uint32_t index = 0; index < frameLength; index++) {
+					for(uint32_t index = 0; index < frameLength; index++) {
 						*ptr++ = words[index];
 					}
 				}
@@ -335,18 +325,6 @@ void testVirtex2PFullMapping(const boost::filesystem::path& inWorkingPath) {
 
 	return;
 }
-
-
-/*
-/// \brief Unit test for the Virtex2P static device info generation.
-BOOST_AUTO_TEST_CASE(Virtex2PGenerateUnitTest) {
-
-	Virtex2P bitstream;
-	DeviceInfoHelper::buildFamilyDeviceInfo("Virtex2P", "Virtex2PDeviceInfo.template", 
-		"Virtex2PDeviceInfo.cpp", torc::common::Devices::getVirtex2PDevices(), bitstream);
-
-}
-*/
 
 BOOST_AUTO_TEST_SUITE_END()
 

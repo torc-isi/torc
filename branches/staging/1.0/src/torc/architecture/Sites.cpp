@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -41,7 +41,7 @@ namespace architecture {
 		// initialize the package array
 		inStream.read(packageCount);
 		mPackages.setSize(packageCount);
-		std::cout << "\tReading " << packageCount << " package" << (packageCount != 1 ? "s" : "") 
+		mOut() << "\tReading " << packageCount << " package" << (packageCount != 1 ? "s" : "") 
 			<< " (";
 		// loop through each package
 		for(PackageIndex i; i < packageCount; i++) {
@@ -56,7 +56,7 @@ namespace architecture {
 			// update the package
 			package.mName = scratch;
 			mPackageNameToPackageIndex[scratch] = i;
-			std::cout << scratch << (i + 1 < packageCount ? ", " : "");
+			mOut() << scratch << (i + 1 < packageCount ? ", " : "");
 			// read the pad count
 			inStream.read(padCount);
 			package.mPads.setSize(padCount);
@@ -81,7 +81,7 @@ namespace architecture {
 				package.mPadNameToPadIndex[scratch] = xilinx::PadIndex(j);
 			}
 		}
-		std::cout << ") ..." << std::endl;
+		mOut() << ") ..." << std::endl;
  
 		// return the number of bytes read
 		return inStream.getBytesRead() - bytesReadOffset;
@@ -108,7 +108,7 @@ namespace architecture {
 		// initialize the tile type array
 		inStream.read(siteTypeCount);
 		mSiteTypes.setSize(siteTypeCount);
-		std::cout << "\tReading " << siteTypeCount << " site types..." << std::endl;
+		mOut() << "\tReading " << siteTypeCount << " site types..." << std::endl;
 		// loop through each site type
 		for(SiteTypeIndex i; i < siteTypeCount; i++) {
 			// look up the current site definition
@@ -119,8 +119,8 @@ namespace architecture {
 			if(nameLength > sizeof(scratch)) throw -1;
 			inStream.read(scratch, nameLength);
 			scratch[nameLength] = 0;
-//std::cout << "\t\t" << i << ": " << scratch << std::endl;
-//std::cout.flush();
+//mOut() << "\t\t" << i << ": " << scratch << std::endl;
+//mOut().flush();
 			// read the pin count
 			inStream.read(pinCount);
 			// update the site definition
@@ -160,8 +160,8 @@ namespace architecture {
 				scratch[nameLength] = 0;
 				// update the element name
 				element.mName = scratch;
-//std::cout << primitiveDef.getName() << " - " << element.getName() << ":" << std::endl;
-//std::cout << "    ";
+//mOut() << primitiveDef.getName() << " - " << element.getName() << ":" << std::endl;
+//mOut() << "    ";
 				// read the BEL flag
 				uint16_t isBel;
 				inStream.read(isBel);
@@ -185,22 +185,22 @@ namespace architecture {
 					scratch[nameLength] = 0;
 					// update the site pin
 					elementPin.mElementPtr = &element;
-//std::cout << elementPin.mElementPtr->getName() << "." << scratch << " ";
+//mOut() << elementPin.mElementPtr->getName() << "." << scratch << " ";
 //if(elementPin.mElementPtr == 0) {
-//	std::cout << "Element pin " << scratch << " has NULL element" << std::endl;
-//	std::cout.flush();
+//	mOut() << "Element pin " << scratch << " has NULL element" << std::endl;
+//	mOut().flush();
 //}
 					elementPin.mFlags = pinFlags;
 					elementPin.mName = scratch;
 					element.mPinNameToPinIndex[scratch] = xilinx::PinIndex(k);
 				}
-//std::cout << std::endl;
+//mOut() << std::endl;
 				// read the config count
 				uint32_t cfgCount;
 				inStream.read(cfgCount);
 				// loop through each cfg value
 //bool debug = cfgCount > 0;
-//if(debug) std::cout << "\t\t\t" << j << " \"" << scratch << "\": ";
+//if(debug) mOut() << "\t\t\t" << j << " \"" << scratch << "\": ";
 				for(uint32_t k = 0; k < cfgCount; k++) {
 					// read the cfg value
 					inStream.read(nameLength);
@@ -208,16 +208,16 @@ namespace architecture {
 					if(nameLength > sizeof(scratch)) throw -1;
 					inStream.read(scratch, nameLength);
 					scratch[nameLength] = 0;
-//if(debug) std::cout << scratch << " ";
+//if(debug) mOut() << scratch << " ";
 					// update the cfg values
 					element.mCfgs.insert(scratch);
 				}
-//if(debug) std::cout << std::endl;
+//if(debug) mOut() << std::endl;
 			}
 			// read the conn count
 			uint32_t connCount;
 			inStream.read(connCount);
-//std::cout << primitiveDef.mName << ": " << connCount << std::endl;
+//mOut() << primitiveDef.mName << ": " << connCount << std::endl;
 			// update the site definition
 			primitiveDef.mConnections.setSize(connCount);
 			// loop through each conn
@@ -257,7 +257,7 @@ namespace architecture {
 					const_cast<PrimitiveConnSharedPtr&>(pin.mPrimitiveConn) = connectionPtr;
 				}
 			}
-//std::cout << primitiveDef.getName() << " - " << element.getName() << ":" << std::endl;
+//mOut() << primitiveDef.getName() << " - " << element.getName() << ":" << std::endl;
 		}
 
 		// return the number of bytes read
@@ -280,7 +280,7 @@ namespace architecture {
 		// initialize the site pin map array
 		inStream.read(primitivePinMapCount);
 		mPrimitivePinMaps.setSize(primitivePinMapCount);
-		std::cout << "\tReading " << primitivePinMapCount << " primitive pin maps..." << std::endl;
+		mOut() << "\tReading " << primitivePinMapCount << " primitive pin maps..." << std::endl;
 		// loop through each pin map
 		for(uint16_t i = 0; i < primitivePinMapCount; i++) {
 			// read the pin count
@@ -322,7 +322,7 @@ namespace architecture {
 		// initialize the site array
 		inStream.read(siteCount);
 		mSites.setSize(siteCount);
-		std::cout << "\tReading " << siteCount << " sites..." << std::endl;
+		mOut() << "\tReading " << siteCount << " sites..." << std::endl;
 		// loop through each site
 		for(SiteIndex i; i < siteCount; i++) {
 			// read the site name

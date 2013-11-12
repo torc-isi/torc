@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -40,19 +40,20 @@ namespace bitstream { class Spartan6UnitTest; }
 		//
 		/// \brief Configuration register enumeration.
 		/// \see configuration registers: UG380, v2.2, July 30, 2010 Table 5-30
-		enum ERegister { eRegisterCRC = 0, eRegisterFARMAJ, eRegisterFARMIN, eRegisterFDRI, eRegisterFDRO, 
-			eRegisterCMD, eRegisterCTL, eRegisterMASK, eRegisterSTAT, eRegisterLOUT, eRegisterCOR1, 
-			eRegisterCOR2, eRegisterPWRDN_REG, eRegisterFLR, eRegisterIDCODE, eRegisterCWDT, eRegisterHC_OPT_REG,
-			eRegisterCSBO, eRegisterGENERAL1, eRegisterGENERAL2, eRegisterGENERAL3, eRegisterGENERAL4,
-		 	eRegisterGENERAL5, eRegisterMODE_REG, eRegisterPU_GWE, eRegisterPU_GTS, eRegisterMFWR, eRegisterCCLK_FREQ,
-			eRegisterSEU_OPT, eRegisterEXP_SIGN, eRegisterRDBK_SIGN, eRegisterBOOSTS, eRegisterEYE_MASK,
-			eRegisterCBC_REG, eRegisterCount };
+		enum ERegister { eRegisterCRC = 0, eRegisterFARMAJ, eRegisterFARMIN, eRegisterFDRI, 
+			eRegisterFDRO, eRegisterCMD, eRegisterCTL, eRegisterMASK, eRegisterSTAT, eRegisterLOUT, 
+			eRegisterCOR1, eRegisterCOR2, eRegisterPWRDN_REG, eRegisterFLR, eRegisterIDCODE, 
+			eRegisterCWDT, eRegisterHC_OPT_REG, eRegisterCSBO = 18, eRegisterGENERAL1, 
+			eRegisterGENERAL2, eRegisterGENERAL3, eRegisterGENERAL4, eRegisterGENERAL5, 
+			eRegisterMODE_REG, eRegisterPU_GWE, eRegisterPU_GTS, eRegisterMFWR, eRegisterCCLK_FREQ, 
+			eRegisterSEU_OPT, eRegisterEXP_SIGN, eRegisterRDBK_SIGN, eRegisterBOOSTS, 
+			eRegisterEYE_MASK, eRegisterCBC_REG, eRegisterCount };
 		//
 		/// \brief Configuration command enumeration for eRegisterCMD.
 		/// \see CMD register commands: UG380, v2.2, July 30, 2010 Table 5-33
 		enum ECommand { eCommandNULL = 0, eCommandWCFG, eCommandMFW, eCommandLFRM, eCommandRCFG, 
-			eCommandSTART, eCommandRCRC = 7, eCommandAGHIGH, eCommandGRESTORE = 10, eCommandSHUTDOWN, eCommandDESYNC = 13,
-		  eCommandIPROG, eCommandCount };
+			eCommandSTART, eCommandRCRC = 7, eCommandAGHIGH, eCommandGRESTORE = 10, 
+			eCommandSHUTDOWN, eCommandDESYNC = 13, eCommandIPROG, eCommandCount };
 		//
 		/// \brief Frame Address Register Major subfields.
 		/// \see Frame Address Register Major Description: UG380, v2.2, July 30, 2010 Table 5-31
@@ -128,14 +129,15 @@ namespace bitstream { class Spartan6UnitTest; }
 		public:
 			FrameMajorAddress(void) : mMajBlock(0), mMajRow(0), mMajMajor(0) {}
 			FrameMajorAddress(uint16_t inMajBlock, uint16_t inMajRow, uint16_t inMajMajor)
-			 						: mMajBlock(inMajBlock), mMajRow(inMajRow), mMajMajor(inMajMajor) {}
+			 	: mMajBlock(inMajBlock), mMajRow(inMajRow), mMajMajor(inMajMajor) {}
 			FrameMajorAddress(uint16_t inMajAddress) { assign(inMajAddress); }
 			uint16_t mMajBlock;
 			uint16_t mMajRow;
 			uint16_t mMajMajor;
 
 			bool operator== (const FrameMajorAddress& rhs) const {
-				return mMajBlock == rhs.mMajBlock && mMajRow == rhs.mMajRow && mMajMajor == rhs.mMajMajor;
+				return mMajBlock == rhs.mMajBlock && mMajRow == rhs.mMajRow 
+					&& mMajMajor == rhs.mMajMajor;
 			}
 			bool operator< (const FrameMajorAddress& rhs) const {
 				int diffMajBlock = mMajBlock - rhs.mMajBlock;
@@ -155,7 +157,8 @@ namespace bitstream { class Spartan6UnitTest; }
 			}
 		public:
 			FrameMinorAddress(void) : mMinBlock(0), mMinMinor(0) {}
-			FrameMinorAddress(uint16_t inMinBlock, uint16_t inMinMinor) : mMinBlock(inMinBlock), mMinMinor(inMinMinor) {}
+			FrameMinorAddress(uint16_t inMinBlock, uint16_t inMinMinor) : mMinBlock(inMinBlock), 
+				mMinMinor(inMinMinor) {}
 			FrameMinorAddress(uint16_t inMinAddress) { assign(inMinAddress); }
 			uint16_t mMinBlock;
 			uint16_t mMinMinor;
@@ -170,6 +173,9 @@ namespace bitstream { class Spartan6UnitTest; }
 			}
 		private:
 		};
+	// accessors
+		/// \brief Return the frame length for the current device.
+		virtual uint32_t getFrameLength(void) const { return eFrameLength; }
 
 	};
 

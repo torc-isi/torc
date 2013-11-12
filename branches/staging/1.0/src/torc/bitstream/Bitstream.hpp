@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -39,9 +39,24 @@ namespace bitstream { class BitstreamUnitTest; }
 	/// \brief Xilinx bitstream base class.
 	class Bitstream {
 		friend class torc::bitstream::bitstream::BitstreamUnitTest;
+	public:
+		/// \brief The block type count is fixed at eight across all Xilinx architectures.
+		enum { eBlockTypeCount = 8 };
+		/// \brief The bitstream type to generate.
+		/// \detail Use eBitstreamFull to fully reconfigure a device, eBitstreamTypePartialActive 
+		///		to partially reconfigure it while it continues to run, or 
+		///		eBitstreamTypePartialShutdown to partially recongifure it after shutting it down.
+		enum EBitstreamType { eBitstreamTypeFull, eBitstreamTypePartialActive, 
+			eBitstreamTypePartialShutdown };
+		/// \brief The frames to include in a partial bitstream.
+		/// \detail Use eFrameIncludeOnlyDirtyFrames to include only dirty frames, or 
+		///		eFrameStateAllUsedFrames to include all allocated frames, dirty or not.  Note that 
+		///		if not all frames were allocated, eFrameStateAllUsedFrames is not the same as a 
+		///		full bitstream.
+		enum EFrameInclude { eFrameIncludeOnlyDirtyFrames, eFrameIncludeAllUsedFrames };
 /// \todo Bitstream access needs to be changed from public back to protected.
 //	protected: changed to run tests
-		public:
+	public:
 		typedef std::string string; ///< Imported type name.
 		typedef boost::uint8_t uint8_t; ///< Imported type name.
 		typedef boost::uint16_t uint16_t; ///< Imported type name.

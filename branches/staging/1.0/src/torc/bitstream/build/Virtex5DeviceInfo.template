@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL:$
 // $Id:$
 
@@ -22,10 +22,11 @@
 namespace torc {
 namespace bitstream {
 
-	enum { Empty = Virtex5::eColumnTypeEmpty, Bram = Virtex5::eColumnTypeBram, 
-		Clb = Virtex5::eColumnTypeClb, Clock = Virtex5::eColumnTypeClock, 
-		Dsp = Virtex5::eColumnTypeDsp, Gtx = Virtex5::eColumnTypeGtx, 
-		Iob = Virtex5::eColumnTypeIob, END = boost::uint32_t(-1) };
+	enum { Empty = Virtex5::eColumnTypeEmpty, Int = Virtex5::eColumnTypeInt, 
+		Bram = Virtex5::eColumnTypeBram, Clb = Virtex5::eColumnTypeClb, 
+		Clock = Virtex5::eColumnTypeClock, Dsp = Virtex5::eColumnTypeDsp, 
+		Gtx = Virtex5::eColumnTypeGtx, Ioi = Virtex5::eColumnTypeIoi, 
+		END = boost::uint32_t(-1) };
 
 %%DEVICES%%
 } // namespace bitstream

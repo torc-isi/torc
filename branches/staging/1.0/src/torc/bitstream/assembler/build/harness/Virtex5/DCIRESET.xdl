@@ -1,0 +1,6 @@
+design "DCIRESET" xc5vfx30tff665-3 v3.2;
+inst "DCIRESET" "DCIRESET", placed CFG_CENTER_X63Y44 DCIRESET;
+net "DCIRESET",
+	outpin "DCIRESET" LOCKED,
+	inpin "DCIRESET" RST
+	;

@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -88,6 +88,9 @@ namespace bitstream { void testVirtex4PartialMapping(const boost::filesystem::pa
 		/// \see Virtex-4 Frame Count, Frame Length, Overhead and Bitstream Size: UG071, v.1.10, 
 		///		April 8, 2008, Table 7-1.
 		enum { eFrameLength = 41 };
+		/// \brief Number of pad frames after each frame row.
+		/// \details The configuration controller expects two frames of NOPs after each frame row.
+		enum { eRowPadFrames = 2 };
 	protected:
 	// members
 //		/// \brief Configuration controller registers.
@@ -113,6 +116,8 @@ namespace bitstream { void testVirtex4PartialMapping(const boost::filesystem::pa
 		/// \brief Basic constructor.
 		Virtex4(void) : VirtexBitstream() {
 //			for(int i = 0; i < eRegisterCount; i++) mRegister[i] = 0;
+			// initialize miscellaneous variables
+			mFrameRowCount = 0;
 			// initialize the column type widths for this family
 			mColumnDefs.resize(eColumnTypeCount);
 			mColumnDefs[eColumnTypeEmpty] 	= ColumnDef("Empty",    0,  0,  0,  0,  0,  0,  0,  0);
@@ -147,13 +152,19 @@ namespace bitstream { void testVirtex4PartialMapping(const boost::filesystem::pa
 		virtual void initializeFrameMaps(void);
 		/// \brief Loads full bitstream frames into block data structure.
 		void initializeFullFrameBlocks(void);
-		/// \brief Returns frames for queried bitstream co-ordinates
-		VirtexFrameBlocks getBitstreamFrames(uint32_t inBlockCount, uint32_t inBitCol);
-		/// \brief Returns frames for queried xdl co-ordinates
-		VirtexFrameBlocks getXdlFrames(uint32_t inBlockCount, uint32_t inXdlCol);
+		/// \brief Returns frames for queried bitstream coordinates
+		VirtexFrameBlocks getBitstreamFrames(uint32_t inBlockCount, uint32_t inBitCol, 
+			uint32_t inFrameRow = 0);
+		/// \brief Returns frames for queried xdl coordinates
+		VirtexFrameBlocks getXdlFrames(uint32_t inBlockCount, uint32_t inXdlCol, 
+			uint32_t inFrameRow = 0);
 	// accessors
+		/// \brief Return the number of frame rows for the current device.
+		virtual uint32_t getFrameRowCount(void) const { return mFrameRowCount; }
 		/// \brief Return the frame length for the current device.
 		virtual uint32_t getFrameLength(void) const { return eFrameLength; }
+		/// \brief Return the number of pad frames after each row.
+		virtual uint32_t getRowPadFrames(void) const { return eRowPadFrames; }
 	// inserters
 		/// \brief Insert the bitstream header into an output stream.
 		friend std::ostream& operator<< (std::ostream& os, const Virtex4& rhs);
@@ -226,13 +237,15 @@ namespace bitstream { void testVirtex4PartialMapping(const boost::filesystem::pa
 		/// \brief Map of frame addressee to frame indexes.
 		FrameAddressToIndex mFrameAddressToIndex;
 		/// \brief Vector to store frame indexes of XDL columns.
-		IndexVector mBitColumnIndexes [Virtex4::eFarBlockTypeCount];
+		IndexVector mBitColumnIndexes[Virtex4::eFarBlockTypeCount];
 		/// \brief Vector to store frame indexes of Bitstream columns.
-		IndexVector mXdlColumnIndexes [Virtex4::eFarBlockTypeCount];
+		IndexVector mXdlColumnIndexes[Virtex4::eFarBlockTypeCount];
 		/// \brief Array to hold frame index boundaries for blocks.
-		uint32_t mBlockFrameIndexBounds [Virtex4::eFarBlockTypeCount];
-		/// \brief Map of xdl columns to bit columns.
-		std::map<uint32_t, uint32_t> mXdlIndexToBitIndex;
+		uint32_t mBlockFrameIndexBounds[Virtex4::eFarBlockTypeCount];
+		/// \brief Map of XDL column indexes to bitstream column indexes.
+		std::map<uint32_t, uint32_t> mXdlColumnToBitColumn;
+		/// \brief Number of frame rows.
+		uint32_t mFrameRowCount;
 	};
 
 } // namespace bitstream

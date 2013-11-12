@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -74,7 +74,7 @@ return result == e; // return true if we added the primitive
 }
 /// \brief Remove a primitive from the PrimitiveSet.
 /// \param inPrimitivePtr The primitive to remove.
-/// \returns true if the primitive was remove, or false if the primitive did not exist.
+/// \returns true if the primitive was removed, or false if the primitive did not exist.
 bool removePrimitive(PrimitiveSharedPtr& inPrimitivePtr) {
 /// \todo Acquire mutex.
 PrimitiveSharedPtrVector::iterator e = mPrimitives.end();

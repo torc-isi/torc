@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -137,6 +137,19 @@ namespace physical {
 			// insert the config entry
 			insert(make_pair(inSetting, Config(inName, inValue, mNextSequenceIndex++)));
 			/// \todo Release mutex.
+		}
+		/// \brief Removes the named configuration.
+		/// \param inSetting The configuration to remove.
+		/// \returns true if the configuration was removed, or false if the configuration did not 
+		///		exist.
+		bool removeConfig(const string& inSetting) {
+			/// \todo Acquire mutex.
+			iterator e = end();
+			iterator result = super::find(inSetting);
+			if(result == e) return false;
+			erase(result);
+			/// \todo Release mutex.
+			return true;
 		}
 		/// \brief Merges the configurations from the given ConfigMap into this one.
 		/// \details For each setting, if the setting does not already exist in the map, it is 

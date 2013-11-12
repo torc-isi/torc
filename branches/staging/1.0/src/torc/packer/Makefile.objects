@@ -1,0 +1,60 @@
+# Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
+# $HeadURL: https://svn.east.isi.edu/torc/trunk/src/torc/packer/Makefile $
+# $Id: Makefile 1461 2013-05-22 23:13:25Z nsteiner $
+
+# This program is free software: you can redistribute it and/or modify it under the terms of the 
+# GNU General Public License as published by the Free Software Foundation, either version 3 of the 
+# License, or (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+# without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See 
+# the GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License along with this program.  If 
+# not, see <http://www.gnu.org/licenses/>.
+
+# Include sudirectories objects
+TORC_PACKER := $(TORC_DIR)/packer
+
+# Local object files
+OBJS = \
+	Component.o \
+	Connection.o \
+	ConnectionPin.o \
+	Element.o \
+	Primitive.o \
+	PrimitiveSet.o \
+	PrimitiveStructure.o \
+	PrimitiveStructureUnitTest.o \
+	Unpacker.o \
+	UnpackerUnitTest.o \
+	Virtex2PrimitiveStructure.o \
+	Virtex2PrimitiveStructureUnitTest.o \
+	Virtex5PrimitiveStructure.o \
+	Virtex5PrimitiveStructureUnitTest.o \
+	Virtex7PrimitiveStructure.o \
+	Virtex7PrimitiveStructureUnitTest.o \
+	WritePrimitive.o \
+	XdlUnpack.o \
+	XdlUnpackUnitTest.o \
+	ParsePrimitive.o \
+	PrimitivePin.o \
+	RoutingNet.o \
+	CombinationalPath.o \
+	RcFactory.o \
+	$
+
+# Prepend absolute path to all local objects
+TORC_PACKER_LOCAL_OBJS := $(patsubst %,$(TORC_PACKER)/%,$(OBJS))
+
+# torc/packer objects for includes elsewhere in torc
+TORC_PACKER_OBJS := \
+	$(TORC_PACKER_LOCAL_OBJS) \
+	$
+
+# Extra C++ Flags for OBJS
+$(TORC_PACKER_LOCAL_OBJS): EXTRA_CCFLAGS = \
+	$
+
+# dependencies
+DEPS = $(OBJS:.o=.d)

@@ -1,0 +1,12 @@
+design "BSCAN" xc5vfx130tff1738-2 v3.2;
+inst "BSCAN" "BSCAN", placed CFG_CENTER_X63Y44 BSCAN_X0Y0;
+net "BSCAN",
+	outpin "BSCAN" CAPTURE,
+	outpin "BSCAN" DRCK,
+	outpin "BSCAN" RESET,
+	outpin "BSCAN" SEL,
+	outpin "BSCAN" SHIFT,
+	outpin "BSCAN" TDI,
+	outpin "BSCAN" UPDATE,
+	inpin "BSCAN" TDO
+	;

@@ -561,7 +561,7 @@ goto find_rule; \
 #define YY_RESTORE_YY_MORE_OFFSET
 #line 1 "scanner.ll"
 /*
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -738,9 +738,9 @@ YY_DECL
 
 
 
- /* ---------------------------------------------------------------------------------------------- */
- /* --------------------------------- scanner regular expressions -------------------------------- */
- /* ---------------------------------------------------------------------------------------------- */
+ /* --------------------------------------------------------------------------------------------- */
+ /* --------------------------------- scanner regular expressions ------------------------------- */
+ /* --------------------------------------------------------------------------------------------- */
 
 
  /** \brief Code belonging at the beginning of yylex(). **/
@@ -749,9 +749,9 @@ YY_DECL
 
 
 
- /* ---------------------------------------------------------------------------------------------- */
- /* ------------------------------------ Begin XDL lexer rules ----------------------------------- */
- /* ---------------------------------------------------------------------------------------------- */
+ /* --------------------------------------------------------------------------------------------- */
+ /* ------------------------------------ Begin XDL lexer rules ---------------------------------- */
+ /* --------------------------------------------------------------------------------------------- */
 
 
 						// Symbol Description
@@ -860,12 +860,12 @@ YY_RULE_SETUP
 case 2:
 YY_RULE_SETUP
 #line 120 "scanner.ll"
-{ return token::BIDIRUNIBUF; }	// => Bidirectional, buffered in one direction
+{ return token::BIDIRUNIBUF; }	// => Bidirectional, buf in one direction
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
 #line 121 "scanner.ll"
-{ return token::BIDIRBIBUF; }	// =- Bidirectional, buffered in both directions
+{ return token::BIDIRBIBUF; }	// =- Bidirectional, buf in both directions
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
@@ -905,27 +905,33 @@ YY_RULE_SETUP
 case 11:
 YY_RULE_SETUP
 #line 131 "scanner.ll"
-{ BEGIN CONFIGSTRING; colon = 0; yyless(yyleng-1); return token::CFG; }
+{ 
+;						  BEGIN CONFIGSTRING; quote = colon = 0; yyless(yyleng-1); 
+;						  return token::CFG; 
+;						}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 132 "scanner.ll"
-{ return static_cast<token_type>('"'); }
+#line 135 "scanner.ll"
+{ 
+;						  quote++; if(quote == 2) BEGIN INITIAL; /* must have been an empty config*/
+;						  return static_cast<token_type>('"'); 
+;						}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 133 "scanner.ll"
+#line 139 "scanner.ll"
 { /* discard whitespace */ }
 	YY_BREAK
 case 14:
 /* rule 14 can match eol */
 YY_RULE_SETUP
-#line 134 "scanner.ll"
+#line 140 "scanner.ll"
 { yylloc->lines(); /* discard whitespace */ }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 135 "scanner.ll"
+#line 141 "scanner.ll"
 { 
 ;						  colon++; if(colon == 2) BEGIN CONFIGSTRING2; 
 ;						  return static_cast<token_type>(':'); 
@@ -933,20 +939,20 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 139 "scanner.ll"
+#line 145 "scanner.ll"
 { 
 ;						  *yylval = yytext; return colon == 0 ? token::CFGSETTING : token::CFGNAME; 
 ;						}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 142 "scanner.ll"
+#line 148 "scanner.ll"
 { *yylval = yytext; return token::CFGVALUE; }
 	YY_BREAK
 case 18:
 /* rule 18 can match eol */
 YY_RULE_SETUP
-#line 143 "scanner.ll"
+#line 149 "scanner.ll"
 { 
 ;						  /* account for newlines embedded within trailing whitespace */
 ;						  for(char* ptr = yytext; *ptr != 0; ptr++) { 
@@ -958,89 +964,89 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 151 "scanner.ll"
+#line 157 "scanner.ll"
 { colon = 0; BEGIN CONFIGSTRING; }
 	YY_BREAK
 case 20:
 /* rule 20 can match eol */
 YY_RULE_SETUP
-#line 152 "scanner.ll"
+#line 158 "scanner.ll"
 { yylloc->lines(); /* discard whitespace */ }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 154 "scanner.ll"
+#line 160 "scanner.ll"
 { return token::PLACED; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 155 "scanner.ll"
+#line 161 "scanner.ll"
 { return token::UNPLACED; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 156 "scanner.ll"
+#line 162 "scanner.ll"
 { return token::BONDED; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 157 "scanner.ll"
+#line 163 "scanner.ll"
 { return token::UNBONDED; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 158 "scanner.ll"
+#line 164 "scanner.ll"
 { return token::POWER; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 159 "scanner.ll"
+#line 165 "scanner.ll"
 { return token::GROUND; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 160 "scanner.ll"
+#line 166 "scanner.ll"
 { return token::INPIN; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 161 "scanner.ll"
+#line 167 "scanner.ll"
 { return token::OUTPIN; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 162 "scanner.ll"
+#line 168 "scanner.ll"
 { return token::PIP; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 163 "scanner.ll"
+#line 169 "scanner.ll"
 { *yylval = yytext; return token::SPEEDGRADE; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 164 "scanner.ll"
+#line 170 "scanner.ll"
 { *yylval = yytext; return token::XDLVERSION; 
 							/** \todo Need to avoid obscuring IDENTIFIER. */ }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 166 "scanner.ll"
+#line 172 "scanner.ll"
 { *yylval = yytext; return token::IDENTIFIER; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 167 "scanner.ll"
+#line 173 "scanner.ll"
 { return token::OBRACE; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 168 "scanner.ll"
+#line 174 "scanner.ll"
 { return token::EBRACE; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 170 "scanner.ll"
+#line 176 "scanner.ll"
 { 
 ;						  DEBUG(("ROUTETHROUGH "));
 ;						  // be sure to strip the leading hash and spaces from the token
@@ -1053,8 +1059,8 @@ YY_RULE_SETUP
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 179 "scanner.ll"
-{ // we have to be careful not to let _ROUTETHROUGH expressions pass for comments
+#line 185 "scanner.ll"
+{ // be careful not to let _ROUTETHROUGH expressions pass for comments
 ;						  char* ptr = yytext + 1;
 ;						  char* end = ptr + yyleng;
 ;						  while((*ptr == ' ' || *ptr == '\t') && ptr < end) ptr++;
@@ -1065,35 +1071,46 @@ YY_RULE_SETUP
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 188 "scanner.ll"
-{ BEGIN DOUBLEQUOTE; in_double_quote = true; last_string = ""; return static_cast<token_type>(yytext[0]); /* enter exclusive quoted string state */ }
+#line 194 "scanner.ll"
+{ 
+;						  BEGIN DOUBLEQUOTE; in_double_quote = true; last_string = ""; 
+;						  /* enter exclusive quoted string state */
+;						  return static_cast<token_type>(yytext[0]);
+;						}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 189 "scanner.ll"
-{ last_string += yytext; return token::STRING; /* append escaped characters to the input */ }
+#line 199 "scanner.ll"
+{ 
+;						  last_string += yytext; 
+;						  return token::STRING; /* append escaped characters to the input */ 
+;						}
 	YY_BREAK
 case 39:
 /* rule 39 can match eol */
 YY_RULE_SETUP
-#line 190 "scanner.ll"
+#line 203 "scanner.ll"
 { yylloc->lines(); /* ignore unescaped line breaks */ }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 191 "scanner.ll"
-{ last_string += yytext; return token::STRING; /* append characters other than \, ", \n, \r */ }
+#line 204 "scanner.ll"
+{ 
+;						  last_string += yytext; 
+;						  return token::STRING; /* append characters other than \, ", \n, \r */ 
+;						}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 192 "scanner.ll"
+#line 208 "scanner.ll"
 { if(!in_double_quote) {
 ;							BEGIN INITIAL; /* exit the exclusive quoted string state */
 ;							DEBUG(("\" "));
 ;							return static_cast<token_type>('"');
 ;						  }
 ;						  in_double_quote = false; /* we're no longer in double-quote mode */
-;						  yylloc->end.columns(-1); yyless(yyleng-1); /* push back the trailing double quote */
+;						  yylloc->end.columns(-1); 
+;						  yyless(yyleng-1); /* push back the trailing double quote */
 ;						  //DEBUG(("[%s: length %d]\n", last_string.c_str(), last_string.length()));
 ;						  return token::STRING; /* and return the STRING token */
 ;						}
@@ -1101,28 +1118,28 @@ YY_RULE_SETUP
 case 42:
 /* rule 42 can match eol */
 YY_RULE_SETUP
-#line 203 "scanner.ll"
+#line 220 "scanner.ll"
 { yylloc->lines(); }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 204 "scanner.ll"
+#line 221 "scanner.ll"
 { }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 205 "scanner.ll"
+#line 222 "scanner.ll"
 { return static_cast<token_type>(*yytext); }
 	YY_BREAK
-/* ---------------------------------------------------------------------------------------------- */
-/* ------------------------------------- End XDL lexer rules ------------------------------------ */
-/* ---------------------------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------------------------- */
+/* ------------------------------------- End XDL lexer rules ----------------------------------- */
+/* --------------------------------------------------------------------------------------------- */
 case 45:
 YY_RULE_SETUP
-#line 214 "scanner.ll"
+#line 231 "scanner.ll"
 ECHO;
 	YY_BREAK
-#line 1126 "XdlScanner.cpp"
+#line 1143 "XdlScanner.cpp"
 			case YY_STATE_EOF(INITIAL):
 			case YY_STATE_EOF(CONFIGSTRING):
 			case YY_STATE_EOF(CONFIGSTRING2):
@@ -1991,7 +2008,7 @@ void Xdlfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 214 "scanner.ll"
+#line 231 "scanner.ll"
 
 
 

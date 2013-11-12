@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -48,6 +48,12 @@ namespace physical {
 	bool XdlImporter::operator()(istream& in, const string& name) {
 		mStreamName = name;
 
+		// reset all counts before importing
+		mModuleCount = 0;
+		mInstanceCount = 0;
+		mNetCount = 0;
+		mConfigCount = 0;
+
 		XdlScanner scanner(&in);
 		scanner.set_debug(mTraceScanning);
 		this->lexer = &scanner;
@@ -61,7 +67,7 @@ namespace physical {
 	bool XdlImporter::operator()(const boost::filesystem::path& path) {
 		string pathname = path.string();
 		ifstream in(pathname.c_str());
-		if (!in.good()) return false;
+		if(!in.good()) return false;
 		return (*this)(in, pathname);
 	}
 

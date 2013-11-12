@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -243,6 +243,8 @@ BOOST_AUTO_TEST_CASE(SegmentsUnitTest) {
 		segmentTester();
 		segments_unit_test_helper::statistics();
 	}
+
+	BOOST_CHECK_MESSAGE(false, "WARNING: Need to check segment packing.");
 
 }
 #endif

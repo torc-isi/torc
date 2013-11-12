@@ -1,4 +1,4 @@
-// Torc - Copyright 2011 University of Southern California.  All Rights Reserved.
+// Torc - Copyright 2011-2013 University of Southern California.  All Rights Reserved.
 // $HeadURL$
 // $Id$
 
@@ -55,6 +55,10 @@ namespace physical {
 		/// \brief Constructor which must specify the object name.
 		/// \param inName The object name.
 		Renamable(const string& inName) : Named(inName) {}
+	// accessors
+		/// \brief Illegally sets the object name.
+		/// \deprecated.
+		void deprecatedSetName(const string& inName) { mName = inName; }
 	};
 
 } // namespace physical

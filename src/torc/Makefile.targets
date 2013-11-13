@@ -28,7 +28,7 @@ ifeq ($(wildcard $(SRC_DIR)/Makefile.local),)
 	N := $(shell echo "\# optionally define compiler to use"           >> $(SRC_DIR)/Makefile.local)
 	N := $(shell echo "\#CC = "                                        >> $(SRC_DIR)/Makefile.local)
 	N := $(shell echo "\# internal variable definitions"               >> $(SRC_DIR)/Makefile.local)
-	N := $(shell echo "\TORC_1_0_ENABLE_VERILOG = 0"                   >> $(SRC_DIR)/Makefile.local)
+	N := $(shell echo "TORC_1_0_ENABLE_VERILOG = 0"                    >> $(SRC_DIR)/Makefile.local)
 endif
 
 # Verify that BOOST_INCLUDE_DIR and BOOST_LIB_DIR are defined, and incorporate them

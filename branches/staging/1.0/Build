@@ -11,16 +11,16 @@ The following examples are also available in the sandbox mentioned below, where 
 modified.  The examples demonstrate the basic operation of the main Torc APIs, and can be invoked 
 as follows:
 
-	./architecture_example
-	./bitstream_example torc/bitstream/VirtexUnitTest.reference.bit
-	./generic_example
-	./physical_example torc/physical/DesignUnitTest.reference.xdl
-	./edif_obfuscator torc/examples/GenericExample.reference.edf
+	./ArchitectureExample
+	./BitstreamExample torc/bitstream/VirtexUnitTest.reference.bit
+	./GenericExample
+	./PhysicalExample torc/physical/DesignUnitTest.reference.xdl
+	./EdifObfuscator torc/examples/GenericExample.reference.edf
 
 The unit and regression tests are available through the test executable.  Individual test suites or 
 tests can be invoked by passing -t and one or more suites or test cases separated by commas.
 
-	./test
+	./TorcTest
 
 The test app can also be built with Xcode, by opening project xcode/torc.xcodeproj.  The test app 
 can likewise be built with Eclipse, by importing the projects in src and sandbox.  With recent 

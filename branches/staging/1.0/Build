@@ -2,7 +2,7 @@ Code, Examples, and Tests
 =========================
 
 Building the default target compiles all of the source code, and links the example and unit test 
-executables.
+executables.  Please ensure that Boost (http://boost.org) is installed before compiling Torc.
 
 	cd src
 	make
@@ -12,10 +12,10 @@ modified.  The examples demonstrate the basic operation of the main Torc APIs, a
 as follows:
 
 	./architecture_example
-	./bitstream_example regression/VirtexUnitTest.reference.bit
-	./generic_example regression/GenericExample.reference.edf
-	./physical_example regression/DesignUnitTest.reference.xdl
-	./edif_obfuscator regression/GenericExample.reference.edf
+	./bitstream_example torc/bitstream/VirtexUnitTest.reference.bit
+	./generic_example
+	./physical_example torc/physical/DesignUnitTest.reference.xdl
+	./edif_obfuscator torc/examples/GenericExample.reference.edf
 
 The unit and regression tests are available through the test executable.  Individual test suites or 
 tests can be invoked by passing -t and one or more suites or test cases separated by commas.
@@ -50,8 +50,8 @@ Doxygen is available from http://www.stack.nl/~dimitri/doxygen/.
 Writing Your Own Code
 =====================
 
-You can use Torc with your own code, whether writing an application with built on Torc, or trying to
-link Torc into a larger program.
+You can use Torc with your own code, writing an application built on Torc, or linking Torc into a 
+larger program.
 
 0.  It is generally advisable to create a separate directory outside the Torc tree, if not already 
 	available:
@@ -61,11 +61,11 @@ link Torc into a larger program.
 1.  Copy torc/trunk/Makefile.user as Makefile into your separate directory:
 
 	cp /path-to/torc/trunk/Makefile.user /path-to/mydirectory/Makefile
+	cd /path-to/mydirectory
 
 2.  If you expect to open any Torc device database files or reference files, you should create a 
 	symbolic link to the torc/trunk/src/torc directory:
 
-	cd /path-to/mydirectory
 	ln -s /path-to/torc/trunk/src/torc
 
 3.  Define SRC_DIR as an environment variable (for example, /path-to/torc/trunk/src), or open 

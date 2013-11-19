@@ -249,20 +249,6 @@ if(device != "xc7z045") continue;
         };
   */
 
-	std::ostream& operator<< (std::ostream& os, const Virtex7::FrameAddress& rhs);
-	std::ostream& operator<< (std::ostream& os, const Virtex7::FrameAddress& rhs) {
-		return os << (rhs.mTopBottom == Virtex7::eFarTop ? 'T' : 'B') << "" << rhs.mBlockType 
-			      << "(" << rhs.mRow << "," << rhs.mMajor << "." << rhs.mMinor << ")";
-
-	}
-
-
-
-
-
-
-
-
 void testVirtex7Device(const std::string& inDeviceName, const boost::filesystem::path& inWorkingPath) {
 
 	// build the file paths

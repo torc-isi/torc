@@ -177,20 +177,35 @@ namespace bitstream { void testVirtex5PartialMapping(const boost::filesystem::pa
 		/// \brief Initialize the maps between frame indexes and frame addresses.
 		/// \details This is generally only useful for internal purposes.
 		virtual void initializeFrameMaps(void);
-		/// \brief Loads full bitstream frames into block data structure.
-		void initializeFullFrameBlocks(void);
-		/// \brief Loads partial bitstream frames into block data structure.
-		//void initializePartialFrameBlocks(void);
-		/// \brief Transfers frame block data into the full bitstream frame packet
-		void updateFullFrameBlocks(void);
-//#ifdef DEPRECATED
-//		/// \brief Returns frames for queried bitstream coordinates
-//		VirtexFrameBlocks getBitstreamFrames(uint32_t inBlockCount, uint32_t inBitCol, 
-//			uint32_t inFrameRow = 0);
-//		/// \brief Returns frames for queried XDL coordinates
-//		VirtexFrameBlocks getXdlFrames(uint32_t inBlockCount, uint32_t inXdlCol, 
-//			uint32_t inFrameRow = 0);
-//#endif
+		/// \brief Read frame data into the frame blocks structure.
+		virtual void readFramePackets(void) {
+			readFramePackets4567<Virtex5>(mBlockFrameIndexBounds, mFrameAddressToIndex, 
+				mFrameIndexToAddress);
+		}
+		/// \brief Discard the existing frame packets and return an iterator to the start position.
+		virtual VirtexPacketVector::iterator deleteFramePackets(void) {
+			return deleteFramePackets4567<Virtex5>();
+		}
+		/// \brief Return a packet vector with full frame data.
+		virtual VirtexPacketVector generateFullBitstreamPackets(void) {
+			return generateFullBitstreamPackets4567<Virtex5>(mBlockFrameIndexBounds);
+		}
+		/// \brief Return a packet vector with the full bitstream prefix.
+		virtual VirtexPacketVector generateFullBitstreamPrefix(void);
+		/// \brief Return a packet vector with the full bitstream suffix.
+		virtual VirtexPacketVector generateFullBitstreamSuffix(void);
+		/// \brief Return a packet vector with partial frame data.
+		/// \param inFrameInclusion The type of frames to include: only dirty frames or all frames.
+		virtual VirtexPacketVector generatePartialBitstreamPackets(EFrameInclude inFrameInclusion) {
+			return generatePartialBitstreamPackets4567<Virtex5>(inFrameInclusion, 
+				mFrameAddressToIndex, mFrameIndexToAddress);
+		}
+		/// \brief Return a packet vector with the partial bitstream prefix.
+		/// \param inBitstreamType The type of partial bitstream to generate: active or shutdown.
+		virtual VirtexPacketVector generatePartialBitstreamPrefix(EBitstreamType inBitstreamType);
+		/// \brief Return a packet vector with the partial bitstream suffix.
+		/// \param inBitstreamType The type of partial bitstream to generate: active or shutdown.
+		virtual VirtexPacketVector generatePartialBitstreamSuffix(EBitstreamType inBitstreamType);
 		/// \brief Returns frames for specified bitstream tile column.
 		/// \parameter inTopBottom The top or bottom half of the device: eFarTop or eFarBottom.
 		/// \parameter inFrameRow The frame or clock region row in the area specified by 
@@ -229,6 +244,16 @@ namespace bitstream { void testVirtex5PartialMapping(const boost::filesystem::pa
 			outMinorIndex = mFrameIndexToAddress[inFrameIndex].mMinor;
 			outMajorIndex = inFrameIndex - outMinorIndex;
 		}
+	// deprecation macro
+		/// \cond OMIT_FROM_DOXYGEN
+		// Doxygen gets confused by the explicit "__attribute__ ((deprecated))" so we used this
+		#define DEPRECATED __attribute__ ((deprecated))
+		/// \endcond
+	// deprecated functions
+		/// \brief Loads full bitstream frames into block data structure.
+		DEPRECATED void initializeFullFrameBlocks(void);
+		/// \brief Transfers frame block data into the full bitstream frame packet
+		DEPRECATED void updateFullFrameBlocks(void);
 	// accessors
 		/// \brief Return the number of frame rows for the current device.
 		virtual uint32_t getFrameRowCount(void) const { return mFrameRowCount; }

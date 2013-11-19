@@ -141,11 +141,11 @@ void Virtex5LibGen::compressBitFile(path primaryFile, path referenceFile) {
 	// initialize frame map
 	refVirtex5BitstreamPtr->initializeDeviceInfo(referenceBitstreamPtr->getDesignName());
 	refVirtex5BitstreamPtr->initializeFrameMaps();
-	refVirtex5BitstreamPtr->initializeFullFrameBlocks();
+	refVirtex5BitstreamPtr->readFramePackets();
 
 	primVirtexBitstreamPtr->initializeDeviceInfo(primBitstreamPtr->getDesignName());
 	primVirtexBitstreamPtr->initializeFrameMaps();
-	primVirtexBitstreamPtr->initializeFullFrameBlocks();
+	primVirtexBitstreamPtr->readFramePackets();
 
 	uint32_t wordOffset = getWordOffsetFromXdlFile(primaryFile, primVirtexBitstreamPtr);
 

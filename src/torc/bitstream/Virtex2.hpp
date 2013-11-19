@@ -171,7 +171,7 @@ namespace bitstream { void testVirtex2FullMapping(const boost::filesystem::path&
 				return mMinor < rhs.mMinor;
 			}
 			friend std::ostream& operator<< (std::ostream& os, const Virtex2::FrameAddress& rhs) {
-				return os << rhs.mBlockType	<< "(" << rhs.mMajor << "." << rhs.mMinor << ")";
+				return os << rhs.mBlockType << "(" << rhs.mMajor << "." << rhs.mMinor << ")";
 			}
 		private:
 			//operator uint32_t (void) const {

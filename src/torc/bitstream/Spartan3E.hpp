@@ -162,6 +162,9 @@ namespace bitstream { void testSpartan3EDevice(const std::string& inDeviceName,
 				if(diffMajor) return diffMajor < 0;
 				return mMinor < rhs.mMinor;
 			}
+			friend std::ostream& operator<< (std::ostream& os, const Spartan3E::FrameAddress& rhs) {
+				return os << rhs.mColumn << "(" << rhs.mMajor << "." << rhs.mMinor << ")";
+			}
 		};
 	// accessors
 		virtual uint32_t getFrameLength(void) const {

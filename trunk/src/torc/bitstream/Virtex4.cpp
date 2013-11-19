@@ -395,6 +395,7 @@ namespace bitstream {
 			uint32_t xdlIndex = 0;
 			mBitColumnIndexes[i].push_back(bitIndex);
 			mXdlColumnIndexes[i].push_back(xdlIndex);
+			bool blockUsed = false;
 			for(uint32_t half = 0; half < 2; half++) {
 				for(uint32_t farRow = 0; farRow < farRowCount; farRow++) {
 					//build the columns
@@ -414,7 +415,10 @@ namespace bitstream {
 							frameIndex++;
 							blockFrameIndexBounds++;
 						}
-						if(width > 0) farMajor++;
+						if(width > 0) {
+							farMajor++;
+							blockUsed = true;
+						}
 
 						//Extract frame indexes for 1 row
 						if(farRow == 0 && half == 0) {
@@ -425,7 +429,7 @@ namespace bitstream {
 							    bitIndex += width;
 							    mBitColumnIndexes[i].push_back(bitIndex);
 							    if(col == finalColumn) {
-							        bitIndex += mColumnDefs[mDeviceInfo.getColumnTypes()[col]][i];
+							        bitIndex += getRowPadFrames();
 							        mBitColumnIndexes[i].push_back(bitIndex);
 							    }
 						    }
@@ -436,11 +440,18 @@ namespace bitstream {
 							xdlColumnCount++;
 						    if(col == finalColumn)
 						    {    
-						        xdlIndex += mColumnDefs[mDeviceInfo.getColumnTypes()[col]][i];
+						        xdlIndex += getRowPadFrames();
 						        mXdlColumnIndexes[i].push_back(xdlIndex);
 						    }
 						}
 					}
+					// account for two pad frames after each frame row
+					if(blockUsed) {
+						frameIndex += getRowPadFrames();
+						blockFrameIndexBounds += getRowPadFrames();
+					}
+					if(debug) std::cout << "Last frame index:   [" << i << ", " << frameIndex 
+						<< "]" << std::endl;
 				}
 			}
 			//stores frame index bounds for each block type
@@ -456,6 +467,290 @@ namespace bitstream {
 			      std::cout << "Xdl Value at index: (" << i << ", " << k << ") : " << mXdlColumnIndexes[i][k] << std::endl;
 		    }
 		}
+	}
+
+	VirtexPacketVector Virtex4::generateFullBitstreamPrefix(void) {
+		//	0000004b: DUMMY
+		//	0000004f: SYNC
+		//	00000053: NOP x 1
+		//	00000057: TYPE1 WRITE CMD RCRC
+		//	0000005f: NOP x 2
+		//	00000067: TYPE1 WRITE COR: 00043fe5 (CRC:Enable, DonePipe:No, DriveDone:No, 
+		//				Capture:Continuous, ConfigRate:[UNKNOWN 2], StartupClk:Cclk, DONE_cycle:4, 
+		//				Match_cycle:NoWait, LCK_cycle:NoWait, GTS_cycle:5, GWE_cycle:6)
+		//	0000006f: TYPE1 WRITE IDCODE: 01eb4093
+		//	00000077: TYPE1 WRITE CMD SWITCH
+		//	0000007f: NOP x 1
+		//	00000083: TYPE1 WRITE MASK: 00000600 (ICAP_sel:Protected, GLUTMASK:Protected, 
+		//				Security:Protected, Persist:Protected, GTS_USER_B:Protected)
+		//	0000008b: TYPE1 WRITE CTL: 00000600 (ICAP_sel:Top, GLUTMASK:Masked, Security:None, 
+		//				Persist:No, GTS_USER_B:IoDisabled)
+		//	00000093: NOP x 1150
+		//	0000128b: TYPE1 WRITE MASK: 00000600 (ICAP_sel:Protected, GLUTMASK:Protected, 
+		//				Security:Protected, Persist:Protected, GTS_USER_B:Protected)
+		//	00001293: TYPE1 WRITE CTL: 00000000 (ICAP_sel:Top, GLUTMASK:Masked, Security:None, 
+		//				Persist:No, GTS_USER_B:IoDisabled)
+		//	0000129b: TYPE1 WRITE CMD NULL
+		//	000012a3: NOP x 1
+
+		// declare the packet vector and define a NOP packet
+		typedef VirtexFrame::word_t word_t;
+		VirtexPacketVector packets;
+		VirtexPacket nop(VirtexPacket::makeHeader(ePacketType1, eOpcodeNOP, 0, 0));
+		VirtexPacket dummy(eSynchronizationDummy);
+		VirtexPacket sync(eSynchronizationSync);
+		// dummy and sync words
+		packets.push_back(dummy);
+		packets.push_back(VirtexPacket(eSynchronizationSync));
+		packets.push_back(nop);
+		// reset CRC command
+		packets.push_back(VirtexPacket::makeType1Write(eRegisterCMD, eCommandRCRC));
+		packets.push_back(nop);
+		packets.push_back(nop);
+		// configuration options register
+		packets.push_back(VirtexPacket::makeType1Write(eRegisterCOR, 
+				makeSubfield(eRegisterCOR, "CRC", "Enable") |
+				makeSubfield(eRegisterCOR, "DonePipe", "No") |
+				makeSubfield(eRegisterCOR, "DriveDone", "No") |
+				makeSubfield(eRegisterCOR, "Capture", "Continuous") |
+				makeSubfield(eRegisterCOR, "ConfigRate", "[UNKNOWN 2]") |
+				makeSubfield(eRegisterCOR, "StartupClk", "Cclk") |
+				makeSubfield(eRegisterCOR, "DONE_cycle", "4") |
+				makeSubfield(eRegisterCOR, "Match_cycle", "NoWait") |
+				makeSubfield(eRegisterCOR, "LCK_cycle", "NoWait") |
+				makeSubfield(eRegisterCOR, "GTS_cycle", "5") |
+				makeSubfield(eRegisterCOR, "GWE_cycle", "6") |
+			0));
+		// write the ID code
+		packets.push_back(VirtexPacket::makeType1Write(eRegisterIDCODE, 0x00000000));
+		// clock and rate switch command
+		packets.push_back(VirtexPacket::makeType1Write(eRegisterCMD, eCommandSWITCH));
+		packets.push_back(nop);
+		// control register mask
+		packets.push_back(VirtexPacket::makeType1Write(eRegisterMASK, 
+				makeSubfield(eRegisterMASK, "ICAP_sel", "Protected") |
+				makeSubfield(eRegisterMASK, "GLUTMASK", "Protected") |
+				makeSubfield(eRegisterMASK, "Security", "Protected") |
+				makeSubfield(eRegisterMASK, "Persist", "Protected") |
+				makeSubfield(eRegisterMASK, "GTS_USER_B", "Protected") |
+				0x00000600 /* these bits are not defined in the configuration guide */ |
+			0));
+		// control register
+		packets.push_back(VirtexPacket::makeType1Write(eRegisterCTL, 
+				makeSubfield(eRegisterCTL, "ICAP_sel", "Top") |
+				makeSubfield(eRegisterCTL, "GLUTMASK", "Masked") |
+				makeSubfield(eRegisterCTL, "Security", "None") |
+				makeSubfield(eRegisterCTL, "Persist", "No") |
+				makeSubfield(eRegisterCTL, "GTS_USER_B", "IoDisabled") |
+				0x00000600 /* these bits are not defined in the configuration guide */ |
+			0));
+		packets.insert(packets.end(), 1150, nop);
+		// control register mask
+		packets.push_back(VirtexPacket::makeType1Write(eRegisterMASK, 
+				makeSubfield(eRegisterMASK, "ICAP_sel", "Protected") |
+				makeSubfield(eRegisterMASK, "GLUTMASK", "Protected") |
+				makeSubfield(eRegisterMASK, "Security", "Protected") |
+				makeSubfield(eRegisterMASK, "Persist", "Protected") |
+				makeSubfield(eRegisterMASK, "GTS_USER_B", "Protected") |
+				0x00000600 /* these bits are not defined in the configuration guide */ |
+			0));
+		// control register
+		packets.push_back(VirtexPacket::makeType1Write(eRegisterCTL, 
+				makeSubfield(eRegisterCTL, "ICAP_sel", "Top") |
+				makeSubfield(eRegisterCTL, "GLUTMASK", "Masked") |
+				makeSubfield(eRegisterCTL, "Security", "None") |
+				makeSubfield(eRegisterCTL, "Persist", "No") |
+				makeSubfield(eRegisterCTL, "GTS_USER_B", "IoDisabled") |
+				0x00000000 /* these bits are not defined in the configuration guide */ |
+			0));
+		// NULL command
+		packets.push_back(VirtexPacket::makeType1Write(eRegisterCMD, eCommandNULL));
+		packets.push_back(nop);
+		// return the packet vector
+		return packets;
+	}
+
+	VirtexPacketVector Virtex4::generateFullBitstreamSuffix(void) {
+		//	00280d63: TYPE1 WRITE CRC: 789d0d51
+		//	00280d6b: TYPE1 WRITE CMD GRESTORE
+		//	00280d73: NOP x 1
+		//	00280d77: TYPE1 WRITE CMD LFRM
+		//	00280d7f: NOP x 100
+		//	00280f0f: TYPE1 WRITE CMD GRESTORE
+		//	00280f17: NOP x 1
+		//	00280f1b: TYPE1 WRITE CMD NULL
+		//	00280f23: NOP x 1
+		//	00280f27: TYPE1 WRITE FAR: 00010f00
+		//	00280f2f: TYPE1 WRITE CMD START
+		//	00280f37: NOP x 1
+		//	00280f3b: TYPE1 WRITE MASK: 00000000 (ICAP_sel:Protected, GLUTMASK:Protected, 
+		//				Security:Protected, Persist:Protected, GTS_USER_B:Protected)
+		//	00280f43: TYPE1 WRITE CTL: 00000000 (ICAP_sel:Top, GLUTMASK:Masked, Security:None, 
+		//				Persist:No, GTS_USER_B:IoDisabled)
+		//	00280f4b: TYPE1 WRITE CRC: 50ea82c0
+		//	00280f53: TYPE1 WRITE CMD DESYNC
+		//	00280f5b: NOP x 16
+
+		// declare the packet vector and define a NOP packet
+		typedef VirtexFrame::word_t word_t;
+		VirtexPacketVector packets;
+		VirtexPacket nop(VirtexPacket::makeHeader(ePacketType1, eOpcodeNOP, 0, 0));
+		// write a placeholder CRC value
+		packets.push_back(VirtexPacket::makeType1Write(eRegisterCRC, 0));
+		// restore command
+		packets.push_back(VirtexPacket::makeType1Write(eRegisterCMD, eCommandGRESTORE));
+		packets.push_back(nop);
+		// last frame command
+		packets.push_back(VirtexPacket::makeType1Write(eRegisterCMD, eCommandLFRM));
+		packets.insert(packets.end(), 100, nop);
+		// restore command
+		packets.push_back(VirtexPacket::makeType1Write(eRegisterCMD, eCommandGRESTORE));
+		packets.push_back(nop);
+		// NULL command
+		packets.push_back(VirtexPacket::makeType1Write(eRegisterCMD, eCommandNULL));
+		packets.push_back(nop);
+		// frame address register
+		packets.push_back(VirtexPacket::makeType1Write(eRegisterFAR, 
+			eFarMaskBlockType | eFarMaskRow)); // is this what the configuration controller wants?
+		// start command
+		packets.push_back(VirtexPacket::makeType1Write(eRegisterCMD, eCommandSTART));
+		packets.push_back(nop);
+		// control register 0 mask
+		packets.push_back(VirtexPacket::makeType1Write(eRegisterMASK, 
+				makeSubfield(eRegisterMASK, "ICAP_sel", "Protected") |
+				makeSubfield(eRegisterMASK, "GLUTMASK", "Protected") |
+				makeSubfield(eRegisterMASK, "Security", "Protected") |
+				makeSubfield(eRegisterMASK, "Persist", "Protected") |
+				makeSubfield(eRegisterMASK, "GTS_USER_B", "Protected") |
+			0));
+		// control register 0
+		packets.push_back(VirtexPacket::makeType1Write(eRegisterCTL, 
+				makeSubfield(eRegisterCTL, "ICAP_sel", "Top") |
+				makeSubfield(eRegisterCTL, "GLUTMASK", "Masked") |
+				makeSubfield(eRegisterCTL, "Security", "None") |
+				makeSubfield(eRegisterCTL, "Persist", "No") |
+				makeSubfield(eRegisterCTL, "GTS_USER_B", "IoDisabled") |
+			0));
+		// write the CRC value
+		packets.push_back(VirtexPacket::makeType1Write(eRegisterCRC, 0x00000000));
+		// desynch command
+		packets.push_back(VirtexPacket::makeType1Write(eRegisterCMD, eCommandDESYNC));
+		packets.insert(packets.end(), 16, nop);
+		// return the packet vector
+		return packets;
+	}
+
+	VirtexPacketVector Virtex4::generatePartialBitstreamPrefix(EBitstreamType inBitstreamType) {
+		//	Packets marked S pertain to shutdown bitstreams only
+		//		0000004b: DUMMY
+		//		0000004f: SYNC
+		//		00000053: NOP x 1
+		//		00000057: TYPE1 WRITE CMD RCRC
+		//		0000005f: NOP x 2
+		//		00000067: TYPE1 WRITE IDCODE: 01eb4093
+		//	S	0000006f: TYPE1 WRITE COR: 00043fe5 (CRC:Enable, DonePipe:No, DriveDone:No, 
+		//			Capture:Continuous, ConfigRate:[UNKNOWN 2], StartupClk:Cclk, DONE_cycle:4, 
+		//			Match_cycle:NoWait, LCK_cycle:NoWait, GTS_cycle:5, GWE_cycle:6)
+		//	S	00000077: TYPE1 WRITE CMD SHUTDOWN
+		//	S	0000007f: NOP x 1
+		//	S	00000083: TYPE1 WRITE CRC: 7f2b44a8
+		//	S	0000008b: NOP x 4
+		//	S	0000009b: TYPE1 WRITE CMD AGHIGH
+		//	S	000000a3: NOP x 1
+
+		// declare the packet vector and define a NOP packet
+		typedef VirtexFrame::word_t word_t;
+		VirtexPacketVector packets;
+		VirtexPacket nop(VirtexPacket::makeHeader(ePacketType1, eOpcodeNOP, 0, 0));
+		VirtexPacket dummy(eSynchronizationDummy);
+		VirtexPacket sync(eSynchronizationSync);
+		// dummy and sync words
+		packets.push_back(dummy);
+		packets.push_back(VirtexPacket(eSynchronizationSync));
+		packets.push_back(nop);
+		// reset CRC command
+		packets.push_back(VirtexPacket::makeType1Write(eRegisterCMD, eCommandRCRC));
+		packets.push_back(nop);
+		packets.push_back(nop);
+		// write the ID code
+		packets.push_back(VirtexPacket::makeType1Write(eRegisterIDCODE, 0x00000000));
+		// extra for shutdown bitstreams
+		if(inBitstreamType == eBitstreamTypePartialShutdown) {
+			// configuration options register 0
+			packets.push_back(VirtexPacket::makeType1Write(eRegisterCOR, 
+					makeSubfield(eRegisterCOR, "CRC", "Enable") |
+					makeSubfield(eRegisterCOR, "DonePipe", "No") |
+					makeSubfield(eRegisterCOR, "DriveDone", "No") |
+					makeSubfield(eRegisterCOR, "Capture", "Continuous") |
+					makeSubfield(eRegisterCOR, "ConfigRate", "[UNKNOWN 2]") |
+					makeSubfield(eRegisterCOR, "StartupClk", "Cclk") |
+					makeSubfield(eRegisterCOR, "DONE_cycle", "4") |
+					makeSubfield(eRegisterCOR, "Match_cycle", "NoWait") |
+					makeSubfield(eRegisterCOR, "LCK_cycle", "NoWait") |
+					makeSubfield(eRegisterCOR, "GTS_cycle", "5") |
+					makeSubfield(eRegisterCOR, "GWE_cycle", "6") |
+				0));
+			// shutdown command
+			packets.push_back(VirtexPacket::makeType1Write(eRegisterCMD, eCommandSHUTDOWN));
+			packets.push_back(nop);
+			// write the CRC value
+			packets.push_back(VirtexPacket::makeType1Write(eRegisterCRC, 0x00000000));
+			packets.insert(packets.end(), 4, nop);
+			// aghigh command
+			packets.push_back(VirtexPacket::makeType1Write(eRegisterCMD, eCommandAGHIGH));
+			packets.push_back(nop);
+		}
+		// return the packet vector
+		return packets;
+	}
+
+	VirtexPacketVector Virtex4::generatePartialBitstreamSuffix(EBitstreamType inBitstreamType) {
+		//	Packets marked S pertain to shutdown bitstreams only
+		//	S	00004db7: TYPE1 WRITE CMD GRESTORE
+		//	S	00004dbf: NOP x 1
+		//		00004dc3: TYPE1 WRITE CMD LFRM
+		//		00004dcb: NOP x 101
+		//	S	00004f5f: TYPE1 WRITE CMD GRESTORE
+		//	S	00004f67: NOP x 1
+		//	S	00004f6b: TYPE1 WRITE CMD START
+		//	S	00004f73: NOP x 1
+		//		00004f77: TYPE1 WRITE CRC: f729c893
+		//		00004f7f: TYPE1 WRITE CMD DESYNC
+		//		00004f87: NOP x 4
+
+		// declare the packet vector and define a NOP packet
+		typedef VirtexFrame::word_t word_t;
+		VirtexPacketVector packets;
+		VirtexPacket nop(VirtexPacket::makeHeader(ePacketType1, eOpcodeNOP, 0, 0));
+		// extra for shutdown bitstreams
+		if(inBitstreamType == eBitstreamTypePartialShutdown) {
+			// restore command
+			packets.push_back(VirtexPacket::makeType1Write(eRegisterCMD, eCommandGRESTORE));
+			packets.push_back(nop);
+		}
+		// last frame command
+		packets.push_back(VirtexPacket::makeType1Write(eRegisterCMD, eCommandLFRM));
+		packets.insert(packets.end(), 101, nop);
+		// extra for shutdown bitstreams
+		if(inBitstreamType == eBitstreamTypePartialShutdown) {
+			// restore command
+			packets.push_back(VirtexPacket::makeType1Write(eRegisterCMD, eCommandGRESTORE));
+			packets.push_back(nop);
+			// start command
+			packets.push_back(VirtexPacket::makeType1Write(eRegisterCMD, eCommandSTART));
+			packets.push_back(nop);
+		}
+		// write the CRC value
+		packets.push_back(VirtexPacket::makeType1Write(eRegisterCRC, 0x00000000));
+		// desynch command
+		packets.push_back(VirtexPacket::makeType1Write(eRegisterCMD, eCommandDESYNC));
+		if(inBitstreamType == eBitstreamTypePartialShutdown) {
+			packets.insert(packets.end(), 4, nop);
+		} else {
+			packets.insert(packets.end(), 1, nop);
+		}
+		// return the packet vector
+		return packets;
 	}
 
 	void Virtex4::initializeFullFrameBlocks (void) {

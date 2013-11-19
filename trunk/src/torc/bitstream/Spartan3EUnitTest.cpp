@@ -214,11 +214,6 @@ BOOST_AUTO_TEST_CASE(Spartan3EFarUnitTest) {
 	};
 */
 
-	std::ostream& operator<< (std::ostream& os, const Spartan3E::FrameAddress& rhs);
-	std::ostream& operator<< (std::ostream& os, const Spartan3E::FrameAddress& rhs) {
-		return os << rhs.mColumn << "(" << rhs.mMajor << "." << rhs.mMinor << ")";
-	}
-
 void testSpartan3EDevice(const std::string& inDeviceName, const boost::filesystem::path& inWorkingPath) {
 
 	// build the file paths

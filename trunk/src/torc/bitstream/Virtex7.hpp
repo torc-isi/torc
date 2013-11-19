@@ -205,9 +205,12 @@ namespace bitstream { void testVirtex7Device(const std::string& inDeviceName,
 		///\detail This is generally useful only for internal purposes.  
 		virtual void initializeFrameMaps(void);  
 		/// \brief Read frame data into the frame blocks structure.
-		virtual void readFramePackets(void);
-		/// \brief Update the bitstream packets to include full frame data.
+		virtual void readFramePackets(void) {
+			readFramePackets4567<Virtex7>(mBlockFrameIndexBounds, mFrameAddressToIndex, 
+				mFrameIndexToAddress);
+		}
 /* no longer needed
+		/// \brief Update the bitstream packets to include full frame data.
 		virtual void updateFullBitstreamPackets(void);
 		/// \brief Update the bitstream packets to include partial frame data.
 		/// \param inBitstreamType The type of partial bitstream to generate: active or shutdown.
@@ -223,16 +226,23 @@ namespace bitstream { void testVirtex7Device(const std::string& inDeviceName,
 			EFrameInclude inFrameInclusion);
 */
 		/// \brief Discard the existing frame packets and return an iterator to the start position.
-		virtual VirtexPacketVector::iterator deleteFramePackets(void);
+		virtual VirtexPacketVector::iterator deleteFramePackets(void) {
+			return deleteFramePackets4567<Virtex7>();
+		}
 		/// \brief Return a packet vector with full frame data.
-		virtual VirtexPacketVector generateFullBitstreamPackets(void);
+		virtual VirtexPacketVector generateFullBitstreamPackets(void) {
+			return generateFullBitstreamPackets4567<Virtex7>(mBlockFrameIndexBounds);
+		}
 		/// \brief Return a packet vector with the full bitstream prefix.
 		virtual VirtexPacketVector generateFullBitstreamPrefix(void);
 		/// \brief Return a packet vector with the full bitstream suffix.
 		virtual VirtexPacketVector generateFullBitstreamSuffix(void);
 		/// \brief Return a packet vector with partial frame data.
 		/// \param inFrameInclusion The type of frames to include: only dirty frames or all frames.
-		virtual VirtexPacketVector generatePartialBitstreamPackets(EFrameInclude inFrameInclusion);
+		virtual VirtexPacketVector generatePartialBitstreamPackets(EFrameInclude inFrameInclusion) {
+			return generatePartialBitstreamPackets4567<Virtex7>(inFrameInclusion, 
+				mFrameAddressToIndex, mFrameIndexToAddress);
+		}
 		/// \brief Return a packet vector with the partial bitstream prefix.
 		/// \param inBitstreamType The type of partial bitstream to generate: active or shutdown.
 		virtual VirtexPacketVector generatePartialBitstreamPrefix(EBitstreamType inBitstreamType);
@@ -342,6 +352,11 @@ namespace bitstream { void testVirtex7Device(const std::string& inDeviceName,
 					((mMajor << eFarShiftMajor) & eFarMaskMajor) |     
 					((mMinor << eFarShiftMinor) & eFarMaskMinor);    
 			}  
+			friend std::ostream& operator<< (std::ostream& os, const Virtex7::FrameAddress& rhs) {
+				return os << (rhs.mTopBottom == Virtex7::eFarTop ? 'T' : 'B')
+					<< "" << rhs.mBlockType << "(" << rhs.mRow << "," << rhs.mMajor << "." 
+					<< rhs.mMinor << ")";
+			}
 		};
 	protected:
 	// inner classes

@@ -46,6 +46,20 @@ namespace bitstream { class VirtexBitstreamUnitTest; }
 		virtual void updateCrc16(torc::common::DeviceDesignator::EFamily inFamily);
 		/// \brief Update CRC-32 packets.
 		virtual void updateCrc32(torc::common::DeviceDesignator::EFamily inFamily);
+		/// \brief Read frame packets in for Virtex4/5/6/7 devices.
+		template <class ARCH> void readFramePackets4567(uint32_t inBlockFrameIndexBounds[], 
+			std::map<typename ARCH::FrameAddress, uint32_t>& inFrameAddressToIndex, 
+			std::map<uint32_t, typename ARCH::FrameAddress>& inFrameIndexToAddress);
+		/// \brief Discard the existing frame packets for Virtex4/5/6/7 devices.
+		template <class ARCH> VirtexPacketVector::iterator deleteFramePackets4567(void);
+		/// \brief Return a packet vector with full frame data for Virtex4/5/6/7 devices.
+		template <class ARCH> VirtexPacketVector generateFullBitstreamPackets4567(
+			uint32_t inBlockFrameIndexBounds[]);
+		/// \brief Return a packet vector with partial frame data for Virtex4/5/6/7 devices.
+		template <class ARCH> VirtexPacketVector generatePartialBitstreamPackets4567(
+			EFrameInclude inFrameInclusion, 
+			std::map<typename ARCH::FrameAddress, uint32_t>& inFrameAddressToIndex, 
+			std::map<uint32_t, typename ARCH::FrameAddress>& inFrameIndexToAddress);
 	// members
 		/// \brief Input Frame blocks.
 		VirtexFrameBlocks mFrameBlocks;
@@ -62,7 +76,6 @@ namespace bitstream { class VirtexBitstreamUnitTest; }
 		virtual void writePackets(std::ostream& inStream);
 		/// \brief Read frame data into the frame blocks structure.
 		virtual void readFramePackets(void);
-
 		/// \brief Update the bitstream frame packets
 		/// \detail By default this updates the bitstream with full frame data.
 		/// \param inBitstreamType The type of bitstream to generate: full or partial.

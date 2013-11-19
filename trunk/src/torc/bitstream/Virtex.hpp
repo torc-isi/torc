@@ -170,6 +170,9 @@ namespace bitstream { void testVirtexFullMapping(const boost::filesystem::path& 
 				if(diffMajor) return diffMajor < 0;
 				return mMinor < rhs.mMinor;
 			}
+			friend std::ostream& operator<< (std::ostream& os, const Virtex::FrameAddress& rhs) {
+				return os << rhs.mBlockType << "(" << rhs.mMajor << "." << rhs.mMinor << ")";
+			}
 		private:
 			//
 		};

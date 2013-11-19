@@ -231,12 +231,6 @@ BOOST_AUTO_TEST_CASE(Virtex6FarUnitTest) {
 	};
 */
 
-	std::ostream& operator<< (std::ostream& os, const Virtex6::FrameAddress& rhs);
-	std::ostream& operator<< (std::ostream& os, const Virtex6::FrameAddress& rhs) {
-		return os << (rhs.mTopBottom == Virtex6::eFarTop ? 'T' : 'B') << "" << rhs.mBlockType 
-				<< "(" << rhs.mRow << "," << rhs.mMajor << "." << rhs.mMinor << ")";
-	}
-
 void testVirtex6Device(const std::string& inDeviceName, const boost::filesystem::path& inWorkingPath) {
 
 	// build the file paths
@@ -380,7 +374,7 @@ void testVirtex6FullMapping(const boost::filesystem::path& inWorkingPath) {
 	bitstream.initializeFrameMaps();
 
 	// load bitstream frames in data structure
-	bitstream.initializeFullFrameBlocks();
+	bitstream.readFramePackets();
 
 	// write full bitstream from frame blocks data structure
 	uint32_t frameLength = bitstream.getFrameLength();

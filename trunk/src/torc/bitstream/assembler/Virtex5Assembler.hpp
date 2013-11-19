@@ -75,13 +75,13 @@ protected:
 	virtual void initializeFullFrameBlocks() {
 		torc::bitstream::Virtex5 *virtexBitStream =
 				dynamic_cast<torc::bitstream::Virtex5 *> (mBitstreamPtr.get());
-		virtexBitStream->initializeFullFrameBlocks();
+		virtexBitStream->readFramePackets();
 	}
 
 	virtual void updateFullFrameBlocks() {
 		torc::bitstream::Virtex5 *virtexBitStream =
 				dynamic_cast<torc::bitstream::Virtex5 *> (mBitstreamPtr.get());
-		virtexBitStream->updateFullFrameBlocks();
+		virtexBitStream->updateFramePackets();
 	}
 
 	/// \brief For an INT tile, returns associated CLB column

@@ -208,11 +208,6 @@ BOOST_AUTO_TEST_CASE(VirtexFarUnitTest) {
 	};
 */
 
-	std::ostream& operator<< (std::ostream& os, const Virtex::FrameAddress& rhs);
-	std::ostream& operator<< (std::ostream& os, const Virtex::FrameAddress& rhs) {
-		return os << rhs.mBlockType << "(" << rhs.mMajor << "." << rhs.mMinor << ")";
-	}
-
 void testVirtexDevice(const std::string& inDeviceName, const boost::filesystem::path& inWorkingPath) {
 
 	// build the file paths

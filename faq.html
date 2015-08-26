@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+  <!-- BEGIN HEAD -->
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Torc : Tools for Open Reconfigurable Computing">
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+    <title>Torc FAQ</title>
+  </head>
+  <!-- END HEAD -->
+
+  <!-- BEGIN BODY -->
+  <body>
+
+    <!-- BEGIN HEADER -->
+    <div id="header_wrap" class="outer">
+      <header class="inner">
+        <table style="width:100%">
+	  <tr>
+	    <th><img src="images/torc-full-on-black.png" style="width:50%;"></th>
+	    <th><a id="forkme_banner" href="https://github.com/torc-isi/test-web">Download from GitHub</a></th>
+	  </tr>
+	  <tr>
+            <th><h1 id="project_tagline">TOOLS FOR OPEN RECONFIGURABLE COMPUTING</h1></th>
+	  </tr>
+	</table>
+      </header>
+    </div>
+    <!-- END HEADER -->
+
+    <!-- BEGIN NAVIGATION --> 
+    <div id="navigation_content_wrap" class="outer">
+      <section id="nagivation_content" class="inner">
+ 	<table style="width:100%"> 
+ 	  <tr> 
+ 	    <th><a href="index.html">Home</a></th> 
+ 	    <th><a href="getting_started.html">Getting Started</a></th>
+ 	    <th><a href="examples.Html">Examples</a></th> 
+ 	    <th><a href="documentation.html">Documentation</a></th> 
+ 	    <th><a href="support.html">Support</a></th> 
+ 	    <th><a href="faq.html">FAQ</a></th> 
+ 	  </tr> 
+ 	</table> 
+	</section>
+      </div>
+    <!-- END NAVIGATION -->
+
+    <!-- BEGIN MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+	
+	<h3>
+	  FAQ
+	</h3>
+
+        <p>1. Are there any other open-source tools similar to Torc?</p>
+
+        <div style="margin-left: 40px;">If you are looking for
+          similar capabilities in Java, we recommend <a href="http://rapidsmith.sourceforge.net/">RapidSmith</a>
+          and other tools from our friends at the <a href="http://splish.ee.byu.edu/">BYU CCM Lab</a>.</div>
+
+
+        <p>2. Who uses Torc?</p>
+        <div style="margin-left: 40px;">Torc is used internally at
+          ISI.&nbsp; It is also used by <a class="link2" href="http://openpr-vt.sourceforge.net/OpenPR/OpenPR.html">OpenPR</a>,
+          and by qFlow and tFlow at the <a class="link2" href="http://www.ccm.ece.vt.edu">VT CCM Lab</a>.</div>
+
+        <p>3. Where can I find the Torc executable?</p>
+        <div style="margin-left: 40px;">There is no executable—Torc
+          is a framework for tool development.&nbsp; It does not
+          directly provide executable programs, but instead allows
+          the user to develop their own CAD/EDA tools and utilities.</div>
+
+	<p>4. I see an error about BOOST_INCLUDE_DIR or BOOST_LIB_DIR
+          not declared while building Torc.</p>
+
+        <div style="margin-left: 40px;"><strong>*** Please declare
+            BOOST_INCLUDE_DIR and BOOST_LIB_DIR in
+            torc/trunk/src/Makefile.local or in your local
+            environment.&nbsp; Stop.</strong></div>
+
+	<!-- AGS: This was copied from the FAQ rendered HTML, sorry it is ugly -->
+        <div style="margin-left: 40px;"><strong>Solution 1</strong>:&nbsp;
+          Edit the Makefile.local in the torc/trunk/src directory to
+          include the following, updating the paths based on your Boost
+          installation path.<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #
+          define these variables here if necessary or define them as
+          environment variables<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          BOOST_INCLUDE_DIR = /usr/local/boost/include<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          BOOST_LIB_DIR = /usr/local/boost/lib<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #
+          optionally define compiler to use<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CC
+          = /usr/local/gcc-4.6.1/bin/gcc<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CXX
+          = /usr/local/gcc-4.6.1/bin/g++<br>
+          <br>
+          <strong>Solution 2:</strong>&nbsp; Set BOOST_INCLUDE_DIR
+          and BOOST_LIB_DIR as environment variables.&nbsp; For Bash
+          see below, updating the paths based on your Boost
+          installation path.<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          export BOOST_INCLUDE_DIR = /usr/local/boost/include<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          export BOOST_LIB_DIR = /usr/local/boost/lib</div>
+
+
+      </section>
+    </div>
+    <!-- END MAIN CONTENT -->
+
+    <!-- BEGIN FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+	<a href="http://www.isi.edu"><img id="isi_logo" src="images/isi.png" style="width:90px;"></a>
+	Torc maintained by <a href="https://github.com/torc-isi">torc-isi</a>
+	<a href="http://www.usc.edu"><img id="usc_logo" src="images/USC-Shield-Red.png" style="width:150px;"></a>
+      </footer>
+    </div>
+    <!-- END FOOTER  -->    
+
+  </body>
+  <!-- END BODY -->
+
+</html>

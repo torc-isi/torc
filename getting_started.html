@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+
+  <!-- BEGIN HEAD -->
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Torc : Tools for Open Reconfigurable Computing">
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+    <title>Torc Getting Started</title>
+  </head>
+  <!-- END HEAD -->
+
+  <!-- BEGIN BODY -->
+  <body>
+
+    <!-- BEGIN HEADER -->
+    <div id="header_wrap" class="outer">
+      <header class="inner">
+        <table style="width:100%">
+	  <tr>
+	    <th><img src="images/torc-full-on-black.png" style="width:50%;"></th>
+	    <th><a id="forkme_banner" href="https://github.com/torc-isi/test-web">Download from GitHub</a></th>
+	  </tr>
+	  <tr>
+            <th><h1 id="project_tagline">TOOLS FOR OPEN RECONFIGURABLE COMPUTING</h1></th>
+	  </tr>
+	</table>
+      </header>
+    </div>
+    <!-- END HEADER -->
+
+    <!-- BEGIN NAVIGATION --> 
+    <div id="navigation_content_wrap" class="outer">
+      <section id="nagivation_content" class="inner">
+ 	<table style="width:100%"> 
+ 	  <tr> 
+ 	    <th><a href="index.html">Home</a></th> 
+ 	    <th><a href="getting_started.html">Getting Started</a></th>
+ 	    <th><a href="examples.html">Examples</a></th> 
+ 	    <th><a href="documentation.html">Documentation</a></th> 
+ 	    <th><a href="support.html">Support</a></th> 
+ 	    <th><a href="faq.html">FAQ</a></th> 
+ 	  </tr> 
+ 	</table> 
+	</section>
+      </div>
+    <!-- END NAVIGATION -->
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+
+	<h3>
+	  Getting Started
+	</h3>
+
+	<!-- AGS: TODO - Add back the link to the VM download after 
+	     we figure out where it will be best hosted -->
+	<p>To use Torc, it is first necessary to download the virtual
+	machine image, or check out a working copy of the repository,
+	as discussed <a href="https://github.com/torc-isi/test-web">here</a>.
+	</p>
+	
+	<p>The virtual machine image is available as an OVA file,
+	compatible with VirtualBox, VMware, and other virtualization
+	engines.  It comes preconfigured with Torc, Boost, and GCC,
+	for easy exploration and startup.
+	</p>
+
+	<h3>
+	  Requirements
+	</h3>
+
+	<p>Torc currently has the following requirements:</p>	  
+
+        <ul>
+          <li><a href="http://gcc.gnu.org/releases.html">GCC</a>
+            4.2.1 or later</li>
+          <li><a href="http://www.boost.org/users/history/version_1_42_0">Boost</a>
+            1.42 or later<br>
+          </li>
+          <li>3 GB of disk space (not necessary for user
+            executables)<br>
+          </li>
+        </ul>
+
+        <p>Torc releases are tested under these and other environments:</p>
+
+        <ul>
+          <li>CentOS 5.6, gcc 4.2.1, Boost 1.42</li>
+          <li>OS X 10.6 Server, gcc 4.6.1, Boost 1.46.1</li>
+          <li>RHEL (Red Hat) Server 5.7, gcc 4.2.4, Boost 1.42<br>
+          </li>
+          <li>Ubuntu 10.04.2 LTS, gcc 4.2.1, Boost 1.42</li>
+          <li>Windows 7 (Cygwin), gcc 4.5.3, Boost 1.46.1<br>
+          </li>
+        </ul>
+
+        <p>GCC and Boost must be installed and available before any
+        Torc code can be built. If you are working from the
+        virtual machine image, these tools are preinstalled.</p>
+
+        <p>A full list of tested build configurations can be
+        found <a href="builds.html">here</a>.</p>
+	  
+        <h3>
+	  Building the Code
+	</h3>
+        
+        <p>Torc is most easily built in a Linux-like environment.
+          Xcode and Eclipse projects are included as a convenience for
+          building and exploring the code.</p>
+	
+        <p>The top-level Makefile resides in the src directory.  Use
+          the following commands to start the build process:</p>
+	
+        <div style="margin-left:15px; margin-right:15px">
+          <pre>cd src<br>make</pre>
+        </div>
+	
+        <p>The first time you build Torc you will see a message
+          stating that BOOST_INCLUDE_DIR and BOOST_LIB_DIR must be
+          set prior to compiling Torc.  These can be set on the
+          commandline, as environment variables, or editing the
+          Makefile.local file that is automatically generated when
+          you first type 'make' in the src directory.  For issues
+          with building Torc see
+          the <a href="support.html">Support.</a></p>
+	
+        <p>These commands will compile and link the unit test
+          application and the example executables.  All of the
+          remaining steps will take place in the src directory.</p>
+	
+	
+        <h3> 
+	  Example Executables
+	</h3>
+        
+        <p>The <a href="examples.html">example
+            executables</a> provide basic demonstrations of the four
+          main APIs: Architecture, Bitstream, Generic, and
+          Physical.</p>
+
+        <p>The Bitstream API example reads a bitstream and writes its
+          packets to the console.</p>
+
+        <div style="margin-left:15px; margin-right:15px">
+          <pre>./BitstreamExample regression/VirtexUnitTest.reference.bit</pre>
+        </div>
+        
+        <p>The Architecture API opens a Virtex6 device, looks up a
+          logic site output, and shows all wires that can be driven by
+          that output pin.</p>
+
+        <div style="margin-left:15px; margin-right:15px">
+          <pre>./ArchitectureExample</pre>
+        </div>
+        
+        <p>The Generic API example generates no output on the console,
+          but instead changes the INIT property of a LUT
+          instance.  Perform a diff on the original and modified
+          EDIF files to observe the changed INIT property.</p>
+
+        <div style="margin-left:15px; margin-right:15px">
+          <pre>./GenericExample<br>diff regression/GenericExample.reference.edf regression/GenericExample.generated.edf</pre>
+        </div>
+        
+        <p>The Physical API example reads an XDL file, looks up its
+          design root, and writes it back out without any
+          modifications:</p>
+          
+        <div style="margin-left:15px; margin-right:15px">
+          <pre>./PhysicalExample regression/DesignUnitTest.reference.xdl</pre>
+        </div>
+        
+        <p>The EDIF obfuscator example reads an EDIF file, replaces
+          names with MD5 hashes, and writes out the modified
+          file.  Ports belonging to the top-level design remain
+          unobfuscated.</p>
+
+        <div style="margin-left:15px; margin-right:15px">
+          <pre>./EdifObfuscator [edif_file]</pre>
+        </div>
+	<br>
+
+        <h3>
+	  Sandbox
+	</h3>
+
+        <p>The example code in
+          src/torc/examples is also available in sandbox, where it can
+          be built and modified at will:</p>
+          
+        <div style="margin-left:15px; margin-right:15px">
+          <pre>cd sandbox<br>make</pre>
+        </div>
+	<br>
+
+        <h3>
+	  Unit Tests
+	</h3>
+          
+        <p>Torc uses the Boost.Testatum framework to perform unit
+          testing of classes and functions.  Some of the unit
+          tests are trivial, while others provide good examples of how
+          to work with the various parts of Torc.  The full
+          collection of unit tests currently includes some failing
+          tests, some of which serve as deliberate to-do placeholders,
+          but can nonetheless be invoked as a partial sanity check for
+          the code.</p>
+
+        <div style="margin-left:15px; margin-right:15px">
+          <pre>./TorcTest</pre>
+        </div>
+        
+        <p>The following syntax supports invoking specific test suites
+          or test cases:</p>
+
+        <div style="margin-left:15px; margin-right:15px">
+          <pre>./TorcTest -t [test_suite]/[test_case]<br>./TorcTest -t common/DevicesUnitTest</pre>
+        </div>
+
+      </section>
+    </div>
+    <!-- END MAIN CONTENT -->
+
+    <!-- BEGIN FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+	<a href="http://www.isi.edu"><img id="isi_logo" src="images/isi.png" style="width:90px;"></a>
+	Torc maintained by <a href="https://github.com/torc-isi">torc-isi</a>
+	<a href="http://www.usc.edu"><img id="usc_logo" src="images/USC-Shield-Red.png" style="width:150px;"></a>
+      </footer>
+    </div>
+    <!-- END FOOTER  -->    
+
+  </body>
+  <!-- END BODY -->
+
+</html>

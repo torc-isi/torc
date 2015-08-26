@@ -1,0 +1,118 @@
+Ubuntu 10.04 LTS
+4.4.3;1.42.0;PASSED;[Default GCC Version]
+4.4.3;1.46.1;PASSED;[Default GCC Version]
+4.4.3;1.54.0;PASSED;[Default GCC Version]
+4.2.1;1.42.0;PASSED;
+4.2.1;1.46.1;PASSED;
+4.2.1;1.54.0;PASSED;
+4.6.1;1.42.0;PASSED;
+4.6.1;1.46.1;PASSED;
+4.6.1;1.54.0;PASSED;
+4.8.1;1.42.0;ERROR-2;* error: typedef 'boost_static_assert_typedef_836' locally defined but not used [-Werror=unused-local-typedefs]
+4.8.1;1.46.1;ERROR-2;* error: typedef 'boost_static_assert_typedef_836' locally defined but not used [-Werror=unused-local-typedefs]
+4.8.1;1.54.0;ERROR-2;* error: typedef 'boost_static_assert_typedef_836' locally defined but not used [-Werror=unused-local-typedefs]
+Ubuntu 12.04 LTS
+4.6.3;1.42.0;PASSED;[Default GCC Version]
+4.6.3;1.46.1;PASSED;[Default GCC Version]
+4.6.3;1.54.0;PASSED;[Default GCC Version]
+4.2.1;1.42.0;PASSED;
+4.2.1;1.46.1;PASSED;
+4.2.1;1.54.0;PASSED;
+4.6.1;1.42.0;PASSED;
+4.6.1;1.46.1;PASSED;
+4.6.1;1.54.0;PASSED;
+4.8.1;1.42.0;ERROR-2;* error: typedef 'boost_static_assert_typedef_836' locally defined but not used [-Werror=unused-local-typedefs]
+4.8.1;1.46.1;ERROR-2;* error: typedef 'boost_static_assert_typedef_836' locally defined but not used [-Werror=unused-local-typedefs]
+4.8.1;1.54.0;ERROR-2;* error: typedef 'boost_static_assert_typedef_836' locally defined but not used [-Werror=unused-local-typedefs]
+Ubuntu 13.04
+4.7.3;1.42.0;ERROR-3;[Default GCC Version] Verified thread library is not building pre-Boost 1.50.0
+4.7.3;1.46.1;ERROR-2;[Default GCC Version] * error: converting 'false' to pointer type 'CdcEitherVertex*'
+4.7.3;1.54.0;ERROR-2;[Default GCC Version] * error: converting 'false' to pointer type 'CdcEitherVertex*'
+4.4.7;1.42.0;ERROR-3;Verified thread library is not building pre-Boost 1.50.0
+4.4.7;1.46.1;PASSED;
+4.4.7;1.54.0;PASSED;
+4.6.4;1.42.0;ERROR-3;Verified thread library is not building pre-Boost 1.50.0
+4.6.4;1.46.1;PASSED;
+4.6.4;1.54.0;PASSED;
+4.8.1;1.42.0;ERROR-2;* error: typedef 'boost_static_assert_typedef_836' locally defined but not used [-Werror=unused-local-typedefs]
+4.8.1;1.46.1;ERROR-2;* error: typedef 'boost_static_assert_typedef_836' locally defined but not used [-Werror=unused-local-typedefs]
+4.8.1;1.54.0;ERROR-2;* error: typedef 'boost_static_assert_typedef_836' locally defined but not used [-Werror=unused-local-typedefs]
+Ubuntu 13.10
+4.8.1;1.50.0;ERROR-2;[Default GCC Version] * error: typedef 'boost_static_assert_typedef_836' locally defined but not used [-Werror=unused-local-typedefs]
+4.8.1;1.54.0;ERROR-2;[Default GCC Version] * error: typedef 'boost_static_assert_typedef_836' locally defined but not used [-Werror=unused-local-typedefs]
+4.8.1;1.55.0;ERROR-2;[Default GCC Version] * error: typedef 'boost_static_assert_typedef_836' locally defined but not used [-Werror=unused-local-typedefs]
+4.4.7;1.50.0;PASSED;
+4.4.7;1.54.0;PASSED;
+4.4.7;1.55.0;PASSED;
+4.6.4;1.50.0;PASSED;
+4.6.4;1.54.0;PASSED;
+4.6.4;1.55.0;PASSED;
+4.7.3;1.50.0;ERROR-2;* error: no matching function for call to ‘torc::bitstream::VirtexBitstream
+4.7.3;1.54.0;ERROR-2;* error: no matching function for call to ‘torc::bitstream::VirtexBitstream
+4.7.3;1.55.0;ERROR-2;* error: no matching function for call to ‘torc::bitstream::VirtexBitstream
+Ubuntu 14.04 LTS
+4.8.2;1.50.0;TBD;To Test
+4.8.2;1.54.0;TBD;To Test
+4.8.2;1.55.0;TBD;To Test
+4.4.7;1.50.0;TBD;To Test
+4.4.7;1.54.0;TBD;To Test
+4.4.7;1.55.0;TBD;To Test
+4.6.4;1.50.0;TBD;To Test
+4.6.4;1.54.0;TBD;To Test
+4.6.4;1.55.0;TBD;To Test
+4.7.3;1.50.0;TBD;To Test
+4.7.3;1.54.0;TBD;To Test
+4.7.3;1.55.0;TBD;To Test
+Centos 6.4
+4.4.7;1.42.0;PASSED;[Default GCC Version]
+4.4.7;1.46.1;PASSED;[Default GCC Version]
+4.4.7;1.54.0;PASSED;[Default GCC Version]
+4.2.1;1.42.0;PASSED;
+4.2.1;1.46.1;PASSED;
+4.2.1;1.54.0;PASSED;
+4.6.1;1.42.0;PASSED;
+4.6.1;1.46.1;PASSED;
+4.6.1;1.54.0;PASSED;
+4.8.1;1.42.0;ERROR-2;* error: typedef 'boost_static_assert_typedef_836' locally defined but not used [-Werror=unused-local-typedefs]
+4.8.1;1.46.1;ERROR-2;* error: typedef 'boost_static_assert_typedef_836' locally defined but not used [-Werror=unused-local-typedefs]
+4.8.1;1.54.0;ERROR-2;* error: typedef 'boost_static_assert_typedef_836' locally defined but not used [-Werror=unused-local-typedefs]
+Mint 15.0
+4.7.3;1.42.0;ERROR-3;[Default GCC Version] Verified thread library is not build pre Boost 1.50.0
+4.7.3;1.50.0;ERROR-2;[Default GCC Version] * error: converting 'false' to pointer type 'CdcEitherVertex*'
+4.7.3;1.54.0;ERROR-2;[Default GCC Version] * error: converting 'false' to pointer type 'CdcEitherVertex*'
+4.4.7;1.42.0;ERROR-3;Verified thread library is not build pre Boost 1.50.0
+4.4.7;1.50.0;PASSED;* Needed to add -lm to LDFLAGS
+4.4.7;1.54.0;PASSED;* Needed to add -lm to LDFLAGS
+4.6.4;1.42.0;ERROR-3;Verified thread library is not build pre Boost 1.50.0
+4.6.4;1.46.1;PASSED;* Needed to add -lm to LDFLAGS
+4.6.4;1.54.0;PASSED;* Needed to add -lm to LDFLAGS
+4.8.1;1.42.0;ERROR-2;* error: typedef 'boost_static_assert_typedef_836' locally defined but not used [-Werror=unused-local-typedefs]
+4.8.1;1.46.1;ERROR-2;* error: typedef 'boost_static_assert_typedef_836' locally defined but not used [-Werror=unused-local-typedefs]
+4.8.1;1.54.0;ERROR-2;* error: typedef 'boost_static_assert_typedef_836' locally defined but not used [-Werror=unused-local-typedefs]
+Debian 7.10
+4.7.2;1.42.0;ERROR-2;[Default GCC Version] * error: converting 'false' to pointer type 'CdcEitherVertex*'
+4.7.2;1.46.1;ERROR-2;[Default GCC Version] * error: converting 'false' to pointer type 'CdcEitherVertex*'
+4.7.2;1.54.0;ERROR-2;[Default GCC Version] * error: converting 'false' to pointer type 'CdcEitherVertex*'
+4.2.1;1.42.0;PASSED;
+4.2.1;1.46.1;PASSED;
+4.2.1;1.54.0;PASSED;
+4.6.1;1.42.0;PASSED;
+4.6.1;1.46.1;PASSED;
+4.6.1;1.54.0;PASSED;
+4.8.1;1.42.0;ERROR-2;* error: typedef 'boost_static_assert_typedef_836' - Issue with Boost/GCC???
+4.8.1;1.46.1;ERROR-2;* error: typedef 'boost_static_assert_typedef_836' - Issue with Boost/GCC???
+4.8.1;1.54.0;ERROR-2;* error: typedef 'boost_static_assert_typedef_836' - Issue with Boost/GCC???
+RHEL 5.8
+4.1.2;1.42.0;PASSED;
+4.1.2;1.46.1;PASSED;
+4.1.2;1.54.0;PASSED;
+4.2.1;1.42.0;PASSED;
+4.2.1;1.46.1;PASSED;
+4.2.1;1.54.0;PASSED;
+4.6.1;1.42.0;PASSED;
+4.6.1;1.46.1;PASSED;
+4.6.1;1.54.0;PASSED;
+4.8.1;1.42.0;ERROR-2;* error: typedef 'boost_static_assert_typedef_836' - Issue with Boost/GCC???
+4.8.1;1.46.1;ERROR-2;* error: typedef 'boost_static_assert_typedef_836' - Issue with Boost/GCC???
+4.8.1;1.54.0;ERROR-2;* error: typedef 'boost_static_assert_typedef_836' - Issue with Boost/GCC???
+##END_OF_RESULTS##

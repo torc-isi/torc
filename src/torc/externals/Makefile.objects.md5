@@ -18,20 +18,17 @@ TORC_EXTERNALS_MD5 := $(TORC_DIR)/externals/md5
 
 # Local object files
 OBJS = \
-	md5.o \
-	$
+	md5.o
 
 # Prepend absolute path to all local objects
 TORC_EXTERNALS_MD5_LOCAL_OBJS := $(patsubst %,$(TORC_EXTERNALS_MD5)/%,$(OBJS))
 
 # torc/externals MD5 objects for includes elsewhere in torc                                              
 TORC_EXTERNALS_MD5_OBJS := \
-    $(TORC_EXTERNALS_MD5_LOCAL_OBJS) \
-    $
+    $(TORC_EXTERNALS_MD5_LOCAL_OBJS)
 
 # Extra C++ Flags for OBJS                                                                           
-$(TORC_EXTERNALS_MD5_LOCAL_OBJS): EXTRA_CCFLAGS := \
-    $
+$(TORC_EXTERNALS_MD5_LOCAL_OBJS): EXTRA_CCFLAGS :=
 
 # dependencies
 DEPS = $(OBJS:.o=.d)

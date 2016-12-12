@@ -58,8 +58,7 @@ CCFLAGS = \
 	-Wall \
 	-Werror \
 	$(TORC_INCLUDE_DIR_OPTION) \
-	$(BOOST_INCLUDE_DIR_OPTION) \
-	$
+	$(BOOST_INCLUDE_DIR_OPTION)
 
 VERILATOR_SRC_DIR = $(TORC_DIR)/externals/verilator/src
 

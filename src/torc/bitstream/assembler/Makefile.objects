@@ -27,8 +27,7 @@ OBJS = \
 	VirtexAssembler.o \
 	Virtex5Assembler.o \
 	Virtex7Assembler.o \
-	Virtex5AssemblerUnitTest.o \
-	$
+	Virtex5AssemblerUnitTest.o
 
 # Prepend absolute path to all local objects
 TORC_BITSTREAM_ASSEMBLER_LOCAL_OBJS := $(patsubst %,$(TORC_BITSTREAM_ASSEMBLER)/%,$(OBJS))
@@ -37,13 +36,11 @@ TORC_BITSTREAM_ASSEMBLER_LOCAL_OBJS := $(patsubst %,$(TORC_BITSTREAM_ASSEMBLER)/
 TORC_BITSTREAM_ASSEMBLER_OBJS := \
 	$(TORC_BITSTREAM_ASSEMBLER_LOCAL_OBJS) \
 	$(TORC_BITSTREAM_ASSEMBLER_BUILD_OBJS) \
-	$(TORC_BITSTREAM_ASSEMBLER_LUT_OBJS) \
-	$
+	$(TORC_BITSTREAM_ASSEMBLER_LUT_OBJS)
 
 # Extra C++ Flags for local objects
 $(TORC_BITSTREAM_ASSEMBLER_LOCAL_OBJS): EXTRA_CCFLAGS := \
-	-O1 \
-	$
+	-O1
 
 # local dependencies
 DEPS = $(OBJS:.o=.d)

@@ -18,22 +18,19 @@ TORC_PHYSICAL_XDL := $(TORC_DIR)/physical/xdl
 # Local object files
 OBJS = \
 	XdlScanner.o \
-	XdlParser.o \
-	$
+	XdlParser.o
 
 # Prepend absolute path to all local objects
 TORC_PHYSICAL_XDL_LOCAL_OBJS := $(patsubst %,$(TORC_PHYSICAL_XDL)/%,$(OBJS))
 
 # torc/physical/xdl objects for includes elsewhere in torc
 TORC_PHYSICAL_XDL_OBJS := \
-	$(TORC_PHYSICAL_XDL_LOCAL_OBJS) \
-	$
+	$(TORC_PHYSICAL_XDL_LOCAL_OBJS)
 
 # Extra C++ Flags for OBJS
 $(TORC_PHYSICAL_XDL_LOCAL_OBJS): EXTRA_CCFLAGS = \
 	-Wno-trigraphs \
-	-isystem $(TORC_PHYSICAL_XDL) \
-	$
+	-isystem $(TORC_PHYSICAL_XDL)
 
 # dependencies
 DEPS = $(OBJS:.o=.d)

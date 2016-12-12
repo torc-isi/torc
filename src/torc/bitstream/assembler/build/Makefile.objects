@@ -31,21 +31,18 @@ OBJS = \
 	AssemblerLibGen.o \
 	Virtex5LibGen.o \
 	Virtex7LibGen.o \
-	LibGenFactory.o \
-	$
+	LibGenFactory.o
 
 # Prepend absolute path to all local objects
 TORC_BITSTREAM_ASSEMBLER_BUILD_LOCAL_OBJS := $(patsubst %,$(TORC_BITSTREAM_ASSEMBLER_BUILD)/%,$(OBJS))
 
 # torc/bitstream/assembler/build objects for includes elsewhere in torc
 TORC_BITSTREAM_ASSEMBLER_BUILD_OBJS := \
-	$(TORC_BITSTREAM_ASSEMBLER_BUILD_LOCAL_OBJS) \
-	$
+	$(TORC_BITSTREAM_ASSEMBLER_BUILD_LOCAL_OBJS)
 
 # Extra C++ Flags for local objects
 $(TORC_BITSTREAM_ASSEMBLER_BUILD_LOCAL_OBJS): EXTRA_CCFLAGS := \
-	-O3 \
-	$
+	-O3
 
 # dependencies
 DEPS = $(OBJS:.o=.d)

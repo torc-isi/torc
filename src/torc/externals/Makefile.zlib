@@ -21,8 +21,7 @@ CFLAGS = \
 				-g \
 				-Wall \
 				-Werror \
-				-I$(SRC_DIR) \
-				$
+				-I$(SRC_DIR)
 ifneq (,$(findstring CYGWIN,$(shell uname)))
 	CFLAGS += -DNO_VIZ
 endif
@@ -36,8 +35,7 @@ CCFLAGS = \
 				-g \
 				-Wall \
 				-Werror \
-				-I$(SRC_DIR) \
-				$
+				-I$(SRC_DIR)
 
 # object files
 OBJS = \
@@ -56,8 +54,7 @@ OBJS = \
 				inftrees.o \
 				trees.o \
 				uncompr.o \
-				zutil.o \
-				$
+				zutil.o
 
 # dependencies
 DEPS = $(OBJS:.o=.d)

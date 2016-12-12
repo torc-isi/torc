@@ -74,8 +74,7 @@ OBJS = \
 	VirtexBitstreamUnitTest.o \
 	VirtexPacket.o \
 	VirtexPacketUnitTest.o \
-	VirtexFrameAddress.o \
-	$
+	VirtexFrameAddress.o
 
 # Prepend absolute path to all local objects
 TORC_BITSTREAM_LOCAL_OBJS := $(patsubst %,$(TORC_BITSTREAM)/%,$(OBJS))
@@ -84,13 +83,11 @@ TORC_BITSTREAM_LOCAL_OBJS := $(patsubst %,$(TORC_BITSTREAM)/%,$(OBJS))
 TORC_BITSTREAM_OBJS := \
 	$(TORC_BITSTREAM_LOCAL_OBJS) \
 	$(TORC_BITSTREAM_ASSEMBLER_OBJS) \
-	$(TORC_BITSTREAM_BUILD_OBJS) \
-	$
+	$(TORC_BITSTREAM_BUILD_OBJS)
 
 # Extra C++ Flags for OBJS
 $(TORC_BITSTREAM_LOCAL_OBJS): EXTRA_CCFLAGS := \
-	-O3 \
-	$
+	-O3
 
 # dependencies
 DEPS = $(OBJS:.o=.d)

@@ -36,8 +36,8 @@ void ParsePrimitive::readCurrentLine() {
    for (;;) {
 
       if (!fgets(line + offset, lineSize - offset, inFile)) { if 
-      (ferror(inFile)) { perror("read error"); exit(1); } if (!offset) 
-      strcpy(line, ".end\n"); break; }
+      (ferror(inFile)) { perror("read error"); exit(1); } if (!offset) {
+      strcpy(line, ".end\n"); } break; }
 
       unsigned len = offset + strlen(line + offset);
 

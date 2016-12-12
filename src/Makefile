@@ -30,12 +30,10 @@ LDFLAGS = \
 	-lboost_system \
 	-lboost_thread \
 	-lstdc++ \
-	-lm \
-	$
+	-lm
 
 LDTESTFLAGS = \
-	-lboost_unit_test_framework \
-	$
+	-lboost_unit_test_framework
 
 LDTESTFLAGS += -shared-libgcc
 
@@ -105,8 +103,7 @@ OBJS = \
 	$(VERILOG_EXAMPLE_OBJS) \
 	$(XDLDIFF_OBJS) \
 	$(BROWSER_OBJS) \
-	$(MARKEXTRACT_OBJS) \
-	$
+	$(MARKEXTRACT_OBJS)
 
 # Torc Real Objects File
 TORC_REAL_OBJS_FILE = TorcRealObjects
@@ -134,8 +131,7 @@ all: \
 	$(VERILOG_EXAMPLE_EXEC) \
 	$(XDLDIFF_EXEC) \
 	$(BROWSER_EXEC) \
-	$(MARKEXTRACT_EXEC) \
-	$
+	$(MARKEXTRACT_EXEC)
 
 # Dependency Include
 ifneq ($(MAKECMDGOALS), clean)

@@ -64,20 +64,17 @@ OBJS = \
 	XdlExporter.o \
 	XdlExporterUnitTest.o \
 	XdlImporter.o \
-	XdlImporterUnitTest.o \
-	$
+	XdlImporterUnitTest.o
 
 TORC_PHYSICAL_LOCAL_OBJS := $(patsubst %,$(TORC_PHYSICAL)/%,$(OBJS))
 
 # torc/physical objects for includes elsewhere in torc
 TORC_PHYSICAL_OBJS := \
 	$(TORC_PHYSICAL_LOCAL_OBJS) \
-	$(TORC_PHYSICAL_XDL_OBJS) \
-	$
+	$(TORC_PHYSICAL_XDL_OBJS)
 
 # Extra C++ Flags for OBJS
-$(TORC_PHYSICAL_LOCAL_OBJS): EXTRA_CCFLAGS = \
-	$
+$(TORC_PHYSICAL_LOCAL_OBJS): EXTRA_CCFLAGS =
 
 # dependencies
 DEPS = $(OBJS:.o=.d)

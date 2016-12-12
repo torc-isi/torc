@@ -50,12 +50,12 @@ BOOST_AUTO_TEST_CASE(NetRouterT) {
 	net.addSink(twSink1);
 	net.addSink(twSink2);
 	
-	BOOST_MESSAGE("ROUTE CALL");
+	BOOST_TEST_MESSAGE("ROUTE CALL");
 	std::cout << net.routeNodes().size() << std::endl;
 	r->route(net);
 	double t = boost::any_cast<double>(net.mProperties[eRouteTime]);
 	std::cout << t << std::endl;
-	BOOST_MESSAGE("ROUTE FINISHED");
+	BOOST_TEST_MESSAGE("ROUTE FINISHED");
 	std::cout << net.routeNodes().size() << std::endl;
 	
 	RouteNodePtrVector& v = net.routeNodes();

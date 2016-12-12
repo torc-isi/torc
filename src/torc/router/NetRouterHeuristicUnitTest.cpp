@@ -32,7 +32,6 @@ BOOST_AUTO_TEST_SUITE(router)
 BOOST_AUTO_TEST_CASE(NetRouterHeuristicT) {
 
 	typedef architecture::Tilewire Tilewire;
-	typedef architecture::ExtendedWireInfo ExtendedWireInfo;
 	
 	architecture::DDB db("xc5vlx30");
 	//architecture::DDB db("torc/devices/xc5vlx30");

@@ -39,8 +39,7 @@ include $(TORC_UTILS)/Makefile.objects
 
 # object files
 OBJS = \
-	Version.o \
-	$
+	Version.o
 
 # torc objects for includes elsewhere in torc
 TORC_OBJS := \
@@ -55,12 +54,10 @@ TORC_OBJS := \
 	$(TORC_PHYSICAL_OBJS) \
 	$(TORC_PLACER_OBJS) \
 	$(TORC_ROUTER_OBJS) \
-	$(TORC_UTILS_OBJS) \
-	$
+	$(TORC_UTILS_OBJS)
 
 # Extra C++ Flags for OBJS
-$(patsubst %,$(TORC_DIR)/%,$(OBJS)): EXTRA_CCFLAGS = \
-	$
+$(patsubst %,$(TORC_DIR)/%,$(OBJS)): EXTRA_CCFLAGS =
 
 # dependencies
 TORC_DEPS = $(TORC_OBJS:.o=.d)

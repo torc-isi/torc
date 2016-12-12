@@ -24,8 +24,7 @@ CCFLAGS = \
 				-Werror \
 				-Wno-sign-compare \
 				-I$(SRC_DIR) \
-				-DYYDEBUG \
-				$
+				-DYYDEBUG
 
 ASTGEN = astgen
 BISONPRE = bisonpre
@@ -121,8 +120,7 @@ OBJS = \
 				V3Unknown.o \
 				V3Unroll.o \
 				V3Width.o \
-				V3WidthSel.o \
-				$
+				V3WidthSel.o
 
 # dependencies
 DEPS = $(OBJS:.o=.d)

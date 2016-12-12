@@ -19,21 +19,18 @@ TORC_BITSTREAM_ASSEMBLER_LUT := $(TORC_DIR)/bitstream/assembler/lut
 # local object files
 OBJS = \
 	LutScanner.o \
-	LutParser.o \
-	$
+	LutParser.o
 
 TORC_BITSTREAM_ASSEMBLER_LUT_LOCAL_OBJS := $(patsubst %,$(TORC_BITSTREAM_ASSEMBLER_LUT)/%,$(OBJS))
 
 # torc/bitstream/assembler/lut objects for includes elsewhere in torc
 TORC_BITSTREAM_ASSEMBLER_LUT_OBJS := \
-	$(TORC_BITSTREAM_ASSEMBLER_LUT_LOCAL_OBJS) \
-	$
+	$(TORC_BITSTREAM_ASSEMBLER_LUT_LOCAL_OBJS)
 
 # Extra C++ Flags for local objects
 $(TORC_BITSTREAM_ASSEMBLER_LUT_LOCAL_OBJS): EXTRA_CCFLAGS := \
 	-Wno-trigraphs \
-	-isystem $(TORC_BITSTREAM_ASSEMBLER_LUT) \
-	$
+	-isystem $(TORC_BITSTREAM_ASSEMBLER_LUT)
 
 # dependencies
 DEPS = $(OBJS:.o=.d)

@@ -33,7 +33,7 @@ BOOST_AUTO_TEST_SUITE(packer)
 
 /// \brief Unit test for the XdlUnpack class.
 BOOST_AUTO_TEST_CASE(XdlUnpackUnitTest) {
-	BOOST_MESSAGE("DEPRECATED: XdlUnpack is deprecated in favor of Unpacker.");
+	BOOST_TEST_MESSAGE("DEPRECATED: XdlUnpack is deprecated in favor of Unpacker.");
 	return;
 
 	// create the appropriate file paths

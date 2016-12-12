@@ -1,0 +1,30 @@
+# build output
+*.o
+*.d
+ArchitectureExample
+AssemblerLibGenExample
+BitAssemblerExample
+BitstreamExample
+Browser
+EdifFlattener
+Browser
+EdifFlattener
+EdifObfuscator
+GenericExample
+PhysicalExample
+TorcRealObjects
+TorcTest
+TorcTestObjects
+XdlDiff
+XdlExtract
+
+# local files
+Makefile.local
+
+# project files
+nbproject/
+
+# generated files
+V3ParseBison.c
+V3ParseBison.h
+*.output

@@ -277,7 +277,6 @@ namespace bitstream {
 	void Virtex4::initializeDeviceInfo(const std::string& inDeviceName) {
 		using namespace torc::common;
 		switch(mDevice) {
-		if(false) ;
 			case eXC4VFX12: setDeviceInfo(xc4vfx12); break;
 			case eXC4VFX20: setDeviceInfo(xc4vfx20); break;
 			case eXC4VFX40: setDeviceInfo(xc4vfx40); break;
@@ -494,7 +493,6 @@ namespace bitstream {
 		//	000012a3: NOP x 1
 
 		// declare the packet vector and define a NOP packet
-		typedef VirtexFrame::word_t word_t;
 		VirtexPacketVector packets;
 		VirtexPacket nop(VirtexPacket::makeHeader(ePacketType1, eOpcodeNOP, 0, 0));
 		VirtexPacket dummy(eSynchronizationDummy);
@@ -592,7 +590,6 @@ namespace bitstream {
 		//	00280f5b: NOP x 16
 
 		// declare the packet vector and define a NOP packet
-		typedef VirtexFrame::word_t word_t;
 		VirtexPacketVector packets;
 		VirtexPacket nop(VirtexPacket::makeHeader(ePacketType1, eOpcodeNOP, 0, 0));
 		// write a placeholder CRC value
@@ -659,7 +656,6 @@ namespace bitstream {
 		//	S	000000a3: NOP x 1
 
 		// declare the packet vector and define a NOP packet
-		typedef VirtexFrame::word_t word_t;
 		VirtexPacketVector packets;
 		VirtexPacket nop(VirtexPacket::makeHeader(ePacketType1, eOpcodeNOP, 0, 0));
 		VirtexPacket dummy(eSynchronizationDummy);
@@ -719,7 +715,6 @@ namespace bitstream {
 		//		00004f87: NOP x 4
 
 		// declare the packet vector and define a NOP packet
-		typedef VirtexFrame::word_t word_t;
 		VirtexPacketVector packets;
 		VirtexPacket nop(VirtexPacket::makeHeader(ePacketType1, eOpcodeNOP, 0, 0));
 		// extra for shutdown bitstreams

@@ -109,30 +109,26 @@ OBJS = \
 	V3Unknown.o \
 	V3Unroll.o \
 	V3Width.o \
-	V3WidthSel.o \
-	$
+	V3WidthSel.o
 
 # Prepend absolute path to all local objects
 TORC_EXTERNALS_VERILATOR_LOCAL_OBJS := $(patsubst %,$(TORC_EXTERNALS_VERILATOR)/%,$(OBJS))
 
 # torc/externals VERILATOR objects for includes elsewhere in torc                                              
 TORC_EXTERNALS_VERILATOR_OBJS := \
-    $(TORC_EXTERNALS_VERILATOR_LOCAL_OBJS) \
-    $
+    $(TORC_EXTERNALS_VERILATOR_LOCAL_OBJS)
 
 # Extra C Flags for OBJS                                                                           
 ifneq (,$(findstring CYGWIN,$(shell uname)))
 $(TORC_EXTERNALS_VERILATOR_LOCAL_OBJS): EXTRA_CCFLAGS := \
 	-Wno-sign-compare \
 	-Wno-conversion-null \
-	-DYYDEBUG \
-    $
+	-DYYDEBUG
 else
 $(TORC_EXTERNALS_VERILATOR_LOCAL_OBJS): EXTRA_CCFLAGS := \
 	-Wno-sign-compare \
 	-Wno-conversion-null \
-	-DYYDEBUG \
-	$
+	-DYYDEBUG
 endif
 
 # dependencies

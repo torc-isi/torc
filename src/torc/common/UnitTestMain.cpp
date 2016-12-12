@@ -23,6 +23,8 @@
 /// \brief Prototype for Boost.Test bool init_unit_test(void).
 bool init_unit_test(void);
 #include <boost/test/unit_test.hpp>
+#include <boost/test/tree/visitor.hpp>
+#include <boost/test/tree/traverse.hpp>
 #include "torc/common/DirectoryTree.hpp"
 #include <iostream>
 
@@ -65,20 +67,20 @@ public:
 		for(size_t i = 0; i < mTestSuiteVector.size(); i++) mTestSuiteUsed[i] = true;
 	}
 	/// \brief Determines whether or not to include the given test case.
-	virtual void visit(const boost::unit_test::test_case& inTestCase) {
+	virtual void visit(boost::unit_test::test_case& inTestCase) {
 		string name = getFullyQualifiedName(inTestCase);
 		// determine whether to include the test
 		if(name.find("Regression") == string::npos && name.find("regression") == string::npos) {
 std::cout << "keeping case  " << name << std::endl;
 			useTest(inTestCase);
 		} else {
-			inTestCase.p_enabled.set(false);
+			inTestCase.p_run_status.set(boost::unit_test::test_case::RS_DISABLED);
 			boost::unit_test::framework::master_test_suite().remove(inTestCase.p_id);
 std::cout << "pruning case  " << name << std::endl;
 		}
 	}
 	/// \brief Enters a new test suite.
-	virtual bool test_suite_start(const boost::unit_test::test_suite& inTestSuite) {
+	virtual bool test_suite_start(boost::unit_test::test_suite& inTestSuite) {
 		// push the new suite information
 		mTestSuiteVector.push_back(&inTestSuite);
 		mTestSuiteUsed.push_back(false);
@@ -86,11 +88,11 @@ std::cout << "pruning case  " << name << std::endl;
 		return true;
 	}
 	/// \brief Exits a test suite and prunes it if no test cases remain in it.
-	virtual void test_suite_finish(const boost::unit_test::test_suite& inTestSuite) {
+	virtual void test_suite_finish(boost::unit_test::test_suite& inTestSuite) {
 //std::cout << "leaving test suite " << getFullyQualifiedPath() << std::endl;
 		// if nobody needs this test suite, remove it
 		if(!mTestSuiteUsed.back()) {
-			inTestSuite.p_enabled.set(false);
+			inTestSuite.p_run_status.set(boost::unit_test::test_suite::RS_DISABLED);
 			mTestSuitePruningIDs.push_back(inTestSuite.p_id);
 			std::cout << "pruning suite " << getFullyQualifiedPath() << std::endl;
 		}
@@ -103,12 +105,12 @@ std::cout << "pruning case  " << name << std::endl;
 /// \brief Test suite visitor to disable tests for debugging.
 class DebugFilter : public boost::unit_test::test_tree_visitor {
 public:
-	virtual void visit(const boost::unit_test::test_case& inTestCase) {
+	virtual void visit(boost::unit_test::test_case& inTestCase) {
 		std::string enabled = 
 			"architecture/iterate_configmaps"
 			"bitstream/VirtexEMapUnitTest"
 		;
-		inTestCase.p_enabled.set((enabled.find(inTestCase.p_name.get()) != std::string::npos));
+		inTestCase.p_run_status.set((enabled.find(inTestCase.p_name.get()) != std::string::npos) ? boost::unit_test::test_case::RS_ENABLED : boost::unit_test::test_case::RS_DISABLED);
 	//	std::string disabled = 
 	//		"architecture/iterate_configmaps"
 	//	;
@@ -163,4 +165,4 @@ struct TestFixture {
 	}
 };
 /// \brief Global test fixture to request desired logging level from Boost.Test.
-BOOST_GLOBAL_FIXTURE(TestFixture)
+BOOST_GLOBAL_FIXTURE(TestFixture);

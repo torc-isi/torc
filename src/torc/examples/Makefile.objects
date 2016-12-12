@@ -26,20 +26,17 @@ OBJS = \
 	EdifObfuscator.o \
 	PhysicalExample.o \
 	VerilogExample.o \
-	BitAssemblerExample.o \
-	$
+	BitAssemblerExample.o
 
 # Prepend absolute path to all local objects
 TORC_EXAMPLES_LOCAL_OBJS := $(patsubst %,$(TORC_EXAMPLES)/%,$(OBJS))
 
 # torc/examples objects for includes elsewhere in torc
 TORC_EXAMPLES_OBJS := \
-	$(TORC_EXAMPLES_LOCAL_OBJS) \
-	$
+	$(TORC_EXAMPLES_LOCAL_OBJS)
 
 # Extra C++ Flags for OBJS
-$(TORC_EXAMPLES_LOCAL_OBJS): EXTRA_CCFLAGS = \
-	$
+$(TORC_EXAMPLES_LOCAL_OBJS): EXTRA_CCFLAGS =
 
 # dependencies
 DEPS = $(OBJS:.o=.d)

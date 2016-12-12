@@ -705,14 +705,12 @@ namespace torc {
 namespace generic {
 
 template <typename _Pointer> std::string getModifiedName(const std::string& inInstName,
-	const _Pointer& inNameable, const std::vector<size_t>& inIndicesVector =
-		std::vector<size_t>()) {
+	const _Pointer& inNameable, const std::vector<size_t>& inIndicesVector) {
 	return (*NameModifier<_Pointer>::instance())(inInstName, inNameable, inIndicesVector);
 }
 
 template <typename _Pointer> std::string getRenamedName(const InstanceSharedPtr& inParentInstance,
-	const _Pointer& inRenamable, const std::vector<size_t>& inIndicesVector =
-		std::vector<size_t>()) {
+	const _Pointer& inRenamable, const std::vector<size_t>& inIndicesVector) {
 	std::string sep = FlatteningHelpers::instance()->getSeparator();
 	Renamable::Name originalName = inRenamable->getOriginalName();
 	if(originalName.empty()) {

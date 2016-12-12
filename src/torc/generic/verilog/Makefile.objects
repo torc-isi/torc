@@ -24,16 +24,14 @@ OBJS = \
 	VerilogImporter.o \
 	VerilogImporterVisitor.o \
 	VerilogImporterUnitTest.o \
-	VerilogNames.o \
-	$
+	VerilogNames.o
 
 # Prepend absolute path to all local objects
 TORC_GENERIC_VERILOG_LOCAL_OBJS := $(patsubst %,$(TORC_GENERIC_VERILOG)/%,$(OBJS))
 
 # torc/generic/verilog objects for includes elsewhere in torc                      
 TORC_GENERIC_VERILOG_OBJS := \
-	$(TORC_GENERIC_VERILOG_LOCAL_OBJS) \
-    $
+	$(TORC_GENERIC_VERILOG_LOCAL_OBJS)
 
 # Extra C++ Flags for OBJS                                                      
 $(TORC_GENERIC_VERILOG_LOCAL_OBJS): EXTRA_CCFLAGS = \

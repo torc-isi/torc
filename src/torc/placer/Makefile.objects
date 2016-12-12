@@ -22,20 +22,17 @@ OBJS = \
 	PlacementSiteTypeMapping.o \
 	PlacementSiteTypeMappingVirtex5.o \
 	Placer.o \
-	PlacerHelpers.o \
-	$
+	PlacerHelpers.o
 
 # Prepend absolute path to all local objects
 TORC_PLACER_LOCAL_OBJS := $(patsubst %,$(TORC_PLACER)/%,$(OBJS))
 
 # torc/common objects for includes elsewhere in torc
 TORC_PLACER_OBJS := \
-	$(TORC_PLACER_LOCAL_OBJS) \
-	$
+	$(TORC_PLACER_LOCAL_OBJS)
 
 # Extra C++ Flags for OBJS
-$(TORC_PLACER_LOCAL_OBJS): EXTRA_CCFLAGS := \
-	$
+$(TORC_PLACER_LOCAL_OBJS): EXTRA_CCFLAGS :=
 
 # dependencies
 DEPS = $(OBJS:.o=.d)

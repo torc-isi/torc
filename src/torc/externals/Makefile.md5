@@ -21,8 +21,7 @@ CFLAGS = \
 				-g \
 				-Wall \
 				-Werror \
-				-I$(SRC_DIR) \
-				$
+				-I$(SRC_DIR)
 
 # C++ flags
 CCFLAGS = \
@@ -30,13 +29,11 @@ CCFLAGS = \
 				-g \
 				-Wall \
 				-Werror \
-				-I$(SRC_DIR) \
-				$
+				-I$(SRC_DIR)
 
 # object files
 OBJS = \
-				md5.o \
-				$
+				md5.o
 
 # dependencies
 DEPS = $(OBJS:.o=.d)

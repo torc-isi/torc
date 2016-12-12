@@ -368,10 +368,6 @@ namespace bitstream {
 		EFrameInclude inFrameInclusion, 
 		std::map<typename ARCH::FrameAddress, uint32_t>& inFrameAddressToIndex, 
 		std::map<uint32_t, typename ARCH::FrameAddress>& inFrameIndexToAddress) {
-		// clean up the template parameters
-		typedef typename ARCH::FrameAddress FrameAddress;
-		typedef std::map<FrameAddress, uint32_t> FrameAddressToIndex;
-		typedef std::map<uint32_t, FrameAddress> FrameIndexToAddress;
 
 		// declare the packet vector and define a NOP packet
 		typedef VirtexFrame::word_t word_t;

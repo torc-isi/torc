@@ -43,8 +43,8 @@ struct TraceUnitTestFixture {
 	
 	TraceUnitTestFixture() : ddb("xc5vlx30") {
 		//tracer(*ddbPtr);
-		BOOST_MESSAGE("CONSTRUCT");
-		BOOST_MESSAGE(ddb);
+		BOOST_TEST_MESSAGE("CONSTRUCT");
+		BOOST_TEST_MESSAGE(ddb);
 		ddb.useArc(ddb.tilePipToArc("CLBLL_X16Y42", "SITE_CTRL_B0", "L_CE"));
 		ddb.useArc(ddb.tilePipToArc("CLBLL_X16Y42", "SITE_IMUX_B5", "L_A1"));
 		ddb.useArc(ddb.tilePipToArc("INT_X16Y42", "CTRL0", "CTRL_B0"));

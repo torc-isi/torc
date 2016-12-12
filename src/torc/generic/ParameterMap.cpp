@@ -90,7 +90,6 @@ void ParameterMap::getAllParameters(const ParameterContext& inContext, std::map<
 
 void ParameterMap::getOverriddenParameters(const ParameterContext& inContext, std::map<std::string,
 	ParameterSharedPtr>& outParams) const {
-	typedef std::map<std::string, ParameterSharedPtr> DataMap;
 	ParamDataPtr data;
 	mParameters.get(inContext, data);
 	if(!data) {

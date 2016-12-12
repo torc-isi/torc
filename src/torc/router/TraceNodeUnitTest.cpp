@@ -29,7 +29,6 @@ BOOST_AUTO_TEST_SUITE(router)
 /// \brief Unit test for the RouteNode class.
 BOOST_AUTO_TEST_CASE(TraceNodeT) {
 	typedef architecture::Tilewire Tilewire;
-	typedef architecture::Arc Arc;
 	
 	// create accessory wires and tiles
 	Tilewire tilewire1(architecture::xilinx::TileIndex(100), architecture::xilinx::WireIndex(1));

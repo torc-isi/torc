@@ -34,7 +34,7 @@ typedef std::vector<CellSharedPtr> Cells;
 typedef std::vector<ViewSharedPtr> Views;
 typedef std::vector<InstanceSharedPtr> Instances;
 
-std::string trimLeading(const std::string& inBuffer) {
+/*std::string trimLeading(const std::string& inBuffer) {
 	const size_t beginStr = inBuffer.find_first_of("(");
 	if(beginStr != std::string::npos) {
 		const size_t endStr = inBuffer.find_last_of(")");
@@ -42,7 +42,7 @@ std::string trimLeading(const std::string& inBuffer) {
 		return inBuffer.substr(beginStr, range);
 	}
 	return std::string();
-}
+}*/
 
 // Code for Trim Leading Spaces only
 std::string trimLeadingSpaces(const std::string& inBuffer) {
@@ -794,7 +794,6 @@ void Decompiler::visit(SingleInstance& instance) throw (Error) {
 			printUserData(elements);
 
 			mParamAssignContext = true;
-			typedef std::map<std::string, ParameterSharedPtr> Params;
 			ParameterMapSharedPtr params = instance.getParameters();
 			ParameterContext context = instance.getParameterContext();
 			params->applyOnOverriddenParameters(context, mApplier);
@@ -1021,7 +1020,6 @@ void Decompiler::visit(InstanceArray& instanceArray) throw (Error) {
 		printUserData(elements);
 
 		mParamAssignContext = true;
-		typedef std::map<std::string, ParameterSharedPtr> Params;
 		ParameterMapSharedPtr params = instanceArray.getParameters();
 		ParameterContext context = instanceArray.getParameterContext();
 		params->applyOnOverriddenParameters(context, mApplier);

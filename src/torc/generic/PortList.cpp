@@ -74,7 +74,6 @@ void PortList::accept(BaseVisitor& inoutVisitor) throw (Error) {
 template <typename _Tp> void PortList::connectElementToNet(const NetSharedPtr& inNet,
 	const boost::shared_ptr<_Tp>& inType, size_t& inoutCurrentWidth) throw (Error) {
 	try {
-		typedef _Tp Type;
 		typedef boost::shared_ptr<_Tp> Pointer;
 		size_t updatedSize = inoutCurrentWidth + inType->getSize();
 		if(updatedSize > inNet->getSize()) {

@@ -695,7 +695,6 @@ namespace bitstream {
 		//	0000010f: NOP x 8
 
 		// declare the packet vector and define a NOP packet
-		typedef VirtexFrame::word_t word_t;
 		VirtexPacketVector packets;
 		VirtexPacket nop(VirtexPacket::makeHeader(ePacketType1, eOpcodeNOP, 0, 0));
 		VirtexPacket dummy(eSynchronizationDummy);
@@ -805,7 +804,6 @@ namespace bitstream {
 		//	003b5a2b: NOP x 61
 
 		// declare the packet vector and define a NOP packet
-		typedef VirtexFrame::word_t word_t;
 		VirtexPacketVector packets;
 		VirtexPacket nop(VirtexPacket::makeHeader(ePacketType1, eOpcodeNOP, 0, 0));
 		// write a placeholder CRC value
@@ -887,7 +885,6 @@ namespace bitstream {
 		//	S	000000e3: NOP x 1
 
 		// declare the packet vector and define a NOP packet
-		typedef VirtexFrame::word_t word_t;
 		VirtexPacketVector packets;
 		VirtexPacket nop(VirtexPacket::makeHeader(ePacketType1, eOpcodeNOP, 0, 0));
 		VirtexPacket dummy(eSynchronizationDummy);
@@ -956,7 +953,6 @@ namespace bitstream {
 		//		0000da9f: NOP x 4
 
 		// declare the packet vector and define a NOP packet
-		typedef VirtexFrame::word_t word_t;
 		VirtexPacketVector packets;
 		VirtexPacket nop(VirtexPacket::makeHeader(ePacketType1, eOpcodeNOP, 0, 0));
 		// extra for shutdown bitstreams

@@ -696,7 +696,6 @@ if(ttwp != ttwe) {
 		//	0000010f: NOP x 8
 
 		// declare the packet vector and define a NOP packet
-		typedef VirtexFrame::word_t word_t;
 		VirtexPacketVector packets;
 		VirtexPacket nop(VirtexPacket::makeHeader(ePacketType1, eOpcodeNOP, 0, 0));
 		VirtexPacket dummy(eSynchronizationDummy);
@@ -807,7 +806,6 @@ if(ttwp != ttwe) {
 		//	008cda5b: NOP x 400
 
 		// declare the packet vector and define a NOP packet
-		typedef VirtexFrame::word_t word_t;
 		VirtexPacketVector packets;
 		VirtexPacket nop(VirtexPacket::makeHeader(ePacketType1, eOpcodeNOP, 0, 0));
 		// write a placeholder CRC value
@@ -893,7 +891,6 @@ if(ttwp != ttwe) {
 		//		000000e7: TYPE1 WRITE CMD NULL
 
 		// declare the packet vector and define a NOP packet
-		typedef VirtexFrame::word_t word_t;
 		VirtexPacketVector packets;
 		VirtexPacket nop(VirtexPacket::makeHeader(ePacketType1, eOpcodeNOP, 0, 0));
 		VirtexPacket dummy(eSynchronizationDummy);
@@ -962,7 +959,6 @@ if(ttwp != ttwe) {
 		//		0000094b: NOP x 16
 
 		// declare the packet vector and define a NOP packet
-		typedef VirtexFrame::word_t word_t;
 		VirtexPacketVector packets;
 		VirtexPacket nop(VirtexPacket::makeHeader(ePacketType1, eOpcodeNOP, 0, 0));
 		// extra for shutdown bitstreams

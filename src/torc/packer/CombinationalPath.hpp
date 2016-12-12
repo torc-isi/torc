@@ -162,8 +162,8 @@ namespace physical {
 									 size_t currCount = routingNetPtr->getPathCount(instPin);
 									 if(currCount>maxCount)
 									 	maxCount = currCount;
-									 	if(maxTotalCount<maxCount)
-									 		maxTotalCount=maxCount;
+									 if(maxTotalCount<maxCount)
+									 	maxTotalCount=maxCount;
 								}
 							}
 							++ipp;

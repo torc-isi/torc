@@ -448,27 +448,33 @@ public:
 		cout << (wireinfo.isRemoteArcCapable() ? "REMOTE_ARC_CAPABLE " : "") << endl;
 		const architecture::WireArray& sinks = wireinfo.getSinks();
 		cout << "\tsinks: ";
-		for (uint32_t i = 0; i < sinks.getSize(); i++) cout << sinks[i] << " "; cout << endl;
+		for (uint32_t i = 0; i < sinks.getSize(); i++) cout << sinks[i] << " ";
+		cout << endl;
 		
 		const architecture::WireArray& sources = wireinfo.getSources();
 		cout << "\tsources: ";
-		for (uint32_t i = 0; i < sources.getSize(); i++) cout << sources[i] << " "; cout << endl;
+		for (uint32_t i = 0; i < sources.getSize(); i++) cout << sources[i] << " ";
+		cout << endl;
 		
 		const architecture::WireArray& isinks = wireinfo.getIrregularSinks();
 		cout << "\tirregular sinks: ";
-		for (uint32_t i = 0; i < isinks.getSize(); i++) cout << isinks[i] << " "; cout << endl;
+		for (uint32_t i = 0; i < isinks.getSize(); i++) cout << isinks[i] << " ";
+		cout << endl;
 		
 		const architecture::WireArray& isources = wireinfo.getIrregularSources();
 		cout << "\tirregular sources: ";
-		for (uint32_t i = 0; i < isources.getSize(); i++) cout << isources[i] << " "; cout << endl;
+		for (uint32_t i = 0; i < isources.getSize(); i++) cout << isources[i] << " ";
+		cout << endl;
 		
 		const architecture::WireArray& tsinks = wireinfo.getTiedSinks();
 		cout << "\ttied sinks: ";
-		for (uint32_t i = 0; i < tsinks.getSize(); i++) cout << tsinks[i] << " "; cout << endl;
+		for (uint32_t i = 0; i < tsinks.getSize(); i++) cout << tsinks[i] << " ";
+		cout << endl;
 		
 		const architecture::WireArray& tsources = wireinfo.getTiedSources();
 		cout << "\ttied sources: ";
-		for (uint32_t i = 0; i < tsources.getSize(); i++) cout << tsources[i] << " "; cout << endl;
+		for (uint32_t i = 0; i < tsources.getSize(); i++) cout << tsources[i] << " ";
+		cout << endl;
 
 		/// \todo SegmentReference with internal segment data?
 		

@@ -1,10 +1,8 @@
-
-/* A Bison parser, made by GNU Bison 2.4.  */
+/* A Bison parser, made by GNU Bison 2.7.  */
 
 /* Skeleton interface for Bison LALR(1) parsers in C++
    
-      Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free Software
-   Foundation, Inc.
+      Copyright (C) 2002-2012 Free Software Foundation, Inc.
    
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -32,80 +30,33 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
+/**
+ ** \file Parser.h
+ ** Define the torc::generic::parser class.
+ */
+
 /* C++ LALR(1) parser skeleton written by Akim Demaille.  */
 
-#ifndef PARSER_HEADER_H
-# define PARSER_HEADER_H
+#ifndef YY_YY_PARSER_H_INCLUDED
+# define YY_YY_PARSER_H_INCLUDED
 
 
 
 #include <string>
 #include <iostream>
-#include "torc/generic/edif/stack.hh"
-
-
-/* Line 35 of lalr1.cc  */
-#line 58 "Parser.yy"
-namespace torc { namespace generic {
-
-/* Line 35 of lalr1.cc  */
-#line 53 "Parser.h"
-  class position;
-  class location;
-
-/* Line 35 of lalr1.cc  */
-#line 58 "Parser.yy"
-} } // torc::generic
-
-/* Line 35 of lalr1.cc  */
-#line 62 "Parser.h"
-
-#include "torc/generic/edif/location.hh"
+#include "stack.hh"
+#include "location.hh"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 1
 #endif
 
-/* Enabling verbose error messages.  */
-#ifdef YYERROR_VERBOSE
-# undef YYERROR_VERBOSE
-# define YYERROR_VERBOSE 1
-#else
-# define YYERROR_VERBOSE 1
-#endif
-
-/* Enabling the token table.  */
-#ifndef YYTOKEN_TABLE
-# define YYTOKEN_TABLE 0
-#endif
-
-/* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].
-   If N is 0, then set CURRENT to the empty location which ends
-   the previous symbol: RHS[0] (always defined).  */
-
-#ifndef YYLLOC_DEFAULT
-# define YYLLOC_DEFAULT(Current, Rhs, N)		\
-do {							\
-  if (N)						\
-    {							\
-      (Current).begin = (Rhs)[1].begin;			\
-      (Current).end   = (Rhs)[N].end;			\
-    }							\
-  else							\
-    {							\
-      (Current).begin = (Current).end = (Rhs)[0].end;	\
-    }							\
-} while (false)
-#endif
-
-
-/* Line 35 of lalr1.cc  */
-#line 58 "Parser.yy"
+/* Line 33 of lalr1.cc  */
+#line 59 "Parser.yy"
 namespace torc { namespace generic {
-
-/* Line 35 of lalr1.cc  */
-#line 109 "Parser.h"
+/* Line 33 of lalr1.cc  */
+#line 60 "Parser.h"
 
   /// A Bison parser.
   class Parser
@@ -115,9 +66,8 @@ namespace torc { namespace generic {
 #ifndef YYSTYPE
     union semantic_type
     {
-
-/* Line 35 of lalr1.cc  */
-#line 81 "Parser.yy"
+/* Line 33 of lalr1.cc  */
+#line 82 "Parser.yy"
 
     int                                   integerVal;
     double                                doubleVal;
@@ -140,7 +90,7 @@ namespace torc { namespace generic {
     torc::generic::NetDelay              *netDelay;
     torc::generic::PortInstData          *portInst;
     torc::generic::TimeStamp             *timeStamp;
-    torc::generic::PairStrData           *pairStrData;  
+    torc::generic::PairStrData           *pairStrData;
     torc::generic::InterfaceAttributes   *interfaceAttributes;
     torc::generic::LogicValueAttributes  *logicValueAttributes;
     torc::generic::LogicListData         *logicListData;
@@ -148,9 +98,8 @@ namespace torc { namespace generic {
     torc::generic::NetRefData            *netRefData;
 
 
-
-/* Line 35 of lalr1.cc  */
-#line 154 "Parser.h"
+/* Line 33 of lalr1.cc  */
+#line 103 "Parser.h"
     };
 #else
     typedef YYSTYPE semantic_type;
@@ -529,6 +478,14 @@ namespace torc { namespace generic {
     /// The location stack.
     location_stack_type yylocation_stack_;
 
+    /// Whether the given \c yypact_ value indicates a defaulted state.
+    /// \param yyvalue   the value to check
+    static bool yy_pact_value_is_default_ (int yyvalue);
+
+    /// Whether the given \c yytable_ value indicates a syntax error.
+    /// \param yyvalue   the value to check
+    static bool yy_table_value_is_error_ (int yyvalue);
+
     /// Internal symbol numbers.
     typedef unsigned short int token_number_type;
     /* Tables.  */
@@ -536,7 +493,7 @@ namespace torc { namespace generic {
     static const short int yypact_[];
     static const short int yypact_ninf_;
 
-    /// For a state, default rule to reduce.
+    /// For a state, default reduction number.
     /// Unless\a  yytable_ specifies something else to do.
     /// Zero means the default is an error.
     static const unsigned short int yydefact_[];
@@ -560,18 +517,14 @@ namespace torc { namespace generic {
     /// For a rule, its LHS.
     static const unsigned short int yyr1_[];
     /// For a rule, its RHS length.
-    static const unsigned char yyr2_[];
+    static const unsigned char yyr2_[]; 
 
-#if YYDEBUG || YYERROR_VERBOSE || YYTOKEN_TABLE
+    /// Convert the symbol name \a n to a form suitable for a diagnostic.
+    static std::string yytnamerr_ (const char *n);
+
+
     /// For a symbol, its name in clear.
     static const char* const yytname_[];
-#endif
-
-#if YYERROR_VERBOSE
-    /// Convert the symbol name \a n to a form suitable for a diagnostic.
-    virtual std::string yytnamerr_ (const char *n);
-#endif
-
 #if YYDEBUG
     /// A type to store symbol numbers and -1.
     typedef short int rhs_number_type;
@@ -598,6 +551,7 @@ namespace torc { namespace generic {
 
     /// \brief Reclaim the memory associated to a symbol.
     /// \param yymsg        Why this token is reclaimed.
+    ///                     If null, do not display the symbol, just free it.
     /// \param yytype       The symbol type.
     /// \param yyvaluep     Its semantic value.
     /// \param yylocationp  Its location.
@@ -625,14 +579,12 @@ namespace torc { namespace generic {
     /* User arguments.  */
     class Driver& inDriver;
   };
-
-/* Line 35 of lalr1.cc  */
-#line 58 "Parser.yy"
+/* Line 33 of lalr1.cc  */
+#line 59 "Parser.yy"
 } } // torc::generic
-
-/* Line 35 of lalr1.cc  */
-#line 635 "Parser.h"
-
+/* Line 33 of lalr1.cc  */
+#line 587 "Parser.h"
 
 
-#endif /* ! defined PARSER_HEADER_H */
+
+#endif /* !YY_YY_PARSER_H_INCLUDED  */

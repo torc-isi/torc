@@ -1,10 +1,8 @@
-
-/* A Bison parser, made by GNU Bison 2.4.  */
+/* A Bison parser, made by GNU Bison 2.7.  */
 
 /* Skeleton implementation for Bison LALR(1) parsers in C++
    
-      Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008 Free Software
-   Foundation, Inc.
+      Copyright (C) 2002-2012 Free Software Foundation, Inc.
    
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -34,8 +32,7 @@
 
 
 /* First part of user declarations.  */
-
-/* Line 311 of lalr1.cc  */
+/* Line 279 of lalr1.cc  */
 #line 17 "Parser.yy"
 
 
@@ -49,6 +46,7 @@
 #include "torc/generic/edif/ParserHelpers.hpp"
 #include "torc/generic/Log.hpp"
 #include "torc/generic/PointerTypes.hpp"
+#include "torc/generic/PortDelay.hpp"
 #include "torc/generic/PortAttributes.hpp"
 #include "torc/generic/NetAttributes.hpp"
 #include "torc/generic/PortRefCreator.hpp"
@@ -58,17 +56,15 @@
 #include "torc/generic/LogicValueAttributes.hpp"
 
 
+/* Line 279 of lalr1.cc  */
+#line 61 "Parser.cc"
 
-/* Line 311 of lalr1.cc  */
-#line 64 "Parser.cc"
 
-
-#include "torc/generic/edif/y.tab.h"
+#include "Parser.h"
 
 /* User implementation prologue.  */
-
-/* Line 317 of lalr1.cc  */
-#line 580 "Parser.yy"
+/* Line 285 of lalr1.cc  */
+#line 581 "Parser.yy"
 
 
 #include "torc/generic/edif/Driver.hpp"
@@ -429,12 +425,20 @@ connectElementToNet( PortRefData *inPortData,
 }
 
 
+/* Line 285 of lalr1.cc  */
+#line 430 "Parser.cc"
 
-/* Line 317 of lalr1.cc  */
-#line 435 "Parser.cc"
+
+# ifndef YY_NULL
+#  if defined __cplusplus && 201103L <= __cplusplus
+#   define YY_NULL nullptr
+#  else
+#   define YY_NULL 0
+#  endif
+# endif
 
 #ifndef YY_
-# if YYENABLE_NLS
+# if defined YYENABLE_NLS && YYENABLE_NLS
 #  if ENABLE_NLS
 #   include <libintl.h> /* FIXME: INFRINGES ON USER NAME SPACE */
 #   define YY_(msgid) dgettext ("bison-runtime", msgid)
@@ -444,6 +448,27 @@ connectElementToNet( PortRefData *inPortData,
 #  define YY_(msgid) msgid
 # endif
 #endif
+
+#define YYRHSLOC(Rhs, K) ((Rhs)[K])
+/* YYLLOC_DEFAULT -- Set CURRENT to span from RHS[1] to RHS[N].
+   If N is 0, then set CURRENT to the empty location which ends
+   the previous symbol: RHS[0] (always defined).  */
+
+# ifndef YYLLOC_DEFAULT
+#  define YYLLOC_DEFAULT(Current, Rhs, N)                               \
+    do                                                                  \
+      if (N)                                                            \
+        {                                                               \
+          (Current).begin  = YYRHSLOC (Rhs, 1).begin;                   \
+          (Current).end    = YYRHSLOC (Rhs, N).end;                     \
+        }                                                               \
+      else                                                              \
+        {                                                               \
+          (Current).begin = (Current).end = YYRHSLOC (Rhs, 0).end;      \
+        }                                                               \
+    while (/*CONSTCOND*/ false)
+# endif
+
 
 /* Suppress unused-variable warnings by "using" E.  */
 #define YYUSE(e) ((void) (e))
@@ -479,9 +504,9 @@ do {					\
 #else /* !YYDEBUG */
 
 # define YYCDEBUG if (false) std::cerr
-# define YY_SYMBOL_PRINT(Title, Type, Value, Location)
-# define YY_REDUCE_PRINT(Rule)
-# define YY_STACK_PRINT()
+# define YY_SYMBOL_PRINT(Title, Type, Value, Location) YYUSE(Type)
+# define YY_REDUCE_PRINT(Rule)        static_cast<void>(0)
+# define YY_STACK_PRINT()             static_cast<void>(0)
 
 #endif /* !YYDEBUG */
 
@@ -493,14 +518,11 @@ do {					\
 #define YYERROR		goto yyerrorlab
 #define YYRECOVERING()  (!!yyerrstatus_)
 
-
-/* Line 380 of lalr1.cc  */
-#line 58 "Parser.yy"
+/* Line 353 of lalr1.cc  */
+#line 59 "Parser.yy"
 namespace torc { namespace generic {
-
-/* Line 380 of lalr1.cc  */
-#line 503 "Parser.cc"
-#if YYERROR_VERBOSE
+/* Line 353 of lalr1.cc  */
+#line 526 "Parser.cc"
 
   /* Return YYSTR after stripping away unnecessary quotes and
      backslashes, so that it's suitable for yyerror.  The heuristic is
@@ -539,7 +561,6 @@ namespace torc { namespace generic {
     return yystr;
   }
 
-#endif
 
   /// Build a parser object.
   Parser::Parser (class Driver& inDriver_yyarg)
@@ -567,6 +588,9 @@ namespace torc { namespace generic {
   {
     YYUSE (yylocationp);
     YYUSE (yyvaluep);
+    std::ostream& yyo = debug_stream ();
+    std::ostream& yyoutput = yyo;
+    YYUSE (yyoutput);
     switch (yytype)
       {
          default:
@@ -595,1486 +619,1159 @@ namespace torc { namespace generic {
     YYUSE (yymsg);
     YYUSE (yyvaluep);
 
-    YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
+    if (yymsg)
+      YY_SYMBOL_PRINT (yymsg, yytype, yyvaluep, yylocationp);
 
     switch (yytype)
       {
-        case 4: /* "\"identifier\"" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->stringVal); };
-
-/* Line 480 of lalr1.cc  */
-#line 610 "Parser.cc"
-	break;
-      case 5: /* "\"integer\"" */
-
-/* Line 480 of lalr1.cc  */
-#line 573 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 619 "Parser.cc"
-	break;
-      case 6: /* "\"double\"" */
-
-/* Line 480 of lalr1.cc  */
+        case 4: /* "identifier" */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).stringVal); };
+/* Line 455 of lalr1.cc  */
+#line 633 "Parser.cc"
+        break;
+      case 5: /* "integer" */
+/* Line 455 of lalr1.cc  */
 #line 574 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 628 "Parser.cc"
-	break;
-      case 7: /* "\"string\"" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->stringVal); };
-
-/* Line 480 of lalr1.cc  */
-#line 637 "Parser.cc"
-	break;
-      case 300: /* "EdifFileName" */
-
-/* Line 480 of lalr1.cc  */
+        { };
+/* Line 455 of lalr1.cc  */
+#line 640 "Parser.cc"
+        break;
+      case 6: /* "double" */
+/* Line 455 of lalr1.cc  */
 #line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 646 "Parser.cc"
-	break;
-      case 301: /* "EdifLevel" */
-
-/* Line 480 of lalr1.cc  */
-#line 573 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 655 "Parser.cc"
-	break;
-      case 302: /* "EdifVersion" */
-
-/* Line 480 of lalr1.cc  */
+        { };
+/* Line 455 of lalr1.cc  */
+#line 647 "Parser.cc"
+        break;
+      case 7: /* "string" */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).stringVal); };
+/* Line 455 of lalr1.cc  */
+#line 654 "Parser.cc"
+        break;
+      case 300: /* EdifFileName */
+/* Line 455 of lalr1.cc  */
 #line 576 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 664 "Parser.cc"
-	break;
-      case 303: /* "AcLoad" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->valueData); };
-
-/* Line 480 of lalr1.cc  */
-#line 673 "Parser.cc"
-	break;
-      case 304: /* "_AcLoad" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->valueData); };
-
-/* Line 480 of lalr1.cc  */
+        { };
+/* Line 455 of lalr1.cc  */
+#line 661 "Parser.cc"
+        break;
+      case 301: /* EdifLevel */
+/* Line 455 of lalr1.cc  */
+#line 574 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 668 "Parser.cc"
+        break;
+      case 302: /* EdifVersion */
+/* Line 455 of lalr1.cc  */
+#line 577 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 675 "Parser.cc"
+        break;
+      case 303: /* AcLoad */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).valueData); };
+/* Line 455 of lalr1.cc  */
 #line 682 "Parser.cc"
-	break;
-      case 313: /* "ArrayData" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 691 "Parser.cc"
-	break;
-      case 314: /* "_ArrayData" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->arrayDimensions); };
-
-/* Line 480 of lalr1.cc  */
-#line 700 "Parser.cc"
-	break;
-      case 315: /* "_IntegerList" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->arrayDimensions); };
-
-/* Line 480 of lalr1.cc  */
-#line 709 "Parser.cc"
-	break;
-      case 322: /* "Author" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->stringVal); };
-
-/* Line 480 of lalr1.cc  */
-#line 718 "Parser.cc"
-	break;
-      case 330: /* "Boolean" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->valueData); };
-
-/* Line 480 of lalr1.cc  */
-#line 727 "Parser.cc"
-	break;
-      case 331: /* "_Boolean" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->valueData); };
-
-/* Line 480 of lalr1.cc  */
-#line 736 "Parser.cc"
-	break;
-      case 332: /* "BooleanDisp" */
-
-/* Line 480 of lalr1.cc  */
-#line 573 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
+        break;
+      case 304: /* _AcLoad */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).valueData); };
+/* Line 455 of lalr1.cc  */
+#line 689 "Parser.cc"
+        break;
+      case 313: /* ArrayData */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 696 "Parser.cc"
+        break;
+      case 314: /* _ArrayData */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).arrayDimensions); };
+/* Line 455 of lalr1.cc  */
+#line 703 "Parser.cc"
+        break;
+      case 315: /* _IntegerList */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).arrayDimensions); };
+/* Line 455 of lalr1.cc  */
+#line 710 "Parser.cc"
+        break;
+      case 322: /* Author */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).stringVal); };
+/* Line 455 of lalr1.cc  */
+#line 717 "Parser.cc"
+        break;
+      case 330: /* Boolean */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).valueData); };
+/* Line 455 of lalr1.cc  */
+#line 724 "Parser.cc"
+        break;
+      case 331: /* _Boolean */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).valueData); };
+/* Line 455 of lalr1.cc  */
+#line 731 "Parser.cc"
+        break;
+      case 332: /* BooleanDisp */
+/* Line 455 of lalr1.cc  */
+#line 574 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 738 "Parser.cc"
+        break;
+      case 333: /* _BooleanDisp */
+/* Line 455 of lalr1.cc  */
+#line 574 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
 #line 745 "Parser.cc"
-	break;
-      case 333: /* "_BooleanDisp" */
-
-/* Line 480 of lalr1.cc  */
-#line 573 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 754 "Parser.cc"
-	break;
-      case 334: /* "BooleanMap" */
-
-/* Line 480 of lalr1.cc  */
-#line 573 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 763 "Parser.cc"
-	break;
-      case 335: /* "BooleanValue" */
-
-/* Line 480 of lalr1.cc  */
-#line 573 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 772 "Parser.cc"
-	break;
-      case 342: /* "CellNameDef" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 781 "Parser.cc"
-	break;
-      case 343: /* "CellRef" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->cellRefData); };
-
-/* Line 480 of lalr1.cc  */
-#line 790 "Parser.cc"
-	break;
-      case 344: /* "_CellRef" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->cellRefData); };
-
-/* Line 480 of lalr1.cc  */
-#line 799 "Parser.cc"
-	break;
-      case 345: /* "CellRefData" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->viewRefData); };
-
-/* Line 480 of lalr1.cc  */
+        break;
+      case 334: /* BooleanMap */
+/* Line 455 of lalr1.cc  */
+#line 574 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 752 "Parser.cc"
+        break;
+      case 335: /* BooleanValue */
+/* Line 455 of lalr1.cc  */
+#line 574 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 759 "Parser.cc"
+        break;
+      case 342: /* CellNameDef */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 766 "Parser.cc"
+        break;
+      case 343: /* CellRef */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).cellRefData); };
+/* Line 455 of lalr1.cc  */
+#line 773 "Parser.cc"
+        break;
+      case 344: /* _CellRef */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).cellRefData); };
+/* Line 455 of lalr1.cc  */
+#line 780 "Parser.cc"
+        break;
+      case 345: /* CellRefData */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).viewRefData); };
+/* Line 455 of lalr1.cc  */
+#line 787 "Parser.cc"
+        break;
+      case 346: /* _CellRefData */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).viewRefData); };
+/* Line 455 of lalr1.cc  */
+#line 794 "Parser.cc"
+        break;
+      case 347: /* CellNameRef */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 801 "Parser.cc"
+        break;
+      case 348: /* CellNameRefData */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
 #line 808 "Parser.cc"
-	break;
-      case 346: /* "_CellRefData" */
-
-/* Line 480 of lalr1.cc  */
+        break;
+      case 350: /* _CellType */
+/* Line 455 of lalr1.cc  */
+#line 574 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 815 "Parser.cc"
+        break;
+      case 357: /* Comment */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).stringVal); };
+/* Line 455 of lalr1.cc  */
+#line 822 "Parser.cc"
+        break;
+      case 358: /* _Comment */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).stringVal); };
+/* Line 455 of lalr1.cc  */
+#line 829 "Parser.cc"
+        break;
+      case 361: /* Compound */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).logicListData); };
+/* Line 455 of lalr1.cc  */
+#line 836 "Parser.cc"
+        break;
+      case 362: /* _Compound */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).logicListData); };
+/* Line 455 of lalr1.cc  */
+#line 843 "Parser.cc"
+        break;
+      case 369: /* Criticality */
+/* Line 455 of lalr1.cc  */
+#line 574 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 850 "Parser.cc"
+        break;
+      case 370: /* _Criticality */
+/* Line 455 of lalr1.cc  */
+#line 574 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 857 "Parser.cc"
+        break;
+      case 371: /* CurrentMap */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).valueData); };
+/* Line 455 of lalr1.cc  */
+#line 864 "Parser.cc"
+        break;
+      case 375: /* _Cycle */
+/* Line 455 of lalr1.cc  */
 #line 578 "Parser.yy"
-	{ delete (yyvaluep->viewRefData); };
-
-/* Line 480 of lalr1.cc  */
-#line 817 "Parser.cc"
-	break;
-      case 347: /* "CellNameRef" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 826 "Parser.cc"
-	break;
-      case 348: /* "CellNameRefData" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 835 "Parser.cc"
-	break;
-      case 350: /* "_CellType" */
-
-/* Line 480 of lalr1.cc  */
-#line 573 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 844 "Parser.cc"
-	break;
-      case 357: /* "Comment" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->stringVal); };
-
-/* Line 480 of lalr1.cc  */
-#line 853 "Parser.cc"
-	break;
-      case 358: /* "_Comment" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->stringVal); };
-
-/* Line 480 of lalr1.cc  */
-#line 862 "Parser.cc"
-	break;
-      case 361: /* "Compound" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->logicListData); };
-
-/* Line 480 of lalr1.cc  */
+        { };
+/* Line 455 of lalr1.cc  */
 #line 871 "Parser.cc"
-	break;
-      case 362: /* "_Compound" */
-
-/* Line 480 of lalr1.cc  */
+        break;
+      case 376: /* DataOrigin */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).pairStrData); };
+/* Line 455 of lalr1.cc  */
+#line 878 "Parser.cc"
+        break;
+      case 377: /* _DataOrigin */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).stringVal); };
+/* Line 455 of lalr1.cc  */
+#line 885 "Parser.cc"
+        break;
+      case 378: /* DcFanInLoad */
+/* Line 455 of lalr1.cc  */
 #line 578 "Parser.yy"
-	{ delete (yyvaluep->logicListData); };
-
-/* Line 480 of lalr1.cc  */
-#line 880 "Parser.cc"
-	break;
-      case 369: /* "Criticality" */
-
-/* Line 480 of lalr1.cc  */
-#line 573 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 889 "Parser.cc"
-	break;
-      case 370: /* "_Criticality" */
-
-/* Line 480 of lalr1.cc  */
-#line 573 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 898 "Parser.cc"
-	break;
-      case 371: /* "CurrentMap" */
-
-/* Line 480 of lalr1.cc  */
+        { };
+/* Line 455 of lalr1.cc  */
+#line 892 "Parser.cc"
+        break;
+      case 379: /* _DcFanInLoad */
+/* Line 455 of lalr1.cc  */
 #line 578 "Parser.yy"
-	{ delete (yyvaluep->valueData); };
-
-/* Line 480 of lalr1.cc  */
-#line 907 "Parser.cc"
-	break;
-      case 375: /* "_Cycle" */
-
-/* Line 480 of lalr1.cc  */
-#line 577 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 916 "Parser.cc"
-	break;
-      case 376: /* "DataOrigin" */
-
-/* Line 480 of lalr1.cc  */
+        { };
+/* Line 455 of lalr1.cc  */
+#line 899 "Parser.cc"
+        break;
+      case 380: /* DcFanOutLoad */
+/* Line 455 of lalr1.cc  */
 #line 578 "Parser.yy"
-	{ delete (yyvaluep->pairStrData); };
-
-/* Line 480 of lalr1.cc  */
-#line 925 "Parser.cc"
-	break;
-      case 377: /* "_DataOrigin" */
-
-/* Line 480 of lalr1.cc  */
+        { };
+/* Line 455 of lalr1.cc  */
+#line 906 "Parser.cc"
+        break;
+      case 381: /* _DcFanOutLoad */
+/* Line 455 of lalr1.cc  */
 #line 578 "Parser.yy"
-	{ delete (yyvaluep->stringVal); };
-
-/* Line 480 of lalr1.cc  */
+        { };
+/* Line 455 of lalr1.cc  */
+#line 913 "Parser.cc"
+        break;
+      case 382: /* DcMaxFanIn */
+/* Line 455 of lalr1.cc  */
+#line 578 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 920 "Parser.cc"
+        break;
+      case 383: /* _DcMaxFanIn */
+/* Line 455 of lalr1.cc  */
+#line 578 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 927 "Parser.cc"
+        break;
+      case 384: /* DcMaxFanOut */
+/* Line 455 of lalr1.cc  */
+#line 578 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
 #line 934 "Parser.cc"
-	break;
-      case 378: /* "DcFanInLoad" */
-
-/* Line 480 of lalr1.cc  */
-#line 577 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 943 "Parser.cc"
-	break;
-      case 379: /* "_DcFanInLoad" */
-
-/* Line 480 of lalr1.cc  */
-#line 577 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 952 "Parser.cc"
-	break;
-      case 380: /* "DcFanOutLoad" */
-
-/* Line 480 of lalr1.cc  */
-#line 577 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 961 "Parser.cc"
-	break;
-      case 381: /* "_DcFanOutLoad" */
-
-/* Line 480 of lalr1.cc  */
-#line 577 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 970 "Parser.cc"
-	break;
-      case 382: /* "DcMaxFanIn" */
-
-/* Line 480 of lalr1.cc  */
-#line 577 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 979 "Parser.cc"
-	break;
-      case 383: /* "_DcMaxFanIn" */
-
-/* Line 480 of lalr1.cc  */
-#line 577 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 988 "Parser.cc"
-	break;
-      case 384: /* "DcMaxFanOut" */
-
-/* Line 480 of lalr1.cc  */
-#line 577 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
+        break;
+      case 385: /* _DcMaxFanOut */
+/* Line 455 of lalr1.cc  */
+#line 578 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 941 "Parser.cc"
+        break;
+      case 386: /* DelayData */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).portDelay); };
+/* Line 455 of lalr1.cc  */
+#line 948 "Parser.cc"
+        break;
+      case 387: /* _DelayData */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).portDelay); };
+/* Line 455 of lalr1.cc  */
+#line 955 "Parser.cc"
+        break;
+      case 392: /* Derivation */
+/* Line 455 of lalr1.cc  */
+#line 574 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 962 "Parser.cc"
+        break;
+      case 393: /* _Derivation */
+/* Line 455 of lalr1.cc  */
+#line 574 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 969 "Parser.cc"
+        break;
+      case 396: /* _Design */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).cellRefData); };
+/* Line 455 of lalr1.cc  */
+#line 976 "Parser.cc"
+        break;
+      case 399: /* DesignatorData */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).stringVal); };
+/* Line 455 of lalr1.cc  */
+#line 983 "Parser.cc"
+        break;
+      case 400: /* _DesignatorData */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).stringVal); };
+/* Line 455 of lalr1.cc  */
+#line 990 "Parser.cc"
+        break;
+      case 401: /* DesignNameDef */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
 #line 997 "Parser.cc"
-	break;
-      case 385: /* "_DcMaxFanOut" */
-
-/* Line 480 of lalr1.cc  */
-#line 577 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1006 "Parser.cc"
-	break;
-      case 386: /* "DelayData" */
-
-/* Line 480 of lalr1.cc  */
+        break;
+      case 407: /* _Direction */
+/* Line 455 of lalr1.cc  */
+#line 574 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1004 "Parser.cc"
+        break;
+      case 411: /* Dominates */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).logicListData); };
+/* Line 455 of lalr1.cc  */
+#line 1011 "Parser.cc"
+        break;
+      case 412: /* _Dominates */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).logicListData); };
+/* Line 455 of lalr1.cc  */
+#line 1018 "Parser.cc"
+        break;
+      case 415: /* Duration */
+/* Line 455 of lalr1.cc  */
 #line 578 "Parser.yy"
-	{ delete (yyvaluep->portDelay); };
-
-/* Line 480 of lalr1.cc  */
-#line 1015 "Parser.cc"
-	break;
-      case 387: /* "_DelayData" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->portDelay); };
-
-/* Line 480 of lalr1.cc  */
-#line 1024 "Parser.cc"
-	break;
-      case 392: /* "Derivation" */
-
-/* Line 480 of lalr1.cc  */
-#line 573 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1033 "Parser.cc"
-	break;
-      case 393: /* "_Derivation" */
-
-/* Line 480 of lalr1.cc  */
-#line 573 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1042 "Parser.cc"
-	break;
-      case 396: /* "_Design" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->cellRefData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1051 "Parser.cc"
-	break;
-      case 399: /* "DesignatorData" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->stringVal); };
-
-/* Line 480 of lalr1.cc  */
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1025 "Parser.cc"
+        break;
+      case 465: /* GlobPortRefData */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1032 "Parser.cc"
+        break;
+      case 474: /* _Instance */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).instanceInfo); };
+/* Line 455 of lalr1.cc  */
+#line 1039 "Parser.cc"
+        break;
+      case 477: /* InstanceRefData */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).instanceRef); };
+/* Line 455 of lalr1.cc  */
+#line 1046 "Parser.cc"
+        break;
+      case 478: /* _InstanceRefData */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).instanceRef); };
+/* Line 455 of lalr1.cc  */
+#line 1053 "Parser.cc"
+        break;
+      case 485: /* InstNameDef */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
 #line 1060 "Parser.cc"
-	break;
-      case 400: /* "_DesignatorData" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->stringVal); };
-
-/* Line 480 of lalr1.cc  */
-#line 1069 "Parser.cc"
-	break;
-      case 401: /* "DesignNameDef" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1078 "Parser.cc"
-	break;
-      case 407: /* "_Direction" */
-
-/* Line 480 of lalr1.cc  */
-#line 573 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1087 "Parser.cc"
-	break;
-      case 411: /* "Dominates" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->logicListData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1096 "Parser.cc"
-	break;
-      case 412: /* "_Dominates" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->logicListData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1105 "Parser.cc"
-	break;
-      case 415: /* "Duration" */
-
-/* Line 480 of lalr1.cc  */
-#line 577 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1114 "Parser.cc"
-	break;
-      case 465: /* "GlobPortRefData" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
+        break;
+      case 487: /* InstNameRefData */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1067 "Parser.cc"
+        break;
+      case 488: /* IntDisplay */
+/* Line 455 of lalr1.cc  */
+#line 574 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1074 "Parser.cc"
+        break;
+      case 489: /* _IntDisplay */
+/* Line 455 of lalr1.cc  */
+#line 574 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1081 "Parser.cc"
+        break;
+      case 490: /* Integer */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).valueData); };
+/* Line 455 of lalr1.cc  */
+#line 1088 "Parser.cc"
+        break;
+      case 491: /* _Integer */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).valueData); };
+/* Line 455 of lalr1.cc  */
+#line 1095 "Parser.cc"
+        break;
+      case 492: /* Interface */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).interfaceAttributes); };
+/* Line 455 of lalr1.cc  */
+#line 1102 "Parser.cc"
+        break;
+      case 493: /* _Interface */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).interfaceAttributes); };
+/* Line 455 of lalr1.cc  */
+#line 1109 "Parser.cc"
+        break;
+      case 518: /* LibNameDef */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1116 "Parser.cc"
+        break;
+      case 520: /* LibNameRefData */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
 #line 1123 "Parser.cc"
-	break;
-      case 474: /* "_Instance" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->instanceInfo); };
-
-/* Line 480 of lalr1.cc  */
-#line 1132 "Parser.cc"
-	break;
-      case 477: /* "InstanceRefData" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->instanceRef); };
-
-/* Line 480 of lalr1.cc  */
-#line 1141 "Parser.cc"
-	break;
-      case 478: /* "_InstanceRefData" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->instanceRef); };
-
-/* Line 480 of lalr1.cc  */
-#line 1150 "Parser.cc"
-	break;
-      case 485: /* "InstNameDef" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1159 "Parser.cc"
-	break;
-      case 487: /* "InstNameRefData" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1168 "Parser.cc"
-	break;
-      case 488: /* "IntDisplay" */
-
-/* Line 480 of lalr1.cc  */
-#line 573 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1177 "Parser.cc"
-	break;
-      case 489: /* "_IntDisplay" */
-
-/* Line 480 of lalr1.cc  */
-#line 573 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
+        break;
+      case 525: /* LibraryRefData */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1130 "Parser.cc"
+        break;
+      case 530: /* LoadDelayData */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).portDelay); };
+/* Line 455 of lalr1.cc  */
+#line 1137 "Parser.cc"
+        break;
+      case 531: /* _LoadDelayData */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).valueData); };
+/* Line 455 of lalr1.cc  */
+#line 1144 "Parser.cc"
+        break;
+      case 545: /* LogicMapIn */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).logicRefData); };
+/* Line 455 of lalr1.cc  */
+#line 1151 "Parser.cc"
+        break;
+      case 546: /* LogicMapOut */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).logicRefData); };
+/* Line 455 of lalr1.cc  */
+#line 1158 "Parser.cc"
+        break;
+      case 547: /* LogicNameDef */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1165 "Parser.cc"
+        break;
+      case 548: /* LogicNameRefData */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1172 "Parser.cc"
+        break;
+      case 559: /* LogicRef */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).logicRefData); };
+/* Line 455 of lalr1.cc  */
+#line 1179 "Parser.cc"
+        break;
+      case 560: /* _LogicRef */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).logicRefData); };
+/* Line 455 of lalr1.cc  */
 #line 1186 "Parser.cc"
-	break;
-      case 490: /* "Integer" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->valueData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1195 "Parser.cc"
-	break;
-      case 491: /* "_Integer" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->valueData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1204 "Parser.cc"
-	break;
-      case 492: /* "Interface" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->interfaceAttributes); };
-
-/* Line 480 of lalr1.cc  */
-#line 1213 "Parser.cc"
-	break;
-      case 493: /* "_Interface" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->interfaceAttributes); };
-
-/* Line 480 of lalr1.cc  */
-#line 1222 "Parser.cc"
-	break;
-      case 518: /* "LibNameDef" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1231 "Parser.cc"
-	break;
-      case 520: /* "LibNameRefData" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1240 "Parser.cc"
-	break;
-      case 525: /* "LibraryRefData" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
+        break;
+      case 563: /* _LogicValue */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).logicValueAttributes); };
+/* Line 455 of lalr1.cc  */
+#line 1193 "Parser.cc"
+        break;
+      case 573: /* MemberData */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1200 "Parser.cc"
+        break;
+      case 574: /* _MemberData */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).arrayDimensions); };
+/* Line 455 of lalr1.cc  */
+#line 1207 "Parser.cc"
+        break;
+      case 577: /* MiNoMa */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).valueData); };
+/* Line 455 of lalr1.cc  */
+#line 1214 "Parser.cc"
+        break;
+      case 578: /* _MiNoMa */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).valueData); };
+/* Line 455 of lalr1.cc  */
+#line 1221 "Parser.cc"
+        break;
+      case 579: /* MiNoMaDisp */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).valueData); };
+/* Line 455 of lalr1.cc  */
+#line 1228 "Parser.cc"
+        break;
+      case 580: /* _MiNoMaDisp */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).valueData); };
+/* Line 455 of lalr1.cc  */
+#line 1235 "Parser.cc"
+        break;
+      case 581: /* MiNoMaValue */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).valueData); };
+/* Line 455 of lalr1.cc  */
+#line 1242 "Parser.cc"
+        break;
+      case 582: /* Mnm */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).valueData); };
+/* Line 455 of lalr1.cc  */
 #line 1249 "Parser.cc"
-	break;
-      case 530: /* "LoadDelayData" */
-
-/* Line 480 of lalr1.cc  */
+        break;
+      case 583: /* _Mnm */
+/* Line 455 of lalr1.cc  */
 #line 578 "Parser.yy"
-	{ delete (yyvaluep->portDelay); };
-
-/* Line 480 of lalr1.cc  */
-#line 1258 "Parser.cc"
-	break;
-      case 531: /* "_LoadDelayData" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->valueData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1267 "Parser.cc"
-	break;
-      case 545: /* "LogicMapIn" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->logicRefData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1276 "Parser.cc"
-	break;
-      case 546: /* "LogicMapOut" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->logicRefData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1285 "Parser.cc"
-	break;
-      case 547: /* "LogicNameDef" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1294 "Parser.cc"
-	break;
-      case 548: /* "LogicNameRefData" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1303 "Parser.cc"
-	break;
-      case 559: /* "LogicRef" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->logicRefData); };
-
-/* Line 480 of lalr1.cc  */
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1256 "Parser.cc"
+        break;
+      case 589: /* Name */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1263 "Parser.cc"
+        break;
+      case 590: /* _Name */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1270 "Parser.cc"
+        break;
+      case 592: /* NameDefData */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1277 "Parser.cc"
+        break;
+      case 593: /* NameRef */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1284 "Parser.cc"
+        break;
+      case 594: /* NameRefData */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1291 "Parser.cc"
+        break;
+      case 597: /* _Net */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).netAttributes); };
+/* Line 455 of lalr1.cc  */
+#line 1298 "Parser.cc"
+        break;
+      case 603: /* NetDelay */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).netDelay); };
+/* Line 455 of lalr1.cc  */
+#line 1305 "Parser.cc"
+        break;
+      case 604: /* _NetDelay */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).netDelay); };
+/* Line 455 of lalr1.cc  */
 #line 1312 "Parser.cc"
-	break;
-      case 560: /* "_LogicRef" */
-
-/* Line 480 of lalr1.cc  */
+        break;
+      case 605: /* NetDelayData */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).netDelay); };
+/* Line 455 of lalr1.cc  */
+#line 1319 "Parser.cc"
+        break;
+      case 606: /* _NetDelayData */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).netDelay); };
+/* Line 455 of lalr1.cc  */
+#line 1326 "Parser.cc"
+        break;
+      case 614: /* NetNameDef */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1333 "Parser.cc"
+        break;
+      case 616: /* NetNameRefData */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1340 "Parser.cc"
+        break;
+      case 619: /* NetRefData */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).netRefData); };
+/* Line 455 of lalr1.cc  */
+#line 1347 "Parser.cc"
+        break;
+      case 620: /* _NetRefData */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).netRefData); };
+/* Line 455 of lalr1.cc  */
+#line 1354 "Parser.cc"
+        break;
+      case 629: /* Number */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).valueData); };
+/* Line 455 of lalr1.cc  */
+#line 1361 "Parser.cc"
+        break;
+      case 630: /* _Number */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).valueData); };
+/* Line 455 of lalr1.cc  */
+#line 1368 "Parser.cc"
+        break;
+      case 631: /* NumbDisplay */
+/* Line 455 of lalr1.cc  */
 #line 578 "Parser.yy"
-	{ delete (yyvaluep->logicRefData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1321 "Parser.cc"
-	break;
-      case 563: /* "_LogicValue" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->logicValueAttributes); };
-
-/* Line 480 of lalr1.cc  */
-#line 1330 "Parser.cc"
-	break;
-      case 573: /* "MemberData" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1339 "Parser.cc"
-	break;
-      case 574: /* "_MemberData" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->arrayDimensions); };
-
-/* Line 480 of lalr1.cc  */
-#line 1348 "Parser.cc"
-	break;
-      case 577: /* "MiNoMa" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->valueData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1357 "Parser.cc"
-	break;
-      case 578: /* "_MiNoMa" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->valueData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1366 "Parser.cc"
-	break;
-      case 579: /* "MiNoMaDisp" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->valueData); };
-
-/* Line 480 of lalr1.cc  */
+        { };
+/* Line 455 of lalr1.cc  */
 #line 1375 "Parser.cc"
-	break;
-      case 580: /* "_MiNoMaDisp" */
-
-/* Line 480 of lalr1.cc  */
+        break;
+      case 632: /* _NumbDisplay */
+/* Line 455 of lalr1.cc  */
 #line 578 "Parser.yy"
-	{ delete (yyvaluep->valueData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1384 "Parser.cc"
-	break;
-      case 581: /* "MiNoMaValue" */
-
-/* Line 480 of lalr1.cc  */
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1382 "Parser.cc"
+        break;
+      case 637: /* OffsetEvent */
+/* Line 455 of lalr1.cc  */
 #line 578 "Parser.yy"
-	{ delete (yyvaluep->valueData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1393 "Parser.cc"
-	break;
-      case 582: /* "Mnm" */
-
-/* Line 480 of lalr1.cc  */
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1389 "Parser.cc"
+        break;
+      case 649: /* Owner */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).stringVal); };
+/* Line 455 of lalr1.cc  */
+#line 1396 "Parser.cc"
+        break;
+      case 656: /* _Parameter */
+/* Line 455 of lalr1.cc  */
+#line 574 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1403 "Parser.cc"
+        break;
+      case 657: /* ParamAssign */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).paramAssignInfo); };
+/* Line 455 of lalr1.cc  */
+#line 1410 "Parser.cc"
+        break;
+      case 664: /* _PathDelayValue */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).valueData); };
+/* Line 455 of lalr1.cc  */
+#line 1417 "Parser.cc"
+        break;
+      case 671: /* Point */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).valueData); };
+/* Line 455 of lalr1.cc  */
+#line 1424 "Parser.cc"
+        break;
+      case 672: /* _Point */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).valueData); };
+/* Line 455 of lalr1.cc  */
+#line 1431 "Parser.cc"
+        break;
+      case 673: /* PointDisp */
+/* Line 455 of lalr1.cc  */
 #line 578 "Parser.yy"
-	{ delete (yyvaluep->valueData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1402 "Parser.cc"
-	break;
-      case 583: /* "_Mnm" */
-
-/* Line 480 of lalr1.cc  */
-#line 577 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1411 "Parser.cc"
-	break;
-      case 589: /* "Name" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1420 "Parser.cc"
-	break;
-      case 590: /* "_Name" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1429 "Parser.cc"
-	break;
-      case 592: /* "NameDefData" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
+        { };
+/* Line 455 of lalr1.cc  */
 #line 1438 "Parser.cc"
-	break;
-      case 593: /* "NameRef" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1447 "Parser.cc"
-	break;
-      case 594: /* "NameRefData" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1456 "Parser.cc"
-	break;
-      case 597: /* "_Net" */
-
-/* Line 480 of lalr1.cc  */
+        break;
+      case 674: /* _PointDisp */
+/* Line 455 of lalr1.cc  */
 #line 578 "Parser.yy"
-	{ delete (yyvaluep->netAttributes); };
-
-/* Line 480 of lalr1.cc  */
-#line 1465 "Parser.cc"
-	break;
-      case 603: /* "NetDelay" */
-
-/* Line 480 of lalr1.cc  */
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1445 "Parser.cc"
+        break;
+      case 677: /* PointValue */
+/* Line 455 of lalr1.cc  */
 #line 578 "Parser.yy"
-	{ delete (yyvaluep->netDelay); };
-
-/* Line 480 of lalr1.cc  */
-#line 1474 "Parser.cc"
-	break;
-      case 604: /* "_NetDelay" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->netDelay); };
-
-/* Line 480 of lalr1.cc  */
-#line 1483 "Parser.cc"
-	break;
-      case 605: /* "NetDelayData" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->netDelay); };
-
-/* Line 480 of lalr1.cc  */
-#line 1492 "Parser.cc"
-	break;
-      case 606: /* "_NetDelayData" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->netDelay); };
-
-/* Line 480 of lalr1.cc  */
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1452 "Parser.cc"
+        break;
+      case 682: /* _Port */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).portAttributes); };
+/* Line 455 of lalr1.cc  */
+#line 1459 "Parser.cc"
+        break;
+      case 685: /* _PortBackAn */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).portAttributes); };
+/* Line 455 of lalr1.cc  */
+#line 1466 "Parser.cc"
+        break;
+      case 689: /* PortDelayData */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).portDelay); };
+/* Line 455 of lalr1.cc  */
+#line 1473 "Parser.cc"
+        break;
+      case 690: /* _PortDelayData */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).portDelay); };
+/* Line 455 of lalr1.cc  */
+#line 1480 "Parser.cc"
+        break;
+      case 698: /* PortInst */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).portInst); };
+/* Line 455 of lalr1.cc  */
+#line 1487 "Parser.cc"
+        break;
+      case 699: /* _PortInst */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).portInst); };
+/* Line 455 of lalr1.cc  */
+#line 1494 "Parser.cc"
+        break;
+      case 702: /* PortListData */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).portListData); };
+/* Line 455 of lalr1.cc  */
 #line 1501 "Parser.cc"
-	break;
-      case 614: /* "NetNameDef" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1510 "Parser.cc"
-	break;
-      case 616: /* "NetNameRefData" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1519 "Parser.cc"
-	break;
-      case 619: /* "NetRefData" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->netRefData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1528 "Parser.cc"
-	break;
-      case 620: /* "_NetRefData" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->netRefData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1537 "Parser.cc"
-	break;
-      case 629: /* "Number" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->valueData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1546 "Parser.cc"
-	break;
-      case 630: /* "_Number" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->valueData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1555 "Parser.cc"
-	break;
-      case 631: /* "NumbDisplay" */
-
-/* Line 480 of lalr1.cc  */
-#line 577 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
+        break;
+      case 703: /* _PortListData */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).portListData); };
+/* Line 455 of lalr1.cc  */
+#line 1508 "Parser.cc"
+        break;
+      case 708: /* PortNameDefData */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1515 "Parser.cc"
+        break;
+      case 710: /* PortNameRefData */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1522 "Parser.cc"
+        break;
+      case 713: /* PortRefData */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).portRefData); };
+/* Line 455 of lalr1.cc  */
+#line 1529 "Parser.cc"
+        break;
+      case 714: /* _PortRefData */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).portRefData); };
+/* Line 455 of lalr1.cc  */
+#line 1536 "Parser.cc"
+        break;
+      case 715: /* Program */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).pairStrData); };
+/* Line 455 of lalr1.cc  */
+#line 1543 "Parser.cc"
+        break;
+      case 716: /* _Program */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).stringVal); };
+/* Line 455 of lalr1.cc  */
+#line 1550 "Parser.cc"
+        break;
+      case 722: /* PropNameDef */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1557 "Parser.cc"
+        break;
+      case 733: /* Rename */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
 #line 1564 "Parser.cc"
-	break;
-      case 632: /* "_NumbDisplay" */
-
-/* Line 480 of lalr1.cc  */
-#line 577 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1573 "Parser.cc"
-	break;
-      case 637: /* "OffsetEvent" */
-
-/* Line 480 of lalr1.cc  */
-#line 577 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1582 "Parser.cc"
-	break;
-      case 649: /* "Owner" */
-
-/* Line 480 of lalr1.cc  */
+        break;
+      case 734: /* __Rename */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1571 "Parser.cc"
+        break;
+      case 735: /* _Rename */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).stringVal); };
+/* Line 455 of lalr1.cc  */
+#line 1578 "Parser.cc"
+        break;
+      case 736: /* Resolves */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).logicListData); };
+/* Line 455 of lalr1.cc  */
+#line 1585 "Parser.cc"
+        break;
+      case 737: /* _Resolves */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).logicListData); };
+/* Line 455 of lalr1.cc  */
+#line 1592 "Parser.cc"
+        break;
+      case 740: /* ScaledInt */
+/* Line 455 of lalr1.cc  */
 #line 578 "Parser.yy"
-	{ delete (yyvaluep->stringVal); };
-
-/* Line 480 of lalr1.cc  */
-#line 1591 "Parser.cc"
-	break;
-      case 656: /* "_Parameter" */
-
-/* Line 480 of lalr1.cc  */
-#line 573 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1600 "Parser.cc"
-	break;
-      case 657: /* "ParamAssign" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->paramAssignInfo); };
-
-/* Line 480 of lalr1.cc  */
-#line 1609 "Parser.cc"
-	break;
-      case 664: /* "_PathDelayValue" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->valueData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1618 "Parser.cc"
-	break;
-      case 671: /* "Point" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->valueData); };
-
-/* Line 480 of lalr1.cc  */
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1599 "Parser.cc"
+        break;
+      case 747: /* SimNameDef */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1606 "Parser.cc"
+        break;
+      case 768: /* StrDisplay */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).stringVal); };
+/* Line 455 of lalr1.cc  */
+#line 1613 "Parser.cc"
+        break;
+      case 769: /* String */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).valueData); };
+/* Line 455 of lalr1.cc  */
+#line 1620 "Parser.cc"
+        break;
+      case 770: /* _String */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).valueData); };
+/* Line 455 of lalr1.cc  */
 #line 1627 "Parser.cc"
-	break;
-      case 672: /* "_Point" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->valueData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1636 "Parser.cc"
-	break;
-      case 673: /* "PointDisp" */
-
-/* Line 480 of lalr1.cc  */
-#line 577 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1645 "Parser.cc"
-	break;
-      case 674: /* "_PointDisp" */
-
-/* Line 480 of lalr1.cc  */
-#line 577 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1654 "Parser.cc"
-	break;
-      case 677: /* "PointValue" */
-
-/* Line 480 of lalr1.cc  */
-#line 577 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1663 "Parser.cc"
-	break;
-      case 682: /* "_Port" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->portAttributes); };
-
-/* Line 480 of lalr1.cc  */
-#line 1672 "Parser.cc"
-	break;
-      case 685: /* "_PortBackAn" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->portAttributes); };
-
-/* Line 480 of lalr1.cc  */
-#line 1681 "Parser.cc"
-	break;
-      case 689: /* "PortDelayData" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->portDelay); };
-
-/* Line 480 of lalr1.cc  */
+        break;
+      case 771: /* _StrDisplay */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).stringVal); };
+/* Line 455 of lalr1.cc  */
+#line 1634 "Parser.cc"
+        break;
+      case 772: /* Strong */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1641 "Parser.cc"
+        break;
+      case 788: /* TimeStamp */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).timeStamp); };
+/* Line 455 of lalr1.cc  */
+#line 1648 "Parser.cc"
+        break;
+      case 800: /* TypedValue */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).valueData); };
+/* Line 455 of lalr1.cc  */
+#line 1655 "Parser.cc"
+        break;
+      case 805: /* Unit */
+/* Line 455 of lalr1.cc  */
+#line 574 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1662 "Parser.cc"
+        break;
+      case 806: /* _Unit */
+/* Line 455 of lalr1.cc  */
+#line 574 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1669 "Parser.cc"
+        break;
+      case 808: /* UnusedData */
+/* Line 455 of lalr1.cc  */
+#line 574 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1676 "Parser.cc"
+        break;
+      case 809: /* UserData */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).stringVal); };
+/* Line 455 of lalr1.cc  */
+#line 1683 "Parser.cc"
+        break;
+      case 812: /* ValueNameDefData */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
 #line 1690 "Parser.cc"
-	break;
-      case 690: /* "_PortDelayData" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->portDelay); };
-
-/* Line 480 of lalr1.cc  */
-#line 1699 "Parser.cc"
-	break;
-      case 698: /* "PortInst" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->portInst); };
-
-/* Line 480 of lalr1.cc  */
-#line 1708 "Parser.cc"
-	break;
-      case 699: /* "_PortInst" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->portInst); };
-
-/* Line 480 of lalr1.cc  */
-#line 1717 "Parser.cc"
-	break;
-      case 702: /* "PortListData" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->portListData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1726 "Parser.cc"
-	break;
-      case 703: /* "_PortListData" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->portListData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1735 "Parser.cc"
-	break;
-      case 708: /* "PortNameDefData" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1744 "Parser.cc"
-	break;
-      case 710: /* "PortNameRefData" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
+        break;
+      case 814: /* ValueNameRefData */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1697 "Parser.cc"
+        break;
+      case 815: /* Version */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).stringVal); };
+/* Line 455 of lalr1.cc  */
+#line 1704 "Parser.cc"
+        break;
+      case 823: /* ViewNameDef */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1711 "Parser.cc"
+        break;
+      case 825: /* ViewNameRefData */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1718 "Parser.cc"
+        break;
+      case 828: /* ViewRefData */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).viewRefData); };
+/* Line 455 of lalr1.cc  */
+#line 1725 "Parser.cc"
+        break;
+      case 829: /* _ViewRefData */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).viewRefData); };
+/* Line 455 of lalr1.cc  */
+#line 1732 "Parser.cc"
+        break;
+      case 831: /* _ViewType */
+/* Line 455 of lalr1.cc  */
+#line 574 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1739 "Parser.cc"
+        break;
+      case 833: /* VoltageMap */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).valueData); };
+/* Line 455 of lalr1.cc  */
+#line 1746 "Parser.cc"
+        break;
+      case 836: /* Weak */
+/* Line 455 of lalr1.cc  */
+#line 576 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
 #line 1753 "Parser.cc"
-	break;
-      case 713: /* "PortRefData" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->portRefData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1762 "Parser.cc"
-	break;
-      case 714: /* "_PortRefData" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->portRefData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1771 "Parser.cc"
-	break;
-      case 715: /* "Program" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->pairStrData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1780 "Parser.cc"
-	break;
-      case 716: /* "_Program" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->stringVal); };
-
-/* Line 480 of lalr1.cc  */
-#line 1789 "Parser.cc"
-	break;
-      case 722: /* "PropNameDef" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1798 "Parser.cc"
-	break;
-      case 733: /* "Rename" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1807 "Parser.cc"
-	break;
-      case 734: /* "__Rename" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1816 "Parser.cc"
-	break;
-      case 735: /* "_Rename" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->stringVal); };
-
-/* Line 480 of lalr1.cc  */
-#line 1825 "Parser.cc"
-	break;
-      case 736: /* "Resolves" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->logicListData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1834 "Parser.cc"
-	break;
-      case 737: /* "_Resolves" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->logicListData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1843 "Parser.cc"
-	break;
-      case 740: /* "ScaledInt" */
-
-/* Line 480 of lalr1.cc  */
-#line 577 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1852 "Parser.cc"
-	break;
-      case 747: /* "SimNameDef" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1861 "Parser.cc"
-	break;
-      case 768: /* "StrDisplay" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->stringVal); };
-
-/* Line 480 of lalr1.cc  */
-#line 1870 "Parser.cc"
-	break;
-      case 769: /* "String" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->valueData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1879 "Parser.cc"
-	break;
-      case 770: /* "_String" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->valueData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1888 "Parser.cc"
-	break;
-      case 771: /* "_StrDisplay" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->stringVal); };
-
-/* Line 480 of lalr1.cc  */
-#line 1897 "Parser.cc"
-	break;
-      case 772: /* "Strong" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1906 "Parser.cc"
-	break;
-      case 788: /* "TimeStamp" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->timeStamp); };
-
-/* Line 480 of lalr1.cc  */
-#line 1915 "Parser.cc"
-	break;
-      case 800: /* "TypedValue" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->valueData); };
-
-/* Line 480 of lalr1.cc  */
-#line 1924 "Parser.cc"
-	break;
-      case 805: /* "Unit" */
-
-/* Line 480 of lalr1.cc  */
-#line 573 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1933 "Parser.cc"
-	break;
-      case 806: /* "_Unit" */
-
-/* Line 480 of lalr1.cc  */
-#line 573 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1942 "Parser.cc"
-	break;
-      case 808: /* "UnusedData" */
-
-/* Line 480 of lalr1.cc  */
-#line 573 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1951 "Parser.cc"
-	break;
-      case 809: /* "UserData" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->stringVal); };
-
-/* Line 480 of lalr1.cc  */
-#line 1960 "Parser.cc"
-	break;
-      case 812: /* "ValueNameDefData" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1969 "Parser.cc"
-	break;
-      case 814: /* "ValueNameRefData" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1978 "Parser.cc"
-	break;
-      case 815: /* "Version" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->stringVal); };
-
-/* Line 480 of lalr1.cc  */
-#line 1987 "Parser.cc"
-	break;
-      case 823: /* "ViewNameDef" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 1996 "Parser.cc"
-	break;
-      case 825: /* "ViewNameRefData" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 2005 "Parser.cc"
-	break;
-      case 828: /* "ViewRefData" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->viewRefData); };
-
-/* Line 480 of lalr1.cc  */
-#line 2014 "Parser.cc"
-	break;
-      case 829: /* "_ViewRefData" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->viewRefData); };
-
-/* Line 480 of lalr1.cc  */
-#line 2023 "Parser.cc"
-	break;
-      case 831: /* "_ViewType" */
-
-/* Line 480 of lalr1.cc  */
-#line 573 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 2032 "Parser.cc"
-	break;
-      case 833: /* "VoltageMap" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->valueData); };
-
-/* Line 480 of lalr1.cc  */
-#line 2041 "Parser.cc"
-	break;
-      case 836: /* "Weak" */
-
-/* Line 480 of lalr1.cc  */
-#line 575 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 2050 "Parser.cc"
-	break;
-      case 845: /* "Ident" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->stringVal); };
-
-/* Line 480 of lalr1.cc  */
-#line 2059 "Parser.cc"
-	break;
-      case 846: /* "Str" */
-
-/* Line 480 of lalr1.cc  */
-#line 578 "Parser.yy"
-	{ delete (yyvaluep->stringVal); };
-
-/* Line 480 of lalr1.cc  */
-#line 2068 "Parser.cc"
-	break;
-      case 847: /* "Int" */
-
-/* Line 480 of lalr1.cc  */
-#line 573 "Parser.yy"
-	{ };
-
-/* Line 480 of lalr1.cc  */
-#line 2077 "Parser.cc"
-	break;
+        break;
+      case 845: /* Ident */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).stringVal); };
+/* Line 455 of lalr1.cc  */
+#line 1760 "Parser.cc"
+        break;
+      case 846: /* Str */
+/* Line 455 of lalr1.cc  */
+#line 579 "Parser.yy"
+        { delete ((*yyvaluep).stringVal); };
+/* Line 455 of lalr1.cc  */
+#line 1767 "Parser.cc"
+        break;
+      case 847: /* Int */
+/* Line 455 of lalr1.cc  */
+#line 574 "Parser.yy"
+        { };
+/* Line 455 of lalr1.cc  */
+#line 1774 "Parser.cc"
+        break;
 
 	default:
 	  break;
@@ -2116,6 +1813,18 @@ namespace torc { namespace generic {
   }
 #endif
 
+  inline bool
+  Parser::yy_pact_value_is_default_ (int yyvalue)
+  {
+    return yyvalue == yypact_ninf_;
+  }
+
+  inline bool
+  Parser::yy_table_value_is_error_ (int yyvalue)
+  {
+    return yyvalue == yytable_ninf_;
+  }
+
   int
   Parser::parse ()
   {
@@ -2123,21 +1832,22 @@ namespace torc { namespace generic {
     int yychar = yyempty_;
     int yytoken = 0;
 
-    /* State.  */
+    // State.
     int yyn;
     int yylen = 0;
     int yystate = 0;
 
-    /* Error handling.  */
+    // Error handling.
     int yynerrs_ = 0;
     int yyerrstatus_ = 0;
 
     /// Semantic value of the lookahead.
-    semantic_type yylval;
+    static semantic_type yyval_default;
+    semantic_type yylval = yyval_default;
     /// Location of the lookahead.
     location_type yylloc;
     /// The locations where the error started and ended.
-    location_type yyerror_range[2];
+    location_type yyerror_range[3];
 
     /// $$.
     semantic_type yyval;
@@ -2146,20 +1856,22 @@ namespace torc { namespace generic {
 
     int yyresult;
 
+    // FIXME: This shoud be completely indented.  It is not yet to
+    // avoid gratuitous conflicts when merging into the master branch.
+    try
+      {
     YYCDEBUG << "Starting parse" << std::endl;
 
 
-    /* User initialization code.  */
-    
-/* Line 553 of lalr1.cc  */
-#line 66 "Parser.yy"
+/* User initialization code.  */
+/* Line 545 of lalr1.cc  */
+#line 67 "Parser.yy"
 {
     // initialize the initial location object
     yylloc.begin.filename = yylloc.end.filename = &inDriver.getStreamName();
 }
-
-/* Line 553 of lalr1.cc  */
-#line 2163 "Parser.cc"
+/* Line 545 of lalr1.cc  */
+#line 1875 "Parser.cc"
 
     /* Initialize the stacks.  The initial state will be pushed in
        yynewstate, since the latter expects the semantical and the
@@ -2187,16 +1899,15 @@ namespace torc { namespace generic {
 
     /* Try to take a decision without lookahead.  */
     yyn = yypact_[yystate];
-    if (yyn == yypact_ninf_)
+    if (yy_pact_value_is_default_ (yyn))
       goto yydefault;
 
     /* Read a lookahead token.  */
     if (yychar == yyempty_)
       {
-	YYCDEBUG << "Reading a token: ";
-	yychar = yylex (&yylval, &yylloc);
+        YYCDEBUG << "Reading a token: ";
+        yychar = yylex (&yylval, &yylloc);
       }
-
 
     /* Convert token to internal form.  */
     if (yychar <= yyeof_)
@@ -2220,8 +1931,8 @@ namespace torc { namespace generic {
     yyn = yytable_[yyn];
     if (yyn <= 0)
       {
-	if (yyn == 0 || yyn == yytable_ninf_)
-	goto yyerrlab;
+	if (yy_table_value_is_error_ (yyn))
+	  goto yyerrlab;
 	yyn = -yyn;
 	goto yyreduce;
       }
@@ -2268,17 +1979,19 @@ namespace torc { namespace generic {
     else
       yyval = yysemantic_stack_[0];
 
+    // Compute the default @$.
     {
       slice<location_type, location_stack_type> slice (yylocation_stack_, yylen);
       YYLLOC_DEFAULT (yyloc, slice, yylen);
     }
+
+    // Perform the reduction.
     YY_REDUCE_PRINT (yyn);
     switch (yyn)
       {
-	  case 2:
-
-/* Line 678 of lalr1.cc  */
-#line 945 "Parser.yy"
+          case 2:
+/* Line 670 of lalr1.cc  */
+#line 946 "Parser.yy"
     {
             boost::scoped_ptr<NameData> fileName((yysemantic_stack_[(6) - (3)].nameData));
             boost::scoped_ptr<VersionData> versionData((yysemantic_stack_[(6) - (4)].edifVersion));
@@ -2300,18 +2013,16 @@ namespace torc { namespace generic {
     break;
 
   case 3:
-
-/* Line 678 of lalr1.cc  */
-#line 963 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 964 "Parser.yy"
     {
             inDriver.getContext()->popStatusContainer();
         }
     break;
 
   case 9:
-
-/* Line 678 of lalr1.cc  */
-#line 974 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 975 "Parser.yy"
     {
             EdifContextSharedPtr ctx = inDriver.getContext();
             RootSharedPtr root = ctx->getRoot();
@@ -2321,9 +2032,8 @@ namespace torc { namespace generic {
     break;
 
   case 10:
-
-/* Line 678 of lalr1.cc  */
-#line 981 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 982 "Parser.yy"
     {
             EdifContextSharedPtr ctx = inDriver.getContext();
             RootSharedPtr root = ctx->getRoot();
@@ -2333,18 +2043,16 @@ namespace torc { namespace generic {
     break;
 
   case 12:
-
-/* Line 678 of lalr1.cc  */
-#line 993 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 994 "Parser.yy"
     {
                 (yyval.integerVal) = (yysemantic_stack_[(4) - (3)].integerVal);
             }
     break;
 
   case 13:
-
-/* Line 678 of lalr1.cc  */
-#line 999 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1000 "Parser.yy"
     {
                     (yyval.edifVersion) = new VersionData();
                     (yyval.edifVersion)->mFirst = (yysemantic_stack_[(6) - (3)].integerVal);
@@ -2354,54 +2062,48 @@ namespace torc { namespace generic {
     break;
 
   case 14:
-
-/* Line 678 of lalr1.cc  */
-#line 1008 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1009 "Parser.yy"
     {
                 (yyval.valueData) = (yysemantic_stack_[(4) - (3)].valueData);
             }
     break;
 
   case 22:
-
-/* Line 678 of lalr1.cc  */
-#line 1025 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1026 "Parser.yy"
     {
                 delete (yysemantic_stack_[(2) - (2)].stringVal);
             }
     break;
 
   case 23:
-
-/* Line 678 of lalr1.cc  */
-#line 1029 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1030 "Parser.yy"
     {
                 delete (yysemantic_stack_[(2) - (2)].stringVal);
             }
     break;
 
   case 25:
-
-/* Line 678 of lalr1.cc  */
-#line 1038 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1039 "Parser.yy"
     {
                 delete (yysemantic_stack_[(1) - (1)].stringVal);
             }
     break;
 
   case 26:
-
-/* Line 678 of lalr1.cc  */
-#line 1042 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1043 "Parser.yy"
     {
                 delete (yysemantic_stack_[(1) - (1)].stringVal);
             }
     break;
 
   case 27:
-
-/* Line 678 of lalr1.cc  */
-#line 1048 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1049 "Parser.yy"
     {
             ApplySharedPtr apply;
             EdifContextSharedPtr ctx
@@ -2433,9 +2135,8 @@ namespace torc { namespace generic {
     break;
 
   case 28:
-
-/* Line 678 of lalr1.cc  */
-#line 1076 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1077 "Parser.yy"
     {
             EdifContextSharedPtr ctx = inDriver.getContext();
             ctx->setCurrentApply(ApplySharedPtr());
@@ -2443,9 +2144,8 @@ namespace torc { namespace generic {
     break;
 
   case 32:
-
-/* Line 678 of lalr1.cc  */
-#line 1086 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1087 "Parser.yy"
     {
                 EdifContextSharedPtr ctx = inDriver.getContext();
                 ApplySharedPtr apply = ctx->getCurrentApply();
@@ -2455,9 +2155,8 @@ namespace torc { namespace generic {
     break;
 
   case 33:
-
-/* Line 678 of lalr1.cc  */
-#line 1093 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1094 "Parser.yy"
     {
                 EdifContextSharedPtr ctx = inDriver.getContext();
                 ApplySharedPtr apply = ctx->getCurrentApply();
@@ -2467,9 +2166,8 @@ namespace torc { namespace generic {
     break;
 
   case 34:
-
-/* Line 678 of lalr1.cc  */
-#line 1102 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1103 "Parser.yy"
     {
             delete (yysemantic_stack_[(6) - (3)].pairData);
             delete (yysemantic_stack_[(6) - (4)].pairData);
@@ -2478,9 +2176,8 @@ namespace torc { namespace generic {
     break;
 
   case 35:
-
-/* Line 678 of lalr1.cc  */
-#line 1110 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1111 "Parser.yy"
     {
             (yyval.nameData) = (yysemantic_stack_[(6) - (3)].nameData);
             (yyval.nameData)->mIndices.push_back((yysemantic_stack_[(6) - (4)].integerVal));
@@ -2494,18 +2191,16 @@ namespace torc { namespace generic {
     break;
 
   case 36:
-
-/* Line 678 of lalr1.cc  */
-#line 1123 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1124 "Parser.yy"
     {
             (yyval.arrayDimensions) = NULL;
         }
     break;
 
   case 38:
-
-/* Line 678 of lalr1.cc  */
-#line 1130 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1131 "Parser.yy"
     {
             (yyval.arrayDimensions) = new std::vector<size_t>();
             (yyval.arrayDimensions)->push_back((yysemantic_stack_[(2) - (1)].integerVal));
@@ -2518,9 +2213,8 @@ namespace torc { namespace generic {
     break;
 
   case 39:
-
-/* Line 678 of lalr1.cc  */
-#line 1140 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1141 "Parser.yy"
     {
             (yyval.arrayDimensions) = new std::vector<size_t>();
             (yyval.arrayDimensions)->push_back((yysemantic_stack_[(1) - (1)].integerVal));
@@ -2528,54 +2222,48 @@ namespace torc { namespace generic {
     break;
 
   case 45:
-
-/* Line 678 of lalr1.cc  */
-#line 1156 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1157 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 46:
-
-/* Line 678 of lalr1.cc  */
-#line 1160 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1161 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 48:
-
-/* Line 678 of lalr1.cc  */
-#line 1169 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1170 "Parser.yy"
     {
             delete (yysemantic_stack_[(4) - (3)].pairData);
         }
     break;
 
   case 49:
-
-/* Line 678 of lalr1.cc  */
-#line 1175 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1176 "Parser.yy"
     {
             delete (yysemantic_stack_[(4) - (3)].pairData);
         }
     break;
 
   case 50:
-
-/* Line 678 of lalr1.cc  */
-#line 1181 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1182 "Parser.yy"
     {
             (yyval.stringVal) = (yysemantic_stack_[(4) - (3)].stringVal);
         }
     break;
 
   case 52:
-
-/* Line 678 of lalr1.cc  */
-#line 1190 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1191 "Parser.yy"
     {
                 EdifContextSharedPtr ctx
                                 = inDriver.getContext();
@@ -2606,9 +2294,8 @@ namespace torc { namespace generic {
     break;
 
   case 62:
-
-/* Line 678 of lalr1.cc  */
-#line 1236 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1237 "Parser.yy"
     {
             if(NULL == (yysemantic_stack_[(4) - (3)].valueData))
             {
@@ -2624,18 +2311,16 @@ namespace torc { namespace generic {
     break;
 
   case 63:
-
-/* Line 678 of lalr1.cc  */
-#line 1251 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1252 "Parser.yy"
     {
                 (yyval.valueData) = NULL;
             }
     break;
 
   case 64:
-
-/* Line 678 of lalr1.cc  */
-#line 1255 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1256 "Parser.yy"
     {
                 (yyval.valueData) = ((yysemantic_stack_[(2) - (1)].valueData)) ? (yysemantic_stack_[(2) - (1)].valueData) : new ValueData();
                 bool val = (yysemantic_stack_[(2) - (2)].integerVal);
@@ -2645,9 +2330,8 @@ namespace torc { namespace generic {
     break;
 
   case 65:
-
-/* Line 678 of lalr1.cc  */
-#line 1262 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1263 "Parser.yy"
     {
                 (yyval.valueData) = ((yysemantic_stack_[(2) - (1)].valueData)) ? (yysemantic_stack_[(2) - (1)].valueData) : new ValueData();
                 bool val = (yysemantic_stack_[(2) - (2)].integerVal);
@@ -2657,9 +2341,8 @@ namespace torc { namespace generic {
     break;
 
   case 66:
-
-/* Line 678 of lalr1.cc  */
-#line 1269 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1270 "Parser.yy"
     {
             (yyval.valueData) = (yysemantic_stack_[(2) - (2)].valueData);
             if((yysemantic_stack_[(2) - (1)].valueData))
@@ -2673,36 +2356,32 @@ namespace torc { namespace generic {
     break;
 
   case 67:
-
-/* Line 678 of lalr1.cc  */
-#line 1282 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1283 "Parser.yy"
     {
                 (yyval.integerVal) = (yysemantic_stack_[(4) - (3)].integerVal);
             }
     break;
 
   case 68:
-
-/* Line 678 of lalr1.cc  */
-#line 1288 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1289 "Parser.yy"
     {
                 (yyval.integerVal) = (yysemantic_stack_[(1) - (1)].integerVal);
              }
     break;
 
   case 69:
-
-/* Line 678 of lalr1.cc  */
-#line 1292 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1293 "Parser.yy"
     {
                 (yyval.integerVal) = (yysemantic_stack_[(2) - (1)].integerVal);
              }
     break;
 
   case 70:
-
-/* Line 678 of lalr1.cc  */
-#line 1298 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1299 "Parser.yy"
     {
                 if((yysemantic_stack_[(4) - (3)].integerVal));
                 (yyval.integerVal) = (yysemantic_stack_[(4) - (3)].integerVal);
@@ -2710,27 +2389,24 @@ namespace torc { namespace generic {
     break;
 
   case 71:
-
-/* Line 678 of lalr1.cc  */
-#line 1305 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1306 "Parser.yy"
     {
                     (yyval.integerVal) = 1;
                 }
     break;
 
   case 72:
-
-/* Line 678 of lalr1.cc  */
-#line 1309 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1310 "Parser.yy"
     {
                     (yyval.integerVal) = 0;
                 }
     break;
 
   case 73:
-
-/* Line 678 of lalr1.cc  */
-#line 1315 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1316 "Parser.yy"
     {
                 if((yysemantic_stack_[(6) - (3)].integerVal));
                 if((yysemantic_stack_[(6) - (4)].integerVal));
@@ -2739,18 +2415,16 @@ namespace torc { namespace generic {
     break;
 
   case 74:
-
-/* Line 678 of lalr1.cc  */
-#line 1323 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1324 "Parser.yy"
     {
                 if((yysemantic_stack_[(4) - (3)].integerVal));
             }
     break;
 
   case 76:
-
-/* Line 678 of lalr1.cc  */
-#line 1332 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1333 "Parser.yy"
     {
             boost::scoped_ptr<NameData> nameData((yysemantic_stack_[(3) - (3)].nameData));
             std::string name = nameData->mName;
@@ -2855,9 +2529,8 @@ namespace torc { namespace generic {
     break;
 
   case 77:
-
-/* Line 678 of lalr1.cc  */
-#line 1433 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1434 "Parser.yy"
     {
             inDriver.getContext()->setCurrentCell(
                                     CellSharedPtr() );
@@ -2867,9 +2540,8 @@ namespace torc { namespace generic {
     break;
 
   case 82:
-
-/* Line 678 of lalr1.cc  */
-#line 1446 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1447 "Parser.yy"
     {
             EdifContextSharedPtr ctx = inDriver.getContext();
             CellSharedPtr cell = ctx->getCurrentCell();
@@ -2879,9 +2551,8 @@ namespace torc { namespace generic {
     break;
 
   case 83:
-
-/* Line 678 of lalr1.cc  */
-#line 1453 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1454 "Parser.yy"
     {
             EdifContextSharedPtr ctx = inDriver.getContext();
             CellSharedPtr cell = ctx->getCurrentCell();
@@ -2891,9 +2562,8 @@ namespace torc { namespace generic {
     break;
 
   case 86:
-
-/* Line 678 of lalr1.cc  */
-#line 1467 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1468 "Parser.yy"
     {
             if(NULL == (yysemantic_stack_[(5) - (4)].cellRefData))
             {
@@ -2908,28 +2578,25 @@ namespace torc { namespace generic {
     break;
 
   case 87:
-
-/* Line 678 of lalr1.cc  */
-#line 1481 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1482 "Parser.yy"
     {
             (yyval.cellRefData) = NULL;
         }
     break;
 
   case 88:
-
-/* Line 678 of lalr1.cc  */
-#line 1485 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1486 "Parser.yy"
     {
             (yyval.cellRefData) = new CellRefData();
-            (yyval.cellRefData)->mLibraryName = (yysemantic_stack_[(1) - (1)].nameData);    
+            (yyval.cellRefData)->mLibraryName = (yysemantic_stack_[(1) - (1)].nameData);
         }
     break;
 
   case 89:
-
-/* Line 678 of lalr1.cc  */
-#line 1492 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1493 "Parser.yy"
     {
             if(NULL == (yysemantic_stack_[(5) - (4)].viewRefData))
             {
@@ -2944,18 +2611,16 @@ namespace torc { namespace generic {
     break;
 
   case 90:
-
-/* Line 678 of lalr1.cc  */
-#line 1506 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1507 "Parser.yy"
     {
              (yyval.viewRefData) = NULL;
          }
     break;
 
   case 91:
-
-/* Line 678 of lalr1.cc  */
-#line 1510 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1511 "Parser.yy"
     {
              (yyval.viewRefData) = new ViewRefData();
              (yyval.viewRefData)->mLibraryName = (yysemantic_stack_[(1) - (1)].nameData);
@@ -2963,27 +2628,24 @@ namespace torc { namespace generic {
     break;
 
   case 92:
-
-/* Line 678 of lalr1.cc  */
-#line 1517 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1518 "Parser.yy"
     {
                 (yyval.nameData) = (yysemantic_stack_[(1) - (1)].nameData);
             }
     break;
 
   case 93:
-
-/* Line 678 of lalr1.cc  */
-#line 1523 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1524 "Parser.yy"
     {
                 (yyval.nameData) = (yysemantic_stack_[(1) - (1)].nameData);
             }
     break;
 
   case 94:
-
-/* Line 678 of lalr1.cc  */
-#line 1529 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1530 "Parser.yy"
     {
                 inDriver.getContext()->getCurrentCell()->setType(
                         static_cast<Cell::Type>((yysemantic_stack_[(4) - (3)].integerVal)) );
@@ -2991,36 +2653,32 @@ namespace torc { namespace generic {
     break;
 
   case 95:
-
-/* Line 678 of lalr1.cc  */
-#line 1536 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1537 "Parser.yy"
     {
                 (yyval.integerVal) = Cell::eTypeTie;
             }
     break;
 
   case 96:
-
-/* Line 678 of lalr1.cc  */
-#line 1540 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1541 "Parser.yy"
     {
                 (yyval.integerVal) = Cell::eTypeRipper;
             }
     break;
 
   case 97:
-
-/* Line 678 of lalr1.cc  */
-#line 1544 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1545 "Parser.yy"
     {
                 (yyval.integerVal) = Cell::eTypeGeneric;
             }
     break;
 
   case 105:
-
-/* Line 678 of lalr1.cc  */
-#line 1563 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1564 "Parser.yy"
     {
             delete (yysemantic_stack_[(6) - (3)].pairData);
             delete (yysemantic_stack_[(6) - (4)].pairData);
@@ -3028,9 +2686,8 @@ namespace torc { namespace generic {
     break;
 
   case 108:
-
-/* Line 678 of lalr1.cc  */
-#line 1574 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1575 "Parser.yy"
     {
             delete (yysemantic_stack_[(6) - (3)].pairData);
             delete (yysemantic_stack_[(6) - (4)].pairData);
@@ -3039,72 +2696,64 @@ namespace torc { namespace generic {
     break;
 
   case 109:
-
-/* Line 678 of lalr1.cc  */
-#line 1582 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1583 "Parser.yy"
     {
             (yyval.stringVal) = (yysemantic_stack_[(4) - (3)].stringVal);
         }
     break;
 
   case 110:
-
-/* Line 678 of lalr1.cc  */
-#line 1587 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1588 "Parser.yy"
     {
                 (yyval.stringVal) = NULL;
             }
     break;
 
   case 111:
-
-/* Line 678 of lalr1.cc  */
-#line 1591 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1592 "Parser.yy"
     {
                 (yyval.stringVal) = ((yysemantic_stack_[(2) - (1)].stringVal)) ? (yysemantic_stack_[(2) - (1)].stringVal) : (yysemantic_stack_[(2) - (2)].stringVal);
             }
     break;
 
   case 119:
-
-/* Line 678 of lalr1.cc  */
-#line 1606 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1607 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 120:
-
-/* Line 678 of lalr1.cc  */
-#line 1610 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1611 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 121:
-
-/* Line 678 of lalr1.cc  */
-#line 1616 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1617 "Parser.yy"
     {
                 (yyval.logicListData) = (yysemantic_stack_[(4) - (3)].logicListData);
             }
     break;
 
   case 122:
-
-/* Line 678 of lalr1.cc  */
-#line 1622 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1623 "Parser.yy"
     {
                 (yyval.logicListData) = NULL;
             }
     break;
 
   case 123:
-
-/* Line 678 of lalr1.cc  */
-#line 1626 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1627 "Parser.yy"
     {
                 (yyval.logicListData) = ((yysemantic_stack_[(2) - (1)].logicListData))?(yysemantic_stack_[(2) - (1)].logicListData):new LogicListData();
                 (yyval.logicListData)->mNameDataList.push_back((yysemantic_stack_[(2) - (2)].nameData));
@@ -3112,9 +2761,8 @@ namespace torc { namespace generic {
     break;
 
   case 135:
-
-/* Line 678 of lalr1.cc  */
-#line 1646 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1647 "Parser.yy"
     {
                     EdifContextSharedPtr ctx
                                     = inDriver.getContext();
@@ -3128,9 +2776,8 @@ namespace torc { namespace generic {
     break;
 
   case 136:
-
-/* Line 678 of lalr1.cc  */
-#line 1657 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1658 "Parser.yy"
     {
                     EdifContextSharedPtr ctx
                                     = inDriver.getContext();
@@ -3144,36 +2791,32 @@ namespace torc { namespace generic {
     break;
 
   case 141:
-
-/* Line 678 of lalr1.cc  */
-#line 1672 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1673 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 142:
-
-/* Line 678 of lalr1.cc  */
-#line 1676 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1677 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 150:
-
-/* Line 678 of lalr1.cc  */
-#line 1697 "Parser.yy"
-    {   
+/* Line 670 of lalr1.cc  */
+#line 1698 "Parser.yy"
+    {
                 (yyval.integerVal) = (yysemantic_stack_[(4) - (3)].integerVal);
             }
     break;
 
   case 151:
-
-/* Line 678 of lalr1.cc  */
-#line 1703 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1704 "Parser.yy"
     {
                     if((yysemantic_stack_[(1) - (1)].integerVal));
                     (yyval.integerVal) = (yysemantic_stack_[(1) - (1)].integerVal);
@@ -3181,9 +2824,8 @@ namespace torc { namespace generic {
     break;
 
   case 152:
-
-/* Line 678 of lalr1.cc  */
-#line 1708 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1709 "Parser.yy"
     {
                     if((yysemantic_stack_[(1) - (1)].integerVal));
                     (yyval.integerVal) = (yysemantic_stack_[(1) - (1)].integerVal);
@@ -3191,27 +2833,24 @@ namespace torc { namespace generic {
     break;
 
   case 153:
-
-/* Line 678 of lalr1.cc  */
-#line 1715 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1716 "Parser.yy"
     {
                 (yyval.valueData) = (yysemantic_stack_[(4) - (3)].valueData);
             }
     break;
 
   case 157:
-
-/* Line 678 of lalr1.cc  */
-#line 1726 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1727 "Parser.yy"
     {
             delete (yysemantic_stack_[(2) - (2)].pairData);
         }
     break;
 
   case 158:
-
-/* Line 678 of lalr1.cc  */
-#line 1732 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1733 "Parser.yy"
     {
             if((yysemantic_stack_[(5) - (3)].integerVal))
             {
@@ -3228,99 +2867,88 @@ namespace torc { namespace generic {
     break;
 
   case 159:
-
-/* Line 678 of lalr1.cc  */
-#line 1748 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1749 "Parser.yy"
     {
                 (yyval.pairData) = new PairData();
             }
     break;
 
   case 160:
-
-/* Line 678 of lalr1.cc  */
-#line 1752 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1753 "Parser.yy"
     {
                 (yyval.pairData) = (yysemantic_stack_[(1) - (1)].pairData);
             }
     break;
 
   case 161:
-
-/* Line 678 of lalr1.cc  */
-#line 1758 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1759 "Parser.yy"
     {
                 (yyval.pairStrData) = new PairStrData(*(yysemantic_stack_[(5) - (3)].stringVal), *(yysemantic_stack_[(5) - (4)].stringVal));
             }
     break;
 
   case 162:
-
-/* Line 678 of lalr1.cc  */
-#line 1763 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1764 "Parser.yy"
     {
                     (yyval.stringVal) = new std::string();
                 }
     break;
 
   case 163:
-
-/* Line 678 of lalr1.cc  */
-#line 1767 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1768 "Parser.yy"
     {
                     (yyval.stringVal) = (yysemantic_stack_[(1) - (1)].stringVal);
                 }
     break;
 
   case 164:
-
-/* Line 678 of lalr1.cc  */
-#line 1773 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1774 "Parser.yy"
     {
                 (yyval.pairData) = (yysemantic_stack_[(4) - (3)].pairData);
             }
     break;
 
   case 167:
-
-/* Line 678 of lalr1.cc  */
-#line 1783 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1784 "Parser.yy"
     {
                 (yyval.pairData) = (yysemantic_stack_[(4) - (3)].pairData);
             }
     break;
 
   case 170:
-
-/* Line 678 of lalr1.cc  */
-#line 1793 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1794 "Parser.yy"
     {
                 (yyval.pairData) = (yysemantic_stack_[(4) - (3)].pairData);
             }
     break;
 
   case 173:
-
-/* Line 678 of lalr1.cc  */
-#line 1803 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1804 "Parser.yy"
     {
                 (yyval.pairData) = (yysemantic_stack_[(4) - (3)].pairData);
             }
     break;
 
   case 176:
-
-/* Line 678 of lalr1.cc  */
-#line 1813 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1814 "Parser.yy"
     {
                 (yyval.portDelay) = (yysemantic_stack_[(4) - (3)].portDelay);
             }
     break;
 
   case 177:
-
-/* Line 678 of lalr1.cc  */
-#line 1819 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1820 "Parser.yy"
     {
             boost::scoped_ptr<ValueData> data((yysemantic_stack_[(1) - (1)].valueData));
             (yyval.portDelay) = new PortDelay();
@@ -3330,9 +2958,8 @@ namespace torc { namespace generic {
     break;
 
   case 178:
-
-/* Line 678 of lalr1.cc  */
-#line 1826 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1827 "Parser.yy"
     {
             boost::scoped_ptr<ValueData> data((yysemantic_stack_[(1) - (1)].valueData));
             (yyval.portDelay) = new PortDelay();
@@ -3342,72 +2969,64 @@ namespace torc { namespace generic {
     break;
 
   case 180:
-
-/* Line 678 of lalr1.cc  */
-#line 1838 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1839 "Parser.yy"
     {
             delete (yysemantic_stack_[(1) - (1)].valueData);
         }
     break;
 
   case 181:
-
-/* Line 678 of lalr1.cc  */
-#line 1842 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1843 "Parser.yy"
     {
             delete (yysemantic_stack_[(1) - (1)].valueData);
         }
     break;
 
   case 184:
-
-/* Line 678 of lalr1.cc  */
-#line 1852 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1853 "Parser.yy"
     {
             delete (yysemantic_stack_[(2) - (2)].pairData);
         }
     break;
 
   case 185:
-
-/* Line 678 of lalr1.cc  */
-#line 1858 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1859 "Parser.yy"
     {
                 (yyval.integerVal) = (yysemantic_stack_[(4) - (3)].integerVal);
             }
     break;
 
   case 186:
-
-/* Line 678 of lalr1.cc  */
-#line 1864 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1865 "Parser.yy"
     {
                 (yyval.integerVal) = eDerivationCalculated;
             }
     break;
 
   case 187:
-
-/* Line 678 of lalr1.cc  */
-#line 1868 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1869 "Parser.yy"
     {
                 (yyval.integerVal) = eDerivationMeasured;
             }
     break;
 
   case 188:
-
-/* Line 678 of lalr1.cc  */
-#line 1872 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1873 "Parser.yy"
     {
                 (yyval.integerVal) = eDerivationRequired;
             }
     break;
 
   case 189:
-
-/* Line 678 of lalr1.cc  */
-#line 1878 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1879 "Parser.yy"
     {
             if((yysemantic_stack_[(3) - (3)].nameData))
             {
@@ -3429,7 +3048,7 @@ namespace torc { namespace generic {
                     catch(Error &e)
                     {
                         std::string message = constructErrorMessage(
-                                "Unable to create design : %s", 
+                                "Unable to create design : %s",
                                         design->getName().c_str());
                         log("%s\n", message.c_str());
                         e.setCurrentLocation( __FUNCTION__,
@@ -3459,9 +3078,8 @@ namespace torc { namespace generic {
     break;
 
   case 190:
-
-/* Line 678 of lalr1.cc  */
-#line 1926 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1927 "Parser.yy"
     {
             EdifContextSharedPtr ctx = inDriver.getContext();
             ctx->popPropertyContainer();
@@ -3470,7 +3088,7 @@ namespace torc { namespace generic {
             boost::scoped_ptr<CellRefData> cellRefData((yysemantic_stack_[(6) - (5)].cellRefData));
             std::string cellName =  cellRefData->mCellName->mName;
             std::string libName = cellRefData->mLibraryName->mName;
-            LibrarySharedPtr library 
+            LibrarySharedPtr library
                                 = ctx->getRoot()->findLibrary(libName) ;
             if(!library)
             {
@@ -3515,9 +3133,8 @@ namespace torc { namespace generic {
     break;
 
   case 191:
-
-/* Line 678 of lalr1.cc  */
-#line 1979 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1980 "Parser.yy"
     {
               (yyval.cellRefData) = new CellRefData();
               (yyval.cellRefData) = (yysemantic_stack_[(1) - (1)].cellRefData);
@@ -3525,40 +3142,36 @@ namespace torc { namespace generic {
     break;
 
   case 192:
-
-/* Line 678 of lalr1.cc  */
-#line 1984 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1985 "Parser.yy"
     {
               (yyval.cellRefData) = (yysemantic_stack_[(2) - (1)].cellRefData);
           }
     break;
 
   case 193:
-
-/* Line 678 of lalr1.cc  */
-#line 1988 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1989 "Parser.yy"
     {
               (yyval.cellRefData) = (yysemantic_stack_[(2) - (1)].cellRefData);
               EdifContextSharedPtr ctx = inDriver.getContext();
               DesignSharedPtr design = ctx->getCurrentDesign();
               design->addComment(*(yysemantic_stack_[(2) - (2)].stringVal));
-              delete (yysemantic_stack_[(2) - (2)].stringVal);  
+              delete (yysemantic_stack_[(2) - (2)].stringVal);
           }
     break;
 
   case 194:
-
-/* Line 678 of lalr1.cc  */
-#line 1996 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 1997 "Parser.yy"
     {
               (yyval.cellRefData) = (yysemantic_stack_[(2) - (1)].cellRefData);
           }
     break;
 
   case 195:
-
-/* Line 678 of lalr1.cc  */
-#line 2000 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2001 "Parser.yy"
     {
               (yyval.cellRefData) = (yysemantic_stack_[(2) - (1)].cellRefData);
               EdifContextSharedPtr ctx = inDriver.getContext();
@@ -3569,54 +3182,48 @@ namespace torc { namespace generic {
     break;
 
   case 197:
-
-/* Line 678 of lalr1.cc  */
-#line 2013 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2014 "Parser.yy"
     {
                     delete (yysemantic_stack_[(1) - (1)].stringVal);
                 }
     break;
 
   case 198:
-
-/* Line 678 of lalr1.cc  */
-#line 2017 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2018 "Parser.yy"
     {
                     delete (yysemantic_stack_[(1) - (1)].stringVal);
                 }
     break;
 
   case 199:
-
-/* Line 678 of lalr1.cc  */
-#line 2023 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2024 "Parser.yy"
     {
                 (yyval.stringVal) = (yysemantic_stack_[(4) - (3)].stringVal);
             }
     break;
 
   case 217:
-
-/* Line 678 of lalr1.cc  */
-#line 2052 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2053 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 218:
-
-/* Line 678 of lalr1.cc  */
-#line 2056 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2057 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 224:
-
-/* Line 678 of lalr1.cc  */
-#line 2071 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2072 "Parser.yy"
     {
                 inDriver.getContext()->getCurrentPort()->setDirection(
                                 static_cast<EPortDirection>((yysemantic_stack_[(4) - (3)].integerVal)) );
@@ -3624,54 +3231,48 @@ namespace torc { namespace generic {
     break;
 
   case 225:
-
-/* Line 678 of lalr1.cc  */
-#line 2078 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2079 "Parser.yy"
     {
                 (yyval.integerVal) = 0;
             }
     break;
 
   case 226:
-
-/* Line 678 of lalr1.cc  */
-#line 2082 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2083 "Parser.yy"
     {
                 (yyval.integerVal) = 1;
             }
     break;
 
   case 227:
-
-/* Line 678 of lalr1.cc  */
-#line 2086 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2087 "Parser.yy"
     {
                 (yyval.integerVal) = 2;
             }
     break;
 
   case 235:
-
-/* Line 678 of lalr1.cc  */
-#line 2105 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2106 "Parser.yy"
     {
                 (yyval.logicListData) = (yysemantic_stack_[(4) - (3)].logicListData);
             }
     break;
 
   case 236:
-
-/* Line 678 of lalr1.cc  */
-#line 2111 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2112 "Parser.yy"
     {
                 (yyval.logicListData) = NULL;
             }
     break;
 
   case 237:
-
-/* Line 678 of lalr1.cc  */
-#line 2115 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2116 "Parser.yy"
     {
                 (yyval.logicListData) = ((yysemantic_stack_[(2) - (1)].logicListData))?(yysemantic_stack_[(2) - (1)].logicListData):new LogicListData();
                 (yyval.logicListData)->mNameDataList.push_back((yysemantic_stack_[(2) - (2)].nameData));
@@ -3679,54 +3280,48 @@ namespace torc { namespace generic {
     break;
 
   case 239:
-
-/* Line 678 of lalr1.cc  */
-#line 2125 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2126 "Parser.yy"
     {
             delete (yysemantic_stack_[(1) - (1)].pairData);
         }
     break;
 
   case 241:
-
-/* Line 678 of lalr1.cc  */
-#line 2132 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2133 "Parser.yy"
     {
                 (yyval.pairData) = (yysemantic_stack_[(4) - (3)].pairData);
             }
     break;
 
   case 245:
-
-/* Line 678 of lalr1.cc  */
-#line 2143 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2144 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 246:
-
-/* Line 678 of lalr1.cc  */
-#line 2147 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2148 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 255:
-
-/* Line 678 of lalr1.cc  */
-#line 2169 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2170 "Parser.yy"
     {
                 delete (yysemantic_stack_[(1) - (1)].logicRefData);
             }
     break;
 
   case 262:
-
-/* Line 678 of lalr1.cc  */
-#line 2183 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2184 "Parser.yy"
     {
             EventSharedPtr event;
             EdifContextSharedPtr ctx
@@ -3755,9 +3350,8 @@ namespace torc { namespace generic {
     break;
 
   case 263:
-
-/* Line 678 of lalr1.cc  */
-#line 2208 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2209 "Parser.yy"
     {
             // Note : Need to do the followings, from where Event called
             //EdifContextSharedPtr ctx = inDriver.getContext();
@@ -3766,9 +3360,8 @@ namespace torc { namespace generic {
     break;
 
   case 269:
-
-/* Line 678 of lalr1.cc  */
-#line 2221 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2222 "Parser.yy"
     {
                 EdifContextSharedPtr ctx
                         = inDriver.getContext();
@@ -3787,9 +3380,8 @@ namespace torc { namespace generic {
     break;
 
   case 270:
-
-/* Line 678 of lalr1.cc  */
-#line 2237 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2238 "Parser.yy"
     {
                 EdifContextSharedPtr ctx
                         = inDriver.getContext();
@@ -3808,20 +3400,19 @@ namespace torc { namespace generic {
     break;
 
   case 271:
-
-/* Line 678 of lalr1.cc  */
-#line 2255 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2256 "Parser.yy"
     {
                     boost::scoped_ptr<PortRefData> portData((yysemantic_stack_[(1) - (1)].portRefData));
                     EdifContextSharedPtr ctx
                                 = inDriver.getContext();
-                    ViewSharedPtr view 
+                    ViewSharedPtr view
                                 = ctx->getCurrentView();
                     std::vector< std::string > nestedNames;
                     PortRefData *currPortRef = (yysemantic_stack_[(1) - (1)].portRefData);
                     PortRefData *nextPortRef = portData->mParentPort;
                     nestedNames.push_back(currPortRef->mPortName->mName);
-                    while(nextPortRef)    
+                    while(nextPortRef)
                     {
                         currPortRef = nextPortRef;
                         nestedNames.push_back(nextPortRef->mPortName->mName);
@@ -3919,7 +3510,7 @@ namespace torc { namespace generic {
                             connectibleFinder(nestedNames, portRef);
                             if(!portData->mPortName->mIndices.empty())
                             {
-                                portRef = portRef->get( 
+                                portRef = portRef->get(
                                             portData->mPortName->mIndices );
                             }
                             EventSharedPtr event
@@ -3929,7 +3520,7 @@ namespace torc { namespace generic {
                         catch(Error &e)
                         {
                             std::string message = constructErrorMessage(
-                                    "Unable to connect port ref : %s", 
+                                    "Unable to connect port ref : %s",
                                             portRef->getName().c_str());
                             log("%s\n", message.c_str());
                             e.setCurrentLocation( __FUNCTION__,
@@ -3947,9 +3538,8 @@ namespace torc { namespace generic {
     break;
 
   case 272:
-
-/* Line 678 of lalr1.cc  */
-#line 2391 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2392 "Parser.yy"
     {
                         if(NULL != (yysemantic_stack_[(1) - (1)].portListData) && !(yysemantic_stack_[(1) - (1)].portListData)->mPortRefs.empty())
                         {
@@ -3959,7 +3549,7 @@ namespace torc { namespace generic {
                             EdifContextSharedPtr ctx = inDriver.getContext();
 
                             PortListSharedPtr portList;
-                            ctx->getFactory()->create(portList);    
+                            ctx->getFactory()->create(portList);
 
                             for( std::vector<PortRefData *>::iterator it
                                     = portListData->mPortRefs.begin();
@@ -3985,16 +3575,16 @@ namespace torc { namespace generic {
                                     PortSharedPtr port = view->findPort(topName);
                                     if(!port)
                                     {
-                                        SimulateSharedPtr simulate 
+                                        SimulateSharedPtr simulate
                                                     = ctx->getCurrentSimulate();
                                         if(simulate)
-                                        { 
-                                            PortListAliasSharedPtr portList 
+                                        {
+                                            PortListAliasSharedPtr portList
                                                         = simulate->findPortListAlias(topName);
                                             if(!portList)
                                             {
                                                 std::string message = constructErrorMessage(
-                                                        "No port %s found in portListAlias\n", 
+                                                        "No port %s found in portListAlias\n",
                                                             portNameData->mName.c_str());
                                                 log("%s\n", message.c_str());
                                                 Error e( eMessageIdParserError,
@@ -4038,7 +3628,7 @@ namespace torc { namespace generic {
                                     catch(Error &e)
                                     {
                                         std::string message = constructErrorMessage(
-                                                "Unable to connect port : %s", 
+                                                "Unable to connect port : %s",
                                                         port->getName().c_str());
                                         log("%s\n", message.c_str());
                                         e.setCurrentLocation( __FUNCTION__,
@@ -4104,7 +3694,7 @@ namespace torc { namespace generic {
                                         connectibleFinder(nestedNames, portRef);
                                         if(!portData->mPortName->mIndices.empty())
                                         {
-                                            portRef = portRef->get( 
+                                            portRef = portRef->get(
                                                         portData->mPortName->mIndices );
                                         }
                                         portList->addChildPortReference(portRef);
@@ -4112,7 +3702,7 @@ namespace torc { namespace generic {
                                     catch(Error &e)
                                     {
                                         std::string message = constructErrorMessage(
-                                                "Unable to connect port ref : %s", 
+                                                "Unable to connect port ref : %s",
                                                         portRef->getName().c_str());
                                         log("%s\n", message.c_str());
                                         e.setCurrentLocation( __FUNCTION__,
@@ -4135,20 +3725,19 @@ namespace torc { namespace generic {
     break;
 
   case 273:
-
-/* Line 678 of lalr1.cc  */
-#line 2576 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2577 "Parser.yy"
     {
                     boost::scoped_ptr<NetRefData> netData((yysemantic_stack_[(1) - (1)].netRefData));
                     EdifContextSharedPtr ctx
                                 = inDriver.getContext();
-                    ViewSharedPtr view 
+                    ViewSharedPtr view
                                 = ctx->getCurrentView();
                     std::vector< std::string > nestedNames;
                     NetRefData *currNetRef = (yysemantic_stack_[(1) - (1)].netRefData);
                     NetRefData *nextNetRef = netData->mParentNet;
                     nestedNames.push_back(currNetRef->mNetName->mName);
-                    while(nextNetRef)    
+                    while(nextNetRef)
                     {
                         currNetRef = nextNetRef;
                         nestedNames.push_back(nextNetRef->mNetName->mName);
@@ -4262,18 +3851,16 @@ namespace torc { namespace generic {
     break;
 
   case 274:
-
-/* Line 678 of lalr1.cc  */
-#line 2700 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2701 "Parser.yy"
     {
                 delete (yysemantic_stack_[(4) - (3)].pairData);
             }
     break;
 
   case 275:
-
-/* Line 678 of lalr1.cc  */
-#line 2706 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2707 "Parser.yy"
     {
             boost::scoped_ptr<NameData> name((yysemantic_stack_[(4) - (3)].nameData));
             if(name && !name->mName.empty())
@@ -4372,9 +3959,8 @@ namespace torc { namespace generic {
     break;
 
   case 276:
-
-/* Line 678 of lalr1.cc  */
-#line 2801 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2802 "Parser.yy"
     {
             inDriver.getContext()->setCurrentLibrary(
                                     LibrarySharedPtr() );
@@ -4383,9 +3969,8 @@ namespace torc { namespace generic {
     break;
 
   case 280:
-
-/* Line 678 of lalr1.cc  */
-#line 2813 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2814 "Parser.yy"
     {
                     EdifContextSharedPtr ctx = inDriver.getContext();
                     LibrarySharedPtr lib = ctx->getCurrentLibrary();
@@ -4395,9 +3980,8 @@ namespace torc { namespace generic {
     break;
 
   case 281:
-
-/* Line 678 of lalr1.cc  */
-#line 2820 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2821 "Parser.yy"
     {
                     EdifContextSharedPtr ctx = inDriver.getContext();
                     LibrarySharedPtr lib = ctx->getCurrentLibrary();
@@ -4407,117 +3991,104 @@ namespace torc { namespace generic {
     break;
 
   case 295:
-
-/* Line 678 of lalr1.cc  */
-#line 2848 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2849 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 297:
-
-/* Line 678 of lalr1.cc  */
-#line 2853 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2854 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 316:
-
-/* Line 678 of lalr1.cc  */
-#line 2887 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2888 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 318:
-
-/* Line 678 of lalr1.cc  */
-#line 2892 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2893 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 332:
-
-/* Line 678 of lalr1.cc  */
-#line 2917 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2918 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 333:
-
-/* Line 678 of lalr1.cc  */
-#line 2921 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2922 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 337:
-
-/* Line 678 of lalr1.cc  */
-#line 2932 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2933 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 338:
-
-/* Line 678 of lalr1.cc  */
-#line 2936 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2937 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 347:
-
-/* Line 678 of lalr1.cc  */
-#line 2955 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2956 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 348:
-
-/* Line 678 of lalr1.cc  */
-#line 2959 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2960 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 352:
-
-/* Line 678 of lalr1.cc  */
-#line 2970 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2971 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 353:
-
-/* Line 678 of lalr1.cc  */
-#line 2974 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2975 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 354:
-
-/* Line 678 of lalr1.cc  */
-#line 2980 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 2981 "Parser.yy"
     {
                 if((yysemantic_stack_[(6) - (3)].integerVal));
                 if((yysemantic_stack_[(6) - (4)].integerVal));
@@ -4526,9 +4097,8 @@ namespace torc { namespace generic {
     break;
 
   case 362:
-
-/* Line 678 of lalr1.cc  */
-#line 3001 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3002 "Parser.yy"
     {
                 ForbiddenEventSharedPtr forbiddenEvent;
                 EdifContextSharedPtr ctx
@@ -4559,9 +4129,8 @@ namespace torc { namespace generic {
     break;
 
   case 363:
-
-/* Line 678 of lalr1.cc  */
-#line 3028 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3029 "Parser.yy"
     {
                 EdifContextSharedPtr ctx = inDriver.getContext();
                 ctx->setCurrentForbiddenEvent(ForbiddenEventSharedPtr());
@@ -4569,12 +4138,11 @@ namespace torc { namespace generic {
     break;
 
   case 365:
-
-/* Line 678 of lalr1.cc  */
-#line 3036 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3037 "Parser.yy"
     {
                  EdifContextSharedPtr ctx = inDriver.getContext();
-                 ForbiddenEventSharedPtr forbiddenEvent 
+                 ForbiddenEventSharedPtr forbiddenEvent
                              = ctx->getCurrentForbiddenEvent();
                  EventSharedPtr event
                          = ctx->getCurrentEvent();
@@ -4585,63 +4153,56 @@ namespace torc { namespace generic {
     break;
 
   case 366:
-
-/* Line 678 of lalr1.cc  */
-#line 3049 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3050 "Parser.yy"
     {
             inDriver.getLexer()->setIsIdContext(true);
         }
     break;
 
   case 369:
-
-/* Line 678 of lalr1.cc  */
-#line 3057 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3058 "Parser.yy"
     {
             if((yysemantic_stack_[(2) - (2)].integerVal));
         }
     break;
 
   case 370:
-
-/* Line 678 of lalr1.cc  */
-#line 3061 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3062 "Parser.yy"
     {
             delete (yysemantic_stack_[(2) - (2)].stringVal);
         }
     break;
 
   case 371:
-
-/* Line 678 of lalr1.cc  */
-#line 3065 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3066 "Parser.yy"
     {
             delete (yysemantic_stack_[(2) - (2)].stringVal);
         }
     break;
 
   case 373:
-
-/* Line 678 of lalr1.cc  */
-#line 3072 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3073 "Parser.yy"
     {
                 (yyval.nameData) = (yysemantic_stack_[(4) - (3)].nameData);
             }
     break;
 
   case 374:
-
-/* Line 678 of lalr1.cc  */
-#line 3078 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3079 "Parser.yy"
     {
                     delete (yysemantic_stack_[(4) - (3)].pairData);
                 }
     break;
 
   case 375:
-
-/* Line 678 of lalr1.cc  */
-#line 3084 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3085 "Parser.yy"
     {
                 delete (yysemantic_stack_[(5) - (3)].pairData);
                 delete (yysemantic_stack_[(5) - (4)].pairData);
@@ -4649,9 +4210,8 @@ namespace torc { namespace generic {
     break;
 
   case 376:
-
-/* Line 678 of lalr1.cc  */
-#line 3091 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3092 "Parser.yy"
     {
             LogicElementSharedPtr ignoreLogicElem;
             EdifContextSharedPtr ctx
@@ -4683,18 +4243,16 @@ namespace torc { namespace generic {
     break;
 
   case 381:
-
-/* Line 678 of lalr1.cc  */
-#line 3132 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3133 "Parser.yy"
     {
                 inDriver.getContext()->setIsInInstance(true);
             }
     break;
 
   case 382:
-
-/* Line 678 of lalr1.cc  */
-#line 3135 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3136 "Parser.yy"
     {
                 boost::scoped_ptr<NameData> nameData((yysemantic_stack_[(6) - (3)].nameData));
                 EdifContextSharedPtr ctx = inDriver.getContext();
@@ -4812,7 +4370,7 @@ namespace torc { namespace generic {
                     catch(Error &e)
                     {
                         std::string message = constructErrorMessage(
-                                "Unable to create Instance : %s", 
+                                "Unable to create Instance : %s",
                                         instance->getName().c_str());
                         log("%s\n", message.c_str());
                         e.setCurrentLocation( __FUNCTION__,
@@ -4845,7 +4403,7 @@ namespace torc { namespace generic {
                     catch(Error &e)
                     {
                         std::string message = constructErrorMessage(
-                                "Unable to create Instance Array : %s", 
+                                "Unable to create Instance Array : %s",
                                         instance->getName().c_str());
                         log("%s\n", message.c_str());
                         e.setCurrentLocation( __FUNCTION__,
@@ -4884,7 +4442,7 @@ namespace torc { namespace generic {
                     else
                     {
                         //Create Port references now
-                        PortRefCreator<PortReferenceSharedPtr> 
+                        PortRefCreator<PortReferenceSharedPtr>
                                 creator(ctx->getFactory(), instance);
                         masterView->applyOnAllPorts(
                             VisitorApplier< PortRefCreator<PortReferenceSharedPtr> >(creator) );
@@ -4953,7 +4511,7 @@ namespace torc { namespace generic {
                         //SIZE MISMATCH
                         std::string message = constructErrorMessage(
                                 "Params size mismatch : %d with %d",
-                                    pA->mValueData->mValues.size(), 
+                                    pA->mValueData->mValues.size(),
                                     chkP->getSize());
                         log("%s\n", message.c_str());
                         Error e( eMessageIdParserError,
@@ -5094,7 +4652,7 @@ namespace torc { namespace generic {
                     catch(Error &e)
                     {
                         std::string message = constructErrorMessage(
-                                "Unable to connect port ref : %s", 
+                                "Unable to connect port ref : %s",
                                     portRef->getName().c_str());
                         log("%s\n", message.c_str());
                         e.setCurrentLocation( __FUNCTION__,
@@ -5126,19 +4684,18 @@ namespace torc { namespace generic {
                 }
                 //Handle Designator
                 instance->setDesignator(info->mDesignator);
-                
+
                 //Handle Timing
                 instance->setTiming(info->mTiming);
 
-                inDriver.getContext()->setCurrentInstance( 
+                inDriver.getContext()->setCurrentInstance(
                                             InstanceSharedPtr() );
             }
     break;
 
   case 383:
-
-/* Line 678 of lalr1.cc  */
-#line 3576 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3577 "Parser.yy"
     {
                 (yyval.instanceInfo) = new InstanceInfo();
                 (yyval.instanceInfo)->mViewRefData = (yysemantic_stack_[(1) - (1)].viewRefData);
@@ -5146,27 +4703,24 @@ namespace torc { namespace generic {
     break;
 
   case 384:
-
-/* Line 678 of lalr1.cc  */
-#line 3581 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3582 "Parser.yy"
     {
                 (yyval.instanceInfo) = NULL;
             }
     break;
 
   case 385:
-
-/* Line 678 of lalr1.cc  */
-#line 3585 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3586 "Parser.yy"
     {
                 (yyval.instanceInfo) = (yysemantic_stack_[(2) - (1)].instanceInfo);
             }
     break;
 
   case 386:
-
-/* Line 678 of lalr1.cc  */
-#line 3589 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3590 "Parser.yy"
     {
                 (yyval.instanceInfo) = ((yysemantic_stack_[(2) - (1)].instanceInfo))?(yysemantic_stack_[(2) - (1)].instanceInfo):new InstanceInfo();
                 (yyval.instanceInfo)->mParamAssign.push_back((yysemantic_stack_[(2) - (2)].paramAssignInfo));
@@ -5174,9 +4728,8 @@ namespace torc { namespace generic {
     break;
 
   case 387:
-
-/* Line 678 of lalr1.cc  */
-#line 3594 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3595 "Parser.yy"
     {
                 (yyval.instanceInfo) = ((yysemantic_stack_[(2) - (1)].instanceInfo))?(yysemantic_stack_[(2) - (1)].instanceInfo):new InstanceInfo();
                 (yyval.instanceInfo)->mPortInst.push_back((yysemantic_stack_[(2) - (2)].portInst));
@@ -5184,9 +4737,8 @@ namespace torc { namespace generic {
     break;
 
   case 388:
-
-/* Line 678 of lalr1.cc  */
-#line 3599 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3600 "Parser.yy"
     {
                 (yyval.instanceInfo) = ((yysemantic_stack_[(2) - (1)].instanceInfo))?(yysemantic_stack_[(2) - (1)].instanceInfo):new InstanceInfo();
                 EdifContextSharedPtr ctx
@@ -5198,9 +4750,8 @@ namespace torc { namespace generic {
     break;
 
   case 389:
-
-/* Line 678 of lalr1.cc  */
-#line 3608 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3609 "Parser.yy"
     {
                 (yyval.instanceInfo) = ((yysemantic_stack_[(2) - (1)].instanceInfo))?(yysemantic_stack_[(2) - (1)].instanceInfo):new InstanceInfo();
                 (yyval.instanceInfo)->mDesignator = *(yysemantic_stack_[(2) - (2)].stringVal);
@@ -5208,18 +4759,16 @@ namespace torc { namespace generic {
     break;
 
   case 390:
-
-/* Line 678 of lalr1.cc  */
-#line 3613 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3614 "Parser.yy"
     {
                 (yyval.instanceInfo) = (yysemantic_stack_[(2) - (1)].instanceInfo);
             }
     break;
 
   case 391:
-
-/* Line 678 of lalr1.cc  */
-#line 3617 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3618 "Parser.yy"
     {
                 (yyval.instanceInfo) = ((yysemantic_stack_[(2) - (1)].instanceInfo))?(yysemantic_stack_[(2) - (1)].instanceInfo):new InstanceInfo();
                 (yyval.instanceInfo)->mComment.push_back(*(yysemantic_stack_[(2) - (2)].stringVal));
@@ -5227,9 +4776,8 @@ namespace torc { namespace generic {
     break;
 
   case 392:
-
-/* Line 678 of lalr1.cc  */
-#line 3622 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3623 "Parser.yy"
     {
                 (yyval.instanceInfo) = ((yysemantic_stack_[(2) - (1)].instanceInfo))?(yysemantic_stack_[(2) - (1)].instanceInfo):new InstanceInfo();
                 (yyval.instanceInfo)->mUserData.push_back(*(yysemantic_stack_[(2) - (2)].stringVal));
@@ -5237,9 +4785,8 @@ namespace torc { namespace generic {
     break;
 
   case 397:
-
-/* Line 678 of lalr1.cc  */
-#line 3636 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3637 "Parser.yy"
     {
                     (yyval.instanceRef) = ((yysemantic_stack_[(5) - (4)].instanceRef)) ? (yysemantic_stack_[(5) - (4)].instanceRef) : new InstanceRefData();
                     (yyval.instanceRef)->mName = (yysemantic_stack_[(5) - (3)].nameData);
@@ -5247,27 +4794,24 @@ namespace torc { namespace generic {
     break;
 
   case 398:
-
-/* Line 678 of lalr1.cc  */
-#line 3643 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3644 "Parser.yy"
     {
                     (yyval.instanceRef) = NULL;
                 }
     break;
 
   case 399:
-
-/* Line 678 of lalr1.cc  */
-#line 3647 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3648 "Parser.yy"
     {
                     (yyval.instanceRef) = NULL;
                 }
     break;
 
   case 400:
-
-/* Line 678 of lalr1.cc  */
-#line 3651 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3652 "Parser.yy"
     {
                     (yyval.instanceRef) = new InstanceRefData();
                     (yyval.instanceRef)->mView = (yysemantic_stack_[(1) - (1)].viewRefData);
@@ -5275,69 +4819,62 @@ namespace torc { namespace generic {
     break;
 
   case 406:
-
-/* Line 678 of lalr1.cc  */
-#line 3665 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3666 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 414:
-
-/* Line 678 of lalr1.cc  */
-#line 3684 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3685 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 415:
-
-/* Line 678 of lalr1.cc  */
-#line 3688 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3689 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 422:
-
-/* Line 678 of lalr1.cc  */
-#line 3706 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3707 "Parser.yy"
     {
                 (yyval.integerVal) = (yysemantic_stack_[(4) - (3)].integerVal);
             }
     break;
 
   case 423:
-
-/* Line 678 of lalr1.cc  */
-#line 3712 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3713 "Parser.yy"
     {
                 (yyval.integerVal) = (yysemantic_stack_[(1) - (1)].integerVal);
             }
     break;
 
   case 424:
-
-/* Line 678 of lalr1.cc  */
-#line 3716 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3717 "Parser.yy"
     {
                 (yyval.integerVal) = (yysemantic_stack_[(2) - (1)].integerVal);
             }
     break;
 
   case 425:
-
-/* Line 678 of lalr1.cc  */
-#line 3722 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3723 "Parser.yy"
     {
                 if((yysemantic_stack_[(4) - (2)].integerVal));
                 if(NULL == (yysemantic_stack_[(4) - (3)].valueData))
                 {
                     (yyval.valueData) = new ValueData();
-                    (yyval.valueData)->mValues.push_back( Value( 
+                    (yyval.valueData)->mValues.push_back( Value(
                                 Value::eValueTypeInteger ) );
                 }
                 else
@@ -5348,18 +4885,16 @@ namespace torc { namespace generic {
     break;
 
   case 426:
-
-/* Line 678 of lalr1.cc  */
-#line 3738 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3739 "Parser.yy"
     {
                 (yyval.valueData) = NULL;
             }
     break;
 
   case 427:
-
-/* Line 678 of lalr1.cc  */
-#line 3742 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3743 "Parser.yy"
     {
                 (yyval.valueData) = ((yysemantic_stack_[(2) - (1)].valueData)) ? (yysemantic_stack_[(2) - (1)].valueData) : new ValueData();
                 (yyval.valueData)->mValues.push_back( Value(
@@ -5368,9 +4903,8 @@ namespace torc { namespace generic {
     break;
 
   case 428:
-
-/* Line 678 of lalr1.cc  */
-#line 3748 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3749 "Parser.yy"
     {
                 (yyval.valueData) = ((yysemantic_stack_[(2) - (1)].valueData)) ? (yysemantic_stack_[(2) - (1)].valueData) : new ValueData();
                 (yyval.valueData)->mValues.push_back( Value(
@@ -5379,9 +4913,8 @@ namespace torc { namespace generic {
     break;
 
   case 429:
-
-/* Line 678 of lalr1.cc  */
-#line 3754 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3755 "Parser.yy"
     {
             (yyval.valueData) = (yysemantic_stack_[(2) - (2)].valueData);
             if((yysemantic_stack_[(2) - (1)].valueData))
@@ -5395,117 +4928,104 @@ namespace torc { namespace generic {
     break;
 
   case 430:
-
-/* Line 678 of lalr1.cc  */
-#line 3767 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3768 "Parser.yy"
     {
                 (yyval.interfaceAttributes) = (yysemantic_stack_[(4) - (3)].interfaceAttributes);
             }
     break;
 
   case 431:
-
-/* Line 678 of lalr1.cc  */
-#line 3773 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3774 "Parser.yy"
     {
                 (yyval.interfaceAttributes) = NULL;
             }
     break;
 
   case 432:
-
-/* Line 678 of lalr1.cc  */
-#line 3777 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3778 "Parser.yy"
     {
                     (yyval.interfaceAttributes) = (yysemantic_stack_[(2) - (1)].interfaceAttributes);
                 }
     break;
 
   case 433:
-
-/* Line 678 of lalr1.cc  */
-#line 3781 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3782 "Parser.yy"
     {
                     (yyval.interfaceAttributes) = (yysemantic_stack_[(2) - (1)].interfaceAttributes);
                 }
     break;
 
   case 434:
-
-/* Line 678 of lalr1.cc  */
-#line 3785 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3786 "Parser.yy"
     {
                     (yyval.interfaceAttributes) = (yysemantic_stack_[(2) - (1)].interfaceAttributes);
                 }
     break;
 
   case 435:
-
-/* Line 678 of lalr1.cc  */
-#line 3789 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3790 "Parser.yy"
     {
                     (yyval.interfaceAttributes) = (yysemantic_stack_[(2) - (1)].interfaceAttributes);
                 }
     break;
 
   case 436:
-
-/* Line 678 of lalr1.cc  */
-#line 3793 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3794 "Parser.yy"
     {
                     (yyval.interfaceAttributes) = (yysemantic_stack_[(2) - (1)].interfaceAttributes);
                 }
     break;
 
   case 437:
-
-/* Line 678 of lalr1.cc  */
-#line 3797 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3798 "Parser.yy"
     {
                     (yyval.interfaceAttributes) = (yysemantic_stack_[(2) - (1)].interfaceAttributes);
                 }
     break;
 
   case 438:
-
-/* Line 678 of lalr1.cc  */
-#line 3801 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3802 "Parser.yy"
     {
                     (yyval.interfaceAttributes) = (yysemantic_stack_[(2) - (1)].interfaceAttributes);
                 }
     break;
 
   case 439:
-
-/* Line 678 of lalr1.cc  */
-#line 3805 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3806 "Parser.yy"
     {
                     (yyval.interfaceAttributes) = (yysemantic_stack_[(2) - (1)].interfaceAttributes);
                 }
     break;
 
   case 440:
-
-/* Line 678 of lalr1.cc  */
-#line 3809 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3810 "Parser.yy"
     {
                     (yyval.interfaceAttributes) = (yysemantic_stack_[(2) - (1)].interfaceAttributes);
                 }
     break;
 
   case 441:
-
-/* Line 678 of lalr1.cc  */
-#line 3813 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3814 "Parser.yy"
     {
                     (yyval.interfaceAttributes) = (yysemantic_stack_[(2) - (1)].interfaceAttributes);
                 }
     break;
 
   case 442:
-
-/* Line 678 of lalr1.cc  */
-#line 3817 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3818 "Parser.yy"
     {
                     (yyval.interfaceAttributes) = ((yysemantic_stack_[(2) - (1)].interfaceAttributes))?(yysemantic_stack_[(2) - (1)].interfaceAttributes):new InterfaceAttributes();
                     EdifContextSharedPtr ctx
@@ -5518,9 +5038,8 @@ namespace torc { namespace generic {
     break;
 
   case 443:
-
-/* Line 678 of lalr1.cc  */
-#line 3827 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3828 "Parser.yy"
     {
                     (yyval.interfaceAttributes) = ((yysemantic_stack_[(2) - (1)].interfaceAttributes))?(yysemantic_stack_[(2) - (1)].interfaceAttributes):new InterfaceAttributes();
                     EdifContextSharedPtr ctx
@@ -5533,9 +5052,8 @@ namespace torc { namespace generic {
     break;
 
   case 444:
-
-/* Line 678 of lalr1.cc  */
-#line 3837 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3838 "Parser.yy"
     {
                     (yyval.interfaceAttributes) = ((yysemantic_stack_[(2) - (1)].interfaceAttributes))?(yysemantic_stack_[(2) - (1)].interfaceAttributes):new InterfaceAttributes();
                     (yyval.interfaceAttributes)->setDesignator(*(yysemantic_stack_[(2) - (2)].stringVal));
@@ -5543,18 +5061,16 @@ namespace torc { namespace generic {
     break;
 
   case 445:
-
-/* Line 678 of lalr1.cc  */
-#line 3842 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3843 "Parser.yy"
     {
                     (yyval.interfaceAttributes) = (yysemantic_stack_[(2) - (1)].interfaceAttributes);
                 }
     break;
 
   case 446:
-
-/* Line 678 of lalr1.cc  */
-#line 3846 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3847 "Parser.yy"
     {
                     (yyval.interfaceAttributes) = ((yysemantic_stack_[(2) - (1)].interfaceAttributes))?(yysemantic_stack_[(2) - (1)].interfaceAttributes):new InterfaceAttributes();
                     (yyval.interfaceAttributes)->addComment(*(yysemantic_stack_[(2) - (2)].stringVal));
@@ -5562,9 +5078,8 @@ namespace torc { namespace generic {
     break;
 
   case 447:
-
-/* Line 678 of lalr1.cc  */
-#line 3851 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3852 "Parser.yy"
     {
                     (yyval.interfaceAttributes) = ((yysemantic_stack_[(2) - (1)].interfaceAttributes))?(yysemantic_stack_[(2) - (1)].interfaceAttributes):new InterfaceAttributes();
                     (yyval.interfaceAttributes)->addUserData(*(yysemantic_stack_[(2) - (2)].stringVal));
@@ -5573,45 +5088,40 @@ namespace torc { namespace generic {
     break;
 
   case 451:
-
-/* Line 678 of lalr1.cc  */
-#line 3864 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3865 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 452:
-
-/* Line 678 of lalr1.cc  */
-#line 3868 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3869 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 461:
-
-/* Line 678 of lalr1.cc  */
-#line 3888 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3889 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 462:
-
-/* Line 678 of lalr1.cc  */
-#line 3892 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3893 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 467:
-
-/* Line 678 of lalr1.cc  */
-#line 3908 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3909 "Parser.yy"
     {
                 InterfaceJoinedInfoSharedPtr joinedInfo;
                 EdifContextSharedPtr ctx
@@ -5619,7 +5129,7 @@ namespace torc { namespace generic {
                 try
                 {
                     ctx->getFactory()->create(joinedInfo);
-                    joinedInfo->setJoinedType( 
+                    joinedInfo->setJoinedType(
                             InterfaceJoinedInfo::eJoinedTypeJoin );
                 }
                 catch(Error &e)
@@ -5647,15 +5157,14 @@ namespace torc { namespace generic {
     break;
 
   case 468:
-
-/* Line 678 of lalr1.cc  */
-#line 3940 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 3941 "Parser.yy"
     {
                 EdifContextSharedPtr ctx = inDriver.getContext();
-                InterfaceJoinedInfoSharedPtr currentJoinedInfo 
+                InterfaceJoinedInfoSharedPtr currentJoinedInfo
                         = ctx->getCurrentInterfaceJoinedInfo();
                 ctx->popInterfaceJoinedInfo();
-                InterfaceJoinedInfoSharedPtr parentJoinedInfo; 
+                InterfaceJoinedInfoSharedPtr parentJoinedInfo;
                 if(ctx->getInterfaceJoinedInfoDepth() > 1 )
                 {
                     parentJoinedInfo = ctx->getCurrentInterfaceJoinedInfo();
@@ -5663,17 +5172,17 @@ namespace torc { namespace generic {
                 ctx->decrementInterfaceJoinedInfoDepth();
                 if(parentJoinedInfo)
                 {
-                    parentJoinedInfo->setRelationType( 
+                    parentJoinedInfo->setRelationType(
                             InterfaceJoinedInfo::eRelationTypeParent );
-                    currentJoinedInfo->setRelationType( 
+                    currentJoinedInfo->setRelationType(
                             InterfaceJoinedInfo::eRelationTypeChild );
                     //Check size
                     size_t parentJoinedInfoSize = parentJoinedInfo->getSize();
                     size_t currentJoinedInfoSize = currentJoinedInfo->getSize();
 
                     log("Parent joined info Size :: %d\n",
-                            parentJoinedInfoSize ); 
-                    log("Current joined info Size :: %d\n", 
+                            parentJoinedInfoSize );
+                    log("Current joined info Size :: %d\n",
                             currentJoinedInfoSize );
 
                     //std::cout << "Parent joined info Size :: " << parentJoinedInfoSize << std::endl;
@@ -5684,11 +5193,11 @@ namespace torc { namespace generic {
 
                     std::list< PortSharedPtr > outPorts;
                     parentJoinedInfo->getPorts(outPorts);
-                    
+
                     std::list< PortListSharedPtr > outPortLists;
                     parentJoinedInfo->getPortLists(outPortLists);
-                    
-                    if(parentJoinedInfoSize != 0) 
+
+                    if(parentJoinedInfoSize != 0)
                     {
                         if( parentJoinedInfoSize
                                 == currentJoinedInfoSize )
@@ -5719,18 +5228,17 @@ namespace torc { namespace generic {
                         parentJoinedInfo->addChildJoinedInfo(
                                 currentJoinedInfo );
                     }
-                } 
+                }
                 else
                 {
                     ctx->pushInterfaceJoinedInfo(currentJoinedInfo);
-                }              
+                }
             }
     break;
 
   case 470:
-
-/* Line 678 of lalr1.cc  */
-#line 4019 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 4020 "Parser.yy"
     {
                 boost::scoped_ptr<PortRefData> portData((yysemantic_stack_[(2) - (2)].portRefData));
                 NameData *portNameData = portData->mPortName;
@@ -5757,7 +5265,7 @@ namespace torc { namespace generic {
                     if(!port)
                     {
                         std::string message = constructErrorMessage(
-                                "No port %s found in view %s\n", 
+                                "No port %s found in view %s\n",
                                             name.c_str(),
                                             view->getName().c_str());
                         log("%s\n", message.c_str());
@@ -5772,11 +5280,11 @@ namespace torc { namespace generic {
                         YYABORT;
                     }
 
-                    InterfaceJoinedInfoSharedPtr currentJoinedInfo 
+                    InterfaceJoinedInfoSharedPtr currentJoinedInfo
                                         = ctx->getCurrentInterfaceJoinedInfo();
                     try
-                    {             
-                        connectibleFinder(nestedNames, port);  
+                    {
+                        connectibleFinder(nestedNames, port);
                         if(!portData->mPortName->mIndices.empty())
                         {
                             port = port->get(portData->mPortName->mIndices);
@@ -5784,7 +5292,7 @@ namespace torc { namespace generic {
                         //Check port size
                         std::list< PortSharedPtr > outPorts;
                         currentJoinedInfo->getPorts(outPorts);
-                        
+
                         if(!outPorts.empty())
                         {
                             PortSharedPtr firstPort = outPorts.front();
@@ -5852,9 +5360,8 @@ namespace torc { namespace generic {
     break;
 
   case 471:
-
-/* Line 678 of lalr1.cc  */
-#line 4138 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 4139 "Parser.yy"
     {
                 if(NULL != (yysemantic_stack_[(2) - (2)].portListData) && !(yysemantic_stack_[(2) - (2)].portListData)->mPortRefs.empty())
                 {
@@ -5865,7 +5372,7 @@ namespace torc { namespace generic {
                     PortListSharedPtr portList;
                     ctx->getFactory()->create(portList);
 
-                    InterfaceJoinedInfoSharedPtr currentJoinedInfo 
+                    InterfaceJoinedInfoSharedPtr currentJoinedInfo
                                 = ctx->getCurrentInterfaceJoinedInfo();
 
                     for( std::vector<PortRefData *>::iterator it
@@ -5893,7 +5400,7 @@ namespace torc { namespace generic {
                             if(!port)
                             {
                                 std::string message = constructErrorMessage(
-                                        "No port %s found in view %s\n", 
+                                        "No port %s found in view %s\n",
                                             portNameData->mName.c_str(),
                                             view->getName().c_str());
                                 log("%s\n", message.c_str());
@@ -5920,7 +5427,7 @@ namespace torc { namespace generic {
                             catch(Error &e)
                             {
                                 std::string message = constructErrorMessage(
-                                        "Unable to connect port : %s", 
+                                        "Unable to connect port : %s",
                                                 port->getName().c_str());
                                 log("%s\n", message.c_str());
                                 e.setCurrentLocation( __FUNCTION__,
@@ -5964,9 +5471,8 @@ namespace torc { namespace generic {
     break;
 
   case 474:
-
-/* Line 678 of lalr1.cc  */
-#line 4251 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 4252 "Parser.yy"
     {
                 std::string message;
                 boost::scoped_ptr<PortRefData> portData((yysemantic_stack_[(2) - (2)].portRefData));
@@ -5988,9 +5494,8 @@ namespace torc { namespace generic {
     break;
 
   case 475:
-
-/* Line 678 of lalr1.cc  */
-#line 4270 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 4271 "Parser.yy"
     {
                 if(NULL != (yysemantic_stack_[(2) - (2)].portListData) && !(yysemantic_stack_[(2) - (2)].portListData)->mPortRefs.empty())
                 {
@@ -6049,7 +5554,7 @@ namespace torc { namespace generic {
                             catch(Error &e)
                             {
                                 std::string message = constructErrorMessage(
-                                        "Unable to connect port : %s", 
+                                        "Unable to connect port : %s",
                                                 port->getName().c_str());
                                 log("%s\n", message.c_str());
                                 e.setCurrentLocation( __FUNCTION__,
@@ -6115,7 +5620,7 @@ namespace torc { namespace generic {
                                 connectibleFinder(nestedNames, portRef);
                                 if(!portData->mPortName->mIndices.empty())
                                 {
-                                    portRef = portRef->get( 
+                                    portRef = portRef->get(
                                                 portData->mPortName->mIndices );
                                 }
                                 portList->addChildPortReference(portRef);
@@ -6123,7 +5628,7 @@ namespace torc { namespace generic {
                             catch(Error &e)
                             {
                                 std::string message = constructErrorMessage(
-                                        "Unable to connect port ref : %s", 
+                                        "Unable to connect port ref : %s",
                                                 portRef->getName().c_str());
                                 log("%s\n", message.c_str());
                                 e.setCurrentLocation( __FUNCTION__,
@@ -6155,9 +5660,8 @@ namespace torc { namespace generic {
     break;
 
   case 476:
-
-/* Line 678 of lalr1.cc  */
-#line 4432 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 4433 "Parser.yy"
     {
                 boost::scoped_ptr<NameData> globPortRef((yysemantic_stack_[(2) - (2)].nameData));
                 std::string name = globPortRef->mName;
@@ -6176,7 +5680,7 @@ namespace torc { namespace generic {
                     catch(Error &e)
                     {
                         std::string message = constructErrorMessage(
-                                "Unable to connect port : %s", 
+                                "Unable to connect port : %s",
                                         port->getName().c_str());
                         log("%s\n", message.c_str());
                         e.setCurrentLocation( __FUNCTION__,
@@ -6208,7 +5712,7 @@ namespace torc { namespace generic {
                         }
                     }
                 }
-                for( std::vector< InstanceSharedPtr >::iterator it 
+                for( std::vector< InstanceSharedPtr >::iterator it
                     = leafInstances.begin(); it != leafInstances.end(); ++it )
                 {
                     PortReferenceSharedPtr pRef
@@ -6223,7 +5727,7 @@ namespace torc { namespace generic {
                         catch(Error &e)
                         {
                             std::string message = constructErrorMessage(
-                                    "Unable to connect port : %s", 
+                                    "Unable to connect port : %s",
                                             pRef->getName().c_str());
                             log("%s\n", message.c_str());
                             e.setCurrentLocation( __FUNCTION__,
@@ -6242,54 +5746,48 @@ namespace torc { namespace generic {
     break;
 
   case 490:
-
-/* Line 678 of lalr1.cc  */
-#line 4537 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 4538 "Parser.yy"
     {
                     if((yysemantic_stack_[(4) - (3)].integerVal));
                 }
     break;
 
   case 493:
-
-/* Line 678 of lalr1.cc  */
-#line 4547 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 4548 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 494:
-
-/* Line 678 of lalr1.cc  */
-#line 4553 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 4554 "Parser.yy"
     {
                 delete (yysemantic_stack_[(1) - (1)].stringVal);
             }
     break;
 
   case 496:
-
-/* Line 678 of lalr1.cc  */
-#line 4562 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 4563 "Parser.yy"
     {
                 delete (yysemantic_stack_[(4) - (3)].pairData);
             }
     break;
 
   case 499:
-
-/* Line 678 of lalr1.cc  */
-#line 4574 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 4575 "Parser.yy"
     {
                 (yyval.nameData) = (yysemantic_stack_[(1) - (1)].nameData);
             }
     break;
 
   case 500:
-
-/* Line 678 of lalr1.cc  */
-#line 4580 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 4581 "Parser.yy"
     {
             if((yysemantic_stack_[(4) - (3)].nameData))
             {
@@ -6374,7 +5872,7 @@ namespace torc { namespace generic {
                     catch(Error &e)
                     {
                         std::string message = constructErrorMessage(
-                                "Unable to create lib : %s", 
+                                "Unable to create lib : %s",
                                         lib->getName().c_str());
                         log("%s\n", message.c_str());
                         e.setCurrentLocation( __FUNCTION__,
@@ -6410,9 +5908,8 @@ namespace torc { namespace generic {
     break;
 
   case 501:
-
-/* Line 678 of lalr1.cc  */
-#line 4697 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 4698 "Parser.yy"
     {
             inDriver.getContext()->setCurrentLibrary(
                                     LibrarySharedPtr() );
@@ -6421,9 +5918,8 @@ namespace torc { namespace generic {
     break;
 
   case 505:
-
-/* Line 678 of lalr1.cc  */
-#line 4708 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 4709 "Parser.yy"
     {
                 EdifContextSharedPtr ctx = inDriver.getContext();
                 LibrarySharedPtr lib = ctx->getCurrentLibrary();
@@ -6433,9 +5929,8 @@ namespace torc { namespace generic {
     break;
 
   case 506:
-
-/* Line 678 of lalr1.cc  */
-#line 4715 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 4716 "Parser.yy"
     {
                 EdifContextSharedPtr ctx = inDriver.getContext();
                 LibrarySharedPtr lib = ctx->getCurrentLibrary();
@@ -6445,18 +5940,16 @@ namespace torc { namespace generic {
     break;
 
   case 508:
-
-/* Line 678 of lalr1.cc  */
-#line 4727 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 4728 "Parser.yy"
     {
                 (yyval.nameData) = (yysemantic_stack_[(4) - (3)].nameData);
             }
     break;
 
   case 516:
-
-/* Line 678 of lalr1.cc  */
-#line 4748 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 4749 "Parser.yy"
     {
                 boost::scoped_ptr<ValueData> delay((yysemantic_stack_[(5) - (3)].valueData));
                 boost::scoped_ptr<ValueData> acLoad((yysemantic_stack_[(5) - (4)].valueData));
@@ -6470,18 +5963,16 @@ namespace torc { namespace generic {
     break;
 
   case 526:
-
-/* Line 678 of lalr1.cc  */
-#line 4780 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 4781 "Parser.yy"
     {
                     delete (yysemantic_stack_[(1) - (1)].logicRefData);
                 }
     break;
 
   case 531:
-
-/* Line 678 of lalr1.cc  */
-#line 4792 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 4793 "Parser.yy"
     {
             LogicalResponseSharedPtr logicalResponse;
             EdifContextSharedPtr ctx
@@ -6514,9 +6005,8 @@ namespace torc { namespace generic {
     break;
 
   case 532:
-
-/* Line 678 of lalr1.cc  */
-#line 4821 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 4822 "Parser.yy"
     {
             EdifContextSharedPtr ctx = inDriver.getContext();
             ctx->setCurrentLogicalResponse(LogicalResponseSharedPtr());
@@ -6524,9 +6014,8 @@ namespace torc { namespace generic {
     break;
 
   case 535:
-
-/* Line 678 of lalr1.cc  */
-#line 4832 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 4833 "Parser.yy"
     {
                 if(NULL != (yysemantic_stack_[(1) - (1)].portListData) && !(yysemantic_stack_[(1) - (1)].portListData)->mPortRefs.empty())
                 {
@@ -6534,11 +6023,11 @@ namespace torc { namespace generic {
                     std::string message;
 
                     EdifContextSharedPtr ctx = inDriver.getContext();
-                    LogicalResponseSharedPtr logicalResponse 
+                    LogicalResponseSharedPtr logicalResponse
                                 = ctx->getCurrentLogicalResponse();
 
                     PortListSharedPtr portList;
-                    ctx->getFactory()->create(portList);    
+                    ctx->getFactory()->create(portList);
 
                     for( std::vector<PortRefData *>::iterator it
                             = portListData->mPortRefs.begin();
@@ -6564,14 +6053,14 @@ namespace torc { namespace generic {
                             PortSharedPtr port = view->findPort(topName);
                             if(!port)
                             {
-                                SimulateSharedPtr simulate 
-                                            = ctx->getCurrentSimulate(); 
-                                PortListAliasSharedPtr portList 
+                                SimulateSharedPtr simulate
+                                            = ctx->getCurrentSimulate();
+                                PortListAliasSharedPtr portList
                                             = simulate->findPortListAlias(topName);
                                 if(!portList)
                                 {
                                     std::string message = constructErrorMessage(
-                                            "No port %s found in view/portListAlias\n", 
+                                            "No port %s found in view/portListAlias\n",
                                                 portNameData->mName.c_str());
                                     log("%s\n", message.c_str());
                                     Error e( eMessageIdParserError,
@@ -6598,7 +6087,7 @@ namespace torc { namespace generic {
                             catch(Error &e)
                             {
                                 std::string message = constructErrorMessage(
-                                        "Unable to connect port : %s", 
+                                        "Unable to connect port : %s",
                                                 port->getName().c_str());
                                 log("%s\n", message.c_str());
                                 e.setCurrentLocation( __FUNCTION__,
@@ -6622,9 +6111,8 @@ namespace torc { namespace generic {
     break;
 
   case 536:
-
-/* Line 678 of lalr1.cc  */
-#line 4925 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 4926 "Parser.yy"
     {
                 boost::scoped_ptr<PortRefData> portData((yysemantic_stack_[(1) - (1)].portRefData));
                 NameData *portNameData = portData->mPortName;
@@ -6652,7 +6140,7 @@ namespace torc { namespace generic {
                     if(!port)
                     {
                         std::string message = constructErrorMessage(
-                                "No port %s found in view %s\n", 
+                                "No port %s found in view %s\n",
                                             name.c_str(),
                                             view->getName().c_str());
                         log("%s\n", message.c_str());
@@ -6667,11 +6155,11 @@ namespace torc { namespace generic {
                         YYABORT;
                     }
 
-                    LogicalResponseSharedPtr logicalResponse 
+                    LogicalResponseSharedPtr logicalResponse
                                 = ctx->getCurrentLogicalResponse();
                     try
-                    {             
-                        connectibleFinder(nestedNames, port);  
+                    {
+                        connectibleFinder(nestedNames, port);
                         if(!portData->mPortName->mIndices.empty())
                         {
                             port = port->get(portData->mPortName->mIndices);
@@ -6689,9 +6177,8 @@ namespace torc { namespace generic {
     break;
 
   case 537:
-
-/* Line 678 of lalr1.cc  */
-#line 4987 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 4988 "Parser.yy"
     {
                 boost::scoped_ptr<NameData> portData((yysemantic_stack_[(1) - (1)].nameData));
                 std::string name = portData->mName;
@@ -6699,18 +6186,18 @@ namespace torc { namespace generic {
                                 = inDriver.getContext();
                 ViewSharedPtr view = ctx->getCurrentView();
                 PortSharedPtr port = view->findPort(name);
-                LogicalResponseSharedPtr logicalResponse 
+                LogicalResponseSharedPtr logicalResponse
                                 = ctx->getCurrentLogicalResponse();
                 if(!port)
                 {
-                    SimulateSharedPtr simulate 
-                                = ctx->getCurrentSimulate(); 
-                    PortListAliasSharedPtr portListAlias 
+                    SimulateSharedPtr simulate
+                                = ctx->getCurrentSimulate();
+                    PortListAliasSharedPtr portListAlias
                                 = simulate->findPortListAlias(name);
                     if(!portListAlias)
                     {
                         std::string message = constructErrorMessage(
-                                "No port %s found in view/portListAlias\n", 
+                                "No port %s found in view/portListAlias\n",
                                             name.c_str());
                         log("%s\n", message.c_str());
                         Error e( eMessageIdParserError,
@@ -6736,9 +6223,8 @@ namespace torc { namespace generic {
     break;
 
   case 538:
-
-/* Line 678 of lalr1.cc  */
-#line 5031 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5032 "Parser.yy"
     {
                 LogicElementSharedPtr logicElem;
                 EdifContextSharedPtr ctx
@@ -6769,9 +6255,8 @@ namespace torc { namespace generic {
     break;
 
   case 539:
-
-/* Line 678 of lalr1.cc  */
-#line 5058 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5059 "Parser.yy"
     {
                 EdifContextSharedPtr ctx = inDriver.getContext();
                 LogicElementSharedPtr currentLogicElem
@@ -6784,24 +6269,24 @@ namespace torc { namespace generic {
                 }
                 ctx->decrementLogicElementDepth();
                 if(parentLogicElem)
-                {                    
-                    parentLogicElem->setRelationType( 
+                {
+                    parentLogicElem->setRelationType(
                             LogicElement::eRelationTypeParent );
-                    currentLogicElem->setRelationType( 
+                    currentLogicElem->setRelationType(
                             LogicElement::eRelationTypeChild );
                     //Check size
                     size_t parentLogicElemSize = parentLogicElem->getSize();
                     size_t currentLogicElemSize = currentLogicElem->getSize();
 
                     log("Parent LogicList Size :: %d\n",
-                            parentLogicElemSize); 
-                    log("Current LogicList Size :: %d\n", 
+                            parentLogicElemSize);
+                    log("Current LogicList Size :: %d\n",
                             currentLogicElemSize);
 
                     //std::cout << "Parent LogicList Size :: " << parentLogicElemSize << std::endl;
                     //std::cout << "Current LogicList Size :: " << currentLogicElemSize << std::endl;
- 
-                    if(parentLogicElemSize != 0)                   
+
+                    if(parentLogicElemSize != 0)
                     {
                         if(parentLogicElemSize == currentLogicElemSize)
                         {
@@ -6829,46 +6314,42 @@ namespace torc { namespace generic {
                     {
                         parentLogicElem->addChildLogicElement(currentLogicElem);
                     }
-                } 
+                }
                 else
                 {
                     ctx->pushLogicElement(currentLogicElem);
                     ctx->incrementLogicElementDepth();
-                }              
+                }
             }
     break;
 
   case 544:
-
-/* Line 678 of lalr1.cc  */
-#line 5131 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5132 "Parser.yy"
     {
                 (yyval.logicRefData) = (yysemantic_stack_[(4) - (3)].logicRefData);
             }
     break;
 
   case 545:
-
-/* Line 678 of lalr1.cc  */
-#line 5137 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5138 "Parser.yy"
     {
                 (yyval.logicRefData) = (yysemantic_stack_[(4) - (3)].logicRefData);
             }
     break;
 
   case 547:
-
-/* Line 678 of lalr1.cc  */
-#line 5146 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5147 "Parser.yy"
     {
                         (yyval.nameData) = (yysemantic_stack_[(1) - (1)].nameData);
                     }
     break;
 
   case 549:
-
-/* Line 678 of lalr1.cc  */
-#line 5155 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5156 "Parser.yy"
     {
                 LogicElementSharedPtr logicElem;
                 EdifContextSharedPtr ctx
@@ -6899,9 +6380,8 @@ namespace torc { namespace generic {
     break;
 
   case 550:
-
-/* Line 678 of lalr1.cc  */
-#line 5182 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5183 "Parser.yy"
     {
                 EdifContextSharedPtr ctx = inDriver.getContext();
                 LogicElementSharedPtr currentLogicElem
@@ -6914,23 +6394,23 @@ namespace torc { namespace generic {
                 }
                 ctx->decrementLogicElementDepth();
                 if(parentLogicElem)
-                {                    
-                    parentLogicElem->setRelationType( 
+                {
+                    parentLogicElem->setRelationType(
                             LogicElement::eRelationTypeParent );
-                    currentLogicElem->setRelationType( 
+                    currentLogicElem->setRelationType(
                             LogicElement::eRelationTypeChild );
                     //Check size
                     size_t parentLogicElemSize = parentLogicElem->getSize();
                     size_t currentLogicElemSize = currentLogicElem->getSize();
 
                     log("Parent LogicOneOf Size :: %d\n",
-                            parentLogicElemSize); 
-                    log("Current LogicOneOf Size :: %d\n", 
+                            parentLogicElemSize);
+                    log("Current LogicOneOf Size :: %d\n",
                             currentLogicElemSize);
 
                     //std::cout << "Parent LogicOneOf Size :: " << parentLogicElemSize << std::endl;
                     //std::cout << "Current LogicOneOf Size :: " << currentLogicElemSize << std::endl;
-                
+
                     if(parentLogicElemSize != 0)
                     {
                         if(parentLogicElemSize == currentLogicElemSize)
@@ -6959,25 +6439,24 @@ namespace torc { namespace generic {
                     {
                         parentLogicElem->addChildLogicElement(currentLogicElem);
                     }
-                } 
+                }
                 else
                 {
                     ctx->pushLogicElement(currentLogicElem);
                     ctx->incrementLogicElementDepth();
-                }              
+                }
             }
     break;
 
   case 551:
-
-/* Line 678 of lalr1.cc  */
-#line 5249 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5250 "Parser.yy"
     {
                 boost::scoped_ptr<NameData> logicData((yysemantic_stack_[(1) - (1)].nameData));
                 std::string name = logicData->mName;
                 EdifContextSharedPtr ctx
                                 = inDriver.getContext();
-                LibrarySharedPtr lib 
+                LibrarySharedPtr lib
                                 = ctx->getCurrentLibrary();
                 SimulationInfoSharedPtr simuInfo
                                 = lib->getSimulationInfo();
@@ -7070,9 +6549,8 @@ namespace torc { namespace generic {
     break;
 
   case 555:
-
-/* Line 678 of lalr1.cc  */
-#line 5352 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5353 "Parser.yy"
     {
             LogicalResponseSharedPtr logicalResponse;
             EdifContextSharedPtr ctx
@@ -7105,9 +6583,8 @@ namespace torc { namespace generic {
     break;
 
   case 556:
-
-/* Line 678 of lalr1.cc  */
-#line 5381 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5382 "Parser.yy"
     {
             EdifContextSharedPtr ctx = inDriver.getContext();
             ctx->setCurrentLogicalResponse(LogicalResponseSharedPtr());
@@ -7115,27 +6592,24 @@ namespace torc { namespace generic {
     break;
 
   case 562:
-
-/* Line 678 of lalr1.cc  */
-#line 5397 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5398 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 563:
-
-/* Line 678 of lalr1.cc  */
-#line 5401 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5402 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 564:
-
-/* Line 678 of lalr1.cc  */
-#line 5407 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5408 "Parser.yy"
     {
                 if(NULL == (yysemantic_stack_[(5) - (4)].logicRefData))
                 {
@@ -7150,18 +6624,16 @@ namespace torc { namespace generic {
     break;
 
   case 565:
-
-/* Line 678 of lalr1.cc  */
-#line 5421 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5422 "Parser.yy"
     {
                 (yyval.logicRefData) = NULL;
             }
     break;
 
   case 566:
-
-/* Line 678 of lalr1.cc  */
-#line 5425 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5426 "Parser.yy"
     {
                 (yyval.logicRefData) = new LogicRefData();
                 (yyval.logicRefData)->mLibraryName = (yysemantic_stack_[(1) - (1)].nameData);
@@ -7169,9 +6641,8 @@ namespace torc { namespace generic {
     break;
 
   case 567:
-
-/* Line 678 of lalr1.cc  */
-#line 5432 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5433 "Parser.yy"
     {
                 boost::scoped_ptr<NameData> nameData((yysemantic_stack_[(3) - (3)].nameData));
                 std::string name = nameData->mName;
@@ -7184,7 +6655,7 @@ namespace torc { namespace generic {
                 {
                     log("Found existing logic value\n");
                     std::string message = constructErrorMessage(
-                        "Logic value %s already exists in simulation info\n", 
+                        "Logic value %s already exists in simulation info\n",
                             name.c_str() );
                     log("%s\n", message.c_str());
                     Error e( eMessageIdParserError,
@@ -7226,16 +6697,15 @@ namespace torc { namespace generic {
                     logicVal->setParent(simuInfo);
                     simuInfo->addLogicValue(logicVal);
                     log("Created Logic Value %s\n", logicVal->getName().c_str());
-                } 
+                }
                 ctx->setCurrentLogicValue(logicVal);
-                ctx->pushPropertyContainer(logicVal); 
+                ctx->pushPropertyContainer(logicVal);
             }
     break;
 
   case 568:
-
-/* Line 678 of lalr1.cc  */
-#line 5490 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5491 "Parser.yy"
     {
                 EdifContextSharedPtr ctx = inDriver.getContext();
                 LogicValueSharedPtr logicVal = ctx->getCurrentLogicValue();
@@ -7250,18 +6720,16 @@ namespace torc { namespace generic {
     break;
 
   case 569:
-
-/* Line 678 of lalr1.cc  */
-#line 5504 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5505 "Parser.yy"
     {
                     (yyval.logicValueAttributes) = NULL;
                 }
     break;
 
   case 570:
-
-/* Line 678 of lalr1.cc  */
-#line 5508 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5509 "Parser.yy"
     {
                     boost::scoped_ptr<ValueData> data((yysemantic_stack_[(2) - (2)].valueData));
                     (yyval.logicValueAttributes) = ((yysemantic_stack_[(2) - (1)].logicValueAttributes)) ? (yysemantic_stack_[(2) - (1)].logicValueAttributes) : new LogicValueAttributes();
@@ -7270,9 +6738,8 @@ namespace torc { namespace generic {
     break;
 
   case 571:
-
-/* Line 678 of lalr1.cc  */
-#line 5514 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5515 "Parser.yy"
     {
                     boost::scoped_ptr<ValueData> data((yysemantic_stack_[(2) - (2)].valueData));
                     (yyval.logicValueAttributes) = ((yysemantic_stack_[(2) - (1)].logicValueAttributes)) ? (yysemantic_stack_[(2) - (1)].logicValueAttributes) : new LogicValueAttributes();
@@ -7281,9 +6748,8 @@ namespace torc { namespace generic {
     break;
 
   case 572:
-
-/* Line 678 of lalr1.cc  */
-#line 5520 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5521 "Parser.yy"
     {
                     (yyval.logicValueAttributes) = ((yysemantic_stack_[(2) - (1)].logicValueAttributes)) ? (yysemantic_stack_[(2) - (1)].logicValueAttributes) : new LogicValueAttributes();
                     Value::Boolean val = (yysemantic_stack_[(2) - (2)].integerVal);
@@ -7292,9 +6758,8 @@ namespace torc { namespace generic {
     break;
 
   case 573:
-
-/* Line 678 of lalr1.cc  */
-#line 5526 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5527 "Parser.yy"
     {
                     (yyval.logicValueAttributes) = ((yysemantic_stack_[(2) - (1)].logicValueAttributes)) ? (yysemantic_stack_[(2) - (1)].logicValueAttributes) : new LogicValueAttributes();
                     std::list< LogicValueSharedPtr > logicValues;
@@ -7311,7 +6776,7 @@ namespace torc { namespace generic {
                             LogicValueSharedPtr logicVal;
                             SimulationInfoSharedPtr simuInfo
                                     = ctx->getCurrentSimulationInfo();
-                            logicVal = simuInfo->findLogicValue(name); 
+                            logicVal = simuInfo->findLogicValue(name);
                             if(!logicVal)
                             {
                                 std::string message = constructErrorMessage(
@@ -7332,8 +6797,8 @@ namespace torc { namespace generic {
                             {
                                 if(!logicValues.empty())
                                 {
-                                    std::list< LogicValueSharedPtr >::iterator logicIt 
-                                        = std::find(logicValues.begin(), logicValues.end(), logicVal); 
+                                    std::list< LogicValueSharedPtr >::iterator logicIt
+                                        = std::find(logicValues.begin(), logicValues.end(), logicVal);
                                     if(logicIt != logicValues.end())
                                     {
                                         std::string message = constructErrorMessage(
@@ -7367,9 +6832,8 @@ namespace torc { namespace generic {
     break;
 
   case 574:
-
-/* Line 678 of lalr1.cc  */
-#line 5596 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5597 "Parser.yy"
     {
                     boost::scoped_ptr<NameData> pNameData((yysemantic_stack_[(2) - (2)].nameData));
                     std::string name = pNameData->mName;
@@ -7403,9 +6867,8 @@ namespace torc { namespace generic {
     break;
 
   case 575:
-
-/* Line 678 of lalr1.cc  */
-#line 5627 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5628 "Parser.yy"
     {
                     boost::scoped_ptr<NameData> pNameData((yysemantic_stack_[(2) - (2)].nameData));
                     std::string name = pNameData->mName;
@@ -7439,9 +6902,8 @@ namespace torc { namespace generic {
     break;
 
   case 576:
-
-/* Line 678 of lalr1.cc  */
-#line 5658 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5659 "Parser.yy"
     {
                     (yyval.logicValueAttributes) = ((yysemantic_stack_[(2) - (1)].logicValueAttributes)) ? (yysemantic_stack_[(2) - (1)].logicValueAttributes) : new LogicValueAttributes();
                     std::list< LogicValueSharedPtr > logicValues;
@@ -7458,7 +6920,7 @@ namespace torc { namespace generic {
                             LogicValueSharedPtr logicVal;
                             SimulationInfoSharedPtr simuInfo
                                     = ctx->getCurrentSimulationInfo();
-                            logicVal = simuInfo->findLogicValue(name); 
+                            logicVal = simuInfo->findLogicValue(name);
                             if(!logicVal)
                             {
                                 std::string message = constructErrorMessage(
@@ -7479,8 +6941,8 @@ namespace torc { namespace generic {
                             {
                                 if(!logicValues.empty())
                                 {
-                                    std::list< LogicValueSharedPtr >::iterator logicIt 
-                                        = std::find(logicValues.begin(), logicValues.end(), logicVal); 
+                                    std::list< LogicValueSharedPtr >::iterator logicIt
+                                        = std::find(logicValues.begin(), logicValues.end(), logicVal);
                                     if(logicIt != logicValues.end())
                                     {
                                         std::string message = constructErrorMessage(
@@ -7514,9 +6976,8 @@ namespace torc { namespace generic {
     break;
 
   case 577:
-
-/* Line 678 of lalr1.cc  */
-#line 5728 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5729 "Parser.yy"
     {
                     EdifContextSharedPtr ctx = inDriver.getContext();
                     boost::scoped_ptr<LogicRefData> logicRefData((yysemantic_stack_[(2) - (2)].logicRefData));
@@ -7525,13 +6986,13 @@ namespace torc { namespace generic {
                     bool isLocalLib = (NULL == logicRefData->mLibraryName);
                     if(isLocalLib)
                     {
-                        libName = ctx->getCurrentLibrary()->getName();     
+                        libName = ctx->getCurrentLibrary()->getName();
                     }
                     else
                     {
                         libName = logicRefData->mLibraryName->mName;
-                    }    
-                    LibrarySharedPtr library 
+                    }
+                    LibrarySharedPtr library
                                         = ctx->getRoot()->findLibrary(libName) ;
                     if(!library)
                     {
@@ -7588,11 +7049,11 @@ namespace torc { namespace generic {
                     else
                     {
                         (yyval.logicValueAttributes) = ((yysemantic_stack_[(2) - (1)].logicValueAttributes)) ? (yysemantic_stack_[(2) - (1)].logicValueAttributes) : new LogicValueAttributes();
-                        LogicValueAttributes::LogicMap *logicMap 
+                        LogicValueAttributes::LogicMap *logicMap
                                 = new LogicValueAttributes::LogicMap();
                         logicMap->mLogicRef = logicValName;
                         logicMap->mLibraryRef = libName;
-                        logicMap->mLogicMapType 
+                        logicMap->mLogicMapType
                                 = LogicValueAttributes::LogicMap::eLogicMapTypeOutput;
                         (yyval.logicValueAttributes)->addLogicMap(logicMap);
                     }
@@ -7600,9 +7061,8 @@ namespace torc { namespace generic {
     break;
 
   case 578:
-
-/* Line 678 of lalr1.cc  */
-#line 5809 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5810 "Parser.yy"
     {
                     EdifContextSharedPtr ctx = inDriver.getContext();
                     boost::scoped_ptr<LogicRefData> logicRefData((yysemantic_stack_[(2) - (2)].logicRefData));
@@ -7611,13 +7071,13 @@ namespace torc { namespace generic {
                     bool isLocalLib = (NULL == logicRefData->mLibraryName);
                     if(isLocalLib)
                     {
-                        libName = ctx->getCurrentLibrary()->getName();     
+                        libName = ctx->getCurrentLibrary()->getName();
                     }
                     else
                     {
                         libName = logicRefData->mLibraryName->mName;
-                    }    
-                    LibrarySharedPtr library 
+                    }
+                    LibrarySharedPtr library
                                         = ctx->getRoot()->findLibrary(libName) ;
                     if(!library)
                     {
@@ -7674,11 +7134,11 @@ namespace torc { namespace generic {
                     else
                     {
                         (yyval.logicValueAttributes) = ((yysemantic_stack_[(2) - (1)].logicValueAttributes)) ? (yysemantic_stack_[(2) - (1)].logicValueAttributes) : new LogicValueAttributes();
-                        LogicValueAttributes::LogicMap *logicMap 
+                        LogicValueAttributes::LogicMap *logicMap
                                 = new LogicValueAttributes::LogicMap();
                         logicMap->mLogicRef = logicValName;
                         logicMap->mLibraryRef = libName;
-                        logicMap->mLogicMapType 
+                        logicMap->mLogicMapType
                                 = LogicValueAttributes::LogicMap::eLogicMapTypeInput;
                         (yyval.logicValueAttributes)->addLogicMap(logicMap);
                     }
@@ -7686,9 +7146,8 @@ namespace torc { namespace generic {
     break;
 
   case 579:
-
-/* Line 678 of lalr1.cc  */
-#line 5890 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5891 "Parser.yy"
     {
                     (yyval.logicValueAttributes) = ((yysemantic_stack_[(2) - (1)].logicValueAttributes)) ? (yysemantic_stack_[(2) - (1)].logicValueAttributes) : new LogicValueAttributes();
                     (yyval.logicValueAttributes)->setIsIsolated(true);
@@ -7696,9 +7155,8 @@ namespace torc { namespace generic {
     break;
 
   case 580:
-
-/* Line 678 of lalr1.cc  */
-#line 5895 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5896 "Parser.yy"
     {
                     (yyval.logicValueAttributes) = ((yysemantic_stack_[(2) - (1)].logicValueAttributes)) ? (yysemantic_stack_[(2) - (1)].logicValueAttributes) : new LogicValueAttributes();
                     std::list< LogicValueSharedPtr > logicValues;
@@ -7715,7 +7173,7 @@ namespace torc { namespace generic {
                             LogicValueSharedPtr logicVal;
                             SimulationInfoSharedPtr simuInfo
                                     = ctx->getCurrentSimulationInfo();
-                            logicVal = simuInfo->findLogicValue(name); 
+                            logicVal = simuInfo->findLogicValue(name);
                             if(!logicVal)
                             {
                                 std::string message = constructErrorMessage(
@@ -7736,8 +7194,8 @@ namespace torc { namespace generic {
                             {
                                 if(!logicValues.empty())
                                 {
-                                    std::list< LogicValueSharedPtr >::iterator logicIt 
-                                        = std::find(logicValues.begin(), logicValues.end(), logicVal); 
+                                    std::list< LogicValueSharedPtr >::iterator logicIt
+                                        = std::find(logicValues.begin(), logicValues.end(), logicVal);
                                     if(logicIt != logicValues.end())
                                     {
                                         std::string message = constructErrorMessage(
@@ -7771,18 +7229,16 @@ namespace torc { namespace generic {
     break;
 
   case 581:
-
-/* Line 678 of lalr1.cc  */
-#line 5965 "Parser.yy"
-    {   
+/* Line 670 of lalr1.cc  */
+#line 5966 "Parser.yy"
+    {
                     (yyval.logicValueAttributes) = (yysemantic_stack_[(2) - (1)].logicValueAttributes);
                 }
     break;
 
   case 582:
-
-/* Line 678 of lalr1.cc  */
-#line 5969 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5970 "Parser.yy"
     {
                     (yyval.logicValueAttributes) = (yysemantic_stack_[(2) - (1)].logicValueAttributes);
                     EdifContextSharedPtr ctx = inDriver.getContext();
@@ -7793,9 +7249,8 @@ namespace torc { namespace generic {
     break;
 
   case 583:
-
-/* Line 678 of lalr1.cc  */
-#line 5977 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5978 "Parser.yy"
     {
                     (yyval.logicValueAttributes) = (yysemantic_stack_[(2) - (1)].logicValueAttributes);
                     EdifContextSharedPtr ctx = inDriver.getContext();
@@ -7806,9 +7261,8 @@ namespace torc { namespace generic {
     break;
 
   case 584:
-
-/* Line 678 of lalr1.cc  */
-#line 5987 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 5988 "Parser.yy"
     {
                 LogicElementSharedPtr logicElem;
                 EdifContextSharedPtr ctx
@@ -7855,9 +7309,8 @@ namespace torc { namespace generic {
     break;
 
   case 585:
-
-/* Line 678 of lalr1.cc  */
-#line 6030 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6031 "Parser.yy"
     {
                 EdifContextSharedPtr ctx = inDriver.getContext();
                 LogicElementSharedPtr currentLogicElem
@@ -7870,36 +7323,35 @@ namespace torc { namespace generic {
                 }
                 ctx->decrementLogicElementDepth();
                 if(parentLogicElem)
-                {                    
-                    parentLogicElem->setRelationType( 
+                {
+                    parentLogicElem->setRelationType(
                             LogicElement::eRelationTypeParent );
-                    currentLogicElem->setRelationType( 
+                    currentLogicElem->setRelationType(
                             LogicElement::eRelationTypeChild );
                     //Check size
                     //size_t parentLogicElemSize = parentLogicElem->getSize();
                     //size_t currentLogicElemSize = currentLogicElem->getSize();
 
                     //log("Parent LogicWaveForm Size :: %d\n",
-                    //        parentLogicElemSize); 
-                    //log("Current LogicWaveForm Size :: %d\n", 
+                    //        parentLogicElemSize);
+                    //log("Current LogicWaveForm Size :: %d\n",
                     //        currentLogicElemSize);
 
                     //std::cout << "Parent LogicWaveForm Size :: " << parentLogicElemSize << std::endl;
                     //std::cout << "Current LogicWaveForm Size :: " << currentLogicElemSize << std::endl;
-                
+
                     parentLogicElem->addChildLogicElement(currentLogicElem);
-                } 
+                }
                 else
                 {
                   ctx->pushLogicElement(currentLogicElem);
-                }              
+                }
             }
     break;
 
   case 604:
-
-/* Line 678 of lalr1.cc  */
-#line 6101 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6102 "Parser.yy"
     {
             (yyval.nameData) = (yysemantic_stack_[(6) - (3)].nameData);
             (yyval.nameData)->mIndices.push_back((yysemantic_stack_[(6) - (4)].integerVal));
@@ -7913,18 +7365,16 @@ namespace torc { namespace generic {
     break;
 
   case 605:
-
-/* Line 678 of lalr1.cc  */
-#line 6114 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6115 "Parser.yy"
     {
             (yyval.arrayDimensions) = NULL;
         }
     break;
 
   case 607:
-
-/* Line 678 of lalr1.cc  */
-#line 6121 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6122 "Parser.yy"
     {
             if((yysemantic_stack_[(6) - (4)].integerVal));
             delete (yysemantic_stack_[(6) - (3)].nameData);
@@ -7932,18 +7382,16 @@ namespace torc { namespace generic {
     break;
 
   case 609:
-
-/* Line 678 of lalr1.cc  */
-#line 6129 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6130 "Parser.yy"
     {
             delete (yysemantic_stack_[(1) - (1)].arrayDimensions);
         }
     break;
 
   case 610:
-
-/* Line 678 of lalr1.cc  */
-#line 6135 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6136 "Parser.yy"
     {
             if(NULL == (yysemantic_stack_[(4) - (3)].valueData))
             {
@@ -7959,18 +7407,16 @@ namespace torc { namespace generic {
     break;
 
   case 611:
-
-/* Line 678 of lalr1.cc  */
-#line 6150 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6151 "Parser.yy"
     {
                 (yyval.valueData) = NULL;
             }
     break;
 
   case 612:
-
-/* Line 678 of lalr1.cc  */
-#line 6154 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6155 "Parser.yy"
     {
                 (yyval.valueData) = ((yysemantic_stack_[(2) - (1)].valueData)) ? (yysemantic_stack_[(2) - (1)].valueData) : new ValueData();
                 (yyval.valueData)->mValues.push_back( Value(
@@ -7981,9 +7427,8 @@ namespace torc { namespace generic {
     break;
 
   case 613:
-
-/* Line 678 of lalr1.cc  */
-#line 6162 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6163 "Parser.yy"
     {
                 (yyval.valueData) = ((yysemantic_stack_[(2) - (1)].valueData)) ? (yysemantic_stack_[(2) - (1)].valueData) : new ValueData();
                 (yyval.valueData)->mValues.push_back( Value(
@@ -7994,9 +7439,8 @@ namespace torc { namespace generic {
     break;
 
   case 614:
-
-/* Line 678 of lalr1.cc  */
-#line 6170 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6171 "Parser.yy"
     {
             (yyval.valueData) = (yysemantic_stack_[(2) - (2)].valueData);
             if((yysemantic_stack_[(2) - (1)].valueData))
@@ -8010,45 +7454,40 @@ namespace torc { namespace generic {
     break;
 
   case 615:
-
-/* Line 678 of lalr1.cc  */
-#line 6183 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6184 "Parser.yy"
     {
                 (yyval.valueData) = (yysemantic_stack_[(4) - (3)].valueData);
             }
     break;
 
   case 616:
-
-/* Line 678 of lalr1.cc  */
-#line 6189 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6190 "Parser.yy"
     {
                 (yyval.valueData) = (yysemantic_stack_[(1) - (1)].valueData);
             }
     break;
 
   case 617:
-
-/* Line 678 of lalr1.cc  */
-#line 6193 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6194 "Parser.yy"
     {
                 (yyval.valueData) = (yysemantic_stack_[(2) - (1)].valueData);
             }
     break;
 
   case 618:
-
-/* Line 678 of lalr1.cc  */
-#line 6199 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6200 "Parser.yy"
     {
                 (yyval.valueData) = (yysemantic_stack_[(1) - (1)].valueData);
             }
     break;
 
   case 619:
-
-/* Line 678 of lalr1.cc  */
-#line 6203 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6204 "Parser.yy"
     {
                 Value::MiNoMax val;
                 Value::Number num((yysemantic_stack_[(1) - (1)].pairData)->mX, (yysemantic_stack_[(1) - (1)].pairData)->mY);
@@ -8061,9 +7500,8 @@ namespace torc { namespace generic {
     break;
 
   case 620:
-
-/* Line 678 of lalr1.cc  */
-#line 6215 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6216 "Parser.yy"
     {
         Value::MiNoMax val;
         if((yysemantic_stack_[(6) - (3)].pairData))
@@ -8091,36 +7529,32 @@ namespace torc { namespace generic {
     break;
 
   case 621:
-
-/* Line 678 of lalr1.cc  */
-#line 6242 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6243 "Parser.yy"
     {
             (yyval.pairData) = (yysemantic_stack_[(1) - (1)].pairData);
         }
     break;
 
   case 622:
-
-/* Line 678 of lalr1.cc  */
-#line 6246 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6247 "Parser.yy"
     {
             (yyval.pairData) = NULL;
         }
     break;
 
   case 623:
-
-/* Line 678 of lalr1.cc  */
-#line 6250 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6251 "Parser.yy"
     {
             (yyval.pairData) = NULL;
         }
     break;
 
   case 627:
-
-/* Line 678 of lalr1.cc  */
-#line 6263 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6264 "Parser.yy"
     {
                 InterfaceJoinedInfoSharedPtr joinedInfo;
                 EdifContextSharedPtr ctx
@@ -8128,7 +7562,7 @@ namespace torc { namespace generic {
                 try
                 {
                     ctx->getFactory()->create(joinedInfo);
-                    joinedInfo->setJoinedType( 
+                    joinedInfo->setJoinedType(
                             InterfaceJoinedInfo::eJoinedTypeMust );
                 }
                 catch(Error &e)
@@ -8156,15 +7590,14 @@ namespace torc { namespace generic {
     break;
 
   case 628:
-
-/* Line 678 of lalr1.cc  */
-#line 6295 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6296 "Parser.yy"
     {
                 EdifContextSharedPtr ctx = inDriver.getContext();
-                InterfaceJoinedInfoSharedPtr currentJoinedInfo 
+                InterfaceJoinedInfoSharedPtr currentJoinedInfo
                         = ctx->getCurrentInterfaceJoinedInfo();
                 ctx->popInterfaceJoinedInfo();
-                InterfaceJoinedInfoSharedPtr parentJoinedInfo; 
+                InterfaceJoinedInfoSharedPtr parentJoinedInfo;
                 if(ctx->getInterfaceJoinedInfoDepth() > 1 )
                 {
                     parentJoinedInfo = ctx->getCurrentInterfaceJoinedInfo();
@@ -8172,17 +7605,17 @@ namespace torc { namespace generic {
                 ctx->decrementInterfaceJoinedInfoDepth();
                 if(parentJoinedInfo)
                 {
-                    parentJoinedInfo->setRelationType( 
+                    parentJoinedInfo->setRelationType(
                             InterfaceJoinedInfo::eRelationTypeParent );
-                    currentJoinedInfo->setRelationType( 
+                    currentJoinedInfo->setRelationType(
                             InterfaceJoinedInfo::eRelationTypeChild );
                     //Check size
                     size_t parentJoinedInfoSize = parentJoinedInfo->getSize();
                     size_t currentJoinedInfoSize = currentJoinedInfo->getSize();
 
                     log("Parent joined info Size :: %d\n",
-                            parentJoinedInfoSize ); 
-                    log("Current joined info Size :: %d\n", 
+                            parentJoinedInfoSize );
+                    log("Current joined info Size :: %d\n",
                             currentJoinedInfoSize );
 
                     //std::cout << "Parent joined info Size :: " << parentJoinedInfoSize << std::endl;
@@ -8193,11 +7626,11 @@ namespace torc { namespace generic {
 
                     std::list< PortSharedPtr > outPorts;
                     parentJoinedInfo->getPorts(outPorts);
-                    
+
                     std::list< PortListSharedPtr > outPortLists;
                     parentJoinedInfo->getPortLists(outPortLists);
-                    
-                    if(parentJoinedInfoSize != 0) 
+
+                    if(parentJoinedInfoSize != 0)
                     {
                         if( parentJoinedInfoSize
                                 == currentJoinedInfoSize )
@@ -8228,18 +7661,17 @@ namespace torc { namespace generic {
                         parentJoinedInfo->addChildJoinedInfo(
                                 currentJoinedInfo );
                     }
-                } 
+                }
                 else
                 {
                     ctx->pushInterfaceJoinedInfo(currentJoinedInfo);
-                }              
+                }
             }
     break;
 
   case 630:
-
-/* Line 678 of lalr1.cc  */
-#line 6374 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6375 "Parser.yy"
     {
                 boost::scoped_ptr<PortRefData> portData((yysemantic_stack_[(2) - (2)].portRefData));
                 NameData *portNameData = portData->mPortName;
@@ -8266,7 +7698,7 @@ namespace torc { namespace generic {
                     if(!port)
                     {
                         std::string message = constructErrorMessage(
-                                "No port %s found in view %s\n", 
+                                "No port %s found in view %s\n",
                                             name.c_str(),
                                             view->getName().c_str());
                         log("%s\n", message.c_str());
@@ -8281,11 +7713,11 @@ namespace torc { namespace generic {
                         YYABORT;
                     }
 
-                    InterfaceJoinedInfoSharedPtr currentJoinedInfo 
+                    InterfaceJoinedInfoSharedPtr currentJoinedInfo
                                         = ctx->getCurrentInterfaceJoinedInfo();
                     try
-                    {             
-                        connectibleFinder(nestedNames, port);  
+                    {
+                        connectibleFinder(nestedNames, port);
                         if(!portData->mPortName->mIndices.empty())
                         {
                             port = port->get(portData->mPortName->mIndices);
@@ -8293,7 +7725,7 @@ namespace torc { namespace generic {
                         //Check port size
                         std::list< PortSharedPtr > outPorts;
                         currentJoinedInfo->getPorts(outPorts);
-                        
+
                         if(!outPorts.empty())
                         {
                             PortSharedPtr firstPort = outPorts.front();
@@ -8361,9 +7793,8 @@ namespace torc { namespace generic {
     break;
 
   case 631:
-
-/* Line 678 of lalr1.cc  */
-#line 6493 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6494 "Parser.yy"
     {
                 if(NULL != (yysemantic_stack_[(2) - (2)].portListData) && !(yysemantic_stack_[(2) - (2)].portListData)->mPortRefs.empty())
                 {
@@ -8374,7 +7805,7 @@ namespace torc { namespace generic {
                     PortListSharedPtr portList;
                     ctx->getFactory()->create(portList);
 
-                    InterfaceJoinedInfoSharedPtr currentJoinedInfo 
+                    InterfaceJoinedInfoSharedPtr currentJoinedInfo
                                 = ctx->getCurrentInterfaceJoinedInfo();
 
                     for( std::vector<PortRefData *>::iterator it
@@ -8402,7 +7833,7 @@ namespace torc { namespace generic {
                             if(!port)
                             {
                                 std::string message = constructErrorMessage(
-                                        "No port %s found in view %s\n", 
+                                        "No port %s found in view %s\n",
                                             portNameData->mName.c_str(),
                                             view->getName().c_str());
                                 log("%s\n", message.c_str());
@@ -8429,7 +7860,7 @@ namespace torc { namespace generic {
                             catch(Error &e)
                             {
                                 std::string message = constructErrorMessage(
-                                        "Unable to connect port : %s", 
+                                        "Unable to connect port : %s",
                                                 port->getName().c_str());
                                 log("%s\n", message.c_str());
                                 e.setCurrentLocation( __FUNCTION__,
@@ -8473,18 +7904,16 @@ namespace torc { namespace generic {
     break;
 
   case 634:
-
-/* Line 678 of lalr1.cc  */
-#line 6604 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6605 "Parser.yy"
     {
             (yyval.nameData) = (yysemantic_stack_[(4) - (3)].nameData);
         }
     break;
 
   case 635:
-
-/* Line 678 of lalr1.cc  */
-#line 6610 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6611 "Parser.yy"
     {
             (yyval.nameData) = new NameData();
             (yyval.nameData)->mName = *(yysemantic_stack_[(1) - (1)].stringVal);
@@ -8493,36 +7922,32 @@ namespace torc { namespace generic {
     break;
 
   case 637:
-
-/* Line 678 of lalr1.cc  */
-#line 6619 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6620 "Parser.yy"
     {
             delete (yysemantic_stack_[(1) - (1)].stringVal);
         }
     break;
 
   case 638:
-
-/* Line 678 of lalr1.cc  */
-#line 6623 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6624 "Parser.yy"
     {
             delete (yysemantic_stack_[(1) - (1)].nameData);
         }
     break;
 
   case 639:
-
-/* Line 678 of lalr1.cc  */
-#line 6627 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6628 "Parser.yy"
     {
             delete (yysemantic_stack_[(1) - (1)].nameData);
         }
     break;
 
   case 640:
-
-/* Line 678 of lalr1.cc  */
-#line 6633 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6634 "Parser.yy"
     {
             (yyval.nameData) = new NameData();
             (yyval.nameData)->mName = *(yysemantic_stack_[(1) - (1)].stringVal);
@@ -8531,27 +7956,24 @@ namespace torc { namespace generic {
     break;
 
   case 641:
-
-/* Line 678 of lalr1.cc  */
-#line 6639 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6640 "Parser.yy"
     {
             (yyval.nameData) = (yysemantic_stack_[(1) - (1)].nameData);
         }
     break;
 
   case 642:
-
-/* Line 678 of lalr1.cc  */
-#line 6643 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6644 "Parser.yy"
     {
             (yyval.nameData) = (yysemantic_stack_[(1) - (1)].nameData);
         }
     break;
 
   case 643:
-
-/* Line 678 of lalr1.cc  */
-#line 6649 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6650 "Parser.yy"
     {
             (yyval.nameData) = new NameData();
             (yyval.nameData)->mName = *(yysemantic_stack_[(1) - (1)].stringVal);
@@ -8560,18 +7982,16 @@ namespace torc { namespace generic {
     break;
 
   case 644:
-
-/* Line 678 of lalr1.cc  */
-#line 6655 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6656 "Parser.yy"
     {
             (yyval.nameData) = (yysemantic_stack_[(1) - (1)].nameData);
         }
     break;
 
   case 645:
-
-/* Line 678 of lalr1.cc  */
-#line 6661 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6662 "Parser.yy"
     {
             (yyval.nameData) = new NameData();
             (yyval.nameData)->mName = *(yysemantic_stack_[(1) - (1)].stringVal);
@@ -8580,18 +8000,16 @@ namespace torc { namespace generic {
     break;
 
   case 646:
-
-/* Line 678 of lalr1.cc  */
-#line 6667 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6668 "Parser.yy"
     {
             (yyval.nameData) = (yysemantic_stack_[(1) - (1)].nameData);
         }
     break;
 
   case 647:
-
-/* Line 678 of lalr1.cc  */
-#line 6673 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6674 "Parser.yy"
     {
             boost::scoped_ptr<NameData> pNameData((yysemantic_stack_[(3) - (3)].nameData));
             std::string name = pNameData->mName;
@@ -8654,7 +8072,7 @@ namespace torc { namespace generic {
                     catch(Error &e)
                     {
                         std::string message = constructErrorMessage(
-                                "Unable to create net : %s", 
+                                "Unable to create net : %s",
                                         net->getName().c_str());
                         log("%s\n", message.c_str());
                         e.setCurrentLocation( __FUNCTION__,
@@ -8680,7 +8098,7 @@ namespace torc { namespace generic {
                     catch(Error &e)
                     {
                         std::string message = constructErrorMessage(
-                                "Unable to create net : %s", 
+                                "Unable to create net : %s",
                                         net->getName().c_str());
                         log("%s\n", message.c_str());
                         e.setCurrentLocation( __FUNCTION__,
@@ -8750,14 +8168,13 @@ namespace torc { namespace generic {
     break;
 
   case 648:
-
-/* Line 678 of lalr1.cc  */
-#line 6828 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6829 "Parser.yy"
     {
             EdifContextSharedPtr ctx = inDriver.getContext();
             ViewSharedPtr view = ctx->getCurrentView();
             NetSharedPtr currentNet  = ctx->getCurrentNet();
-            if((yysemantic_stack_[(7) - (6)].netAttributes)) 
+            if((yysemantic_stack_[(7) - (6)].netAttributes))
             {
                 NetAttributesSharedPtr attrib((yysemantic_stack_[(7) - (6)].netAttributes));
                 currentNet->setAttributes(attrib);
@@ -8797,18 +8214,16 @@ namespace torc { namespace generic {
     break;
 
   case 649:
-
-/* Line 678 of lalr1.cc  */
-#line 6872 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6873 "Parser.yy"
     {
             (yyval.netAttributes) = NULL;
         }
     break;
 
   case 650:
-
-/* Line 678 of lalr1.cc  */
-#line 6876 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6877 "Parser.yy"
     {
             (yyval.netAttributes) = ((yysemantic_stack_[(2) - (1)].netAttributes))?(yysemantic_stack_[(2) - (1)].netAttributes):new NetAttributes();
             (yyval.netAttributes)->setCriticality((yysemantic_stack_[(2) - (2)].integerVal));
@@ -8816,9 +8231,8 @@ namespace torc { namespace generic {
     break;
 
   case 651:
-
-/* Line 678 of lalr1.cc  */
-#line 6881 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6882 "Parser.yy"
     {
             boost::scoped_ptr<NetDelay> netDelay((yysemantic_stack_[(2) - (2)].netDelay));
             (yyval.netAttributes) = ((yysemantic_stack_[(2) - (1)].netAttributes))?(yysemantic_stack_[(2) - (1)].netAttributes):new NetAttributes();
@@ -8827,54 +8241,48 @@ namespace torc { namespace generic {
     break;
 
   case 652:
-
-/* Line 678 of lalr1.cc  */
-#line 6887 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6888 "Parser.yy"
     {
             (yyval.netAttributes) = (yysemantic_stack_[(2) - (1)].netAttributes);
         }
     break;
 
   case 653:
-
-/* Line 678 of lalr1.cc  */
-#line 6891 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6892 "Parser.yy"
     {
             (yyval.netAttributes) = (yysemantic_stack_[(2) - (1)].netAttributes);
         }
     break;
 
   case 654:
-
-/* Line 678 of lalr1.cc  */
-#line 6895 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6896 "Parser.yy"
     {
             (yyval.netAttributes) = (yysemantic_stack_[(2) - (1)].netAttributes);
         }
     break;
 
   case 655:
-
-/* Line 678 of lalr1.cc  */
-#line 6899 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6900 "Parser.yy"
     {
             (yyval.netAttributes) = (yysemantic_stack_[(2) - (1)].netAttributes);
         }
     break;
 
   case 656:
-
-/* Line 678 of lalr1.cc  */
-#line 6903 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6904 "Parser.yy"
     {
             (yyval.netAttributes) = (yysemantic_stack_[(2) - (1)].netAttributes);
         }
     break;
 
   case 657:
-
-/* Line 678 of lalr1.cc  */
-#line 6907 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6908 "Parser.yy"
     {
             (yyval.netAttributes) = (yysemantic_stack_[(2) - (1)].netAttributes);
             EdifContextSharedPtr ctx = inDriver.getContext();
@@ -8885,9 +8293,8 @@ namespace torc { namespace generic {
     break;
 
   case 658:
-
-/* Line 678 of lalr1.cc  */
-#line 6915 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6916 "Parser.yy"
     {
             (yyval.netAttributes) = (yysemantic_stack_[(2) - (1)].netAttributes);
             EdifContextSharedPtr ctx = inDriver.getContext();
@@ -8898,36 +8305,32 @@ namespace torc { namespace generic {
     break;
 
   case 661:
-
-/* Line 678 of lalr1.cc  */
-#line 6929 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6930 "Parser.yy"
     {
                     if((yysemantic_stack_[(2) - (2)].netDelay));
                 }
     break;
 
   case 662:
-
-/* Line 678 of lalr1.cc  */
-#line 6933 "Parser.yy"
-    { 
-                    if((yysemantic_stack_[(2) - (2)].integerVal)); 
+/* Line 670 of lalr1.cc  */
+#line 6934 "Parser.yy"
+    {
+                    if((yysemantic_stack_[(2) - (2)].integerVal));
                 }
     break;
 
   case 664:
-
-/* Line 678 of lalr1.cc  */
-#line 6938 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6939 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 665:
-
-/* Line 678 of lalr1.cc  */
-#line 6944 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 6945 "Parser.yy"
     {
                 boost::scoped_ptr<NameData> pNameData((yysemantic_stack_[(3) - (3)].nameData));
                 std::string name = pNameData->mName;
@@ -8984,7 +8387,7 @@ namespace torc { namespace generic {
                     catch(Error &e)
                     {
                         std::string message = constructErrorMessage(
-                                "Unable to create net bundle : %s", 
+                                "Unable to create net bundle : %s",
                                         net->getName().c_str());
                         log("%s\n", message.c_str());
                         e.setCurrentLocation( __FUNCTION__,
@@ -9021,9 +8424,8 @@ namespace torc { namespace generic {
     break;
 
   case 666:
-
-/* Line 678 of lalr1.cc  */
-#line 7034 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7035 "Parser.yy"
     {
                 EdifContextSharedPtr ctx
                                                 = inDriver.getContext();
@@ -9033,12 +8435,11 @@ namespace torc { namespace generic {
     break;
 
   case 671:
-
-/* Line 678 of lalr1.cc  */
-#line 7047 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7048 "Parser.yy"
     {
                     EdifContextSharedPtr ctx = inDriver.getContext();
-                    NetBundleSharedPtr bundle 
+                    NetBundleSharedPtr bundle
                                 = ctx->getCurrentNetBundleContext();
                     bundle->addComment(*(yysemantic_stack_[(2) - (2)].stringVal));
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
@@ -9046,12 +8447,11 @@ namespace torc { namespace generic {
     break;
 
   case 672:
-
-/* Line 678 of lalr1.cc  */
-#line 7055 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7056 "Parser.yy"
     {
                     EdifContextSharedPtr ctx = inDriver.getContext();
-                    NetBundleSharedPtr bundle 
+                    NetBundleSharedPtr bundle
                                 = ctx->getCurrentNetBundleContext();
                     bundle->addUserData(*(yysemantic_stack_[(2) - (2)].stringVal));
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
@@ -9059,9 +8459,8 @@ namespace torc { namespace generic {
     break;
 
   case 673:
-
-/* Line 678 of lalr1.cc  */
-#line 7065 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7066 "Parser.yy"
     {
                 (yyval.netDelay) = (yysemantic_stack_[(5) - (4)].netDelay);
                 (yyval.netDelay)->setDerivation(
@@ -9070,18 +8469,16 @@ namespace torc { namespace generic {
     break;
 
   case 674:
-
-/* Line 678 of lalr1.cc  */
-#line 7074 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7075 "Parser.yy"
     {
             (yyval.netDelay) = (yysemantic_stack_[(1) - (1)].netDelay);
           }
     break;
 
   case 675:
-
-/* Line 678 of lalr1.cc  */
-#line 7078 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7079 "Parser.yy"
     {
             (yyval.netDelay) = ((yysemantic_stack_[(2) - (1)].netDelay)) ? (yysemantic_stack_[(2) - (1)].netDelay) : new NetDelay();
             EdifContextSharedPtr ctx
@@ -9096,9 +8493,8 @@ namespace torc { namespace generic {
     break;
 
   case 676:
-
-/* Line 678 of lalr1.cc  */
-#line 7090 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7091 "Parser.yy"
     {
             (yyval.netDelay) = ((yysemantic_stack_[(2) - (1)].netDelay)) ? (yysemantic_stack_[(2) - (1)].netDelay) : new NetDelay();
             EdifContextSharedPtr ctx
@@ -9113,18 +8509,16 @@ namespace torc { namespace generic {
     break;
 
   case 677:
-
-/* Line 678 of lalr1.cc  */
-#line 7104 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7105 "Parser.yy"
     {
                 (yyval.netDelay) = (yysemantic_stack_[(4) - (3)].netDelay);
             }
     break;
 
   case 678:
-
-/* Line 678 of lalr1.cc  */
-#line 7110 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7111 "Parser.yy"
     {
             boost::scoped_ptr<ValueData> data((yysemantic_stack_[(1) - (1)].valueData));
             (yyval.netDelay) = new NetDelay();
@@ -9133,9 +8527,8 @@ namespace torc { namespace generic {
     break;
 
   case 679:
-
-/* Line 678 of lalr1.cc  */
-#line 7116 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7117 "Parser.yy"
     {
             boost::scoped_ptr<ValueData> data((yysemantic_stack_[(1) - (1)].valueData));
             (yyval.netDelay) = new NetDelay();
@@ -9144,9 +8537,8 @@ namespace torc { namespace generic {
     break;
 
   case 684:
-
-/* Line 678 of lalr1.cc  */
-#line 7132 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7133 "Parser.yy"
     {
                     boost::scoped_ptr<NameData> netData((yysemantic_stack_[(1) - (1)].nameData));
                     std::string name = netData->mName;
@@ -9157,7 +8549,7 @@ namespace torc { namespace generic {
                     if(!net)
                     {
                         std::string message = constructErrorMessage(
-                                "No Net %s found in view %s\n", 
+                                "No Net %s found in view %s\n",
                                             name.c_str(),
                                             view->getName().c_str());
                         log("%s\n", message.c_str());
@@ -9181,27 +8573,24 @@ namespace torc { namespace generic {
     break;
 
   case 693:
-
-/* Line 678 of lalr1.cc  */
-#line 7180 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7181 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 694:
-
-/* Line 678 of lalr1.cc  */
-#line 7184 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7185 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 706:
-
-/* Line 678 of lalr1.cc  */
-#line 7211 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7212 "Parser.yy"
     {
                 NetRefData *nData = (yysemantic_stack_[(5) - (4)].netRefData);
                 if(nData)
@@ -9231,27 +8620,24 @@ namespace torc { namespace generic {
     break;
 
   case 707:
-
-/* Line 678 of lalr1.cc  */
-#line 7240 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7241 "Parser.yy"
     {
                 (yyval.netRefData) = NULL;
             }
     break;
 
   case 708:
-
-/* Line 678 of lalr1.cc  */
-#line 7244 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7245 "Parser.yy"
     {
                 (yyval.netRefData) = (yysemantic_stack_[(1) - (1)].netRefData);
             }
     break;
 
   case 709:
-
-/* Line 678 of lalr1.cc  */
-#line 7248 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7249 "Parser.yy"
     {
                 (yyval.netRefData) = new NetRefData();
                 (yyval.netRefData)->mInstanceName = (yysemantic_stack_[(1) - (1)].instanceRef)->mName;
@@ -9261,9 +8647,8 @@ namespace torc { namespace generic {
     break;
 
   case 710:
-
-/* Line 678 of lalr1.cc  */
-#line 7255 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7256 "Parser.yy"
     {
                 (yyval.netRefData) = new NetRefData();
                 (yyval.netRefData)->mView = (yysemantic_stack_[(1) - (1)].viewRefData);
@@ -9271,9 +8656,8 @@ namespace torc { namespace generic {
     break;
 
   case 712:
-
-/* Line 678 of lalr1.cc  */
-#line 7265 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7266 "Parser.yy"
     {
                 PermutableSharedPtr permutable;
                 EdifContextSharedPtr ctx
@@ -9304,15 +8688,14 @@ namespace torc { namespace generic {
     break;
 
   case 713:
-
-/* Line 678 of lalr1.cc  */
-#line 7292 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7293 "Parser.yy"
     {
                 EdifContextSharedPtr ctx = inDriver.getContext();
-                PermutableSharedPtr currentPermutable 
+                PermutableSharedPtr currentPermutable
                                     = ctx->getCurrentPermutable();
                 ctx->popPermutable();
-                PermutableSharedPtr parentPermutable; 
+                PermutableSharedPtr parentPermutable;
                 if(ctx->getPermutableDepth() > 1 )
                 {
                     parentPermutable = ctx->getCurrentPermutable();
@@ -9320,23 +8703,23 @@ namespace torc { namespace generic {
                 ctx->decrementPermutableDepth();
                 if(parentPermutable)
                 {
-                    parentPermutable->setPermutableType( 
+                    parentPermutable->setPermutableType(
                             Permutable::ePermutableParent );
-                    currentPermutable->setPermutableType( 
+                    currentPermutable->setPermutableType(
                             Permutable::ePermutableChild );
                     //Check permutable port size
                     size_t parentPermutableSize = parentPermutable->getSize();
                     size_t currentPermutableSize = currentPermutable->getSize();
 
                     log("Parent permutable Size :: %d\n",
-                            parentPermutableSize ); 
-                    log("Current permutable Size :: %d\n", 
+                            parentPermutableSize );
+                    log("Current permutable Size :: %d\n",
                             currentPermutableSize );
                     std::vector< PermutableSharedPtr > outPermutables;
                     parentPermutable->getChildren(outPermutables);
                     std::vector< PortSharedPtr > outPorts;
                     parentPermutable->getPorts(outPorts);
-            
+
                     if(!outPermutables.empty() || !outPorts.empty())
                     {
                         if( parentPermutableSize
@@ -9348,7 +8731,7 @@ namespace torc { namespace generic {
                         else
                         {
                             std::string message = constructErrorMessage(
-                                    "Child permutable can't be added, port size mismatch %d with %d", 
+                                    "Child permutable can't be added, port size mismatch %d with %d",
                                         parentPermutableSize,
                                         currentPermutableSize);
                             log("%s\n", message.c_str());
@@ -9368,18 +8751,17 @@ namespace torc { namespace generic {
                         parentPermutable->addChildPermutable(
                                 currentPermutable );
                     }
-                } 
+                }
                 else
                 {
                     ctx->pushPermutable(currentPermutable);
-                }              
+                }
             }
     break;
 
   case 715:
-
-/* Line 678 of lalr1.cc  */
-#line 7363 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7364 "Parser.yy"
     {
                 boost::scoped_ptr<PortRefData> portData((yysemantic_stack_[(2) - (2)].portRefData));
                 NameData *portNameData = portData->mPortName;
@@ -9387,7 +8769,7 @@ namespace torc { namespace generic {
                 EdifContextSharedPtr ctx
                                     = inDriver.getContext();
                 ViewSharedPtr view = ctx->getCurrentView();
-                if(view && ( View::eTypeGraphic == view->getType() || 
+                if(view && ( View::eTypeGraphic == view->getType() ||
                     View::eTypeDocument == view->getType() ) )
                 {
                     std::string message = constructErrorMessage(
@@ -9396,7 +8778,7 @@ namespace torc { namespace generic {
                     Error e( eMessageIdErrorNullPointer,
                         __FUNCTION__, __FILE__, __LINE__ );
                     throw e;
-                }    
+                }
                 PortRefData *currPortRef = (yysemantic_stack_[(2) - (2)].portRefData);
                 PortRefData *nextPortRef = portData->mParentPort;
                 std::vector< std::string > nestedNames;
@@ -9415,7 +8797,7 @@ namespace torc { namespace generic {
                     if(!port)
                     {
                         std::string message = constructErrorMessage(
-                                "No port %s found in view %s\n", 
+                                "No port %s found in view %s\n",
                                             name.c_str(),
                                             view->getName().c_str());
                         log("%s\n", message.c_str());
@@ -9429,11 +8811,11 @@ namespace torc { namespace generic {
                         error(yyloc, message);
                         YYABORT;
                     }
-                    PermutableSharedPtr currentPermutable 
+                    PermutableSharedPtr currentPermutable
                                         = ctx->getCurrentPermutable();
                     try
-                    {             
-                        connectibleFinder(nestedNames, port);  
+                    {
+                        connectibleFinder(nestedNames, port);
                         if(!portData->mPortName->mIndices.empty())
                         {
                             port = port->get(portData->mPortName->mIndices);
@@ -9441,7 +8823,7 @@ namespace torc { namespace generic {
                         //Check permutable port size
                         std::vector< PortSharedPtr > outPorts;
                         currentPermutable->getPorts(outPorts);
-                        
+
                         if(!outPorts.empty())
                         {
                             PortSharedPtr firstPort = outPorts.front();
@@ -9506,45 +8888,40 @@ namespace torc { namespace generic {
     break;
 
   case 719:
-
-/* Line 678 of lalr1.cc  */
-#line 7494 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7495 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 720:
-
-/* Line 678 of lalr1.cc  */
-#line 7498 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7499 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 724:
-
-/* Line 678 of lalr1.cc  */
-#line 7509 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7510 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 725:
-
-/* Line 678 of lalr1.cc  */
-#line 7513 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7514 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 726:
-
-/* Line 678 of lalr1.cc  */
-#line 7519 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7520 "Parser.yy"
     {
             if(NULL == (yysemantic_stack_[(4) - (3)].valueData))
             {
@@ -9560,18 +8937,16 @@ namespace torc { namespace generic {
     break;
 
   case 727:
-
-/* Line 678 of lalr1.cc  */
-#line 7534 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7535 "Parser.yy"
     {
              (yyval.valueData) = NULL;
          }
     break;
 
   case 728:
-
-/* Line 678 of lalr1.cc  */
-#line 7538 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7539 "Parser.yy"
     {
              (yyval.valueData) = ((yysemantic_stack_[(2) - (1)].valueData)) ? (yysemantic_stack_[(2) - (1)].valueData) : new ValueData();
              (yyval.valueData)->mValues.push_back( Value( Value::eValueTypeNumber,
@@ -9581,9 +8956,8 @@ namespace torc { namespace generic {
     break;
 
   case 729:
-
-/* Line 678 of lalr1.cc  */
-#line 7545 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7546 "Parser.yy"
     {
              (yyval.valueData) = ((yysemantic_stack_[(2) - (1)].valueData)) ? (yysemantic_stack_[(2) - (1)].valueData) : new ValueData();
              (yyval.valueData)->mValues.push_back( Value( Value::eValueTypeNumber,
@@ -9593,9 +8967,8 @@ namespace torc { namespace generic {
     break;
 
   case 730:
-
-/* Line 678 of lalr1.cc  */
-#line 7552 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7553 "Parser.yy"
     {
             (yyval.valueData) = (yysemantic_stack_[(2) - (2)].valueData);
             if((yysemantic_stack_[(2) - (1)].valueData))
@@ -9609,162 +8982,144 @@ namespace torc { namespace generic {
     break;
 
   case 731:
-
-/* Line 678 of lalr1.cc  */
-#line 7565 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7566 "Parser.yy"
     {
                 (yyval.pairData) = (yysemantic_stack_[(4) - (3)].pairData);
             }
     break;
 
   case 732:
-
-/* Line 678 of lalr1.cc  */
-#line 7571 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7572 "Parser.yy"
     {
                     (yyval.pairData) = (yysemantic_stack_[(1) - (1)].pairData);
                 }
     break;
 
   case 733:
-
-/* Line 678 of lalr1.cc  */
-#line 7575 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7576 "Parser.yy"
     {
                     (yyval.pairData) = (yysemantic_stack_[(2) - (1)].pairData);
                 }
     break;
 
   case 738:
-
-/* Line 678 of lalr1.cc  */
-#line 7587 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7588 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 743:
-
-/* Line 678 of lalr1.cc  */
-#line 7599 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7600 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 744:
-
-/* Line 678 of lalr1.cc  */
-#line 7603 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7604 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 745:
-
-/* Line 678 of lalr1.cc  */
-#line 7609 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7610 "Parser.yy"
     {
                 (yyval.pairData) = (yysemantic_stack_[(5) - (4)].pairData);
             }
     break;
 
   case 758:
-
-/* Line 678 of lalr1.cc  */
-#line 7635 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7636 "Parser.yy"
     {
             delete (yysemantic_stack_[(4) - (3)].pairData);
         }
     break;
 
   case 762:
-
-/* Line 678 of lalr1.cc  */
-#line 7646 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7647 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 763:
-
-/* Line 678 of lalr1.cc  */
-#line 7650 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7651 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 767:
-
-/* Line 678 of lalr1.cc  */
-#line 7661 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7662 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 768:
-
-/* Line 678 of lalr1.cc  */
-#line 7665 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7666 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 769:
-
-/* Line 678 of lalr1.cc  */
-#line 7671 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7672 "Parser.yy"
     {
                     if((yysemantic_stack_[(6) - (3)].integerVal));
                 }
     break;
 
   case 772:
-
-/* Line 678 of lalr1.cc  */
-#line 7681 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7682 "Parser.yy"
     {
             (yyval.stringVal) = (yysemantic_stack_[(4) - (3)].stringVal);
         }
     break;
 
   case 774:
-
-/* Line 678 of lalr1.cc  */
-#line 7690 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7691 "Parser.yy"
     {
             delete (yysemantic_stack_[(1) - (1)].nameData);
         }
     break;
 
   case 782:
-
-/* Line 678 of lalr1.cc  */
-#line 7701 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7702 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 783:
-
-/* Line 678 of lalr1.cc  */
-#line 7705 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7706 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 788:
-
-/* Line 678 of lalr1.cc  */
-#line 7721 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7722 "Parser.yy"
     {
                 EdifContextSharedPtr ctx
                                             = inDriver.getContext();
@@ -9784,7 +9139,7 @@ namespace torc { namespace generic {
                         if(!nameData->mOriginalName.empty())
                         {
                             param->setOriginalName(nameData->mOriginalName);
-                        } 
+                        }
                         param->setValue(valueData->mValues[0]);
                     }
                     catch(Error &e)
@@ -9824,7 +9179,7 @@ namespace torc { namespace generic {
                         if(!nameData->mOriginalName.empty())
                         {
                             array->setOriginalName(nameData->mOriginalName);
-                        } 
+                        }
                         array->constructChildren( factory,
                                                     (yysemantic_stack_[(6) - (3)].nameData)->mIndices );
                         param = array;
@@ -9857,18 +9212,16 @@ namespace torc { namespace generic {
     break;
 
   case 789:
-
-/* Line 678 of lalr1.cc  */
-#line 7813 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7814 "Parser.yy"
     {
                 (yyval.integerVal) = 0;
             }
     break;
 
   case 791:
-
-/* Line 678 of lalr1.cc  */
-#line 7820 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7821 "Parser.yy"
     {
                 (yyval.paramAssignInfo) = new ParamAssignInfo();
                 (yyval.paramAssignInfo)->mNameData = (yysemantic_stack_[(5) - (3)].nameData);
@@ -9877,9 +9230,8 @@ namespace torc { namespace generic {
     break;
 
   case 795:
-
-/* Line 678 of lalr1.cc  */
-#line 7835 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7836 "Parser.yy"
     {
                     PathDelaySharedPtr pathDelay;
                     EdifContextSharedPtr ctx
@@ -9910,9 +9262,8 @@ namespace torc { namespace generic {
     break;
 
   case 796:
-
-/* Line 678 of lalr1.cc  */
-#line 7862 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7863 "Parser.yy"
     {
                     EdifContextSharedPtr ctx = inDriver.getContext();
                     ctx->setCurrentPathDelay(PathDelaySharedPtr());
@@ -9920,12 +9271,11 @@ namespace torc { namespace generic {
     break;
 
   case 798:
-
-/* Line 678 of lalr1.cc  */
-#line 7870 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7871 "Parser.yy"
     {
                 EdifContextSharedPtr ctx = inDriver.getContext();
-                PathDelaySharedPtr pathDelay 
+                PathDelaySharedPtr pathDelay
                             = ctx->getCurrentPathDelay();
                 EventSharedPtr event
                         = ctx->getCurrentEvent();
@@ -9936,31 +9286,28 @@ namespace torc { namespace generic {
     break;
 
   case 799:
-
-/* Line 678 of lalr1.cc  */
-#line 7883 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7884 "Parser.yy"
     {
                 boost::scoped_ptr<ValueData> data((yysemantic_stack_[(4) - (3)].valueData));
                 EdifContextSharedPtr ctx = inDriver.getContext();
-                PathDelaySharedPtr pathDelay 
+                PathDelaySharedPtr pathDelay
                             = ctx->getCurrentPathDelay();
                 pathDelay->setDelay(data->mValues[0].get<Value::MiNoMax>());
             }
     break;
 
   case 802:
-
-/* Line 678 of lalr1.cc  */
-#line 7897 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7898 "Parser.yy"
     {
                 if((yysemantic_stack_[(4) - (3)].integerVal));
             }
     break;
 
   case 803:
-
-/* Line 678 of lalr1.cc  */
-#line 7903 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7904 "Parser.yy"
     {
                 PermutableSharedPtr permutable;
                 EdifContextSharedPtr ctx
@@ -9995,15 +9342,14 @@ namespace torc { namespace generic {
     break;
 
   case 804:
-
-/* Line 678 of lalr1.cc  */
-#line 7934 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 7935 "Parser.yy"
     {
                 EdifContextSharedPtr ctx = inDriver.getContext();
-                PermutableSharedPtr currentPermutable 
+                PermutableSharedPtr currentPermutable
                                     = ctx->getCurrentPermutable();
                 ctx->popPermutable();
-                PermutableSharedPtr parentPermutable; 
+                PermutableSharedPtr parentPermutable;
                 if(ctx->getPermutableDepth() > 1 )
                 {
                     parentPermutable = ctx->getCurrentPermutable();
@@ -10011,23 +9357,23 @@ namespace torc { namespace generic {
                 ctx->decrementPermutableDepth();
                 if(parentPermutable)
                 {
-                    parentPermutable->setPermutableType( 
+                    parentPermutable->setPermutableType(
                             Permutable::ePermutableParent );
-                    currentPermutable->setPermutableType( 
+                    currentPermutable->setPermutableType(
                             Permutable::ePermutableChild );
                     //Check permutable port size
                     size_t parentPermutableSize = parentPermutable->getSize();
                     size_t currentPermutableSize = currentPermutable->getSize();
 
                     log("Parent permutable Size :: %d\n",
-                            parentPermutableSize ); 
-                    log("Current permutable Size :: %d\n", 
+                            parentPermutableSize );
+                    log("Current permutable Size :: %d\n",
                             currentPermutableSize );
                     std::vector< PermutableSharedPtr > outPermutables;
                     parentPermutable->getChildren(outPermutables);
                     std::vector< PortSharedPtr > outPorts;
                     parentPermutable->getPorts(outPorts);
-            
+
                     if(!outPermutables.empty() || !outPorts.empty())
                     {
                         if( parentPermutableSize
@@ -10059,18 +9405,17 @@ namespace torc { namespace generic {
                         parentPermutable->addChildPermutable(
                                 currentPermutable );
                     }
-                } 
+                }
                 else
                 {
                     ctx->pushPermutable(currentPermutable);
-                }              
+                }
             }
     break;
 
   case 806:
-
-/* Line 678 of lalr1.cc  */
-#line 8005 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8006 "Parser.yy"
     {
                 boost::scoped_ptr<PortRefData> portData((yysemantic_stack_[(2) - (2)].portRefData));
                 NameData *portNameData = portData->mPortName;
@@ -10078,7 +9423,7 @@ namespace torc { namespace generic {
                 EdifContextSharedPtr ctx
                                     = inDriver.getContext();
                 ViewSharedPtr view = ctx->getCurrentView();
-                if(view && ( View::eTypeGraphic == view->getType() || 
+                if(view && ( View::eTypeGraphic == view->getType() ||
                     View::eTypeDocument == view->getType() ) )
                 {
                     std::string message = constructErrorMessage(
@@ -10087,7 +9432,7 @@ namespace torc { namespace generic {
                     Error e( eMessageIdErrorNullPointer,
                         __FUNCTION__, __FILE__, __LINE__ );
                     throw e;
-                }    
+                }
                 PortRefData *currPortRef = (yysemantic_stack_[(2) - (2)].portRefData);
                 PortRefData *nextPortRef = portData->mParentPort;
                 std::vector< std::string > nestedNames;
@@ -10106,7 +9451,7 @@ namespace torc { namespace generic {
                     if(!port)
                     {
                         std::string message = constructErrorMessage(
-                                "No port %s found in view %s\n", 
+                                "No port %s found in view %s\n",
                                             name.c_str(),
                                             view->getName().c_str());
                         log("%s\n", message.c_str());
@@ -10120,11 +9465,11 @@ namespace torc { namespace generic {
                         error(yyloc, message);
                         YYABORT;
                     }
-                    PermutableSharedPtr currentPermutable 
+                    PermutableSharedPtr currentPermutable
                                         = ctx->getCurrentPermutable();
                     try
-                    {             
-                        connectibleFinder(nestedNames, port);  
+                    {
+                        connectibleFinder(nestedNames, port);
                         if(!portData->mPortName->mIndices.empty())
                         {
                             port = port->get(portData->mPortName->mIndices);
@@ -10132,7 +9477,7 @@ namespace torc { namespace generic {
                         //Check permutable port size
                         std::vector< PortSharedPtr > outPorts;
                         currentPermutable->getPorts(outPorts);
-                        
+
                         if(!outPorts.empty())
                         {
                             PortSharedPtr firstPort = outPorts.front();
@@ -10197,9 +9542,8 @@ namespace torc { namespace generic {
     break;
 
   case 812:
-
-/* Line 678 of lalr1.cc  */
-#line 8140 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8141 "Parser.yy"
     {
             if(NULL == (yysemantic_stack_[(4) - (3)].valueData))
             {
@@ -10215,18 +9559,16 @@ namespace torc { namespace generic {
     break;
 
   case 813:
-
-/* Line 678 of lalr1.cc  */
-#line 8155 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8156 "Parser.yy"
     {
             (yyval.valueData) = NULL;
         }
     break;
 
   case 814:
-
-/* Line 678 of lalr1.cc  */
-#line 8159 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8160 "Parser.yy"
     {
             (yyval.valueData) = ((yysemantic_stack_[(2) - (1)].valueData)) ? (yysemantic_stack_[(2) - (1)].valueData) : new ValueData();
             (yyval.valueData)->mValues.push_back( Value(
@@ -10237,9 +9579,8 @@ namespace torc { namespace generic {
     break;
 
   case 815:
-
-/* Line 678 of lalr1.cc  */
-#line 8167 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8168 "Parser.yy"
     {
             (yyval.valueData) = ((yysemantic_stack_[(2) - (1)].valueData)) ? (yysemantic_stack_[(2) - (1)].valueData) : new ValueData();
             (yyval.valueData)->mValues.push_back( Value(
@@ -10250,9 +9591,8 @@ namespace torc { namespace generic {
     break;
 
   case 816:
-
-/* Line 678 of lalr1.cc  */
-#line 8175 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8176 "Parser.yy"
     {
             (yyval.valueData) = (yysemantic_stack_[(2) - (2)].valueData);
             if((yysemantic_stack_[(2) - (1)].valueData))
@@ -10266,54 +9606,48 @@ namespace torc { namespace generic {
     break;
 
   case 817:
-
-/* Line 678 of lalr1.cc  */
-#line 8188 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8189 "Parser.yy"
     {
                 (yyval.pairData) = (yysemantic_stack_[(4) - (3)].pairData);
             }
     break;
 
   case 818:
-
-/* Line 678 of lalr1.cc  */
-#line 8194 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8195 "Parser.yy"
     {
                 (yyval.pairData) = (yysemantic_stack_[(1) - (1)].pairData);
             }
     break;
 
   case 819:
-
-/* Line 678 of lalr1.cc  */
-#line 8198 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8199 "Parser.yy"
     {
                 (yyval.pairData) = (yysemantic_stack_[(2) - (1)].pairData);
             }
     break;
 
   case 822:
-
-/* Line 678 of lalr1.cc  */
-#line 8208 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8209 "Parser.yy"
     {
                 delete (yysemantic_stack_[(2) - (2)].pairData);
             }
     break;
 
   case 823:
-
-/* Line 678 of lalr1.cc  */
-#line 8214 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8215 "Parser.yy"
     {
                 (yyval.pairData) = new PairData((yysemantic_stack_[(5) - (3)].integerVal), (yysemantic_stack_[(5) - (4)].integerVal));
             }
     break;
 
   case 827:
-
-/* Line 678 of lalr1.cc  */
-#line 8227 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8228 "Parser.yy"
     {
             boost::scoped_ptr<NameData> pNameData((yysemantic_stack_[(3) - (3)].nameData));
             std::string name = pNameData->mName;
@@ -10341,7 +9675,7 @@ namespace torc { namespace generic {
             else
             {
                 port = view->findPort(name);
-                bExistingPortFound = port;
+                bExistingPortFound = !!port;
             }
             if(bExistingPortFound)
             {
@@ -10384,7 +9718,7 @@ namespace torc { namespace generic {
                     catch(Error &e)
                     {
                         std::string message = constructErrorMessage(
-                                "Unable to create vector port : %s", 
+                                "Unable to create vector port : %s",
                                         port->getName().c_str());
                         log("%s\n", message.c_str());
                         e.setCurrentLocation( __FUNCTION__,
@@ -10410,7 +9744,7 @@ namespace torc { namespace generic {
                     catch(Error &e)
                     {
                         std::string message = constructErrorMessage(
-                                "Unable to create port : %s", 
+                                "Unable to create port : %s",
                                         port->getName().c_str());
                         log("%s\n", message.c_str());
                         e.setCurrentLocation( __FUNCTION__,
@@ -10464,9 +9798,8 @@ namespace torc { namespace generic {
     break;
 
   case 828:
-
-/* Line 678 of lalr1.cc  */
-#line 8374 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8375 "Parser.yy"
     {
             EdifContextSharedPtr ctx = inDriver.getContext();
             if((yysemantic_stack_[(6) - (5)].portAttributes))
@@ -10480,27 +9813,24 @@ namespace torc { namespace generic {
     break;
 
   case 829:
-
-/* Line 678 of lalr1.cc  */
-#line 8387 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8388 "Parser.yy"
     {
             (yyval.portAttributes) = NULL;
         }
     break;
 
   case 830:
-
-/* Line 678 of lalr1.cc  */
-#line 8391 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8392 "Parser.yy"
     {
             (yyval.portAttributes) = (yysemantic_stack_[(2) - (1)].portAttributes);
         }
     break;
 
   case 831:
-
-/* Line 678 of lalr1.cc  */
-#line 8395 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8396 "Parser.yy"
     {
             (yyval.portAttributes) = ((yysemantic_stack_[(2) - (1)].portAttributes))?(yysemantic_stack_[(2) - (1)].portAttributes):new PortAttributes();
             Value::Boolean unused = (yysemantic_stack_[(2) - (2)].integerVal);
@@ -10510,9 +9840,8 @@ namespace torc { namespace generic {
     break;
 
   case 832:
-
-/* Line 678 of lalr1.cc  */
-#line 8402 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8403 "Parser.yy"
     {
             boost::scoped_ptr<PortDelay> delay((yysemantic_stack_[(2) - (2)].portDelay));
             (yyval.portAttributes) = ((yysemantic_stack_[(2) - (1)].portAttributes))?(yysemantic_stack_[(2) - (1)].portAttributes):new PortAttributes();
@@ -10521,9 +9850,8 @@ namespace torc { namespace generic {
     break;
 
   case 833:
-
-/* Line 678 of lalr1.cc  */
-#line 8408 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8409 "Parser.yy"
     {
             (yyval.portAttributes) = ((yysemantic_stack_[(2) - (1)].portAttributes))?(yysemantic_stack_[(2) - (1)].portAttributes):new PortAttributes();
             boost::scoped_ptr<std::string> data((yysemantic_stack_[(2) - (2)].stringVal));
@@ -10533,9 +9861,8 @@ namespace torc { namespace generic {
     break;
 
   case 834:
-
-/* Line 678 of lalr1.cc  */
-#line 8415 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8416 "Parser.yy"
     {
             boost::scoped_ptr<PairData> data((yysemantic_stack_[(2) - (2)].pairData));
             Value::Number num(data->mX, data->mY);
@@ -10546,9 +9873,8 @@ namespace torc { namespace generic {
     break;
 
   case 835:
-
-/* Line 678 of lalr1.cc  */
-#line 8423 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8424 "Parser.yy"
     {
             boost::scoped_ptr<PairData> data((yysemantic_stack_[(2) - (2)].pairData));
             Value::Number num(data->mX, data->mY);
@@ -10559,9 +9885,8 @@ namespace torc { namespace generic {
     break;
 
   case 836:
-
-/* Line 678 of lalr1.cc  */
-#line 8431 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8432 "Parser.yy"
     {
             boost::scoped_ptr<PairData> data((yysemantic_stack_[(2) - (2)].pairData));
             Value::Number num(data->mX, data->mY);
@@ -10572,9 +9897,8 @@ namespace torc { namespace generic {
     break;
 
   case 837:
-
-/* Line 678 of lalr1.cc  */
-#line 8439 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8440 "Parser.yy"
     {
             boost::scoped_ptr<PairData> data((yysemantic_stack_[(2) - (2)].pairData));
             Value::Number num(data->mX, data->mY);
@@ -10585,9 +9909,8 @@ namespace torc { namespace generic {
     break;
 
   case 838:
-
-/* Line 678 of lalr1.cc  */
-#line 8447 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8448 "Parser.yy"
     {
             boost::scoped_ptr<ValueData> data((yysemantic_stack_[(2) - (2)].valueData));
             (yyval.portAttributes) = ((yysemantic_stack_[(2) - (1)].portAttributes))?(yysemantic_stack_[(2) - (1)].portAttributes):new PortAttributes();
@@ -10596,18 +9919,16 @@ namespace torc { namespace generic {
     break;
 
   case 839:
-
-/* Line 678 of lalr1.cc  */
-#line 8453 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8454 "Parser.yy"
     {
             (yyval.portAttributes) = (yysemantic_stack_[(2) - (1)].portAttributes);
         }
     break;
 
   case 840:
-
-/* Line 678 of lalr1.cc  */
-#line 8457 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8458 "Parser.yy"
     {
             (yyval.portAttributes) = (yysemantic_stack_[(2) - (1)].portAttributes);
             EdifContextSharedPtr ctx = inDriver.getContext();
@@ -10618,9 +9939,8 @@ namespace torc { namespace generic {
     break;
 
   case 841:
-
-/* Line 678 of lalr1.cc  */
-#line 8465 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8466 "Parser.yy"
     {
             (yyval.portAttributes) = (yysemantic_stack_[(2) - (1)].portAttributes);
             EdifContextSharedPtr ctx = inDriver.getContext();
@@ -10631,9 +9951,8 @@ namespace torc { namespace generic {
     break;
 
   case 842:
-
-/* Line 678 of lalr1.cc  */
-#line 8475 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8476 "Parser.yy"
     {
                 boost::scoped_ptr<PortRefData> portData((yysemantic_stack_[(3) - (3)].portRefData));
                 EdifContextSharedPtr ctx
@@ -10766,7 +10085,7 @@ namespace torc { namespace generic {
                     catch(Error &e)
                     {
                         std::string message = constructErrorMessage(
-                                "Unable to connect port ref : %s", 
+                                "Unable to connect port ref : %s",
                                         portRef->getName().c_str());
                         log("%s\n", message.c_str());
                         e.setCurrentLocation( __FUNCTION__,
@@ -10784,9 +10103,8 @@ namespace torc { namespace generic {
     break;
 
   case 843:
-
-/* Line 678 of lalr1.cc  */
-#line 8622 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8623 "Parser.yy"
     {
                 EdifContextSharedPtr ctx
                             = inDriver.getContext();
@@ -10814,18 +10132,16 @@ namespace torc { namespace generic {
     break;
 
   case 844:
-
-/* Line 678 of lalr1.cc  */
-#line 8649 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8650 "Parser.yy"
     {
                 (yyval.portAttributes) = NULL;
             }
     break;
 
   case 845:
-
-/* Line 678 of lalr1.cc  */
-#line 8653 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8654 "Parser.yy"
     {
                     (yyval.portAttributes) = ((yysemantic_stack_[(2) - (1)].portAttributes))?(yysemantic_stack_[(2) - (1)].portAttributes):new PortAttributes();
                     Value::Boolean unused = (yysemantic_stack_[(2) - (2)].integerVal);
@@ -10835,9 +10151,8 @@ namespace torc { namespace generic {
     break;
 
   case 846:
-
-/* Line 678 of lalr1.cc  */
-#line 8660 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8661 "Parser.yy"
     {
                     boost::scoped_ptr<PortDelay> delay((yysemantic_stack_[(2) - (2)].portDelay));
                     (yyval.portAttributes) = ((yysemantic_stack_[(2) - (1)].portAttributes))?(yysemantic_stack_[(2) - (1)].portAttributes):new PortAttributes();
@@ -10846,9 +10161,8 @@ namespace torc { namespace generic {
     break;
 
   case 847:
-
-/* Line 678 of lalr1.cc  */
-#line 8666 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8667 "Parser.yy"
     {
                     (yyval.portAttributes) = ((yysemantic_stack_[(2) - (1)].portAttributes))?(yysemantic_stack_[(2) - (1)].portAttributes):new PortAttributes();
                     boost::scoped_ptr<std::string> data((yysemantic_stack_[(2) - (2)].stringVal));
@@ -10858,9 +10172,8 @@ namespace torc { namespace generic {
     break;
 
   case 848:
-
-/* Line 678 of lalr1.cc  */
-#line 8673 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8674 "Parser.yy"
     {
                     boost::scoped_ptr<PairData> data((yysemantic_stack_[(2) - (2)].pairData));
                     Value::Number num(data->mX, data->mY);
@@ -10871,9 +10184,8 @@ namespace torc { namespace generic {
     break;
 
   case 849:
-
-/* Line 678 of lalr1.cc  */
-#line 8681 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8682 "Parser.yy"
     {
                     boost::scoped_ptr<PairData> data((yysemantic_stack_[(2) - (2)].pairData));
                     Value::Number num(data->mX, data->mY);
@@ -10884,9 +10196,8 @@ namespace torc { namespace generic {
     break;
 
   case 850:
-
-/* Line 678 of lalr1.cc  */
-#line 8689 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8690 "Parser.yy"
     {
                     boost::scoped_ptr<PairData> data((yysemantic_stack_[(2) - (2)].pairData));
                     Value::Number num(data->mX, data->mY);
@@ -10897,9 +10208,8 @@ namespace torc { namespace generic {
     break;
 
   case 851:
-
-/* Line 678 of lalr1.cc  */
-#line 8697 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8698 "Parser.yy"
     {
                     boost::scoped_ptr<PairData> data((yysemantic_stack_[(2) - (2)].pairData));
                     Value::Number num(data->mX, data->mY);
@@ -10910,9 +10220,8 @@ namespace torc { namespace generic {
     break;
 
   case 852:
-
-/* Line 678 of lalr1.cc  */
-#line 8705 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8706 "Parser.yy"
     {
                     boost::scoped_ptr<ValueData> data((yysemantic_stack_[(2) - (2)].valueData));
                     (yyval.portAttributes) = ((yysemantic_stack_[(2) - (1)].portAttributes))?(yysemantic_stack_[(2) - (1)].portAttributes):new PortAttributes();
@@ -10921,18 +10230,16 @@ namespace torc { namespace generic {
     break;
 
   case 853:
-
-/* Line 678 of lalr1.cc  */
-#line 8711 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8712 "Parser.yy"
     {
                     (yyval.portAttributes) = (yysemantic_stack_[(2) - (1)].portAttributes);
                 }
     break;
 
   case 854:
-
-/* Line 678 of lalr1.cc  */
-#line 8715 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8716 "Parser.yy"
     {
                     (yyval.portAttributes) = (yysemantic_stack_[(2) - (1)].portAttributes);
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
@@ -10940,9 +10247,8 @@ namespace torc { namespace generic {
     break;
 
   case 855:
-
-/* Line 678 of lalr1.cc  */
-#line 8722 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8723 "Parser.yy"
     {
             boost::scoped_ptr<NameData> nameData((yysemantic_stack_[(3) - (3)].nameData));
             std::string name = nameData->mName;
@@ -10969,7 +10275,7 @@ namespace torc { namespace generic {
             else
             {
                 port = view->findPort(name);
-                bExistingPortFound = port;
+                bExistingPortFound = !!port;
             }
             if(bExistingPortFound)
             {
@@ -11003,7 +10309,7 @@ namespace torc { namespace generic {
                 catch(Error &e)
                 {
                     std::string message = constructErrorMessage(
-                            "Unable to create port bundle : %s", 
+                            "Unable to create port bundle : %s",
                                     port->getName().c_str());
                     log("%s\n", message.c_str());
                     e.setCurrentLocation( __FUNCTION__,
@@ -11040,9 +10346,8 @@ namespace torc { namespace generic {
     break;
 
   case 856:
-
-/* Line 678 of lalr1.cc  */
-#line 8816 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8817 "Parser.yy"
     {
             inDriver.getContext()->popPortBundleContext();
             inDriver.getContext()->setCurrentPort(
@@ -11051,12 +10356,11 @@ namespace torc { namespace generic {
     break;
 
   case 859:
-
-/* Line 678 of lalr1.cc  */
-#line 8826 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8827 "Parser.yy"
     {
                     EdifContextSharedPtr ctx = inDriver.getContext();
-                    PortBundleSharedPtr bundle 
+                    PortBundleSharedPtr bundle
                                 = ctx->getCurrentPortBundleContext();
                     bundle->addComment(*(yysemantic_stack_[(2) - (2)].stringVal));
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
@@ -11064,12 +10368,11 @@ namespace torc { namespace generic {
     break;
 
   case 860:
-
-/* Line 678 of lalr1.cc  */
-#line 8834 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8835 "Parser.yy"
     {
                     EdifContextSharedPtr ctx = inDriver.getContext();
-                    PortBundleSharedPtr bundle 
+                    PortBundleSharedPtr bundle
                                 = ctx->getCurrentPortBundleContext();
                     bundle->addUserData(*(yysemantic_stack_[(2) - (2)].stringVal));
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
@@ -11077,9 +10380,8 @@ namespace torc { namespace generic {
     break;
 
   case 861:
-
-/* Line 678 of lalr1.cc  */
-#line 8844 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8845 "Parser.yy"
     {
                 (yyval.portDelay) = (yysemantic_stack_[(5) - (4)].portDelay);
                 (yyval.portDelay)->setDerivation(
@@ -11090,9 +10392,8 @@ namespace torc { namespace generic {
     break;
 
   case 862:
-
-/* Line 678 of lalr1.cc  */
-#line 8854 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8855 "Parser.yy"
     {
                     inDriver.getLexer()->setAppendToBuffer(true);
                     inDriver.getLexer()->resetBuffer();
@@ -11101,9 +10402,8 @@ namespace torc { namespace generic {
     break;
 
   case 863:
-
-/* Line 678 of lalr1.cc  */
-#line 8860 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8861 "Parser.yy"
     {
                     inDriver.getLexer()->setAppendToBuffer(true);
                     inDriver.getLexer()->resetBuffer();
@@ -11112,9 +10412,8 @@ namespace torc { namespace generic {
     break;
 
   case 864:
-
-/* Line 678 of lalr1.cc  */
-#line 8866 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8867 "Parser.yy"
     {
                     (yyval.portDelay) = ((yysemantic_stack_[(2) - (1)].portDelay)) ? (yysemantic_stack_[(2) - (1)].portDelay) : new PortDelay();
                     EdifContextSharedPtr ctx
@@ -11129,9 +10428,8 @@ namespace torc { namespace generic {
     break;
 
   case 865:
-
-/* Line 678 of lalr1.cc  */
-#line 8878 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8879 "Parser.yy"
     {
                     (yyval.portDelay) = ((yysemantic_stack_[(2) - (1)].portDelay)) ? (yysemantic_stack_[(2) - (1)].portDelay) : new PortDelay();
                     EdifContextSharedPtr ctx
@@ -11146,9 +10444,8 @@ namespace torc { namespace generic {
     break;
 
   case 870:
-
-/* Line 678 of lalr1.cc  */
-#line 8900 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8901 "Parser.yy"
     {
                     boost::scoped_ptr<NameData> portData((yysemantic_stack_[(1) - (1)].nameData));
                     std::string name = portData->mName;
@@ -11159,7 +10456,7 @@ namespace torc { namespace generic {
                     if(!port)
                     {
                         std::string message = constructErrorMessage(
-                                "No port %s found in view %s\n", 
+                                "No port %s found in view %s\n",
                                             name.c_str(),
                                             view->getName().c_str());
                         log("%s\n", message.c_str());
@@ -11183,36 +10480,32 @@ namespace torc { namespace generic {
     break;
 
   case 885:
-
-/* Line 678 of lalr1.cc  */
-#line 8954 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8955 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 886:
-
-/* Line 678 of lalr1.cc  */
-#line 8958 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8959 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 887:
-
-/* Line 678 of lalr1.cc  */
-#line 8964 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8965 "Parser.yy"
     {
                 (yyval.portInst) = (yysemantic_stack_[(4) - (3)].portInst);
             }
     break;
 
   case 888:
-
-/* Line 678 of lalr1.cc  */
-#line 8970 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8971 "Parser.yy"
     {
                 (yyval.portInst) = new PortInstData();
                 (yyval.portInst)->mRefData = (yysemantic_stack_[(1) - (1)].portRefData);
@@ -11220,9 +10513,8 @@ namespace torc { namespace generic {
     break;
 
   case 889:
-
-/* Line 678 of lalr1.cc  */
-#line 8975 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8976 "Parser.yy"
     {
                 (yyval.portInst) = new PortInstData();
                 (yyval.portInst)->mRefData = new PortRefData();
@@ -11231,9 +10523,8 @@ namespace torc { namespace generic {
     break;
 
   case 890:
-
-/* Line 678 of lalr1.cc  */
-#line 8981 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8982 "Parser.yy"
     {
                 (yyval.portInst) = ((yysemantic_stack_[(2) - (1)].portInst))?(yysemantic_stack_[(2) - (1)].portInst):new PortInstData();
                 (yyval.portInst)->mAttribute = ((yyval.portInst)->mAttribute)
@@ -11246,9 +10537,8 @@ namespace torc { namespace generic {
     break;
 
   case 891:
-
-/* Line 678 of lalr1.cc  */
-#line 8991 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 8992 "Parser.yy"
     {
                 (yyval.portInst) = ((yysemantic_stack_[(2) - (1)].portInst))?(yysemantic_stack_[(2) - (1)].portInst):new PortInstData();
                 (yyval.portInst)->mAttribute = ((yyval.portInst)->mAttribute)
@@ -11260,9 +10550,8 @@ namespace torc { namespace generic {
     break;
 
   case 892:
-
-/* Line 678 of lalr1.cc  */
-#line 9000 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9001 "Parser.yy"
     {
                 (yyval.portInst) = ((yysemantic_stack_[(2) - (1)].portInst))?(yysemantic_stack_[(2) - (1)].portInst):new PortInstData();
                 (yyval.portInst)->mAttribute = ((yyval.portInst)->mAttribute)
@@ -11275,9 +10564,8 @@ namespace torc { namespace generic {
     break;
 
   case 893:
-
-/* Line 678 of lalr1.cc  */
-#line 9010 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9011 "Parser.yy"
     {
                 boost::scoped_ptr<PairData> data((yysemantic_stack_[(2) - (2)].pairData));
                 Value::Number num(data->mX, data->mY);
@@ -11291,9 +10579,8 @@ namespace torc { namespace generic {
     break;
 
   case 894:
-
-/* Line 678 of lalr1.cc  */
-#line 9021 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9022 "Parser.yy"
     {
                 boost::scoped_ptr<PairData> data((yysemantic_stack_[(2) - (2)].pairData));
                 Value::Number num(data->mX, data->mY);
@@ -11307,9 +10594,8 @@ namespace torc { namespace generic {
     break;
 
   case 895:
-
-/* Line 678 of lalr1.cc  */
-#line 9032 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9033 "Parser.yy"
     {
                 boost::scoped_ptr<PairData> data((yysemantic_stack_[(2) - (2)].pairData));
                 Value::Number num(data->mX, data->mY);
@@ -11323,9 +10609,8 @@ namespace torc { namespace generic {
     break;
 
   case 896:
-
-/* Line 678 of lalr1.cc  */
-#line 9043 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9044 "Parser.yy"
     {
                 boost::scoped_ptr<PairData> data((yysemantic_stack_[(2) - (2)].pairData));
                 Value::Number num(data->mX, data->mY);
@@ -11339,9 +10624,8 @@ namespace torc { namespace generic {
     break;
 
   case 897:
-
-/* Line 678 of lalr1.cc  */
-#line 9054 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9055 "Parser.yy"
     {
                 boost::scoped_ptr<ValueData> data((yysemantic_stack_[(2) - (2)].valueData));
                 (yyval.portInst) = ((yysemantic_stack_[(2) - (1)].portInst))?(yysemantic_stack_[(2) - (1)].portInst):new PortInstData();
@@ -11353,18 +10637,16 @@ namespace torc { namespace generic {
     break;
 
   case 898:
-
-/* Line 678 of lalr1.cc  */
-#line 9063 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9064 "Parser.yy"
     {
                 (yyval.portInst) = (yysemantic_stack_[(2) - (1)].portInst);
             }
     break;
 
   case 899:
-
-/* Line 678 of lalr1.cc  */
-#line 9067 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9068 "Parser.yy"
     {
                 (yyval.portInst) = (yysemantic_stack_[(2) - (1)].portInst);
                 delete (yysemantic_stack_[(2) - (2)].stringVal);
@@ -11372,9 +10654,8 @@ namespace torc { namespace generic {
     break;
 
   case 900:
-
-/* Line 678 of lalr1.cc  */
-#line 9072 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9073 "Parser.yy"
     {
                 (yyval.portInst) = (yysemantic_stack_[(2) - (1)].portInst);
                 delete (yysemantic_stack_[(2) - (2)].stringVal);
@@ -11382,27 +10663,24 @@ namespace torc { namespace generic {
     break;
 
   case 905:
-
-/* Line 678 of lalr1.cc  */
-#line 9087 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9088 "Parser.yy"
     {
             (yyval.portListData) = (yysemantic_stack_[(4) - (3)].portListData);
         }
     break;
 
   case 906:
-
-/* Line 678 of lalr1.cc  */
-#line 9093 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9094 "Parser.yy"
     {
                 (yyval.portListData) = NULL;
             }
     break;
 
   case 907:
-
-/* Line 678 of lalr1.cc  */
-#line 9097 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9098 "Parser.yy"
     {
                 (yyval.portListData) = ((yysemantic_stack_[(2) - (1)].portListData))?(yysemantic_stack_[(2) - (1)].portListData):new PortListData();
                 (yyval.portListData)->mPortRefs.push_back((yysemantic_stack_[(2) - (2)].portRefData));
@@ -11410,9 +10688,8 @@ namespace torc { namespace generic {
     break;
 
   case 908:
-
-/* Line 678 of lalr1.cc  */
-#line 9102 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9103 "Parser.yy"
     {
                 (yyval.portListData) = ((yysemantic_stack_[(2) - (1)].portListData))?(yysemantic_stack_[(2) - (1)].portListData):new PortListData();
                 PortRefData *portRef = new PortRefData();
@@ -11422,9 +10699,8 @@ namespace torc { namespace generic {
     break;
 
   case 909:
-
-/* Line 678 of lalr1.cc  */
-#line 9111 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9112 "Parser.yy"
     {
                 if((yysemantic_stack_[(5) - (3)].nameData))
                 {
@@ -11469,7 +10745,7 @@ namespace torc { namespace generic {
                                 if(!port)
                                 {
                                     std::string message = constructErrorMessage(
-                                            "No port %s found in view %s\n", 
+                                            "No port %s found in view %s\n",
                                                 portNameData->mName.c_str(),
                                                 view->getName().c_str());
                                     log("%s\n", message.c_str());
@@ -11496,7 +10772,7 @@ namespace torc { namespace generic {
                                 catch(Error &e)
                                 {
                                     std::string message = constructErrorMessage(
-                                            "Unable to connect port : %s", 
+                                            "Unable to connect port : %s",
                                                     port->getName().c_str());
                                     log("%s\n", message.c_str());
                                     e.setCurrentLocation( __FUNCTION__,
@@ -11516,7 +10792,7 @@ namespace torc { namespace generic {
                         }
                         portlistAlias->setPortList(portList);
                     }
-                    SimulateSharedPtr simulate 
+                    SimulateSharedPtr simulate
                             = ctx->getCurrentSimulate();
                     try
                     {
@@ -11525,7 +10801,7 @@ namespace torc { namespace generic {
                     catch(Error &e)
                     {
                         std::string message = constructErrorMessage(
-                                "Unable to add port list alias : %s", 
+                                "Unable to add port list alias : %s",
                                         portlistAlias->getName().c_str());
                         log("%s\n", message.c_str());
                         e.setCurrentLocation( __FUNCTION__,
@@ -11543,36 +10819,32 @@ namespace torc { namespace generic {
     break;
 
   case 914:
-
-/* Line 678 of lalr1.cc  */
-#line 9235 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9236 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 915:
-
-/* Line 678 of lalr1.cc  */
-#line 9239 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9240 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 917:
-
-/* Line 678 of lalr1.cc  */
-#line 9246 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9247 "Parser.yy"
     {
                     delete (yysemantic_stack_[(1) - (1)].nameData);
                 }
     break;
 
   case 929:
-
-/* Line 678 of lalr1.cc  */
-#line 9272 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9273 "Parser.yy"
     {
                 PortRefData *pData = (yysemantic_stack_[(5) - (4)].portRefData);
                 if(pData)
@@ -11602,27 +10874,24 @@ namespace torc { namespace generic {
     break;
 
   case 930:
-
-/* Line 678 of lalr1.cc  */
-#line 9301 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9302 "Parser.yy"
     {
                 (yyval.portRefData) = NULL;
             }
     break;
 
   case 931:
-
-/* Line 678 of lalr1.cc  */
-#line 9305 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9306 "Parser.yy"
     {
                 (yyval.portRefData) = (yysemantic_stack_[(1) - (1)].portRefData);
             }
     break;
 
   case 932:
-
-/* Line 678 of lalr1.cc  */
-#line 9309 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9310 "Parser.yy"
     {
                 (yyval.portRefData) = new PortRefData();
                 (yyval.portRefData)->mInstanceName = (yysemantic_stack_[(1) - (1)].instanceRef)->mName;
@@ -11632,9 +10901,8 @@ namespace torc { namespace generic {
     break;
 
   case 933:
-
-/* Line 678 of lalr1.cc  */
-#line 9316 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9317 "Parser.yy"
     {
                 (yyval.portRefData) = new PortRefData();
                 (yyval.portRefData)->mView = (yysemantic_stack_[(1) - (1)].viewRefData);
@@ -11642,27 +10910,24 @@ namespace torc { namespace generic {
     break;
 
   case 934:
-
-/* Line 678 of lalr1.cc  */
-#line 9323 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9324 "Parser.yy"
     {
             (yyval.pairStrData) = new PairStrData(*(yysemantic_stack_[(5) - (3)].stringVal), *(yysemantic_stack_[(5) - (4)].stringVal));
         }
     break;
 
   case 935:
-
-/* Line 678 of lalr1.cc  */
-#line 9329 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9330 "Parser.yy"
     {
                 (yyval.stringVal) = new std::string();
             }
     break;
 
   case 936:
-
-/* Line 678 of lalr1.cc  */
-#line 9333 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9334 "Parser.yy"
     {
                 (yyval.stringVal) = (yysemantic_stack_[(1) - (1)].stringVal);
                 //delete $1;
@@ -11670,9 +10935,8 @@ namespace torc { namespace generic {
     break;
 
   case 940:
-
-/* Line 678 of lalr1.cc  */
-#line 9347 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9348 "Parser.yy"
     {
                 boost::scoped_ptr<NameData> nameData((yysemantic_stack_[(3) - (3)].nameData));
                 if(!nameData->mIndices.empty())
@@ -11725,9 +10989,8 @@ namespace torc { namespace generic {
     break;
 
   case 941:
-
-/* Line 678 of lalr1.cc  */
-#line 9396 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9397 "Parser.yy"
     {
                 EdifContextSharedPtr ctx
                                         = inDriver.getContext();
@@ -11772,9 +11035,8 @@ namespace torc { namespace generic {
     break;
 
   case 942:
-
-/* Line 678 of lalr1.cc  */
-#line 9440 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9441 "Parser.yy"
     {
                 boost::scoped_ptr<ValueData> value((yysemantic_stack_[(1) - (1)].valueData));
                 if(value->mValues.size() > 1)
@@ -11798,9 +11060,8 @@ namespace torc { namespace generic {
     break;
 
   case 943:
-
-/* Line 678 of lalr1.cc  */
-#line 9461 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9462 "Parser.yy"
     {
                 inDriver.getContext()->getCurrentProperty()
                                     ->setOwner(*(yysemantic_stack_[(2) - (2)].stringVal));
@@ -11809,9 +11070,8 @@ namespace torc { namespace generic {
     break;
 
   case 944:
-
-/* Line 678 of lalr1.cc  */
-#line 9467 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9468 "Parser.yy"
     {
                 inDriver.getContext()->getCurrentProperty()
                                 ->setUnit(static_cast<Unit>((yysemantic_stack_[(2) - (2)].integerVal)));
@@ -11819,9 +11079,8 @@ namespace torc { namespace generic {
     break;
 
   case 946:
-
-/* Line 678 of lalr1.cc  */
-#line 9473 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9474 "Parser.yy"
     {
                 inDriver.getContext()->getCurrentProperty()
                             ->addComment(*(yysemantic_stack_[(2) - (2)].stringVal));
@@ -11830,63 +11089,56 @@ namespace torc { namespace generic {
     break;
 
   case 960:
-
-/* Line 678 of lalr1.cc  */
-#line 9500 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9501 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 961:
-
-/* Line 678 of lalr1.cc  */
-#line 9504 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9505 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 972:
-
-/* Line 678 of lalr1.cc  */
-#line 9526 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9527 "Parser.yy"
     {
                 delete (yysemantic_stack_[(5) - (3)].pairData);
             }
     break;
 
   case 973:
-
-/* Line 678 of lalr1.cc  */
-#line 9532 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9533 "Parser.yy"
     {
                 delete (yysemantic_stack_[(1) - (1)].pairData);
             }
     break;
 
   case 978:
-
-/* Line 678 of lalr1.cc  */
-#line 9544 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9545 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 979:
-
-/* Line 678 of lalr1.cc  */
-#line 9548 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9549 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 980:
-
-/* Line 678 of lalr1.cc  */
-#line 9554 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9555 "Parser.yy"
     {
             (yyval.nameData) = (yysemantic_stack_[(5) - (3)].nameData);
             (yyval.nameData)->mOriginalName = *(yysemantic_stack_[(5) - (4)].stringVal);
@@ -11895,9 +11147,8 @@ namespace torc { namespace generic {
     break;
 
   case 981:
-
-/* Line 678 of lalr1.cc  */
-#line 9562 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9563 "Parser.yy"
     {
                 (yyval.nameData) = new NameData();
                 (yyval.nameData)->mName = *(yysemantic_stack_[(1) - (1)].stringVal);
@@ -11906,54 +11157,48 @@ namespace torc { namespace generic {
     break;
 
   case 982:
-
-/* Line 678 of lalr1.cc  */
-#line 9568 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9569 "Parser.yy"
     {
                 (yyval.nameData) = (yysemantic_stack_[(1) - (1)].nameData);
             }
     break;
 
   case 983:
-
-/* Line 678 of lalr1.cc  */
-#line 9574 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9575 "Parser.yy"
     {
             (yyval.stringVal) = (yysemantic_stack_[(1) - (1)].stringVal);
         }
     break;
 
   case 984:
-
-/* Line 678 of lalr1.cc  */
-#line 9578 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9579 "Parser.yy"
     {
             (yyval.stringVal) = (yysemantic_stack_[(1) - (1)].stringVal);
         }
     break;
 
   case 985:
-
-/* Line 678 of lalr1.cc  */
-#line 9584 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9585 "Parser.yy"
     {
                 (yyval.logicListData) = (yysemantic_stack_[(4) - (3)].logicListData);
             }
     break;
 
   case 986:
-
-/* Line 678 of lalr1.cc  */
-#line 9590 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9591 "Parser.yy"
     {
                 (yyval.logicListData) = NULL;
             }
     break;
 
   case 987:
-
-/* Line 678 of lalr1.cc  */
-#line 9594 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9595 "Parser.yy"
     {
                 (yyval.logicListData) = ((yysemantic_stack_[(2) - (1)].logicListData))?(yysemantic_stack_[(2) - (1)].logicListData):new LogicListData();
                 (yyval.logicListData)->mNameDataList.push_back((yysemantic_stack_[(2) - (2)].nameData));
@@ -11961,9 +11206,8 @@ namespace torc { namespace generic {
     break;
 
   case 989:
-
-/* Line 678 of lalr1.cc  */
-#line 9604 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9605 "Parser.yy"
     {
             delete (yysemantic_stack_[(6) - (3)].pairData);
             delete (yysemantic_stack_[(6) - (4)].pairData);
@@ -11972,27 +11216,24 @@ namespace torc { namespace generic {
     break;
 
   case 990:
-
-/* Line 678 of lalr1.cc  */
-#line 9612 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9613 "Parser.yy"
     {
                 (yyval.pairData) = new PairData((yysemantic_stack_[(1) - (1)].integerVal));
             }
     break;
 
   case 991:
-
-/* Line 678 of lalr1.cc  */
-#line 9616 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9617 "Parser.yy"
     {
                 (yyval.pairData) = new PairData((yysemantic_stack_[(5) - (3)].integerVal), (yysemantic_stack_[(5) - (4)].integerVal));
             }
     break;
 
   case 992:
-
-/* Line 678 of lalr1.cc  */
-#line 9622 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9623 "Parser.yy"
     {
             if((yysemantic_stack_[(5) - (3)].integerVal));
             if((yysemantic_stack_[(5) - (4)].integerVal));
@@ -12000,9 +11241,8 @@ namespace torc { namespace generic {
     break;
 
   case 993:
-
-/* Line 678 of lalr1.cc  */
-#line 9629 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9630 "Parser.yy"
     {
             if((yysemantic_stack_[(5) - (3)].integerVal));
             if((yysemantic_stack_[(5) - (4)].integerVal));
@@ -12010,27 +11250,24 @@ namespace torc { namespace generic {
     break;
 
   case 995:
-
-/* Line 678 of lalr1.cc  */
-#line 9639 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9640 "Parser.yy"
     {
                 delete (yysemantic_stack_[(1) - (1)].stringVal);
             }
     break;
 
   case 997:
-
-/* Line 678 of lalr1.cc  */
-#line 9644 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9645 "Parser.yy"
     {
                 delete (yysemantic_stack_[(2) - (2)].stringVal);
             }
     break;
 
   case 1003:
-
-/* Line 678 of lalr1.cc  */
-#line 9661 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9662 "Parser.yy"
     {
                 SimulateSharedPtr simulate;
                 EdifContextSharedPtr ctx
@@ -12059,9 +11296,8 @@ namespace torc { namespace generic {
     break;
 
   case 1004:
-
-/* Line 678 of lalr1.cc  */
-#line 9686 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9687 "Parser.yy"
     {
                 // Note : Need to do the followings, from where Simulate called
                 //EdifContextSharedPtr ctx = inDriver.getContext();
@@ -12070,9 +11306,8 @@ namespace torc { namespace generic {
     break;
 
   case 1005:
-
-/* Line 678 of lalr1.cc  */
-#line 9694 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9695 "Parser.yy"
     {
                 if((yysemantic_stack_[(1) - (1)].nameData))
                 {
@@ -12095,12 +11330,11 @@ namespace torc { namespace generic {
     break;
 
   case 1009:
-
-/* Line 678 of lalr1.cc  */
-#line 9717 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9718 "Parser.yy"
     {
                 EdifContextSharedPtr ctx = inDriver.getContext();
-                SimulateSharedPtr simulate 
+                SimulateSharedPtr simulate
                         = ctx->getCurrentSimulate();
                 simulate->addComment(*(yysemantic_stack_[(2) - (2)].stringVal));
                 delete (yysemantic_stack_[(2) - (2)].stringVal);
@@ -12108,12 +11342,11 @@ namespace torc { namespace generic {
     break;
 
   case 1010:
-
-/* Line 678 of lalr1.cc  */
-#line 9725 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9726 "Parser.yy"
     {
                 EdifContextSharedPtr ctx = inDriver.getContext();
-                SimulateSharedPtr simulate 
+                SimulateSharedPtr simulate
                         = ctx->getCurrentSimulate();
                 simulate->addUserData(*(yysemantic_stack_[(2) - (2)].stringVal));
                 delete (yysemantic_stack_[(2) - (2)].stringVal);
@@ -12121,9 +11354,8 @@ namespace torc { namespace generic {
     break;
 
   case 1011:
-
-/* Line 678 of lalr1.cc  */
-#line 9735 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9736 "Parser.yy"
     {
                 SimulationInfoSharedPtr simuInfo;
                 EdifContextSharedPtr ctx
@@ -12154,9 +11386,8 @@ namespace torc { namespace generic {
     break;
 
   case 1012:
-
-/* Line 678 of lalr1.cc  */
-#line 9762 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9763 "Parser.yy"
     {
                 EdifContextSharedPtr ctx = inDriver.getContext();
                 ctx->setCurrentSimulationInfo(
@@ -12165,12 +11396,11 @@ namespace torc { namespace generic {
     break;
 
   case 1015:
-
-/* Line 678 of lalr1.cc  */
-#line 9772 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9773 "Parser.yy"
     {
                     EdifContextSharedPtr ctx = inDriver.getContext();
-                    SimulationInfoSharedPtr simuInfo 
+                    SimulationInfoSharedPtr simuInfo
                                     = ctx->getCurrentSimulationInfo();
                     simuInfo->addComment(*(yysemantic_stack_[(2) - (2)].stringVal));
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
@@ -12178,12 +11408,11 @@ namespace torc { namespace generic {
     break;
 
   case 1016:
-
-/* Line 678 of lalr1.cc  */
-#line 9780 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9781 "Parser.yy"
     {
                     EdifContextSharedPtr ctx = inDriver.getContext();
-                    SimulationInfoSharedPtr simuInfo 
+                    SimulationInfoSharedPtr simuInfo
                                     = ctx->getCurrentSimulationInfo();
                     simuInfo->addUserData(*(yysemantic_stack_[(2) - (2)].stringVal));
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
@@ -12191,9 +11420,8 @@ namespace torc { namespace generic {
     break;
 
   case 1029:
-
-/* Line 678 of lalr1.cc  */
-#line 9818 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9819 "Parser.yy"
     {
             StatusSharedPtr status;
             EdifContextSharedPtr ctx
@@ -12222,17 +11450,16 @@ namespace torc { namespace generic {
     break;
 
   case 1030:
-
-/* Line 678 of lalr1.cc  */
-#line 9843 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9844 "Parser.yy"
     {
             EdifContextSharedPtr ctx = inDriver.getContext();
-            StatusSharedPtr currentStatus 
-                                = ctx->getCurrentStatus(); 
-                                    
+            StatusSharedPtr currentStatus
+                                = ctx->getCurrentStatus();
+
             StatusContainerSharedPtr container
                                     = ctx->getCurrentStatusContainer();
-            if(container) 
+            if(container)
             {
                 container->addStatus(currentStatus);
             }
@@ -12244,9 +11471,8 @@ namespace torc { namespace generic {
     break;
 
   case 1033:
-
-/* Line 678 of lalr1.cc  */
-#line 9864 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9865 "Parser.yy"
     {
                 EdifContextSharedPtr ctx = inDriver.getContext();
                 StatusSharedPtr status = ctx->getCurrentStatus();
@@ -12256,9 +11482,8 @@ namespace torc { namespace generic {
     break;
 
   case 1034:
-
-/* Line 678 of lalr1.cc  */
-#line 9871 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9872 "Parser.yy"
     {
                 EdifContextSharedPtr ctx = inDriver.getContext();
                 StatusSharedPtr status = ctx->getCurrentStatus();
@@ -12268,27 +11493,24 @@ namespace torc { namespace generic {
     break;
 
   case 1039:
-
-/* Line 678 of lalr1.cc  */
-#line 9888 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9889 "Parser.yy"
     {
                     delete (yysemantic_stack_[(1) - (1)].pairData);
                 }
     break;
 
   case 1042:
-
-/* Line 678 of lalr1.cc  */
-#line 9896 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9897 "Parser.yy"
     {
                 (yyval.stringVal) = (yysemantic_stack_[(4) - (3)].stringVal);
             }
     break;
 
   case 1043:
-
-/* Line 678 of lalr1.cc  */
-#line 9902 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9903 "Parser.yy"
     {
             if((yysemantic_stack_[(4) - (2)].stringVal));
             if(NULL == (yysemantic_stack_[(4) - (3)].valueData))
@@ -12305,18 +11527,16 @@ namespace torc { namespace generic {
     break;
 
   case 1044:
-
-/* Line 678 of lalr1.cc  */
-#line 9918 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9919 "Parser.yy"
     {
                 (yyval.valueData) = NULL;
             }
     break;
 
   case 1045:
-
-/* Line 678 of lalr1.cc  */
-#line 9922 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9923 "Parser.yy"
     {
                 (yyval.valueData) = ((yysemantic_stack_[(2) - (1)].valueData)) ? (yysemantic_stack_[(2) - (1)].valueData) : new ValueData();
                 (yyval.valueData)->mValues.push_back( Value(
@@ -12326,9 +11546,8 @@ namespace torc { namespace generic {
     break;
 
   case 1046:
-
-/* Line 678 of lalr1.cc  */
-#line 9929 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9930 "Parser.yy"
     {
                 (yyval.valueData) = ((yysemantic_stack_[(2) - (1)].valueData)) ? (yysemantic_stack_[(2) - (1)].valueData) : new ValueData();
                 (yyval.valueData)->mValues.push_back( Value(
@@ -12338,9 +11557,8 @@ namespace torc { namespace generic {
     break;
 
   case 1047:
-
-/* Line 678 of lalr1.cc  */
-#line 9936 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9937 "Parser.yy"
     {
             (yyval.valueData) = (yysemantic_stack_[(2) - (2)].valueData);
             if((yysemantic_stack_[(2) - (1)].valueData))
@@ -12354,102 +11572,91 @@ namespace torc { namespace generic {
     break;
 
   case 1048:
-
-/* Line 678 of lalr1.cc  */
-#line 9949 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9950 "Parser.yy"
     {
                 (yyval.stringVal) = (yysemantic_stack_[(1) - (1)].stringVal);
             }
     break;
 
   case 1049:
-
-/* Line 678 of lalr1.cc  */
-#line 9953 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9954 "Parser.yy"
     {
                 (yyval.stringVal) = (yysemantic_stack_[(2) - (1)].stringVal);
             }
     break;
 
   case 1050:
-
-/* Line 678 of lalr1.cc  */
-#line 9959 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9960 "Parser.yy"
     {
             (yyval.nameData) = (yysemantic_stack_[(4) - (3)].nameData);
         }
     break;
 
   case 1064:
-
-/* Line 678 of lalr1.cc  */
-#line 9980 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9981 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 1065:
-
-/* Line 678 of lalr1.cc  */
-#line 9984 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 9985 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 1074:
-
-/* Line 678 of lalr1.cc  */
-#line 10008 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10009 "Parser.yy"
     {
                     delete (yysemantic_stack_[(1) - (1)].logicRefData);
                 }
     break;
 
   case 1081:
-
-/* Line 678 of lalr1.cc  */
-#line 10022 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10023 "Parser.yy"
     {
               log("PRINT TECHNOLOGY \n");
            }
     break;
 
   case 1087:
-
-/* Line 678 of lalr1.cc  */
-#line 10033 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10034 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 1088:
-
-/* Line 678 of lalr1.cc  */
-#line 10037 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10038 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 1089:
-
-/* Line 678 of lalr1.cc  */
-#line 10043 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10044 "Parser.yy"
     {
                 if((yysemantic_stack_[(4) - (3)].integerVal));
             }
     break;
 
   case 1091:
-
-/* Line 678 of lalr1.cc  */
-#line 10052 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10053 "Parser.yy"
     {
                     EdifContextSharedPtr ctx = inDriver.getContext();
-                    ForbiddenEventSharedPtr forbiddenEvent 
+                    ForbiddenEventSharedPtr forbiddenEvent
                                 = ctx->getCurrentForbiddenEvent();
                     EventSharedPtr event
                             = ctx->getCurrentEvent();
@@ -12460,16 +11667,15 @@ namespace torc { namespace generic {
     break;
 
   case 1092:
-
-/* Line 678 of lalr1.cc  */
-#line 10063 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10064 "Parser.yy"
     {
                     boost::scoped_ptr<PairData> data((yysemantic_stack_[(1) - (1)].pairData));
                     Value::Number num(data->mX, data->mY);
                     Value val(Value::eValueTypeNumber, num);
 
                     EdifContextSharedPtr ctx = inDriver.getContext();
-                    ForbiddenEventSharedPtr forbiddenEvent 
+                    ForbiddenEventSharedPtr forbiddenEvent
                                 = ctx->getCurrentForbiddenEvent();
                     EventSharedPtr event
                             = ctx->getCurrentEvent();
@@ -12481,12 +11687,11 @@ namespace torc { namespace generic {
     break;
 
   case 1093:
-
-/* Line 678 of lalr1.cc  */
-#line 10081 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10082 "Parser.yy"
     {
                     EdifContextSharedPtr ctx = inDriver.getContext();
-                    ForbiddenEventSharedPtr forbiddenEvent 
+                    ForbiddenEventSharedPtr forbiddenEvent
                                 = ctx->getCurrentForbiddenEvent();
                     EventSharedPtr event
                             = ctx->getCurrentEvent();
@@ -12497,16 +11702,15 @@ namespace torc { namespace generic {
     break;
 
   case 1094:
-
-/* Line 678 of lalr1.cc  */
-#line 10092 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10093 "Parser.yy"
     {
                     boost::scoped_ptr<PairData> data((yysemantic_stack_[(1) - (1)].pairData));
                     Value::Number num(data->mX, data->mY);
                     Value val(Value::eValueTypeNumber, num);
-                    
+
                     EdifContextSharedPtr ctx = inDriver.getContext();
-                    ForbiddenEventSharedPtr forbiddenEvent 
+                    ForbiddenEventSharedPtr forbiddenEvent
                                 = ctx->getCurrentForbiddenEvent();
                     EventSharedPtr event
                             = ctx->getCurrentEvent();
@@ -12518,12 +11722,11 @@ namespace torc { namespace generic {
     break;
 
   case 1095:
-
-/* Line 678 of lalr1.cc  */
-#line 10108 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10109 "Parser.yy"
     {
                     EdifContextSharedPtr ctx = inDriver.getContext();
-                    ForbiddenEventSharedPtr forbiddenEvent 
+                    ForbiddenEventSharedPtr forbiddenEvent
                                 = ctx->getCurrentForbiddenEvent();
 
                     boost::scoped_ptr<PairData> data((yysemantic_stack_[(1) - (1)].pairData));
@@ -12534,9 +11737,8 @@ namespace torc { namespace generic {
     break;
 
   case 1096:
-
-/* Line 678 of lalr1.cc  */
-#line 10121 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10122 "Parser.yy"
     {
             if((yysemantic_stack_[(9) - (3)].integerVal));
             if((yysemantic_stack_[(9) - (4)].integerVal));
@@ -12544,20 +11746,19 @@ namespace torc { namespace generic {
             if((yysemantic_stack_[(9) - (6)].integerVal));
             if((yysemantic_stack_[(9) - (7)].integerVal));
             if((yysemantic_stack_[(9) - (8)].integerVal));
-            (yyval.timeStamp) = new TimeStamp(); 
+            (yyval.timeStamp) = new TimeStamp();
             (yyval.timeStamp)->setYear((yysemantic_stack_[(9) - (3)].integerVal));
             (yyval.timeStamp)->setMonth((yysemantic_stack_[(9) - (4)].integerVal));
             (yyval.timeStamp)->setDay((yysemantic_stack_[(9) - (5)].integerVal));
             (yyval.timeStamp)->setHour((yysemantic_stack_[(9) - (6)].integerVal));
             (yyval.timeStamp)->setMinute((yysemantic_stack_[(9) - (7)].integerVal));
-            (yyval.timeStamp)->setSecond((yysemantic_stack_[(9) - (8)].integerVal)); 
+            (yyval.timeStamp)->setSecond((yysemantic_stack_[(9) - (8)].integerVal));
         }
     break;
 
   case 1097:
-
-/* Line 678 of lalr1.cc  */
-#line 10139 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10140 "Parser.yy"
     {
             TimingSharedPtr timing;
             EdifContextSharedPtr ctx
@@ -12586,9 +11787,8 @@ namespace torc { namespace generic {
     break;
 
   case 1098:
-
-/* Line 678 of lalr1.cc  */
-#line 10164 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10165 "Parser.yy"
     {
             // Note : Need to do the followings, from where Timing called
             //EdifContextSharedPtr ctx = inDriver.getContext();
@@ -12597,23 +11797,21 @@ namespace torc { namespace generic {
     break;
 
   case 1099:
-
-/* Line 678 of lalr1.cc  */
-#line 10172 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10173 "Parser.yy"
     {
                 EdifContextSharedPtr ctx
                         = inDriver.getContext();
                 TimingSharedPtr timing
                         = ctx->getCurrentTiming();
-                timing->setDerivation( 
-                          static_cast<Derivation>((yysemantic_stack_[(1) - (1)].integerVal)) );    
+                timing->setDerivation(
+                          static_cast<Derivation>((yysemantic_stack_[(1) - (1)].integerVal)) );
             }
     break;
 
   case 1102:
-
-/* Line 678 of lalr1.cc  */
-#line 10183 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10184 "Parser.yy"
     {
                 EdifContextSharedPtr ctx
                         = inDriver.getContext();
@@ -12625,9 +11823,8 @@ namespace torc { namespace generic {
     break;
 
   case 1103:
-
-/* Line 678 of lalr1.cc  */
-#line 10192 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10193 "Parser.yy"
     {
                 EdifContextSharedPtr ctx
                         = inDriver.getContext();
@@ -12639,9 +11836,8 @@ namespace torc { namespace generic {
     break;
 
   case 1111:
-
-/* Line 678 of lalr1.cc  */
-#line 10214 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10215 "Parser.yy"
     {
                 EdifContextSharedPtr ctx
                                 = inDriver.getContext();
@@ -12672,171 +11868,152 @@ namespace torc { namespace generic {
     break;
 
   case 1135:
-
-/* Line 678 of lalr1.cc  */
-#line 10284 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10285 "Parser.yy"
     {
             (yyval.integerVal) = (yysemantic_stack_[(4) - (3)].integerVal);
         }
     break;
 
   case 1136:
-
-/* Line 678 of lalr1.cc  */
-#line 10290 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10291 "Parser.yy"
     {
             (yyval.integerVal) = 1;
         }
     break;
 
   case 1137:
-
-/* Line 678 of lalr1.cc  */
-#line 10294 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10295 "Parser.yy"
     {
             (yyval.integerVal) = 2;
         }
     break;
 
   case 1138:
-
-/* Line 678 of lalr1.cc  */
-#line 10298 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10299 "Parser.yy"
     {
             (yyval.integerVal) = 3;
         }
     break;
 
   case 1139:
-
-/* Line 678 of lalr1.cc  */
-#line 10302 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10303 "Parser.yy"
     {
             (yyval.integerVal) = 4;
         }
     break;
 
   case 1140:
-
-/* Line 678 of lalr1.cc  */
-#line 10306 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10307 "Parser.yy"
     {
             (yyval.integerVal) = 5;
         }
     break;
 
   case 1141:
-
-/* Line 678 of lalr1.cc  */
-#line 10310 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10311 "Parser.yy"
     {
             (yyval.integerVal) = 6;
         }
     break;
 
   case 1142:
-
-/* Line 678 of lalr1.cc  */
-#line 10314 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10315 "Parser.yy"
     {
             (yyval.integerVal) = 7;
         }
     break;
 
   case 1143:
-
-/* Line 678 of lalr1.cc  */
-#line 10318 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10319 "Parser.yy"
     {
             (yyval.integerVal) = 8;
         }
     break;
 
   case 1144:
-
-/* Line 678 of lalr1.cc  */
-#line 10322 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10323 "Parser.yy"
     {
             (yyval.integerVal) = 9;
         }
     break;
 
   case 1145:
-
-/* Line 678 of lalr1.cc  */
-#line 10326 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10327 "Parser.yy"
     {
             (yyval.integerVal) = 10;
         }
     break;
 
   case 1146:
-
-/* Line 678 of lalr1.cc  */
-#line 10330 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10331 "Parser.yy"
     {
             (yyval.integerVal) = 11;
         }
     break;
 
   case 1147:
-
-/* Line 678 of lalr1.cc  */
-#line 10334 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10335 "Parser.yy"
     {
             (yyval.integerVal) = 12;
         }
     break;
 
   case 1148:
-
-/* Line 678 of lalr1.cc  */
-#line 10338 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10339 "Parser.yy"
     {
             (yyval.integerVal) = 13;
         }
     break;
 
   case 1149:
-
-/* Line 678 of lalr1.cc  */
-#line 10342 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10343 "Parser.yy"
     {
             (yyval.integerVal) = 14;
         }
     break;
 
   case 1150:
-
-/* Line 678 of lalr1.cc  */
-#line 10346 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10347 "Parser.yy"
     {
             (yyval.integerVal) = 15;
         }
     break;
 
   case 1151:
-
-/* Line 678 of lalr1.cc  */
-#line 10350 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10351 "Parser.yy"
     {
             (yyval.integerVal) = 16;
         }
     break;
 
   case 1153:
-
-/* Line 678 of lalr1.cc  */
-#line 10359 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10360 "Parser.yy"
     {
             (yyval.integerVal) = 1;
         }
     break;
 
   case 1154:
-
-/* Line 678 of lalr1.cc  */
-#line 10365 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10366 "Parser.yy"
     {
                 inDriver.getLexer()->setAppendToUserDataBuffer(true);
                 inDriver.getLexer()->resetUserDataBuffer();
@@ -12844,9 +12021,8 @@ namespace torc { namespace generic {
     break;
 
   case 1155:
-
-/* Line 678 of lalr1.cc  */
-#line 10369 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10370 "Parser.yy"
     {
                 std::string val = inDriver.getLexer()->getUserDataBuffer();
                 (yyval.stringVal) = new std::string(val);
@@ -12856,54 +12032,48 @@ namespace torc { namespace generic {
     break;
 
   case 1156:
-
-/* Line 678 of lalr1.cc  */
-#line 10378 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10379 "Parser.yy"
     {
                 delete (yysemantic_stack_[(1) - (1)].stringVal);
             }
     break;
 
   case 1157:
-
-/* Line 678 of lalr1.cc  */
-#line 10382 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10383 "Parser.yy"
     {
                 if((yysemantic_stack_[(2) - (2)].integerVal));
             }
     break;
 
   case 1158:
-
-/* Line 678 of lalr1.cc  */
-#line 10386 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10387 "Parser.yy"
     {
                 delete (yysemantic_stack_[(2) - (2)].stringVal);
             }
     break;
 
   case 1159:
-
-/* Line 678 of lalr1.cc  */
-#line 10390 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10391 "Parser.yy"
     {
                 delete (yysemantic_stack_[(2) - (2)].stringVal);
             }
     break;
 
   case 1167:
-
-/* Line 678 of lalr1.cc  */
-#line 10409 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10410 "Parser.yy"
     {
             (yyval.stringVal) = (yysemantic_stack_[(4) - (3)].stringVal);
         }
     break;
 
   case 1168:
-
-/* Line 678 of lalr1.cc  */
-#line 10415 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10416 "Parser.yy"
     {
             boost::scoped_ptr<NameData> nameData((yysemantic_stack_[(3) - (3)].nameData));
             std::string name = nameData->mName;
@@ -12983,7 +12153,7 @@ namespace torc { namespace generic {
                 catch(Error &e)
                 {
                     std::string message = constructErrorMessage(
-                            "Unable to create View : %s", 
+                            "Unable to create View : %s",
                                     view->getName().c_str());
                     log("%s\n", message.c_str());
                     e.setCurrentLocation( __FUNCTION__,
@@ -13029,9 +12199,8 @@ namespace torc { namespace generic {
     break;
 
   case 1169:
-
-/* Line 678 of lalr1.cc  */
-#line 10537 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10538 "Parser.yy"
     {
             ViewSharedPtr view = inDriver.getContext()->getCurrentView();
             if(View::eTypeNetlist != view->getType())
@@ -13052,9 +12221,8 @@ namespace torc { namespace generic {
     break;
 
   case 1170:
-
-/* Line 678 of lalr1.cc  */
-#line 10557 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10558 "Parser.yy"
     {
             EdifContextSharedPtr ctx = inDriver.getContext();
             ViewSharedPtr view = ctx->getCurrentView();
@@ -13067,9 +12235,8 @@ namespace torc { namespace generic {
     break;
 
   case 1173:
-
-/* Line 678 of lalr1.cc  */
-#line 10569 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10570 "Parser.yy"
     {
             EdifContextSharedPtr ctx = inDriver.getContext();
             ViewSharedPtr view = ctx->getCurrentView();
@@ -13079,9 +12246,8 @@ namespace torc { namespace generic {
     break;
 
   case 1175:
-
-/* Line 678 of lalr1.cc  */
-#line 10577 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10578 "Parser.yy"
     {
             EdifContextSharedPtr ctx = inDriver.getContext();
             ViewSharedPtr view = ctx->getCurrentView();
@@ -13094,27 +12260,24 @@ namespace torc { namespace generic {
     break;
 
   case 1188:
-
-/* Line 678 of lalr1.cc  */
-#line 10607 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10608 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 1189:
-
-/* Line 678 of lalr1.cc  */
-#line 10611 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10612 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 1196:
-
-/* Line 678 of lalr1.cc  */
-#line 10633 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10634 "Parser.yy"
     {
             if(NULL == (yysemantic_stack_[(5) - (4)].viewRefData))
             {
@@ -13129,27 +12292,24 @@ namespace torc { namespace generic {
     break;
 
   case 1197:
-
-/* Line 678 of lalr1.cc  */
-#line 10647 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10648 "Parser.yy"
     {
              (yyval.viewRefData) = NULL; //Current view
          }
     break;
 
   case 1198:
-
-/* Line 678 of lalr1.cc  */
-#line 10651 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10652 "Parser.yy"
     {
             (yyval.viewRefData) = (yysemantic_stack_[(1) - (1)].viewRefData);
          }
     break;
 
   case 1199:
-
-/* Line 678 of lalr1.cc  */
-#line 10657 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10658 "Parser.yy"
     {
                 View::Type viewType = static_cast<View::Type>((yysemantic_stack_[(4) - (3)].integerVal));
                 if(View::eTypeNetlist != viewType)
@@ -13176,117 +12336,104 @@ namespace torc { namespace generic {
     break;
 
   case 1200:
-
-/* Line 678 of lalr1.cc  */
-#line 10683 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10684 "Parser.yy"
     {
                 (yyval.integerVal) = View::eTypeMaskLayout;
             }
     break;
 
   case 1201:
-
-/* Line 678 of lalr1.cc  */
-#line 10687 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10688 "Parser.yy"
     {
                 (yyval.integerVal) = View::eTypePCBLayout;
             }
     break;
 
   case 1202:
-
-/* Line 678 of lalr1.cc  */
-#line 10691 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10692 "Parser.yy"
     {
                 (yyval.integerVal) = View::eTypeNetlist;
             }
     break;
 
   case 1203:
-
-/* Line 678 of lalr1.cc  */
-#line 10695 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10696 "Parser.yy"
     {
                 (yyval.integerVal) = View::eTypeSchematic;
             }
     break;
 
   case 1204:
-
-/* Line 678 of lalr1.cc  */
-#line 10699 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10700 "Parser.yy"
     {
                 (yyval.integerVal) = View::eTypeSymbolic;
             }
     break;
 
   case 1205:
-
-/* Line 678 of lalr1.cc  */
-#line 10703 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10704 "Parser.yy"
     {
                 (yyval.integerVal) = View::eTypeBehavior;
             }
     break;
 
   case 1206:
-
-/* Line 678 of lalr1.cc  */
-#line 10707 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10708 "Parser.yy"
     {
                 (yyval.integerVal) = View::eTypeLogicModel;
             }
     break;
 
   case 1207:
-
-/* Line 678 of lalr1.cc  */
-#line 10711 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10712 "Parser.yy"
     {
                 (yyval.integerVal) = View::eTypeDocument;
             }
     break;
 
   case 1208:
-
-/* Line 678 of lalr1.cc  */
-#line 10715 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10716 "Parser.yy"
     {
                 (yyval.integerVal) = View::eTypeGraphic;
             }
     break;
 
   case 1209:
-
-/* Line 678 of lalr1.cc  */
-#line 10719 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10720 "Parser.yy"
     {
                 (yyval.integerVal) = View::eTypeStranger;
             }
     break;
 
   case 1210:
-
-/* Line 678 of lalr1.cc  */
-#line 10725 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10726 "Parser.yy"
     {
             if((yysemantic_stack_[(4) - (3)].integerVal));
         }
     break;
 
   case 1211:
-
-/* Line 678 of lalr1.cc  */
-#line 10731 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10732 "Parser.yy"
     {
                 (yyval.valueData) = (yysemantic_stack_[(4) - (3)].valueData);
             }
     break;
 
   case 1212:
-
-/* Line 678 of lalr1.cc  */
-#line 10737 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10738 "Parser.yy"
     {
                 if((yysemantic_stack_[(4) - (3)].nameData))
                 {
@@ -13319,7 +12466,7 @@ namespace torc { namespace generic {
                     Value val(Value::eValueTypeNumber, num);
                     waveValue->setDeltaTimeDuration(val);
 
-                    SimulateSharedPtr simulate 
+                    SimulateSharedPtr simulate
                             = ctx->getCurrentSimulate();
                     try
                     {
@@ -13328,7 +12475,7 @@ namespace torc { namespace generic {
                     catch(Error &e)
                     {
                         std::string message = constructErrorMessage(
-                                "Unable to add wave value : %s", 
+                                "Unable to add wave value : %s",
                                         waveValue->getName().c_str());
                         log("%s\n", message.c_str());
                         e.setCurrentLocation( __FUNCTION__,
@@ -13347,28 +12494,25 @@ namespace torc { namespace generic {
     break;
 
   case 1213:
-
-/* Line 678 of lalr1.cc  */
-#line 10794 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10795 "Parser.yy"
     {
                 EdifContextSharedPtr ctx = inDriver.getContext();
-                ctx->setCurrentWaveValue(WaveValueSharedPtr()); 
+                ctx->setCurrentWaveValue(WaveValueSharedPtr());
             }
     break;
 
   case 1214:
-
-/* Line 678 of lalr1.cc  */
-#line 10801 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10802 "Parser.yy"
     {
             (yyval.nameData) = (yysemantic_stack_[(4) - (3)].nameData);
         }
     break;
 
   case 1215:
-
-/* Line 678 of lalr1.cc  */
-#line 10807 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10808 "Parser.yy"
     {
                 InterfaceJoinedInfoSharedPtr joinedInfo;
                 EdifContextSharedPtr ctx
@@ -13376,7 +12520,7 @@ namespace torc { namespace generic {
                 try
                 {
                     ctx->getFactory()->create(joinedInfo);
-                    joinedInfo->setJoinedType( 
+                    joinedInfo->setJoinedType(
                             InterfaceJoinedInfo::eJoinedTypeWeak );
                 }
                 catch(Error &e)
@@ -13404,33 +12548,32 @@ namespace torc { namespace generic {
     break;
 
   case 1216:
-
-/* Line 678 of lalr1.cc  */
-#line 10839 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10840 "Parser.yy"
     {
                 EdifContextSharedPtr ctx = inDriver.getContext();
-                InterfaceJoinedInfoSharedPtr currentJoinedInfo 
+                InterfaceJoinedInfoSharedPtr currentJoinedInfo
                         = ctx->getCurrentInterfaceJoinedInfo();
                 ctx->popInterfaceJoinedInfo();
-                InterfaceJoinedInfoSharedPtr parentJoinedInfo; 
+                InterfaceJoinedInfoSharedPtr parentJoinedInfo;
                 if(ctx->getInterfaceJoinedInfoDepth() > 1 )
                 {
                     parentJoinedInfo = ctx->getCurrentInterfaceJoinedInfo();
                 }
                 ctx->decrementInterfaceJoinedInfoDepth();
                 if(parentJoinedInfo)
-                {                    
-                    parentJoinedInfo->setRelationType( 
+                {
+                    parentJoinedInfo->setRelationType(
                             InterfaceJoinedInfo::eRelationTypeParent );
-                    currentJoinedInfo->setRelationType( 
+                    currentJoinedInfo->setRelationType(
                             InterfaceJoinedInfo::eRelationTypeChild );
                     //Check size
                     size_t parentJoinedInfoSize = parentJoinedInfo->getSize();
                     size_t currentJoinedInfoSize = currentJoinedInfo->getSize();
 
                     log("Parent joined info Size :: %d\n",
-                            parentJoinedInfoSize ); 
-                    log("Current joined info Size :: %d\n", 
+                            parentJoinedInfoSize );
+                    log("Current joined info Size :: %d\n",
                             currentJoinedInfoSize );
 
                     //std::cout << "Parent joined info Size :: " << parentJoinedInfoSize << std::endl;
@@ -13441,11 +12584,11 @@ namespace torc { namespace generic {
 
                     std::list< PortSharedPtr > outPorts;
                     parentJoinedInfo->getPorts(outPorts);
-                    
+
                     std::list< PortListSharedPtr > outPortLists;
                     parentJoinedInfo->getPortLists(outPortLists);
-                    
-                    if(parentJoinedInfoSize != 0) 
+
+                    if(parentJoinedInfoSize != 0)
                     {
                         if( parentJoinedInfoSize
                                 == currentJoinedInfoSize )
@@ -13476,18 +12619,17 @@ namespace torc { namespace generic {
                         parentJoinedInfo->addChildJoinedInfo(
                                 currentJoinedInfo );
                     }
-                } 
+                }
                 else
                 {
                     ctx->pushInterfaceJoinedInfo(currentJoinedInfo);
-                }              
+                }
             }
     break;
 
   case 1218:
-
-/* Line 678 of lalr1.cc  */
-#line 10918 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 10919 "Parser.yy"
     {
                 boost::scoped_ptr<PortRefData> portData((yysemantic_stack_[(2) - (2)].portRefData));
                 NameData *portNameData = portData->mPortName;
@@ -13514,7 +12656,7 @@ namespace torc { namespace generic {
                     if(!port)
                     {
                         std::string message = constructErrorMessage(
-                                "No port %s found in view %s\n", 
+                                "No port %s found in view %s\n",
                                             name.c_str(),
                                             view->getName().c_str());
                         log("%s\n", message.c_str());
@@ -13529,11 +12671,11 @@ namespace torc { namespace generic {
                         YYABORT;
                     }
 
-                    InterfaceJoinedInfoSharedPtr currentJoinedInfo 
+                    InterfaceJoinedInfoSharedPtr currentJoinedInfo
                                         = ctx->getCurrentInterfaceJoinedInfo();
                     try
-                    {             
-                        connectibleFinder(nestedNames, port);  
+                    {
+                        connectibleFinder(nestedNames, port);
                         if(!portData->mPortName->mIndices.empty())
                         {
                             port = port->get(portData->mPortName->mIndices);
@@ -13541,7 +12683,7 @@ namespace torc { namespace generic {
                         //Check port size
                         std::list< PortSharedPtr > outPorts;
                         currentJoinedInfo->getPorts(outPorts);
-                        
+
                         if(!outPorts.empty())
                         {
                             PortSharedPtr firstPort = outPorts.front();
@@ -13609,9 +12751,8 @@ namespace torc { namespace generic {
     break;
 
   case 1219:
-
-/* Line 678 of lalr1.cc  */
-#line 11037 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 11038 "Parser.yy"
     {
                 if(NULL != (yysemantic_stack_[(2) - (2)].portListData) && !(yysemantic_stack_[(2) - (2)].portListData)->mPortRefs.empty())
                 {
@@ -13622,7 +12763,7 @@ namespace torc { namespace generic {
                     PortListSharedPtr portList;
                     ctx->getFactory()->create(portList);
 
-                    InterfaceJoinedInfoSharedPtr currentJoinedInfo 
+                    InterfaceJoinedInfoSharedPtr currentJoinedInfo
                                 = ctx->getCurrentInterfaceJoinedInfo();
 
                     for( std::vector<PortRefData *>::iterator it
@@ -13650,7 +12791,7 @@ namespace torc { namespace generic {
                             if(!port)
                             {
                                 std::string message = constructErrorMessage(
-                                        "No port %s found in view %s\n", 
+                                        "No port %s found in view %s\n",
                                             portNameData->mName.c_str(),
                                             view->getName().c_str());
                                 log("%s\n", message.c_str());
@@ -13677,7 +12818,7 @@ namespace torc { namespace generic {
                             catch(Error &e)
                             {
                                 std::string message = constructErrorMessage(
-                                        "Unable to connect port : %s", 
+                                        "Unable to connect port : %s",
                                                 port->getName().c_str());
                                 log("%s\n", message.c_str());
                                 e.setCurrentLocation( __FUNCTION__,
@@ -13721,27 +12862,24 @@ namespace torc { namespace generic {
     break;
 
   case 1227:
-
-/* Line 678 of lalr1.cc  */
-#line 11155 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 11156 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 1228:
-
-/* Line 678 of lalr1.cc  */
-#line 11159 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 11160 "Parser.yy"
     {
                     delete (yysemantic_stack_[(2) - (2)].stringVal);
                 }
     break;
 
   case 1229:
-
-/* Line 678 of lalr1.cc  */
-#line 11165 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 11166 "Parser.yy"
     {
                 WrittenSharedPtr written;
                 EdifContextSharedPtr ctx
@@ -13749,7 +12887,7 @@ namespace torc { namespace generic {
                 try
                 {
                     ctx->getFactory()->create(written);
-                }            
+                }
                 catch(Error &e)
                 {
                     std::string message = constructErrorMessage(
@@ -13771,9 +12909,8 @@ namespace torc { namespace generic {
     break;
 
   case 1230:
-
-/* Line 678 of lalr1.cc  */
-#line 11191 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 11192 "Parser.yy"
     {
                 EdifContextSharedPtr ctx = inDriver.getContext();
                 StatusSharedPtr status = ctx->getCurrentStatus();
@@ -13785,9 +12922,8 @@ namespace torc { namespace generic {
     break;
 
   case 1231:
-
-/* Line 678 of lalr1.cc  */
-#line 11202 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 11203 "Parser.yy"
     {
                 EdifContextSharedPtr ctx = inDriver.getContext();
                 WrittenSharedPtr written = ctx->getCurrentWritten();
@@ -13797,9 +12933,8 @@ namespace torc { namespace generic {
     break;
 
   case 1232:
-
-/* Line 678 of lalr1.cc  */
-#line 11209 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 11210 "Parser.yy"
     {
                 EdifContextSharedPtr ctx = inDriver.getContext();
                 WrittenSharedPtr written = ctx->getCurrentWritten();
@@ -13809,9 +12944,8 @@ namespace torc { namespace generic {
     break;
 
   case 1233:
-
-/* Line 678 of lalr1.cc  */
-#line 11216 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 11217 "Parser.yy"
     {
                 boost::scoped_ptr<PairStrData> data((yysemantic_stack_[(2) - (2)].pairStrData));
                 EdifContextSharedPtr ctx = inDriver.getContext();
@@ -13822,9 +12956,8 @@ namespace torc { namespace generic {
     break;
 
   case 1234:
-
-/* Line 678 of lalr1.cc  */
-#line 11224 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 11225 "Parser.yy"
     {
                 boost::scoped_ptr<PairStrData> data((yysemantic_stack_[(2) - (2)].pairStrData));
                 EdifContextSharedPtr ctx = inDriver.getContext();
@@ -13835,9 +12968,8 @@ namespace torc { namespace generic {
     break;
 
   case 1236:
-
-/* Line 678 of lalr1.cc  */
-#line 11233 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 11234 "Parser.yy"
     {
                 EdifContextSharedPtr ctx = inDriver.getContext();
                 WrittenSharedPtr written = ctx->getCurrentWritten();
@@ -13847,9 +12979,8 @@ namespace torc { namespace generic {
     break;
 
   case 1237:
-
-/* Line 678 of lalr1.cc  */
-#line 11240 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 11241 "Parser.yy"
     {
                 EdifContextSharedPtr ctx = inDriver.getContext();
                 WrittenSharedPtr written = ctx->getCurrentWritten();
@@ -13859,36 +12990,32 @@ namespace torc { namespace generic {
     break;
 
   case 1238:
-
-/* Line 678 of lalr1.cc  */
-#line 11249 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 11250 "Parser.yy"
     {
             (yyval.stringVal) = (yysemantic_stack_[(1) - (1)].stringVal);
         }
     break;
 
   case 1239:
-
-/* Line 678 of lalr1.cc  */
-#line 11255 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 11256 "Parser.yy"
     {
             (yyval.stringVal) =(yysemantic_stack_[(1) - (1)].stringVal);
         }
     break;
 
   case 1240:
-
-/* Line 678 of lalr1.cc  */
-#line 11261 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 11262 "Parser.yy"
     {
             (yyval.integerVal) =(yysemantic_stack_[(1) - (1)].integerVal);
         }
     break;
 
   case 1241:
-
-/* Line 678 of lalr1.cc  */
-#line 11267 "Parser.yy"
+/* Line 670 of lalr1.cc  */
+#line 11268 "Parser.yy"
     {
             inDriver.getLexer()->setIsIdContext(true);
             delete (yysemantic_stack_[(1) - (1)].stringVal);
@@ -13896,12 +13023,23 @@ namespace torc { namespace generic {
     break;
 
 
-
-/* Line 678 of lalr1.cc  */
-#line 13902 "Parser.cc"
-	default:
-          break;
+/* Line 670 of lalr1.cc  */
+#line 13028 "Parser.cc"
+      default:
+        break;
       }
+
+    /* User semantic actions sometimes alter yychar, and that requires
+       that yytoken be updated with the new translation.  We take the
+       approach of translating immediately before every use of yytoken.
+       One alternative is translating here after every semantic action,
+       but that translation would be missed if the semantic action
+       invokes YYABORT, YYACCEPT, or YYERROR immediately after altering
+       yychar.  In the case of YYABORT or YYACCEPT, an incorrect
+       destructor might then be invoked immediately.  In the case of
+       YYERROR, subsequent parser actions might lead to an incorrect
+       destructor call or verbose syntax error message before the
+       lookahead is translated.  */
     YY_SYMBOL_PRINT ("-> $$ =", yyr1_[yyn], &yyval, &yyloc);
 
     yypop_ (yylen);
@@ -13925,30 +13063,35 @@ namespace torc { namespace generic {
   | yyerrlab -- here on detecting error |
   `------------------------------------*/
   yyerrlab:
+    /* Make sure we have latest lookahead translation.  See comments at
+       user semantic actions for why this is necessary.  */
+    yytoken = yytranslate_ (yychar);
+
     /* If not already recovering from an error, report this error.  */
     if (!yyerrstatus_)
       {
 	++yynerrs_;
+	if (yychar == yyempty_)
+	  yytoken = yyempty_;
 	error (yylloc, yysyntax_error_ (yystate, yytoken));
       }
 
-    yyerror_range[0] = yylloc;
+    yyerror_range[1] = yylloc;
     if (yyerrstatus_ == 3)
       {
-	/* If just tried and failed to reuse lookahead token after an
-	 error, discard it.  */
-
-	if (yychar <= yyeof_)
-	  {
-	  /* Return failure if at end of input.  */
-	  if (yychar == yyeof_)
-	    YYABORT;
-	  }
-	else
-	  {
-	    yydestruct_ ("Error: discarding", yytoken, &yylval, &yylloc);
-	    yychar = yyempty_;
-	  }
+        /* If just tried and failed to reuse lookahead token after an
+           error, discard it.  */
+        if (yychar <= yyeof_)
+          {
+            /* Return failure if at end of input.  */
+            if (yychar == yyeof_)
+              YYABORT;
+          }
+        else
+          {
+            yydestruct_ ("Error: discarding", yytoken, &yylval, &yylloc);
+            yychar = yyempty_;
+          }
       }
 
     /* Else will try to reuse lookahead token after shifting the error
@@ -13967,7 +13110,7 @@ namespace torc { namespace generic {
     if (false)
       goto yyerrorlab;
 
-    yyerror_range[0] = yylocation_stack_[yylen - 1];
+    yyerror_range[1] = yylocation_stack_[yylen - 1];
     /* Do not reclaim the symbols of the rule which action triggered
        this YYERROR.  */
     yypop_ (yylen);
@@ -13984,7 +13127,7 @@ namespace torc { namespace generic {
     for (;;)
       {
 	yyn = yypact_[yystate];
-	if (yyn != yypact_ninf_)
+	if (!yy_pact_value_is_default_ (yyn))
 	{
 	  yyn += yyterror_;
 	  if (0 <= yyn && yyn <= yylast_ && yycheck_[yyn] == yyterror_)
@@ -13997,9 +13140,9 @@ namespace torc { namespace generic {
 
 	/* Pop the current state because it cannot handle the error token.  */
 	if (yystate_stack_.height () == 1)
-	YYABORT;
+	  YYABORT;
 
-	yyerror_range[0] = yylocation_stack_[0];
+	yyerror_range[1] = yylocation_stack_[0];
 	yydestruct_ ("Error: popping",
 		     yystos_[yystate],
 		     &yysemantic_stack_[0], &yylocation_stack_[0]);
@@ -14008,10 +13151,10 @@ namespace torc { namespace generic {
 	YY_STACK_PRINT ();
       }
 
-    yyerror_range[1] = yylloc;
+    yyerror_range[2] = yylloc;
     // Using YYLLOC is tempting, but would change the location of
     // the lookahead.  YYLOC is available though.
-    YYLLOC_DEFAULT (yyloc, (yyerror_range - 1), 2);
+    YYLLOC_DEFAULT (yyloc, yyerror_range, 2);
     yysemantic_stack_.push (yylval);
     yylocation_stack_.push (yyloc);
 
@@ -14034,70 +13177,148 @@ namespace torc { namespace generic {
 
   yyreturn:
     if (yychar != yyempty_)
-      yydestruct_ ("Cleanup: discarding lookahead", yytoken, &yylval, &yylloc);
+      {
+        /* Make sure we have latest lookahead translation.  See comments
+           at user semantic actions for why this is necessary.  */
+        yytoken = yytranslate_ (yychar);
+        yydestruct_ ("Cleanup: discarding lookahead", yytoken, &yylval,
+                     &yylloc);
+      }
 
     /* Do not reclaim the symbols of the rule which action triggered
        this YYABORT or YYACCEPT.  */
     yypop_ (yylen);
-    while (yystate_stack_.height () != 1)
+    while (1 < yystate_stack_.height ())
       {
-	yydestruct_ ("Cleanup: popping",
-		   yystos_[yystate_stack_[0]],
-		   &yysemantic_stack_[0],
-		   &yylocation_stack_[0]);
-	yypop_ ();
+        yydestruct_ ("Cleanup: popping",
+                     yystos_[yystate_stack_[0]],
+                     &yysemantic_stack_[0],
+                     &yylocation_stack_[0]);
+        yypop_ ();
       }
 
     return yyresult;
+    }
+    catch (...)
+      {
+        YYCDEBUG << "Exception caught: cleaning lookahead and stack"
+                 << std::endl;
+        // Do not try to display the values of the reclaimed symbols,
+        // as their printer might throw an exception.
+        if (yychar != yyempty_)
+          {
+            /* Make sure we have latest lookahead translation.  See
+               comments at user semantic actions for why this is
+               necessary.  */
+            yytoken = yytranslate_ (yychar);
+            yydestruct_ (YY_NULL, yytoken, &yylval, &yylloc);
+          }
+
+        while (1 < yystate_stack_.height ())
+          {
+            yydestruct_ (YY_NULL,
+                         yystos_[yystate_stack_[0]],
+                         &yysemantic_stack_[0],
+                         &yylocation_stack_[0]);
+            yypop_ ();
+          }
+        throw;
+      }
   }
 
   // Generate an error message.
   std::string
-  Parser::yysyntax_error_ (int yystate, int tok)
+  Parser::yysyntax_error_ (int yystate, int yytoken)
   {
-    std::string res;
-    YYUSE (yystate);
-#if YYERROR_VERBOSE
-    int yyn = yypact_[yystate];
-    if (yypact_ninf_ < yyn && yyn <= yylast_)
+    std::string yyres;
+    // Number of reported tokens (one for the "unexpected", one per
+    // "expected").
+    size_t yycount = 0;
+    // Its maximum.
+    enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
+    // Arguments of yyformat.
+    char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
+
+    /* There are many possibilities here to consider:
+       - If this state is a consistent state with a default action, then
+         the only way this function was invoked is if the default action
+         is an error action.  In that case, don't check for expected
+         tokens because there are none.
+       - The only way there can be no lookahead present (in yytoken) is
+         if this state is a consistent state with a default action.
+         Thus, detecting the absence of a lookahead is sufficient to
+         determine that there is no unexpected or expected token to
+         report.  In that case, just report a simple "syntax error".
+       - Don't assume there isn't a lookahead just because this state is
+         a consistent state with a default action.  There might have
+         been a previous inconsistent state, consistent state with a
+         non-default action, or user semantic action that manipulated
+         yychar.
+       - Of course, the expected token list depends on states to have
+         correct lookahead information, and it depends on the parser not
+         to perform extra reductions after fetching a lookahead from the
+         scanner and before detecting a syntax error.  Thus, state
+         merging (from LALR or IELR) and default reductions corrupt the
+         expected token list.  However, the list is correct for
+         canonical LR with one exception: it will still contain any
+         token that will not be accepted due to an error action in a
+         later state.
+    */
+    if (yytoken != yyempty_)
       {
-	/* Start YYX at -YYN if negative to avoid negative indexes in
-	   YYCHECK.  */
-	int yyxbegin = yyn < 0 ? -yyn : 0;
-
-	/* Stay within bounds of both yycheck and yytname.  */
-	int yychecklim = yylast_ - yyn + 1;
-	int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
-	int count = 0;
-	for (int x = yyxbegin; x < yyxend; ++x)
-	  if (yycheck_[x + yyn] == x && x != yyterror_)
-	    ++count;
-
-	// FIXME: This method of building the message is not compatible
-	// with internationalization.  It should work like yacc.c does it.
-	// That is, first build a string that looks like this:
-	// "syntax error, unexpected %s or %s or %s"
-	// Then, invoke YY_ on this string.
-	// Finally, use the string as a format to output
-	// yytname_[tok], etc.
-	// Until this gets fixed, this message appears in English only.
-	res = "syntax error, unexpected ";
-	res += yytnamerr_ (yytname_[tok]);
-	if (count < 5)
-	  {
-	    count = 0;
-	    for (int x = yyxbegin; x < yyxend; ++x)
-	      if (yycheck_[x + yyn] == x && x != yyterror_)
-		{
-		  res += (!count++) ? ", expecting " : " or ";
-		  res += yytnamerr_ (yytname_[x]);
-		}
-	  }
+        yyarg[yycount++] = yytname_[yytoken];
+        int yyn = yypact_[yystate];
+        if (!yy_pact_value_is_default_ (yyn))
+          {
+            /* Start YYX at -YYN if negative to avoid negative indexes in
+               YYCHECK.  In other words, skip the first -YYN actions for
+               this state because they are default actions.  */
+            int yyxbegin = yyn < 0 ? -yyn : 0;
+            /* Stay within bounds of both yycheck and yytname.  */
+            int yychecklim = yylast_ - yyn + 1;
+            int yyxend = yychecklim < yyntokens_ ? yychecklim : yyntokens_;
+            for (int yyx = yyxbegin; yyx < yyxend; ++yyx)
+              if (yycheck_[yyx + yyn] == yyx && yyx != yyterror_
+                  && !yy_table_value_is_error_ (yytable_[yyx + yyn]))
+                {
+                  if (yycount == YYERROR_VERBOSE_ARGS_MAXIMUM)
+                    {
+                      yycount = 1;
+                      break;
+                    }
+                  else
+                    yyarg[yycount++] = yytname_[yyx];
+                }
+          }
       }
-    else
-#endif
-      res = YY_("syntax error");
-    return res;
+
+    char const* yyformat = YY_NULL;
+    switch (yycount)
+      {
+#define YYCASE_(N, S)                         \
+        case N:                               \
+          yyformat = S;                       \
+        break
+        YYCASE_(0, YY_("syntax error"));
+        YYCASE_(1, YY_("syntax error, unexpected %s"));
+        YYCASE_(2, YY_("syntax error, unexpected %s, expecting %s"));
+        YYCASE_(3, YY_("syntax error, unexpected %s, expecting %s or %s"));
+        YYCASE_(4, YY_("syntax error, unexpected %s, expecting %s or %s or %s"));
+        YYCASE_(5, YY_("syntax error, unexpected %s, expecting %s or %s or %s or %s"));
+#undef YYCASE_
+      }
+
+    // Argument number.
+    size_t yyi = 0;
+    for (char const* yyp = yyformat; *yyp; ++yyp)
+      if (yyp[0] == '%' && yyp[1] == 's' && yyi < yycount)
+        {
+          yyres += yytnamerr_ (yyarg[yyi++]);
+          ++yyp;
+        }
+      else
+        yyres += *yyp;
+    return yyres;
   }
 
 
@@ -14303,9 +13524,9 @@ namespace torc { namespace generic {
    -1561,  1573, -1561, -1561, -1561, -1561, -1561, -1561
   };
 
-  /* YYDEFACT[S] -- default rule to reduce with in state S when YYTABLE
-     doesn't specify something else to do.  Zero means the default is an
-     error.  */
+  /* YYDEFACT[S] -- default reduction number in state S.  Performed when
+     YYTABLE doesn't specify something else to do.  Zero means the
+     default is an error.  */
   const unsigned short int
   Parser::yydefact_[] =
   {
@@ -14631,7 +13852,7 @@ namespace torc { namespace generic {
 
   /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
      positive, shift that token.  If negative, reduce the rule which
-     number is the opposite.  If zero, do what YYDEFACT says.  */
+     number is the opposite.  If YYTABLE_NINF_, syntax error.  */
   const signed char Parser::yytable_ninf_ = -1;
   const unsigned short int
   Parser::yytable_[] =
@@ -15602,7 +14823,7 @@ namespace torc { namespace generic {
        1,     1
   };
 
-#if YYDEBUG || YYERROR_VERBOSE || YYTOKEN_TABLE
+
   /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
      First, the terminals, then, starting at \a yyntokens_, nonterminals.  */
   const char*
@@ -15767,9 +14988,8 @@ namespace torc { namespace generic {
   "_ViewRef", "ViewRefData", "_ViewRefData", "ViewType", "_ViewType",
   "Visible", "VoltageMap", "WaveValue", "$@36", "Weak", "WeakJoined",
   "$@37", "_WeakJoined", "When", "_When", "Written", "$@38", "_Written",
-  "Ident", "Str", "Int", "Keyword", 0
+  "Ident", "Str", "Int", "Keyword", YY_NULL
   };
-#endif
 
 #if YYDEBUG
   /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
@@ -16288,131 +15508,131 @@ namespace torc { namespace generic {
   const unsigned short int
   Parser::yyrline_[] =
   {
-         0,   945,   945,   944,   968,   969,   970,   971,   972,   973,
-     980,   989,   992,   998,  1007,  1013,  1014,  1017,  1020,  1021,
-    1022,  1023,  1024,  1028,  1034,  1037,  1041,  1048,  1047,  1082,
-    1083,  1084,  1085,  1092,  1101,  1109,  1123,  1126,  1129,  1139,
-    1146,  1149,  1152,  1153,  1154,  1155,  1159,  1165,  1168,  1174,
-    1180,  1186,  1190,  1189,  1219,  1220,  1221,  1224,  1227,  1228,
-    1231,  1232,  1235,  1251,  1254,  1261,  1268,  1281,  1287,  1291,
-    1297,  1304,  1308,  1314,  1322,  1328,  1332,  1331,  1441,  1442,
-    1443,  1444,  1445,  1452,  1459,  1462,  1466,  1481,  1484,  1491,
-    1506,  1509,  1516,  1522,  1528,  1535,  1539,  1543,  1549,  1552,
-    1553,  1554,  1557,  1558,  1559,  1562,  1569,  1570,  1573,  1581,
-    1587,  1590,  1596,  1599,  1600,  1601,  1602,  1603,  1604,  1605,
-    1609,  1615,  1622,  1625,  1632,  1635,  1636,  1637,  1638,  1639,
-    1640,  1641,  1642,  1643,  1644,  1645,  1656,  1667,  1668,  1669,
-    1670,  1671,  1675,  1681,  1684,  1685,  1688,  1691,  1692,  1693,
-    1696,  1702,  1707,  1714,  1720,  1723,  1724,  1725,  1731,  1748,
-    1751,  1757,  1763,  1766,  1772,  1778,  1779,  1782,  1788,  1789,
-    1792,  1798,  1799,  1802,  1808,  1809,  1812,  1818,  1825,  1834,
-    1837,  1841,  1847,  1850,  1851,  1857,  1863,  1867,  1871,  1878,
-    1877,  1978,  1983,  1987,  1995,  1999,  2009,  2012,  2016,  2022,
-    2028,  2029,  2032,  2035,  2038,  2039,  2040,  2041,  2042,  2043,
-    2044,  2045,  2046,  2047,  2048,  2049,  2050,  2051,  2055,  2061,
-    2064,  2065,  2066,  2067,  2070,  2077,  2081,  2085,  2091,  2094,
-    2095,  2098,  2099,  2100,  2101,  2104,  2111,  2114,  2121,  2124,
-    2128,  2131,  2137,  2140,  2141,  2142,  2146,  2152,  2155,  2156,
-    2157,  2160,  2163,  2164,  2165,  2168,  2172,  2173,  2174,  2177,
-    2178,  2179,  2183,  2182,  2215,  2216,  2217,  2218,  2219,  2220,
-    2236,  2254,  2390,  2575,  2699,  2706,  2705,  2809,  2810,  2811,
-    2812,  2819,  2828,  2831,  2834,  2837,  2838,  2839,  2840,  2841,
-    2842,  2843,  2844,  2845,  2846,  2847,  2851,  2852,  2856,  2859,
-    2862,  2865,  2868,  2869,  2870,  2873,  2876,  2877,  2878,  2879,
-    2880,  2881,  2882,  2883,  2884,  2885,  2886,  2890,  2891,  2897,
-    2900,  2901,  2904,  2907,  2908,  2909,  2910,  2911,  2912,  2913,
-    2914,  2915,  2916,  2920,  2926,  2929,  2930,  2931,  2935,  2941,
-    2942,  2943,  2944,  2945,  2948,  2952,  2953,  2954,  2958,  2964,
-    2967,  2968,  2969,  2973,  2979,  2987,  2990,  2991,  2994,  2995,
-    2996,  2997,  3001,  3000,  3034,  3035,  3049,  3048,  3055,  3056,
-    3060,  3064,  3068,  3071,  3077,  3083,  3090,  3121,  3124,  3125,
-    3128,  3132,  3131,  3575,  3580,  3584,  3588,  3593,  3598,  3607,
-    3612,  3616,  3621,  3628,  3630,  3631,  3632,  3635,  3643,  3646,
-    3650,  3657,  3660,  3661,  3662,  3663,  3664,  3670,  3673,  3674,
-    3677,  3680,  3681,  3682,  3683,  3687,  3693,  3694,  3697,  3698,
-    3701,  3702,  3705,  3711,  3715,  3721,  3738,  3741,  3747,  3753,
-    3766,  3773,  3776,  3780,  3784,  3788,  3792,  3796,  3800,  3804,
-    3808,  3812,  3816,  3826,  3836,  3841,  3845,  3850,  3858,  3861,
-    3862,  3863,  3867,  3873,  3876,  3877,  3878,  3879,  3882,  3885,
-    3886,  3887,  3891,  3897,  3900,  3901,  3904,  3908,  3907,  4017,
-    4018,  4137,  4246,  4249,  4250,  4269,  4431,  4515,  4518,  4519,
-    4520,  4521,  4522,  4523,  4524,  4525,  4526,  4529,  4532,  4533,
-    4536,  4542,  4545,  4546,  4552,  4558,  4561,  4567,  4570,  4573,
-    4580,  4579,  4704,  4705,  4706,  4707,  4714,  4723,  4726,  4732,
-    4735,  4736,  4739,  4742,  4743,  4744,  4747,  4760,  4761,  4764,
-    4767,  4768,  4771,  4774,  4775,  4778,  4779,  4783,  4786,  4787,
-    4788,  4792,  4791,  4827,  4828,  4831,  4924,  4986,  5031,  5030,
-    5124,  5125,  5126,  5127,  5130,  5136,  5142,  5145,  5151,  5155,
-    5154,  5248,  5346,  5347,  5348,  5352,  5351,  5387,  5388,  5391,
-    5394,  5395,  5396,  5400,  5406,  5421,  5424,  5432,  5431,  5504,
-    5507,  5513,  5519,  5525,  5595,  5626,  5657,  5727,  5808,  5889,
-    5894,  5964,  5968,  5976,  5987,  5986,  6068,  6069,  6070,  6071,
-    6072,  6075,  6078,  6079,  6082,  6083,  6084,  6087,  6090,  6091,
-    6092,  6095,  6096,  6097,  6100,  6114,  6117,  6120,  6127,  6128,
-    6134,  6150,  6153,  6161,  6169,  6182,  6188,  6192,  6198,  6202,
-    6214,  6241,  6245,  6249,  6255,  6258,  6259,  6263,  6262,  6372,
-    6373,  6492,  6599,  6600,  6603,  6609,  6615,  6618,  6622,  6626,
-    6632,  6638,  6642,  6648,  6654,  6660,  6666,  6673,  6672,  6872,
-    6875,  6880,  6886,  6890,  6894,  6898,  6902,  6906,  6914,  6924,
-    6927,  6928,  6932,  6936,  6937,  6944,  6943,  7042,  7043,  7044,
-    7045,  7046,  7054,  7064,  7073,  7077,  7089,  7103,  7109,  7115,
-    7123,  7126,  7127,  7128,  7131,  7165,  7168,  7169,  7170,  7173,
-    7176,  7177,  7178,  7179,  7183,  7189,  7190,  7193,  7194,  7197,
-    7198,  7201,  7204,  7205,  7206,  7207,  7210,  7240,  7243,  7247,
-    7254,  7261,  7265,  7264,  7361,  7362,  7486,  7489,  7492,  7493,
-    7497,  7503,  7506,  7507,  7508,  7512,  7518,  7534,  7537,  7544,
-    7551,  7564,  7570,  7574,  7580,  7583,  7584,  7585,  7586,  7592,
-    7595,  7596,  7597,  7598,  7602,  7608,  7614,  7617,  7618,  7621,
-    7624,  7625,  7626,  7627,  7628,  7629,  7630,  7631,  7634,  7640,
-    7643,  7644,  7645,  7649,  7655,  7658,  7659,  7660,  7664,  7670,
-    7676,  7677,  7680,  7686,  7689,  7693,  7694,  7695,  7696,  7697,
-    7698,  7699,  7700,  7704,  7710,  7713,  7716,  7717,  7720,  7813,
-    7816,  7819,  7827,  7830,  7831,  7835,  7834,  7868,  7869,  7882,
-    7892,  7893,  7896,  7903,  7902,  8003,  8004,  8128,  8129,  8132,
-    8135,  8136,  8139,  8155,  8158,  8166,  8174,  8187,  8193,  8197,
-    8203,  8206,  8207,  8213,  8219,  8222,  8223,  8227,  8226,  8387,
-    8390,  8394,  8401,  8407,  8414,  8422,  8430,  8438,  8446,  8452,
-    8456,  8464,  8475,  8474,  8649,  8652,  8659,  8665,  8672,  8680,
-    8688,  8696,  8704,  8710,  8714,  8722,  8721,  8823,  8824,  8825,
-    8833,  8843,  8853,  8859,  8865,  8877,  8891,  8894,  8895,  8896,
-    8899,  8933,  8936,  8937,  8938,  8941,  8944,  8945,  8946,  8947,
-    8948,  8949,  8950,  8951,  8952,  8953,  8957,  8963,  8969,  8974,
-    8980,  8990,  8999,  9009,  9020,  9031,  9042,  9053,  9062,  9066,
-    9071,  9078,  9081,  9082,  9083,  9086,  9093,  9096,  9101,  9110,
-    9228,  9231,  9232,  9233,  9234,  9238,  9244,  9245,  9251,  9252,
-    9255,  9256,  9259,  9260,  9263,  9265,  9266,  9267,  9268,  9271,
-    9301,  9304,  9308,  9315,  9322,  9329,  9332,  9339,  9342,  9343,
-    9347,  9346,  9439,  9460,  9466,  9471,  9472,  9480,  9483,  9486,
-    9489,  9490,  9491,  9492,  9493,  9494,  9495,  9496,  9497,  9498,
-    9499,  9503,  9509,  9510,  9511,  9512,  9513,  9514,  9517,  9520,
-    9521,  9522,  9525,  9531,  9535,  9538,  9541,  9542,  9543,  9547,
-    9553,  9561,  9567,  9573,  9577,  9583,  9590,  9593,  9600,  9603,
-    9611,  9615,  9621,  9628,  9635,  9638,  9642,  9643,  9647,  9650,
-    9653,  9654,  9657,  9661,  9660,  9693,  9713,  9714,  9715,  9716,
-    9724,  9735,  9734,  9769,  9770,  9771,  9779,  9789,  9792,  9793,
-    9796,  9799,  9800,  9803,  9806,  9807,  9810,  9813,  9814,  9818,
-    9817,  9861,  9862,  9863,  9870,  9879,  9882,  9883,  9884,  9887,
-    9891,  9892,  9895,  9901,  9918,  9921,  9928,  9935,  9948,  9952,
-    9958,  9964,  9967,  9968,  9969,  9970,  9971,  9972,  9973,  9974,
-    9975,  9976,  9977,  9978,  9979,  9983,  9989,  9992,  9993,  9996,
-    9999, 10000, 10001, 10004, 10007, 10011, 10012, 10013, 10016, 10017,
-   10018, 10021, 10027, 10028, 10029, 10030, 10031, 10032, 10036, 10042,
-   10048, 10051, 10062, 10080, 10091, 10107, 10120, 10139, 10138, 10171,
-   10180, 10181, 10182, 10191, 10202, 10205, 10206, 10207, 10208, 10209,
-   10210, 10214, 10213, 10243, 10244, 10245, 10248, 10251, 10252, 10253,
-   10254, 10257, 10260, 10261, 10262, 10263, 10264, 10265, 10268, 10271,
-   10274, 10277, 10278, 10279, 10280, 10283, 10289, 10293, 10297, 10301,
-   10305, 10309, 10313, 10317, 10321, 10325, 10329, 10333, 10337, 10341,
-   10345, 10349, 10355, 10358, 10365, 10364, 10377, 10381, 10385, 10389,
-   10393, 10396, 10397, 10400, 10401, 10404, 10405, 10408, 10415, 10414,
-   10556, 10566, 10567, 10568, 10575, 10576, 10588, 10591, 10592, 10593,
-   10596, 10599, 10600, 10601, 10602, 10603, 10604, 10605, 10606, 10610,
-   10616, 10619, 10622, 10625, 10628, 10629, 10632, 10647, 10650, 10656,
-   10682, 10686, 10690, 10694, 10698, 10702, 10706, 10710, 10714, 10718,
-   10724, 10730, 10737, 10736, 10800, 10807, 10806, 10916, 10917, 11036,
-   11143, 11146, 11149, 11150, 11151, 11152, 11153, 11154, 11158, 11165,
-   11164, 11201, 11208, 11215, 11223, 11231, 11232, 11239, 11248, 11254,
-   11260, 11266
+         0,   946,   946,   945,   969,   970,   971,   972,   973,   974,
+     981,   990,   993,   999,  1008,  1014,  1015,  1018,  1021,  1022,
+    1023,  1024,  1025,  1029,  1035,  1038,  1042,  1049,  1048,  1083,
+    1084,  1085,  1086,  1093,  1102,  1110,  1124,  1127,  1130,  1140,
+    1147,  1150,  1153,  1154,  1155,  1156,  1160,  1166,  1169,  1175,
+    1181,  1187,  1191,  1190,  1220,  1221,  1222,  1225,  1228,  1229,
+    1232,  1233,  1236,  1252,  1255,  1262,  1269,  1282,  1288,  1292,
+    1298,  1305,  1309,  1315,  1323,  1329,  1333,  1332,  1442,  1443,
+    1444,  1445,  1446,  1453,  1460,  1463,  1467,  1482,  1485,  1492,
+    1507,  1510,  1517,  1523,  1529,  1536,  1540,  1544,  1550,  1553,
+    1554,  1555,  1558,  1559,  1560,  1563,  1570,  1571,  1574,  1582,
+    1588,  1591,  1597,  1600,  1601,  1602,  1603,  1604,  1605,  1606,
+    1610,  1616,  1623,  1626,  1633,  1636,  1637,  1638,  1639,  1640,
+    1641,  1642,  1643,  1644,  1645,  1646,  1657,  1668,  1669,  1670,
+    1671,  1672,  1676,  1682,  1685,  1686,  1689,  1692,  1693,  1694,
+    1697,  1703,  1708,  1715,  1721,  1724,  1725,  1726,  1732,  1749,
+    1752,  1758,  1764,  1767,  1773,  1779,  1780,  1783,  1789,  1790,
+    1793,  1799,  1800,  1803,  1809,  1810,  1813,  1819,  1826,  1835,
+    1838,  1842,  1848,  1851,  1852,  1858,  1864,  1868,  1872,  1879,
+    1878,  1979,  1984,  1988,  1996,  2000,  2010,  2013,  2017,  2023,
+    2029,  2030,  2033,  2036,  2039,  2040,  2041,  2042,  2043,  2044,
+    2045,  2046,  2047,  2048,  2049,  2050,  2051,  2052,  2056,  2062,
+    2065,  2066,  2067,  2068,  2071,  2078,  2082,  2086,  2092,  2095,
+    2096,  2099,  2100,  2101,  2102,  2105,  2112,  2115,  2122,  2125,
+    2129,  2132,  2138,  2141,  2142,  2143,  2147,  2153,  2156,  2157,
+    2158,  2161,  2164,  2165,  2166,  2169,  2173,  2174,  2175,  2178,
+    2179,  2180,  2184,  2183,  2216,  2217,  2218,  2219,  2220,  2221,
+    2237,  2255,  2391,  2576,  2700,  2707,  2706,  2810,  2811,  2812,
+    2813,  2820,  2829,  2832,  2835,  2838,  2839,  2840,  2841,  2842,
+    2843,  2844,  2845,  2846,  2847,  2848,  2852,  2853,  2857,  2860,
+    2863,  2866,  2869,  2870,  2871,  2874,  2877,  2878,  2879,  2880,
+    2881,  2882,  2883,  2884,  2885,  2886,  2887,  2891,  2892,  2898,
+    2901,  2902,  2905,  2908,  2909,  2910,  2911,  2912,  2913,  2914,
+    2915,  2916,  2917,  2921,  2927,  2930,  2931,  2932,  2936,  2942,
+    2943,  2944,  2945,  2946,  2949,  2953,  2954,  2955,  2959,  2965,
+    2968,  2969,  2970,  2974,  2980,  2988,  2991,  2992,  2995,  2996,
+    2997,  2998,  3002,  3001,  3035,  3036,  3050,  3049,  3056,  3057,
+    3061,  3065,  3069,  3072,  3078,  3084,  3091,  3122,  3125,  3126,
+    3129,  3133,  3132,  3576,  3581,  3585,  3589,  3594,  3599,  3608,
+    3613,  3617,  3622,  3629,  3631,  3632,  3633,  3636,  3644,  3647,
+    3651,  3658,  3661,  3662,  3663,  3664,  3665,  3671,  3674,  3675,
+    3678,  3681,  3682,  3683,  3684,  3688,  3694,  3695,  3698,  3699,
+    3702,  3703,  3706,  3712,  3716,  3722,  3739,  3742,  3748,  3754,
+    3767,  3774,  3777,  3781,  3785,  3789,  3793,  3797,  3801,  3805,
+    3809,  3813,  3817,  3827,  3837,  3842,  3846,  3851,  3859,  3862,
+    3863,  3864,  3868,  3874,  3877,  3878,  3879,  3880,  3883,  3886,
+    3887,  3888,  3892,  3898,  3901,  3902,  3905,  3909,  3908,  4018,
+    4019,  4138,  4247,  4250,  4251,  4270,  4432,  4516,  4519,  4520,
+    4521,  4522,  4523,  4524,  4525,  4526,  4527,  4530,  4533,  4534,
+    4537,  4543,  4546,  4547,  4553,  4559,  4562,  4568,  4571,  4574,
+    4581,  4580,  4705,  4706,  4707,  4708,  4715,  4724,  4727,  4733,
+    4736,  4737,  4740,  4743,  4744,  4745,  4748,  4761,  4762,  4765,
+    4768,  4769,  4772,  4775,  4776,  4779,  4780,  4784,  4787,  4788,
+    4789,  4793,  4792,  4828,  4829,  4832,  4925,  4987,  5032,  5031,
+    5125,  5126,  5127,  5128,  5131,  5137,  5143,  5146,  5152,  5156,
+    5155,  5249,  5347,  5348,  5349,  5353,  5352,  5388,  5389,  5392,
+    5395,  5396,  5397,  5401,  5407,  5422,  5425,  5433,  5432,  5505,
+    5508,  5514,  5520,  5526,  5596,  5627,  5658,  5728,  5809,  5890,
+    5895,  5965,  5969,  5977,  5988,  5987,  6069,  6070,  6071,  6072,
+    6073,  6076,  6079,  6080,  6083,  6084,  6085,  6088,  6091,  6092,
+    6093,  6096,  6097,  6098,  6101,  6115,  6118,  6121,  6128,  6129,
+    6135,  6151,  6154,  6162,  6170,  6183,  6189,  6193,  6199,  6203,
+    6215,  6242,  6246,  6250,  6256,  6259,  6260,  6264,  6263,  6373,
+    6374,  6493,  6600,  6601,  6604,  6610,  6616,  6619,  6623,  6627,
+    6633,  6639,  6643,  6649,  6655,  6661,  6667,  6674,  6673,  6873,
+    6876,  6881,  6887,  6891,  6895,  6899,  6903,  6907,  6915,  6925,
+    6928,  6929,  6933,  6937,  6938,  6945,  6944,  7043,  7044,  7045,
+    7046,  7047,  7055,  7065,  7074,  7078,  7090,  7104,  7110,  7116,
+    7124,  7127,  7128,  7129,  7132,  7166,  7169,  7170,  7171,  7174,
+    7177,  7178,  7179,  7180,  7184,  7190,  7191,  7194,  7195,  7198,
+    7199,  7202,  7205,  7206,  7207,  7208,  7211,  7241,  7244,  7248,
+    7255,  7262,  7266,  7265,  7362,  7363,  7487,  7490,  7493,  7494,
+    7498,  7504,  7507,  7508,  7509,  7513,  7519,  7535,  7538,  7545,
+    7552,  7565,  7571,  7575,  7581,  7584,  7585,  7586,  7587,  7593,
+    7596,  7597,  7598,  7599,  7603,  7609,  7615,  7618,  7619,  7622,
+    7625,  7626,  7627,  7628,  7629,  7630,  7631,  7632,  7635,  7641,
+    7644,  7645,  7646,  7650,  7656,  7659,  7660,  7661,  7665,  7671,
+    7677,  7678,  7681,  7687,  7690,  7694,  7695,  7696,  7697,  7698,
+    7699,  7700,  7701,  7705,  7711,  7714,  7717,  7718,  7721,  7814,
+    7817,  7820,  7828,  7831,  7832,  7836,  7835,  7869,  7870,  7883,
+    7893,  7894,  7897,  7904,  7903,  8004,  8005,  8129,  8130,  8133,
+    8136,  8137,  8140,  8156,  8159,  8167,  8175,  8188,  8194,  8198,
+    8204,  8207,  8208,  8214,  8220,  8223,  8224,  8228,  8227,  8388,
+    8391,  8395,  8402,  8408,  8415,  8423,  8431,  8439,  8447,  8453,
+    8457,  8465,  8476,  8475,  8650,  8653,  8660,  8666,  8673,  8681,
+    8689,  8697,  8705,  8711,  8715,  8723,  8722,  8824,  8825,  8826,
+    8834,  8844,  8854,  8860,  8866,  8878,  8892,  8895,  8896,  8897,
+    8900,  8934,  8937,  8938,  8939,  8942,  8945,  8946,  8947,  8948,
+    8949,  8950,  8951,  8952,  8953,  8954,  8958,  8964,  8970,  8975,
+    8981,  8991,  9000,  9010,  9021,  9032,  9043,  9054,  9063,  9067,
+    9072,  9079,  9082,  9083,  9084,  9087,  9094,  9097,  9102,  9111,
+    9229,  9232,  9233,  9234,  9235,  9239,  9245,  9246,  9252,  9253,
+    9256,  9257,  9260,  9261,  9264,  9266,  9267,  9268,  9269,  9272,
+    9302,  9305,  9309,  9316,  9323,  9330,  9333,  9340,  9343,  9344,
+    9348,  9347,  9440,  9461,  9467,  9472,  9473,  9481,  9484,  9487,
+    9490,  9491,  9492,  9493,  9494,  9495,  9496,  9497,  9498,  9499,
+    9500,  9504,  9510,  9511,  9512,  9513,  9514,  9515,  9518,  9521,
+    9522,  9523,  9526,  9532,  9536,  9539,  9542,  9543,  9544,  9548,
+    9554,  9562,  9568,  9574,  9578,  9584,  9591,  9594,  9601,  9604,
+    9612,  9616,  9622,  9629,  9636,  9639,  9643,  9644,  9648,  9651,
+    9654,  9655,  9658,  9662,  9661,  9694,  9714,  9715,  9716,  9717,
+    9725,  9736,  9735,  9770,  9771,  9772,  9780,  9790,  9793,  9794,
+    9797,  9800,  9801,  9804,  9807,  9808,  9811,  9814,  9815,  9819,
+    9818,  9862,  9863,  9864,  9871,  9880,  9883,  9884,  9885,  9888,
+    9892,  9893,  9896,  9902,  9919,  9922,  9929,  9936,  9949,  9953,
+    9959,  9965,  9968,  9969,  9970,  9971,  9972,  9973,  9974,  9975,
+    9976,  9977,  9978,  9979,  9980,  9984,  9990,  9993,  9994,  9997,
+   10000, 10001, 10002, 10005, 10008, 10012, 10013, 10014, 10017, 10018,
+   10019, 10022, 10028, 10029, 10030, 10031, 10032, 10033, 10037, 10043,
+   10049, 10052, 10063, 10081, 10092, 10108, 10121, 10140, 10139, 10172,
+   10181, 10182, 10183, 10192, 10203, 10206, 10207, 10208, 10209, 10210,
+   10211, 10215, 10214, 10244, 10245, 10246, 10249, 10252, 10253, 10254,
+   10255, 10258, 10261, 10262, 10263, 10264, 10265, 10266, 10269, 10272,
+   10275, 10278, 10279, 10280, 10281, 10284, 10290, 10294, 10298, 10302,
+   10306, 10310, 10314, 10318, 10322, 10326, 10330, 10334, 10338, 10342,
+   10346, 10350, 10356, 10359, 10366, 10365, 10378, 10382, 10386, 10390,
+   10394, 10397, 10398, 10401, 10402, 10405, 10406, 10409, 10416, 10415,
+   10557, 10567, 10568, 10569, 10576, 10577, 10589, 10592, 10593, 10594,
+   10597, 10600, 10601, 10602, 10603, 10604, 10605, 10606, 10607, 10611,
+   10617, 10620, 10623, 10626, 10629, 10630, 10633, 10648, 10651, 10657,
+   10683, 10687, 10691, 10695, 10699, 10703, 10707, 10711, 10715, 10719,
+   10725, 10731, 10738, 10737, 10801, 10808, 10807, 10917, 10918, 11037,
+   11144, 11147, 11150, 11151, 11152, 11153, 11154, 11155, 11159, 11166,
+   11165, 11202, 11209, 11216, 11224, 11232, 11233, 11240, 11249, 11255,
+   11261, 11267
   };
 
   // Print the state stack on the debug stream.
@@ -16527,17 +15747,13 @@ namespace torc { namespace generic {
   const unsigned int Parser::yyuser_token_number_max_ = 550;
   const Parser::token_number_type Parser::yyundef_token_ = 2;
 
-
-/* Line 1054 of lalr1.cc  */
-#line 58 "Parser.yy"
+/* Line 1141 of lalr1.cc  */
+#line 59 "Parser.yy"
 } } // torc::generic
-
-/* Line 1054 of lalr1.cc  */
-#line 16537 "Parser.cc"
-
-
-/* Line 1056 of lalr1.cc  */
-#line 11275 "Parser.yy"
+/* Line 1141 of lalr1.cc  */
+#line 15755 "Parser.cc"
+/* Line 1142 of lalr1.cc  */
+#line 11276 "Parser.yy"
  /*** Additional Code ***/
 
 void
@@ -16557,5 +15773,4 @@ torc::generic::Parser::error(const Parser::location_type& l,
     }
     inDriver.error(l, m);
 }
-
 

@@ -121,7 +121,7 @@ void ParameterMap::registerContext(const ParameterContext& inContext,
 bool ParameterMap::isContextRegistered(const ParameterContext& inContext) const {
 	ParamDataPtr data;
 	mParameters.get(inContext, data);
-	return data;
+	return !!data;
 }
 
 void ParameterMap::unregisterContext(const ParameterContext& inContext) {

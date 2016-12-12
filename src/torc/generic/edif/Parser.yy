@@ -8252,7 +8252,7 @@ Port : LBKT PORT PortNameDefData
             else
             {
                 port = view->findPort(name);
-                bExistingPortFound = port;
+                bExistingPortFound = !!port;
             }
             if(bExistingPortFound)
             {
@@ -8746,7 +8746,7 @@ PortBundle : LBKT PORTBUNDLE NameDefData
             else
             {
                 port = view->findPort(name);
-                bExistingPortFound = port;
+                bExistingPortFound = !!port;
             }
             if(bExistingPortFound)
             {

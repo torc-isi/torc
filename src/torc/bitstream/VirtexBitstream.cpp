@@ -132,8 +132,13 @@ namespace bitstream {
 		typename ARCH::iterator e = end();
 		while(p < e) {
 		    const VirtexPacket& packet = *p++;
+
+			// Read ID Code
+			if(packet.isWrite() && packet.getAddress() == ARCH::eRegisterIDCODE && packet.getWordCount() == 1) {
+				mIdCode = packet[1];
+			}
 			// process FAR write packets
-			if(packet.isWrite() && packet.getAddress() == ARCH::eRegisterFAR) {
+			else if(packet.isWrite() && packet.getAddress() == ARCH::eRegisterFAR) {
 				// extract the new frame address
 				frameAddress = typename ARCH::FrameAddress(packet[1]);
 				// convert the frame address to the corresponding frame index

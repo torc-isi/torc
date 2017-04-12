@@ -63,11 +63,12 @@ namespace bitstream { class VirtexBitstreamUnitTest; }
 	// members
 		/// \brief Input Frame blocks.
 		VirtexFrameBlocks mFrameBlocks;
+		uint32_t mIdCode;
 	public:
 	// constructors
 		/// \brief Basic constructor.
 		VirtexBitstream(void) : Bitstream(), VirtexPacketVector(), VirtexPacketConstants(), 
-			VirtexFrameBlocks() {}
+			VirtexFrameBlocks(), mIdCode(0) {}
 	// functions
 		/// \brief Read bitstream packets from a stream.
 		/// \note This function should be called after the bitstream header has been read.
@@ -133,6 +134,9 @@ namespace bitstream { class VirtexBitstreamUnitTest; }
 		/// \brief Append the contents of a packet vector to the end of the bitstream.
 		void append(const VirtexPacketVector& inVector) {
 			VirtexPacketVector::insert(end(), inVector.begin(), inVector.end());
+		}
+		uint32_t getIdCode() {
+			return mIdCode;
 		}
 	// accessors
 		/// \brief Return the configuration frame blocks.

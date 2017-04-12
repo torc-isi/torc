@@ -939,7 +939,7 @@ namespace bitstream{
 				makeSubfield(eRegisterCOR1, "BPI_page_size", "1") |
 			0));
 		// write the ID code
-		packets.push_back(VirtexPacket::makeType1Write(eRegisterIDCODE, 0x00000000));
+		packets.push_back(VirtexPacket::makeType1Write(eRegisterIDCODE, getIdCode()));
 		// clock and rate switch command
 		packets.push_back(VirtexPacket::makeType1Write(eRegisterCMD, eCommandSWITCH));
 		packets.push_back(nop);
@@ -1105,7 +1105,7 @@ namespace bitstream{
 		packets.push_back(nop);
 		packets.push_back(nop);
 		// write the ID code
-		packets.push_back(VirtexPacket::makeType1Write(eRegisterIDCODE, 0x00000000));
+		packets.push_back(VirtexPacket::makeType1Write(eRegisterIDCODE, getIdCode()));
 		// extra for shutdown bitstreams
 		if(inBitstreamType == eBitstreamTypePartialShutdown) {
 			// configuration options register 0

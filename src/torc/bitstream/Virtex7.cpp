@@ -1142,8 +1142,8 @@ namespace bitstream{
 		//	Packets marked S pertain to shutdown bitstreams only
 		//	S	000008ed: TYPE1 WRITE CMD GRESTORE
 		//	S	000008f5: NOP x 1
-		//		000008f9: TYPE1 WRITE CMD DGHIGH/LFRM
-		//		00000901: NOP x 100
+		//	S   000008f9: TYPE1 WRITE CMD DGHIGH/LFRM
+		//	S	00000901: NOP x 100
 		//	S	00000a91: TYPE1 WRITE CMD GRESTORE
 		//	S	00000a99: NOP x 1
 		//	S	00000a9d: TYPE1 WRITE CMD START
@@ -1162,12 +1162,9 @@ namespace bitstream{
 			// restore command
 			packets.push_back(VirtexPacket::makeType1Write(eRegisterCMD, eCommandGRESTORE));
 			packets.push_back(nop);
-		}
-		// last frame command
-		packets.push_back(VirtexPacket::makeType1Write(eRegisterCMD, eCommandLFRM));
-		packets.insert(packets.end(), 100, nop);
-		// extra for shutdown bitstreams
-		if(inBitstreamType == eBitstreamTypePartialShutdown) {
+            // last frame command
+            packets.push_back(VirtexPacket::makeType1Write(eRegisterCMD, eCommandLFRM));
+            packets.insert(packets.end(), 100, nop);
 			// restore command
 			packets.push_back(VirtexPacket::makeType1Write(eRegisterCMD, eCommandGRESTORE));
 			packets.push_back(nop);

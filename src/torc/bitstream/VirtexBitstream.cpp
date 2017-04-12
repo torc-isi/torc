@@ -383,12 +383,6 @@ namespace bitstream {
 		VirtexPacketVector packets;
 		VirtexPacket nop(VirtexPacket::makeHeader(ePacketType1, eOpcodeNOP, 0, 0));
 
-		// write the starting frame address
-		packets.push_back(VirtexPacket::makeType1Write(ARCH::eRegisterFAR, 0));
-		// write the write configuration register command
-		packets.push_back(VirtexPacket::makeType1Write(ARCH::eRegisterCMD, ARCH::eCommandWCFG));
-		packets.push_back(nop);
-
 		// iterate through the frame blocks looking for groups of contiguous frames that are in use
 		bool empty = true;
 		uint32_t index = 0;
@@ -450,6 +444,9 @@ namespace bitstream {
 						else do { *pos++ = 0; wp++; } while(wp < we); // frames with no words
 						currentIndex++;
 					}
+                    // write the write configuration register command
+                    packets.push_back(VirtexPacket::makeType1Write(ARCH::eRegisterCMD, ARCH::eCommandWCFG));
+                    packets.push_back(nop);
 					// write the starting frame address
 					packets.push_back(VirtexPacket::makeType1Write(ARCH::eRegisterFAR, 
 						inFrameIndexToAddress[blockStart + startIndex]));

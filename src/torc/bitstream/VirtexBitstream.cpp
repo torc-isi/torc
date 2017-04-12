@@ -132,8 +132,13 @@ namespace bitstream {
 		typename ARCH::iterator e = end();
 		while(p < e) {
 		    const VirtexPacket& packet = *p++;
+
+			// Read ID Code
+			if(packet.isWrite() && packet.getAddress() == ARCH::eRegisterIDCODE && packet.getWordCount() == 1) {
+				mIdCode = packet[1];
+			}
 			// process FAR write packets
-			if(packet.isWrite() && packet.getAddress() == ARCH::eRegisterFAR) {
+			else if(packet.isWrite() && packet.getAddress() == ARCH::eRegisterFAR) {
 				// extract the new frame address
 				frameAddress = typename ARCH::FrameAddress(packet[1]);
 				// convert the frame address to the corresponding frame index
@@ -378,12 +383,6 @@ namespace bitstream {
 		VirtexPacketVector packets;
 		VirtexPacket nop(VirtexPacket::makeHeader(ePacketType1, eOpcodeNOP, 0, 0));
 
-		// write the starting frame address
-		packets.push_back(VirtexPacket::makeType1Write(ARCH::eRegisterFAR, 0));
-		// write the write configuration register command
-		packets.push_back(VirtexPacket::makeType1Write(ARCH::eRegisterCMD, ARCH::eCommandWCFG));
-		packets.push_back(nop);
-
 		// iterate through the frame blocks looking for groups of contiguous frames that are in use
 		bool empty = true;
 		uint32_t index = 0;
@@ -445,6 +444,9 @@ namespace bitstream {
 						else do { *pos++ = 0; wp++; } while(wp < we); // frames with no words
 						currentIndex++;
 					}
+                    // write the write configuration register command
+                    packets.push_back(VirtexPacket::makeType1Write(ARCH::eRegisterCMD, ARCH::eCommandWCFG));
+                    packets.push_back(nop);
 					// write the starting frame address
 					packets.push_back(VirtexPacket::makeType1Write(ARCH::eRegisterFAR, 
 						inFrameIndexToAddress[blockStart + startIndex]));
